@@ -1,0 +1,77 @@
+name: occt-build
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    outputs:
+      cache-key:
+        description: "OCCT Cache Key"
+        value: ${{ jobs.build-occt.outputs.cache-key }}
+  push:
+    paths:
+      - 'scripts/build_occt_android.sh'
+      - '.github/workflows/occt-build.yml'
+    branches:
+      - main
+      - 'milestone-*'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: occt-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-occt:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    outputs:
+      cache-key: ${{ steps.set-key.outputs.cache-key }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4.1.7
+
+      - name: Setup Ninja and Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build
+
+      - name: Calculate OCCT Cache Key
+        id: set-key
+        run: |
+          OCCT_HASH="V7_8_0-ndk26.3-api24-flags-O2-v2"
+          SCRIPT_HASH="${{ hashFiles('scripts/build_occt_android.sh') }}"
+          FULL_KEY="occt-android-arm64-v8a-${OCCT_HASH}-${SCRIPT_HASH}"
+          echo "cache-key=${FULL_KEY}" >> "$GITHUB_OUTPUT"
+          echo "Using Cache Key: ${FULL_KEY}"
+
+      - name: Setup Android NDK
+        uses: nttld/setup-ndk@v1.5.0
+        with:
+          ndk-version: r26d
+          link-to-sdk: true
+
+      - name: Restore Cached OCCT
+        id: cache-occt
+        uses: actions/cache@v4
+        with:
+          path: occt-install-android-arm64-v8a
+          key: ${{ steps.set-key.outputs.cache-key }}
+
+      - name: Build OCCT for Android arm64-v8a
+        if: steps.cache-occt.outputs.cache-hit != 'true'
+        run: |
+          START_TIME=$(date +%s)
+          chmod +x scripts/build_occt_android.sh
+          ./scripts/build_occt_android.sh arm64-v8a 24
+          END_TIME=$(date +%s)
+          DURATION=$(( (END_TIME - START_TIME) / 60 ))
+          echo "OCCT Build completed in approximately ${DURATION} minutes."
+
+      - name: Upload Size Report Artifact
+        uses: actions/upload-artifact@v4.3.4
+        with:
+          name: occt-arm64-v8a-size-report
+          path: occt-install-android-arm64-v8a/reports/
+          retention-days: 7

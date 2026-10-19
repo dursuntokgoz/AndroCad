@@ -41,8 +41,8 @@ This document tracks development milestones, architectural decisions, and open r
   - Fix feature-mapping table and document TNP regression suite plan.
   - Milestone report with measured sizes.
 * **Acceptance Tests:** Host tests pass in CI; Android debug APK builds and runs JNI smoke test without crashes.
-* **Status:** In Progress
-* **Finish Date:** -
+* **Status:** Done
+* **Finish Date:** 2026-10-19
 
 ---
 
