@@ -40,12 +40,12 @@ This document records the evidence, authoritative sources, tool evaluations, fin
     - *Feature Modeling:* `TKPrim` (prisms, cylinders, primitives), `TKBO` & `TKBool` (Boolean Operations Processor), `TKFillet` (fillets, chamfers), `TKOffset` (sweeps, lofts, thick solids/shells)
     - *Tessellation:* `TKMesh` (`BRepMesh_IncrementalMesh` for generating triangle meshes for Vulkan/GLES)
     - *Data Exchange (DE):* `TKXSBase`, `TKDESTEP` (STEP AP214/AP242), `TKDESTL` (STL ASCII/binary), `TKDE3MF` (3MF)
-  - **Size Estimation:**
-    - Compiled with Clang NDK r26+, `-Oz` (optimize for size), `-flto`, `-ffunction-sections -fdata-sections -Wl,--gc-sections`, and stripped with `llvm-strip`:
-    - Individual `.so` files total approx. 30–38 MB uncompressed on disk per architecture.
-    - Inside the compressed APK (APK zip deflate), the library overhead is approximately **12–16 MB** for `arm64-v8a`.
-* **Unknowns:**
-  - Exact final byte count of OCCT 8.0.x DESTEP dependencies (whether STEP parser transitively pulls extra XCAF metadata toolkits).
+  - **Size Estimation vs Measured (arm64-v8a):**
+    - *Target:* Approx. 30–38 MB stripped `.so` on disk; 12–16 MB inside compressed APK.
+    - *Measured (Milestone 1, 2026-10-19):* Total stripped `.so` shared libraries: **41.5 MB**; Debug APK size: **70 MB** (uncompressed) / **~31 MB** (compressed artifact).
+* **Unknowns Resolved in Milestone 1:**
+    - Confirmed that STEP translation toolkits require minimal `TKXCAF` (974 KB) and `TKLCAF` (980 KB).
+    - Verified dynamic packaging into APK without bundling heavy visualization/Draw components.
 
 ---
 
