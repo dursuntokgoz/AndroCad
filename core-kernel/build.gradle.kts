@@ -50,12 +50,9 @@ android {
         }
     }
 
-    sourceSets {
-        getByName("main") {
-            val occtArm64Lib = file("${rootDir}/occt-install-android-arm64-v8a/lib")
-            if (occtArm64Lib.exists()) {
-                jniLibs.srcDirs(occtArm64Lib)
-            }
+    packaging {
+        jniLibs {
+            pickFirsts += listOf("**/libc++_shared.so")
         }
     }
 }
