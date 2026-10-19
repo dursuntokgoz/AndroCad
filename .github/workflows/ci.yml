@@ -101,11 +101,12 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3.4.2
+        with:
+          gradle-version: '8.7'
 
       - name: Run Unit Tests and Assemble Debug APK
         run: |
-          chmod +x gradlew
-          ./gradlew testDebugUnitTest assembleDebug --stacktrace -POCCT_INSTALL_DIR=$(pwd)/occt-install-android-arm64-v8a
+          gradle testDebugUnitTest assembleDebug --stacktrace -POCCT_INSTALL_DIR=$(pwd)/occt-install-android-arm64-v8a
 
       - name: Measure and Report Binary Sizes
         run: |
