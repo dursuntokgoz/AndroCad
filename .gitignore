@@ -1,0 +1,38 @@
+# Built binaries and libraries
+*.so
+*.a
+*.dll
+*.dylib
+*.exe
+*.o
+*.obj
+
+# Android / Gradle
+.gradle/
+build/
+app/build/
+core-kernel/build/
+local.properties
+*.apk
+*.aab
+*.aar
+
+# CMake & Native build artifacts
+.cxx/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# IDE / Editor
+.idea/
+*.iml
+.vscode/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# Caches & temporary files
+*.log
+.cache/
