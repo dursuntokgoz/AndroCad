@@ -129,6 +129,16 @@ int main() {
               << " edgeId=" << pickEdge.entityId 
               << " dist=" << pickEdge.distance << std::endl;
 
+    // Ray 2b: Ray slightly outside model boundary at x=100.5, y=25, z=100 -> should pick edge via tolerance
+    androcad::Ray nearEdgeRay{100.5f, 25.0f, 100.0f, 0.0f, 0.0f, -1.0f};
+    androcad::PickResult pickNearEdge = androcad::AndroCadKernel::PickEntityByRay(box, nearEdgeRay, 1.0f);
+    if (!pickNearEdge.hit || !pickNearEdge.isEdge) {
+        std::cerr << "[FAIL] Near-edge ray failed to pick edge within tolerance!" << std::endl;
+        return 1;
+    }
+    std::cout << "  Near-Edge Pick Result: hit=" << pickNearEdge.hit 
+              << " edgeId=" << pickNearEdge.entityId << std::endl;
+
     // Ray 3: Missing ray -> should not hit
     androcad::Ray missRay{250.0f, 250.0f, 100.0f, 0.0f, 0.0f, -1.0f};
     androcad::PickResult pickMiss = androcad::AndroCadKernel::PickEntityByRay(box, missRay, 1.5f);

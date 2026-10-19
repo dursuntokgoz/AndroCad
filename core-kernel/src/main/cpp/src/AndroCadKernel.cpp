@@ -74,81 +74,45 @@ bool RayIntersectsTriangle(const Ray& ray,
 bool RayIntersectsSegment(const Ray& ray,
                           const EdgeVertex& v0, const EdgeVertex& v1,
                           float tolerance, float& outDist, float outPoint[3]) {
-    float ux = v1.x - v0.x, uy = v1.y - v0.y, uz = v1.z - v0.z;
-    float wx = ray.ox - v0.x, wy = ray.oy - v0.y, wz = ray.oz - v0.z;
+    float vx = v1.x - v0.x, vy = v1.y - v0.y, vz = v1.z - v0.z;
+    float w0x = ray.ox - v0.x, w0y = ray.oy - v0.y, w0z = ray.oz - v0.z;
 
-    float a = ray.dx * ray.dx + ray.dy * ray.dy + ray.dz * ray.dz; // 1.0 if normalized
-    float b = ray.dx * ux + ray.dy * uy + ray.dz * uz;
-    float c = ux * ux + uy * uy + uz * uz;
-    float d = ray.dx * wx + ray.dy * wy + ray.dz * wz;
-    float e = ux * wx + uy * wy + uz * wz;
+    float b = ray.dx * vx + ray.dy * vy + ray.dz * vz;
+    float c = vx * vx + vy * vy + vz * vz;
+    float d = ray.dx * w0x + ray.dy * w0y + ray.dz * w0z;
+    float e = vx * w0x + vy * w0y + vz * w0z;
 
     if (c < 1e-8f) return false; // Degenerate segment
 
-    float D = a * c - b * b;
-    float sc, sN, sD = D;
-    float tc, tN, tD = D;
+    float denom = c - b * b;
+    float s = 0.0f;
+    float t = 0.0f;
 
-    if (D < 1e-7f) {
-        // Parallel
-        sN = 0.0f;
-        sD = 1.0f;
-        tN = e;
-        tD = c;
+    if (denom < 1e-7f * c) {
+        // Parallel: pick midpoint
+        s = 0.5f;
+        t = std::max(0.0f, s * b - d);
     } else {
-        sN = (b * e - c * d);
-        tN = (a * e - b * d);
-        if (sN < 0.0f) {
-            sN = 0.0f;
-            tN = e;
-            tD = c;
-        } else if (sN > sD) {
-            sN = sD;
-            tN = e + b;
-            tD = c;
-        }
+        s = (e - b * d) / denom;
+        s = std::max(0.0f, std::min(1.0f, s));
+        t = s * b - d;
+        t = std::max(0.0f, t);
+        // Re-evaluate segment parameter with clamped t
+        s = (e + t * b) / c;
+        s = std::max(0.0f, std::min(1.0f, s));
     }
 
-    if (tN < 0.0f) {
-        tc = 0.0f;
-        if (-d < 0.0f) {
-            sc = 0.0f;
-        } else if (-d > a) {
-            sc = 1.0f;
-        } else {
-            sc = -d / a;
-        }
-    } else if (tN > tD) {
-        tc = 1.0f;
-        if ((-d + b) < 0.0f) {
-            sc = 0.0f;
-        } else if ((-d + b) > a) {
-            sc = 1.0f;
-        } else {
-            sc = (-d + b) / a;
-        }
-    } else {
-        tc = (std::fabs(tD) < 1e-7f) ? 0.0f : tN / tD;
-        sc = (std::fabs(sD) < 1e-7f) ? 0.0f : sN / sD;
-    }
+    float rx = ray.ox + t * ray.dx;
+    float ry = ray.oy + t * ray.dy;
+    float rz = ray.oz + t * ray.dz;
 
-    // s is ray parameter (t), tc is segment parameter (s)
-    float rayT = sc;
-    float segS = tc;
-
-    if (rayT < 0.0f) return false;
-
-    float rx = ray.ox + rayT * ray.dx;
-    float ry = ray.oy + rayT * ray.dy;
-    float rz = ray.oz + rayT * ray.dz;
-
-    float sx = v0.x + segS * ux;
-    float sy = v0.y + segS * uy;
-    float sz = v0.z + segS * uz;
+    float sx = v0.x + s * vx;
+    float sy = v0.y + s * vy;
+    float sz = v0.z + s * vz;
 
     float distSq = (rx - sx) * (rx - sx) + (ry - sy) * (ry - sy) + (rz - sz) * (rz - sz);
     if (distSq <= tolerance * tolerance) {
-        outDist = rayT;
+        outDist = t;
         outPoint[0] = sx;
         outPoint[1] = sy;
         outPoint[2] = sz;
