@@ -1,0 +1,137 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+      - 'milestone-*'
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  host-native-tests:
+    name: Host Native CTest (OCCT Kernel Smoke Test)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4.1.7
+
+      - name: Install Host OCCT and Build Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            cmake ninja-build g++ \
+            libocct-foundation-dev \
+            libocct-modeling-data-dev \
+            libocct-modeling-algorithms-dev \
+            libocct-data-exchange-dev
+
+      - name: Configure Host Test Suite
+        run: |
+          cmake -B build-host-tests -S core-kernel/src/main/cpp -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build Host Tests
+        run: |
+          ninja -C build-host-tests
+
+      - name: Run Host CTest
+        run: |
+          cd build-host-tests
+          ctest --output-on-failure --verbose
+
+  android-build:
+    name: Android Build & APK Generation (arm64-v8a)
+    needs: host-native-tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4.1.7
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4.2.1
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android NDK
+        uses: nttld/setup-ndk@v1.5.0
+        with:
+          ndk-version: r26d
+          link-to-sdk: true
+
+      - name: Restore or Build OCCT Android arm64-v8a
+        id: cache-occt
+        uses: actions/cache@v4.0.2
+        with:
+          path: occt-install-android-arm64-v8a
+          key: occt-android-arm64-v8a-V7_8_0-ndk26.3-api24-flags-O2-lto-v1-${{ hashFiles('scripts/build_occt_android.sh') }}
+
+      - name: Build OCCT on Cache Miss
+        if: steps.cache-occt.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build
+          chmod +x scripts/build_occt_android.sh
+          ./scripts/build_occt_android.sh arm64-v8a 24
+
+      - name: Stage OCCT Shared Libraries for Dynamic Packaging
+        run: |
+          mkdir -p core-kernel/src/main/jniLibs/arm64-v8a
+          LIB_SRC="occt-install-android-arm64-v8a/lib"
+          if [ ! -d "${LIB_SRC}" ] && [ -d "occt-install-android-arm64-v8a/lin64/gcc/lib" ]; then
+            LIB_SRC="occt-install-android-arm64-v8a/lin64/gcc/lib"
+          elif [ ! -d "${LIB_SRC}" ] && [ -d "occt-install-android-arm64-v8a/android/clang/lib" ]; then
+            LIB_SRC="occt-install-android-arm64-v8a/android/clang/lib"
+          fi
+          echo "Copying OCCT .so files from ${LIB_SRC} to jniLibs/arm64-v8a/"
+          cp "${LIB_SRC}"/*.so core-kernel/src/main/jniLibs/arm64-v8a/
+          ls -lh core-kernel/src/main/jniLibs/arm64-v8a/
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3.4.2
+
+      - name: Run Unit Tests and Assemble Debug APK
+        run: |
+          chmod +x gradlew
+          ./gradlew testDebugUnitTest assembleDebug --stacktrace -POCCT_INSTALL_DIR=$(pwd)/occt-install-android-arm64-v8a
+
+      - name: Measure and Report Binary Sizes
+        run: |
+          echo "=== Measured Artifact Sizes ==="
+          APK_PATH="app/build/outputs/apk/debug/app-debug.apk"
+          APK_SIZE=$(stat -c%s "${APK_PATH}")
+          echo "Debug APK Size: $((APK_SIZE / 1024 / 1024)) MB (${APK_SIZE} bytes)"
+          
+          mkdir -p docs/reports/artifacts
+          cat <<EOF > docs/reports/artifacts/m1_sizes.txt
+          Artifact | Size (Bytes) | Size (MB)
+          ---|---|---
+          app-debug.apk | ${APK_SIZE} | $((APK_SIZE / 1024 / 1024)) MB
+          EOF
+
+      - name: Upload Debug APK Artifact
+        uses: actions/upload-artifact@v4.3.4
+        with:
+          name: androcad-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          retention-days: 14
+
+      - name: Upload Test Reports
+        if: always()
+        uses: actions/upload-artifact@v4.3.4
+        with:
+          name: unit-test-reports
+          path: |
+            **/build/reports/tests/
+          retention-days: 7
