@@ -63,6 +63,12 @@ cmake -B "${BUILD_DIR}" -S occt-src -G Ninja \
   -DBUILD_MODULE_DataExchange=ON \
   -DBUILD_MODULE_Draw=OFF \
   -DBUILD_MODULE_DETests=OFF \
+  -DUSE_TBB=OFF \
+  -DUSE_FREEIMAGE=OFF \
+  -DUSE_FREETYPE=OFF \
+  -DUSE_VTK=OFF \
+  -DUSE_OPENVR=OFF \
+  -DUSE_DRACO=OFF \
   -DCMAKE_CXX_FLAGS_RELEASE="-O2 -flto -ffunction-sections -fdata-sections -fvisibility=hidden" \
   -DCMAKE_SHARED_LINKER_FLAGS_RELEASE="-Wl,--gc-sections" \
   -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}"
@@ -87,6 +93,12 @@ if [ ${CMAKE_RES} -ne 0 ]; then
     -DBUILD_MODULE_DataExchange=ON \
     -DBUILD_MODULE_Draw=OFF \
     -DBUILD_MODULE_DETests=OFF \
+    -DUSE_TBB=OFF \
+    -DUSE_FREEIMAGE=OFF \
+    -DUSE_FREETYPE=OFF \
+    -DUSE_VTK=OFF \
+    -DUSE_OPENVR=OFF \
+    -DUSE_DRACO=OFF \
     -DCMAKE_CXX_FLAGS_RELEASE="-O2 -flto -ffunction-sections -fdata-sections -fvisibility=hidden" \
     -DCMAKE_SHARED_LINKER_FLAGS_RELEASE="-Wl,--gc-sections" \
     -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}"

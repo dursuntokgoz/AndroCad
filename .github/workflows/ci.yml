@@ -30,6 +30,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y \
             cmake ninja-build g++ \
+            libtbb-dev \
             libocct-foundation-dev \
             libocct-modeling-data-dev \
             libocct-modeling-algorithms-dev \
@@ -72,7 +73,7 @@ jobs:
 
       - name: Restore or Build OCCT Android arm64-v8a
         id: cache-occt
-        uses: actions/cache@v4.0.2
+        uses: actions/cache@v4
         with:
           path: occt-install-android-arm64-v8a
           key: occt-android-arm64-v8a-V7_8_0-ndk26.3-api24-flags-O2-lto-v1-${{ hashFiles('scripts/build_occt_android.sh') }}
