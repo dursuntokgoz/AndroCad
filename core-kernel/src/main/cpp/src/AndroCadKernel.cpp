@@ -38,6 +38,7 @@ MeshPayload AndroCadKernel::CreateBox(double dx, double dy, double dz,
     try {
         // 1. Construct solid box via OCCT BRepPrimAPI
         BRepPrimAPI_MakeBox boxMaker(dx, dy, dz);
+        boxMaker.Build();
         if (!boxMaker.IsDone()) {
             result.errorMessage = "BRepPrimAPI_MakeBox failed to construct solid.";
             return result;

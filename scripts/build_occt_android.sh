@@ -69,7 +69,7 @@ cmake -B "${BUILD_DIR}" -S occt-src -G Ninja \
   -DUSE_VTK=OFF \
   -DUSE_OPENVR=OFF \
   -DUSE_DRACO=OFF \
-  -DCMAKE_CXX_FLAGS_RELEASE="-O2 -flto -ffunction-sections -fdata-sections -fvisibility=hidden" \
+  -DCMAKE_CXX_FLAGS_RELEASE="-O2 -ffunction-sections -fdata-sections" \
   -DCMAKE_SHARED_LINKER_FLAGS_RELEASE="-Wl,--gc-sections" \
   -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}"
 CMAKE_RES=$?
@@ -99,7 +99,7 @@ if [ ${CMAKE_RES} -ne 0 ]; then
     -DUSE_VTK=OFF \
     -DUSE_OPENVR=OFF \
     -DUSE_DRACO=OFF \
-    -DCMAKE_CXX_FLAGS_RELEASE="-O2 -flto -ffunction-sections -fdata-sections -fvisibility=hidden" \
+    -DCMAKE_CXX_FLAGS_RELEASE="-O2 -ffunction-sections -fdata-sections" \
     -DCMAKE_SHARED_LINKER_FLAGS_RELEASE="-Wl,--gc-sections" \
     -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}"
 fi

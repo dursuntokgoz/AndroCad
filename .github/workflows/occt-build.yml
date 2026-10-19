@@ -40,7 +40,7 @@ jobs:
       - name: Calculate OCCT Cache Key
         id: set-key
         run: |
-          OCCT_HASH="V7_8_0-ndk26.3-api24-flags-O2-lto-v1"
+          OCCT_HASH="V7_8_0-ndk26.3-api24-flags-O2-v2"
           SCRIPT_HASH="${{ hashFiles('scripts/build_occt_android.sh') }}"
           FULL_KEY="occt-android-arm64-v8a-${OCCT_HASH}-${SCRIPT_HASH}"
           echo "cache-key=${FULL_KEY}" >> "$GITHUB_OUTPUT"
