@@ -97,14 +97,17 @@ class BoxRenderer(private val meshResult: BoxMeshResult?) : GLSurfaceView.Render
         vbo = buffers[0]
         ibo = buffers[1]
 
+        val vertexBuffer = meshResult.vertexBuffer ?: return
+        val indexBuffer = meshResult.indexBuffer ?: return
+
         // Vertex buffer
-        val vBuf = meshResult.vertexBuffer.order(ByteOrder.nativeOrder())
+        val vBuf = vertexBuffer.order(ByteOrder.nativeOrder())
         vBuf.position(0)
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, vbo)
         GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, vBuf.capacity(), vBuf, GLES30.GL_STATIC_DRAW)
 
         // Index buffer
-        val iBuf = meshResult.indexBuffer.order(ByteOrder.nativeOrder())
+        val iBuf = indexBuffer.order(ByteOrder.nativeOrder())
         iBuf.position(0)
         GLES30.glBindBuffer(GLES30.GL_ELEMENT_ARRAY_BUFFER, ibo)
         GLES30.glBufferData(GLES30.GL_ELEMENT_ARRAY_BUFFER, iBuf.capacity(), iBuf, GLES30.GL_STATIC_DRAW)
