@@ -57,13 +57,13 @@ else()
     message(STATUS "[AndroCAD] Configuring Host-Side Test Suite")
 
     find_package(OpenCASCADE QUIET)
-    if(OpenCASCADE_FOUND)
-        include_directories(${OpenCASCADE_INCLUDE_DIRS})
+    include_directories(
+        /usr/include/opencascade
+        ${OpenCASCADE_INCLUDE_DIRS}
+        ${OpenCASCADE_INCLUDE_DIR}
+    )
+    if(OpenCASCADE_LIBRARY_DIRS)
         link_directories(${OpenCASCADE_LIBRARY_DIRS})
-    else()
-        if(EXISTS "/usr/include/opencascade")
-            include_directories("/usr/include/opencascade")
-        endif()
     endif()
 
     add_executable(androcad_host_smoke_test
