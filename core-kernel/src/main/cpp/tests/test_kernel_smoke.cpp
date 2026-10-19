@@ -6,7 +6,7 @@
 #include <iostream>
 
 int main() {
-    std::cout << "[AndroCAD Test] Running Kernel Smoke Test (Box Creation & Tessellation)..." << std::endl;
+    std::cout << "[AndroCAD Test] Running Kernel Smoke Test (Box Creation, Edges & Ray Picking)..." << std::endl;
 
     androcad::AndroCadKernel kernel;
     double dx = 100.0;
@@ -66,6 +66,77 @@ int main() {
         }
     }
 
-    std::cout << "[PASS] AndroCAD Kernel Smoke Test passed successfully!" << std::endl;
+    // 5. Verify topological boundary edge extraction (Milestone 2)
+    std::cout << "  Boundary Edge Count: " << box.edgeCount << " (Expected: 12)" << std::endl;
+    if (box.edgeCount != 12) {
+        std::cerr << "[FAIL] Edge count mismatch! Expected 12, got " << box.edgeCount << std::endl;
+        return 1;
+    }
+
+    std::cout << "  Discretized Edge Vertices: " << box.edgeVertices.size() << " (Expected >= 24)" << std::endl;
+    if (box.edgeVertices.size() < 24) {
+        std::cerr << "[FAIL] Edge vertex count is too low! Expected >= 24, got " << box.edgeVertices.size() << std::endl;
+        return 1;
+    }
+
+    for (const auto& ev : box.edgeVertices) {
+        if (ev.edgeId < 1 || ev.edgeId > 12) {
+            std::cerr << "[FAIL] Edge vertex has invalid edgeId: " << ev.edgeId << std::endl;
+            return 1;
+        }
+    }
+
+    // 6. Verify Bounding Box
+    std::cout << "  Bounding Box: [" 
+              << box.bounds.minX << ", " << box.bounds.minY << ", " << box.bounds.minZ << "] to ["
+              << box.bounds.maxX << ", " << box.bounds.maxY << ", " << box.bounds.maxZ << "]" << std::endl;
+    if (std::abs(box.bounds.maxX - 100.0f) > 0.1f ||
+        std::abs(box.bounds.maxY - 50.0f) > 0.1f ||
+        std::abs(box.bounds.maxZ - 20.0f) > 0.1f) {
+        std::cerr << "[FAIL] Bounding box dimensions incorrect!" << std::endl;
+        return 1;
+    }
+
+    // 7. Verify Ray-Casting Entity Picking (Milestone 2)
+    // Ray 1: Downward at top face (x=50, y=25, z=100) -> should hit face at z=20 (dist=80)
+    androcad::Ray topRay{50.0f, 25.0f, 100.0f, 0.0f, 0.0f, -1.0f};
+    androcad::PickResult pickFace = androcad::AndroCadKernel::PickEntityByRay(box, topRay, 1.0f);
+    if (!pickFace.hit) {
+        std::cerr << "[FAIL] Ray aimed at top face center failed to hit!" << std::endl;
+        return 1;
+    }
+    std::cout << "  Ray Pick Face Result: hit=" << pickFace.hit 
+              << " entityId=" << pickFace.entityId 
+              << " isEdge=" << pickFace.isEdge 
+              << " dist=" << pickFace.distance << std::endl;
+    if (pickFace.isEdge) {
+        std::cerr << "[FAIL] Ray aimed at face interior incorrectly picked an edge!" << std::endl;
+        return 1;
+    }
+    if (std::abs(pickFace.distance - 80.0f) > 0.1f) {
+        std::cerr << "[FAIL] Ray pick distance incorrect! Expected 80.0, got " << pickFace.distance << std::endl;
+        return 1;
+    }
+
+    // Ray 2: Ray directly grazing edge at x=100, y=25, z=100 -> should hit edge
+    androcad::Ray edgeRay{100.0f, 25.0f, 100.0f, 0.0f, 0.0f, -1.0f};
+    androcad::PickResult pickEdge = androcad::AndroCadKernel::PickEntityByRay(box, edgeRay, 1.5f);
+    if (!pickEdge.hit || !pickEdge.isEdge) {
+        std::cerr << "[FAIL] Ray aimed directly at edge failed to pick edge! (hit=" << pickEdge.hit << ", isEdge=" << pickEdge.isEdge << ")" << std::endl;
+        return 1;
+    }
+    std::cout << "  Ray Pick Edge Result: hit=" << pickEdge.hit 
+              << " edgeId=" << pickEdge.entityId 
+              << " dist=" << pickEdge.distance << std::endl;
+
+    // Ray 3: Missing ray -> should not hit
+    androcad::Ray missRay{250.0f, 250.0f, 100.0f, 0.0f, 0.0f, -1.0f};
+    androcad::PickResult pickMiss = androcad::AndroCadKernel::PickEntityByRay(box, missRay, 1.5f);
+    if (pickMiss.hit) {
+        std::cerr << "[FAIL] Missing ray falsely reported a hit!" << std::endl;
+        return 1;
+    }
+
+    std::cout << "[PASS] AndroCAD Milestone 2 Kernel & Picking Tests passed successfully!" << std::endl;
     return 0;
 }

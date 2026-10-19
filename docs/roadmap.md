@@ -50,7 +50,7 @@ This document tracks development milestones, architectural decisions, and open r
 * **Goal:** Interactive 3D viewport on Android: orbit, pan, zoom, ViewCube, display modes (shaded, shaded+edges, wireframe), and $O(1)$ GPU color-coded face and edge picking.
 * **Deliverables:** Native GLES 3.x render loop, ViewCube widget, touch gesture recognizer (single/two finger), color-buffer picking pass.
 * **Acceptance Tests:** Smooth 60+ FPS touch manipulation; accurate face and edge selection.
-* **Status:** Todo
+* **Status:** In Progress
 * **Finish Date:** -
 
 ---

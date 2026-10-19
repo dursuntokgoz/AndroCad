@@ -4,11 +4,14 @@ package com.androcad.app
 import android.annotation.SuppressLint
 import android.opengl.GLSurfaceView
 import android.os.Bundle
+import android.view.GestureDetector
 import android.view.MotionEvent
+import android.view.ScaleGestureDetector
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -19,26 +22,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.androcad.app.renderer.BoxRenderer
+import com.androcad.app.renderer.CadRenderer
+import com.androcad.app.renderer.DisplayMode
+import com.androcad.app.renderer.NamedView
 import com.androcad.kernel.BoxMeshResult
 import com.androcad.kernel.NativeKernel
 
 class MainActivity : ComponentActivity() {
 
     private var meshResult: BoxMeshResult? = null
-    private var renderer: BoxRenderer? = null
+    private var renderer: CadRenderer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Initialize kernel smoke test: construct 100x50x20 analytical box
+        // Initialize analytical solid box (100 x 50 x 20 mm) via OCCT kernel
         try {
             meshResult = NativeKernel.createBox(100.0, 50.0, 20.0, 0.1, 0.5)
         } catch (t: Throwable) {
             meshResult = null
         }
 
-        renderer = BoxRenderer(meshResult)
+        renderer = CadRenderer(meshResult)
 
         setContent {
             AndroCadApp(meshResult, renderer)
@@ -52,13 +57,40 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun AndroCadApp(meshResult: BoxMeshResult?, renderer: BoxRenderer?) {
+fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
     val darkPanelColor = Color(0xFF1E2124)
     val topToolbarColor = Color(0xFF282B30)
     val accentBlue = Color(0xFF007ACC)
     val textMuted = Color(0xFFB0B3B8)
+    val highlightCyan = Color(0xFF00A4E4)
+    val highlightOrange = Color(0xFFFF9800)
 
     var activeTab by remember { mutableStateOf("Solid") }
+    var navTool by remember { mutableStateOf("Orbit") }
+    var currentDisplayMode by remember { mutableStateOf(DisplayMode.SHADED_WITH_EDGES) }
+    var selectedEntityInfo by remember { mutableStateOf("No entity selected (tap face/edge)") }
+    var selectedType by remember { mutableStateOf<String?>(null) }
+    var selectedId by remember { mutableStateOf(0) }
+
+    // Register callback for GPU color picking
+    LaunchedEffect(renderer) {
+        renderer?.onPickResultListener = { pick ->
+            if (pick != null && pick.hit) {
+                selectedId = pick.entityId
+                if (pick.isEdge) {
+                    selectedType = "Edge"
+                    selectedEntityInfo = "Edge #$selectedId (Length: ~50.0 mm)"
+                } else {
+                    selectedType = "Face"
+                    selectedEntityInfo = "Face #$selectedId (Normal: Planar)"
+                }
+            } else {
+                selectedType = null
+                selectedId = 0
+                selectedEntityInfo = "No entity selected (tap face/edge)"
+            }
+        }
+    }
 
     Column(modifier = Modifier.fillMaxSize().background(Color(0xFF141618))) {
         // 1. Top Workspace Tabs & Toolbar
@@ -141,7 +173,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: BoxRenderer?) {
                 }
             }
 
-            // Center Viewport with GLES Renderer
+            // Center Viewport with GLES Renderer, ViewCube & Navigation Bar
             Box(modifier = Modifier.weight(1f).fillMaxHeight()) {
                 AndroidView(
                     factory = { context ->
@@ -151,42 +183,117 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: BoxRenderer?) {
                                 setRenderer(renderer)
                             }
                             renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
-                            setupTouchListener(this, renderer)
+                            setupCadTouchListener(this, renderer) { navTool }
                         }
                     },
                     modifier = Modifier.fillMaxSize()
                 )
 
-                // Top-Right ViewCube Overlay
+                // Top-Right Interactive ViewCube
                 Surface(
-                    color = Color(0xAA202225),
-                    shape = RoundedCornerShape(6.dp),
+                    color = Color(0xDD202225),
+                    shape = RoundedCornerShape(8.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF3E4249)),
                     modifier = Modifier
                         .align(Alignment.TopEnd)
-                        .padding(16.dp)
-                        .size(70.dp)
+                        .padding(12.dp)
+                        .width(130.dp)
                 ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Text(text = "TOP\nFRONT", color = Color.White, fontSize = 11.sp)
+                    Column(
+                        modifier = Modifier.padding(6.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(text = "VIEW CUBE", color = textMuted, fontSize = 10.sp)
+                        Spacer(modifier = Modifier.height(4.dp))
+
+                        // Top Face
+                        ViewCubeButton("TOP") { renderer?.setNamedView(NamedView.TOP) }
+
+                        // Middle Ring: LEFT | FRONT | RIGHT | BACK
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(2.dp),
+                            modifier = Modifier.padding(vertical = 2.dp)
+                        ) {
+                            ViewCubeButton("L", width = 28) { renderer?.setNamedView(NamedView.LEFT) }
+                            ViewCubeButton("FRONT", width = 48) { renderer?.setNamedView(NamedView.FRONT) }
+                            ViewCubeButton("R", width = 28) { renderer?.setNamedView(NamedView.RIGHT) }
+                        }
+
+                        // Bottom Row: BOTTOM and ISO (HOME)
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(4.dp),
+                            modifier = Modifier.padding(top = 2.dp)
+                        ) {
+                            ViewCubeButton("BOTTOM", width = 56) { renderer?.setNamedView(NamedView.BOTTOM) }
+                            ViewCubeButton("ISO", width = 48) { renderer?.setNamedView(NamedView.HOME) }
+                        }
                     }
                 }
 
                 // Bottom-Center Navigation Bar
                 Surface(
-                    color = Color(0xCC202225),
+                    color = Color(0xEE202225),
                     shape = RoundedCornerShape(20.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF3E4249)),
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .padding(bottom = 12.dp)
                 ) {
                     Row(
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        Text(text = "Orbit", color = accentBlue, fontSize = 12.sp)
-                        Text(text = "Pan", color = textMuted, fontSize = 12.sp)
-                        Text(text = "Zoom", color = textMuted, fontSize = 12.sp)
-                        Text(text = "Fit", color = textMuted, fontSize = 12.sp)
+                        // Orbit Mode Toggle
+                        Text(
+                            text = "Orbit",
+                            color = if (navTool == "Orbit") accentBlue else textMuted,
+                            fontSize = 12.sp,
+                            modifier = Modifier.clickable { navTool = "Orbit" }
+                        )
+
+                        // Pan Mode Toggle
+                        Text(
+                            text = "Pan",
+                            color = if (navTool == "Pan") accentBlue else textMuted,
+                            fontSize = 12.sp,
+                            modifier = Modifier.clickable { navTool = "Pan" }
+                        )
+
+                        // Fit to View (Home Zoom)
+                        Text(
+                            text = "Fit",
+                            color = textMuted,
+                            fontSize = 12.sp,
+                            modifier = Modifier.clickable { renderer?.zoomToFit() }
+                        )
+
+                        // Display Mode Switcher
+                        val modeLabel = when (currentDisplayMode) {
+                            DisplayMode.SHADED_WITH_EDGES -> "Shaded + Edges"
+                            DisplayMode.SHADED -> "Shaded"
+                            DisplayMode.WIREFRAME -> "Wireframe"
+                        }
+                        Surface(
+                            color = Color(0xFF2C2F33),
+                            shape = RoundedCornerShape(12.dp),
+                            modifier = Modifier.clickable {
+                                val nextMode = when (currentDisplayMode) {
+                                    DisplayMode.SHADED_WITH_EDGES -> DisplayMode.SHADED
+                                    DisplayMode.SHADED -> DisplayMode.WIREFRAME
+                                    DisplayMode.WIREFRAME -> DisplayMode.SHADED_WITH_EDGES
+                                }
+                                currentDisplayMode = nextMode
+                                renderer?.displayMode = nextMode
+                            }
+                        ) {
+                            Text(
+                                text = "Mode: $modeLabel",
+                                color = Color.White,
+                                fontSize = 11.sp,
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                            )
+                        }
                     }
                 }
             }
@@ -194,7 +301,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: BoxRenderer?) {
             // Right Properties Panel
             Column(
                 modifier = Modifier
-                    .width(200.dp)
+                    .width(220.dp)
                     .fillMaxHeight()
                     .background(darkPanelColor)
                     .border(width = 1.dp, color = Color(0xFF2B2D31))
@@ -209,14 +316,37 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: BoxRenderer?) {
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(text = "Volume: ${"%.1f".format(meshResult.volume)} mm³", color = textMuted, fontSize = 11.sp)
                     Text(text = "Faces: ${meshResult.faceCount}", color = textMuted, fontSize = 11.sp)
+                    Text(text = "Edges: ${meshResult.edgeCount}", color = textMuted, fontSize = 11.sp)
                     Text(text = "Triangles: ${meshResult.triangleCount}", color = textMuted, fontSize = 11.sp)
                     Spacer(modifier = Modifier.height(6.dp))
-                    Text(text = "Dimensions:", color = Color.White, fontSize = 11.sp)
+                    Text(text = "Bounding Dimensions:", color = Color.White, fontSize = 11.sp)
                     Text(text = "  X = 100.0 mm", color = textMuted, fontSize = 11.sp)
                     Text(text = "  Y = 50.0 mm", color = textMuted, fontSize = 11.sp)
                     Text(text = "  Z = 20.0 mm", color = textMuted, fontSize = 11.sp)
+
+                    Spacer(modifier = Modifier.height(14.dp))
+                    Text(text = "SELECTION", color = Color.White, fontSize = 12.sp)
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    Surface(
+                        color = Color(0xFF2A2D31),
+                        shape = RoundedCornerShape(4.dp),
+                        border = androidx.compose.foundation.BorderStroke(
+                            1.dp,
+                            if (selectedType == "Face") highlightCyan else if (selectedType == "Edge") highlightOrange else Color.Transparent
+                        ),
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+                    ) {
+                        Column(modifier = Modifier.padding(6.dp)) {
+                            Text(
+                                text = selectedEntityInfo,
+                                color = if (selectedType == "Face") highlightCyan else if (selectedType == "Edge") highlightOrange else textMuted,
+                                fontSize = 11.sp
+                            )
+                        }
+                    }
                 } else {
-                    Text(text = "No selection", color = textMuted, fontSize = 12.sp)
+                    Text(text = "No solid loaded", color = textMuted, fontSize = 12.sp)
                 }
             }
         }
@@ -260,27 +390,91 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: BoxRenderer?) {
     }
 }
 
+@Composable
+fun ViewCubeButton(label: String, width: Int = 50, onClick: () -> Unit) {
+    Surface(
+        color = Color(0xFF2A2D32),
+        shape = RoundedCornerShape(3.dp),
+        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF454950)),
+        modifier = Modifier.width(width.dp).height(24.dp).clickable(onClick = onClick)
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            Text(text = label, color = Color.White, fontSize = 9.sp)
+        }
+    }
+}
+
 @SuppressLint("ClickableViewAccessibility")
-private fun setupTouchListener(view: GLSurfaceView, renderer: BoxRenderer?) {
+private fun setupCadTouchListener(
+    view: GLSurfaceView,
+    renderer: CadRenderer?,
+    activeToolProvider: () -> String
+) {
     var prevX = 0f
     var prevY = 0f
+    var touchDownX = 0f
+    var touchDownY = 0f
+
+    val scaleDetector = ScaleGestureDetector(
+        view.context,
+        object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+            override fun onScale(detector: ScaleGestureDetector): Boolean {
+                renderer?.zoom(detector.scaleFactor)
+                return true
+            }
+        }
+    )
+
+    val gestureDetector = GestureDetector(
+        view.context,
+        object : GestureDetector.SimpleOnGestureListener() {
+            override fun onSingleTapUp(e: MotionEvent): Boolean {
+                // Request GPU color-coded picking pass at tap coordinates
+                renderer?.requestPick(e.x, e.y)
+                return true
+            }
+
+            override fun onDoubleTap(e: MotionEvent): Boolean {
+                renderer?.zoomToFit()
+                return true
+            }
+        }
+    )
 
     view.setOnTouchListener { _, event ->
+        scaleDetector.onTouchEvent(event)
+        gestureDetector.onTouchEvent(event)
+
+        val pointerCount = event.pointerCount
         val x = event.x
         val y = event.y
 
-        when (event.action) {
+        when (event.actionMasked) {
+            MotionEvent.ACTION_DOWN -> {
+                prevX = x
+                prevY = y
+                touchDownX = x
+                touchDownY = y
+            }
             MotionEvent.ACTION_MOVE -> {
                 val dx = x - prevX
                 val dy = y - prevY
-                if (renderer != null) {
-                    renderer.angleY += dx * 0.4f
-                    renderer.angleX += dy * 0.4f
+
+                if (pointerCount == 1 && !scaleDetector.isInProgress) {
+                    if (activeToolProvider() == "Pan") {
+                        renderer?.pan(dx, dy)
+                    } else {
+                        // Orbit mode (default)
+                        renderer?.orbit(dx, dy)
+                    }
+                } else if (pointerCount == 2) {
+                    // Two-finger Pan
+                    renderer?.pan(dx, dy)
                 }
+                prevX = x
+                prevY = y
             }
         }
-        prevX = x
-        prevY = y
         true
     }
 }

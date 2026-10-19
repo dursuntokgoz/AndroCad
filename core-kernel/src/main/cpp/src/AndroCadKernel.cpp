@@ -3,23 +3,161 @@
 
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <BRepMesh_IncrementalMesh.hxx>
+#include <TopExp.hxx>
 #include <TopExp_Explorer.hxx>
+#include <TopTools_IndexedMapOfShape.hxx>
 #include <TopoDS.hxx>
 #include <TopoDS_Shape.hxx>
 #include <TopoDS_Face.hxx>
+#include <TopoDS_Edge.hxx>
 #include <BRep_Tool.hxx>
+#include <BRepAdaptor_Curve.hxx>
+#include <GCPnts_QuasiUniformDeflection.hxx>
 #include <Poly_Triangulation.hxx>
 #include <GProp_GProps.hxx>
 #include <BRepGProp.hxx>
-#include <BRepTools.hxx>
+#include <Bnd_Box.hxx>
+#include <BRepBndLib.hxx>
 #include <gp_Trsf.hxx>
+#include <gp_Pnt.hxx>
 #include <gp_Vec.hxx>
 #include <Standard_Failure.hxx>
 
+#include <algorithm>
 #include <cmath>
 #include <iostream>
 
 namespace androcad {
+
+namespace {
+
+// Möller–Trumbore ray-triangle intersection algorithm
+bool RayIntersectsTriangle(const Ray& ray,
+                           const Vertex& v0, const Vertex& v1, const Vertex& v2,
+                           float& outDist, float outPoint[3]) {
+    const float EPSILON = 1e-7f;
+    float e1x = v1.x - v0.x, e1y = v1.y - v0.y, e1z = v1.z - v0.z;
+    float e2x = v2.x - v0.x, e2y = v2.y - v0.y, e2z = v2.z - v0.z;
+
+    float px = ray.dy * e2z - ray.dz * e2y;
+    float py = ray.dz * e2x - ray.dx * e2z;
+    float pz = ray.dx * e2y - ray.dy * e2x;
+
+    float det = e1x * px + e1y * py + e1z * pz;
+    if (std::fabs(det) < EPSILON) return false;
+
+    float invDet = 1.0f / det;
+    float tx = ray.ox - v0.x, ty = ray.oy - v0.y, tz = ray.oz - v0.z;
+
+    float u = (tx * px + ty * py + tz * pz) * invDet;
+    if (u < 0.0f || u > 1.0f) return false;
+
+    float qx = ty * e1z - tz * e1y;
+    float qy = tz * e1x - tx * e1z;
+    float qz = tx * e1y - ty * e1x;
+
+    float v = (ray.dx * qx + ray.dy * qy + ray.dz * qz) * invDet;
+    if (v < 0.0f || (u + v) > 1.0f) return false;
+
+    float t = (e2x * qx + e2y * qy + e2z * qz) * invDet;
+    if (t > 1e-4f) {
+        outDist = t;
+        outPoint[0] = ray.ox + t * ray.dx;
+        outPoint[1] = ray.oy + t * ray.dy;
+        outPoint[2] = ray.oz + t * ray.dz;
+        return true;
+    }
+    return false;
+}
+
+// Distance between Ray R(t) = P + t*D (t >= 0) and Segment S(s) = A + s*(B - A) (0 <= s <= 1)
+bool RayIntersectsSegment(const Ray& ray,
+                          const EdgeVertex& v0, const EdgeVertex& v1,
+                          float tolerance, float& outDist, float outPoint[3]) {
+    float ux = v1.x - v0.x, uy = v1.y - v0.y, uz = v1.z - v0.z;
+    float wx = ray.ox - v0.x, wy = ray.oy - v0.y, wz = ray.oz - v0.z;
+
+    float a = ray.dx * ray.dx + ray.dy * ray.dy + ray.dz * ray.dz; // 1.0 if normalized
+    float b = ray.dx * ux + ray.dy * uy + ray.dz * uz;
+    float c = ux * ux + uy * uy + uz * uz;
+    float d = ray.dx * wx + ray.dy * wy + ray.dz * wz;
+    float e = ux * wx + uy * wy + uz * wz;
+
+    if (c < 1e-8f) return false; // Degenerate segment
+
+    float D = a * c - b * b;
+    float sc, sN, sD = D;
+    float tc, tN, tD = D;
+
+    if (D < 1e-7f) {
+        // Parallel
+        sN = 0.0f;
+        sD = 1.0f;
+        tN = e;
+        tD = c;
+    } else {
+        sN = (b * e - c * d);
+        tN = (a * e - b * d);
+        if (sN < 0.0f) {
+            sN = 0.0f;
+            tN = e;
+            tD = c;
+        } else if (sN > sD) {
+            sN = sD;
+            tN = e + b;
+            tD = c;
+        }
+    }
+
+    if (tN < 0.0f) {
+        tc = 0.0f;
+        if (-d < 0.0f) {
+            sc = 0.0f;
+        } else if (-d > a) {
+            sc = 1.0f;
+        } else {
+            sc = -d / a;
+        }
+    } else if (tN > tD) {
+        tc = 1.0f;
+        if ((-d + b) < 0.0f) {
+            sc = 0.0f;
+        } else if ((-d + b) > a) {
+            sc = 1.0f;
+        } else {
+            sc = (-d + b) / a;
+        }
+    } else {
+        tc = (std::fabs(tD) < 1e-7f) ? 0.0f : tN / tD;
+        sc = (std::fabs(sD) < 1e-7f) ? 0.0f : sN / sD;
+    }
+
+    // s is ray parameter (t), tc is segment parameter (s)
+    float rayT = sc;
+    float segS = tc;
+
+    if (rayT < 0.0f) return false;
+
+    float rx = ray.ox + rayT * ray.dx;
+    float ry = ray.oy + rayT * ray.dy;
+    float rz = ray.oz + rayT * ray.dz;
+
+    float sx = v0.x + segS * ux;
+    float sy = v0.y + segS * uy;
+    float sz = v0.z + segS * uz;
+
+    float distSq = (rx - sx) * (rx - sx) + (ry - sy) * (ry - sy) + (rz - sz) * (rz - sz);
+    if (distSq <= tolerance * tolerance) {
+        outDist = rayT;
+        outPoint[0] = sx;
+        outPoint[1] = sy;
+        outPoint[2] = sz;
+        return true;
+    }
+    return false;
+}
+
+} // namespace
 
 MeshPayload AndroCadKernel::CreateBox(double dx, double dy, double dz,
                                       double linearDeflection, 
@@ -27,7 +165,9 @@ MeshPayload AndroCadKernel::CreateBox(double dx, double dy, double dz,
     MeshPayload result;
     result.volume = 0.0;
     result.faceCount = 0;
+    result.edgeCount = 0;
     result.triangleCount = 0;
+    result.bounds = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
     result.success = false;
 
     if (dx <= 0.0 || dy <= 0.0 || dz <= 0.0) {
@@ -50,7 +190,43 @@ MeshPayload AndroCadKernel::CreateBox(double dx, double dy, double dz,
         BRepGProp::VolumeProperties(boxShape, system);
         result.volume = system.Mass();
 
-        // 3. Tessellate boundary representation using BRepMesh
+        // 3. Compute Bounding Box
+        Bnd_Box aBox;
+        BRepBndLib::Add(boxShape, aBox);
+        Standard_Real aXmin, aYmin, aZmin, aXmax, aYmax, aZmax;
+        aBox.Get(aXmin, aYmin, aZmin, aXmax, aYmax, aZmax);
+        result.bounds.minX = static_cast<float>(aXmin);
+        result.bounds.minY = static_cast<float>(aYmin);
+        result.bounds.minZ = static_cast<float>(aZmin);
+        result.bounds.maxX = static_cast<float>(aXmax);
+        result.bounds.maxY = static_cast<float>(aYmax);
+        result.bounds.maxZ = static_cast<float>(aZmax);
+
+        // 4. Extract unique edges and discretize for wireframe & edge display
+        TopTools_IndexedMapOfShape edgeMap;
+        TopExp::MapShapes(boxShape, TopAbs_EDGE, edgeMap);
+        result.edgeCount = edgeMap.Extent();
+
+        for (int i = 1; i <= edgeMap.Extent(); ++i) {
+            const TopoDS_Edge& edge = TopoDS::Edge(edgeMap(i));
+            uint32_t edgeId = static_cast<uint32_t>(i);
+
+            BRepAdaptor_Curve curve(edge);
+            GCPnts_QuasiUniformDeflection discretizer(curve, linearDeflection);
+            if (discretizer.IsDone() && discretizer.NbPoints() >= 2) {
+                for (int pIdx = 1; pIdx < discretizer.NbPoints(); ++pIdx) {
+                    gp_Pnt p1 = discretizer.Value(pIdx);
+                    gp_Pnt p2 = discretizer.Value(pIdx + 1);
+
+                    EdgeVertex ev1{static_cast<float>(p1.X()), static_cast<float>(p1.Y()), static_cast<float>(p1.Z()), edgeId};
+                    EdgeVertex ev2{static_cast<float>(p2.X()), static_cast<float>(p2.Y()), static_cast<float>(p2.Z()), edgeId};
+                    result.edgeVertices.push_back(ev1);
+                    result.edgeVertices.push_back(ev2);
+                }
+            }
+        }
+
+        // 5. Tessellate boundary representation using BRepMesh
         BRepMesh_IncrementalMesh mesher(boxShape, linearDeflection, Standard_False, angularDeflection, Standard_True);
         mesher.Perform();
         if (!mesher.IsDone()) {
@@ -58,7 +234,7 @@ MeshPayload AndroCadKernel::CreateBox(double dx, double dy, double dz,
             return result;
         }
 
-        // 4. Extract triangulation per face with normal vectors and distinct face IDs
+        // 6. Extract triangulation per face with normal vectors and distinct face IDs
         uint32_t currentFaceId = 1;
         uint32_t vertexOffset = 0;
 
@@ -109,7 +285,7 @@ MeshPayload AndroCadKernel::CreateBox(double dx, double dy, double dz,
                 result.indices.push_back(idx2);
                 result.indices.push_back(idx3);
 
-                // Compute face normal for flat shading / smooth accumulation
+                // Compute normal for flat shading / smooth accumulation
                 const Vertex& v1 = faceVertices[n1 - 1];
                 const Vertex& v2 = faceVertices[n2 - 1];
                 const Vertex& v3 = faceVertices[n3 - 1];
@@ -158,6 +334,97 @@ MeshPayload AndroCadKernel::CreateBox(double dx, double dy, double dz,
     } catch (const std::exception& e) {
         result.errorMessage = std::string("C++ Exception: ") + e.what();
         result.success = false;
+    }
+
+    return result;
+}
+
+PickResult AndroCadKernel::PickEntityByRay(const MeshPayload& payload, const Ray& ray, float edgeTolerance) {
+    PickResult result;
+    result.hit = false;
+    result.entityId = 0;
+    result.isEdge = false;
+    result.distance = 1e9f;
+    result.hitPoint[0] = 0.0f;
+    result.hitPoint[1] = 0.0f;
+    result.hitPoint[2] = 0.0f;
+
+    if (!payload.success) return result;
+
+    // 1. Test against edges (segments)
+    float closestEdgeDist = 1e9f;
+    uint32_t closestEdgeId = 0;
+    float closestEdgePoint[3] = {0.0f, 0.0f, 0.0f};
+
+    for (size_t i = 0; i + 1 < payload.edgeVertices.size(); i += 2) {
+        const EdgeVertex& ev0 = payload.edgeVertices[i];
+        const EdgeVertex& ev1 = payload.edgeVertices[i + 1];
+
+        float dist = 0.0f;
+        float pt[3] = {0.0f, 0.0f, 0.0f};
+        if (RayIntersectsSegment(ray, ev0, ev1, edgeTolerance, dist, pt)) {
+            if (dist < closestEdgeDist) {
+                closestEdgeDist = dist;
+                closestEdgeId = ev0.edgeId;
+                closestEdgePoint[0] = pt[0];
+                closestEdgePoint[1] = pt[1];
+                closestEdgePoint[2] = pt[2];
+            }
+        }
+    }
+
+    // 2. Test against face triangles
+    float closestFaceDist = 1e9f;
+    uint32_t closestFaceId = 0;
+    float closestFacePoint[3] = {0.0f, 0.0f, 0.0f};
+
+    for (size_t i = 0; i + 2 < payload.indices.size(); i += 3) {
+        uint32_t idx0 = payload.indices[i];
+        uint32_t idx1 = payload.indices[i + 1];
+        uint32_t idx2 = payload.indices[i + 2];
+
+        if (idx0 >= payload.vertices.size() || idx1 >= payload.vertices.size() || idx2 >= payload.vertices.size()) {
+            continue;
+        }
+
+        const Vertex& v0 = payload.vertices[idx0];
+        const Vertex& v1 = payload.vertices[idx1];
+        const Vertex& v2 = payload.vertices[idx2];
+
+        float dist = 0.0f;
+        float pt[3] = {0.0f, 0.0f, 0.0f};
+        if (RayIntersectsTriangle(ray, v0, v1, v2, dist, pt)) {
+            if (dist < closestFaceDist) {
+                closestFaceDist = dist;
+                closestFaceId = v0.faceId;
+                closestFacePoint[0] = pt[0];
+                closestFacePoint[1] = pt[1];
+                closestFacePoint[2] = pt[2];
+            }
+        }
+    }
+
+    // Edge has priority if it is within a small margin or closer than face
+    if (closestEdgeId != 0 && (closestEdgeDist <= closestFaceDist + edgeTolerance)) {
+        result.hit = true;
+        result.entityId = closestEdgeId;
+        result.isEdge = true;
+        result.distance = closestEdgeDist;
+        result.hitPoint[0] = closestEdgePoint[0];
+        result.hitPoint[1] = closestEdgePoint[1];
+        result.hitPoint[2] = closestEdgePoint[2];
+        return result;
+    }
+
+    if (closestFaceId != 0) {
+        result.hit = true;
+        result.entityId = closestFaceId;
+        result.isEdge = false;
+        result.distance = closestFaceDist;
+        result.hitPoint[0] = closestFacePoint[0];
+        result.hitPoint[1] = closestFacePoint[1];
+        result.hitPoint[2] = closestFacePoint[2];
+        return result;
     }
 
     return result;
