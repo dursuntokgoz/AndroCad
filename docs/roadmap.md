@@ -77,8 +77,8 @@ This document tracks development milestones, architectural decisions, and open r
 * **Goal:** Deterministic feature DAG timeline with rollback marker, user parameters, and persistent topological naming.
 * **Deliverables:** Feature DAG engine, rollback bar, expression parser for parameters, 3-tier TNP resolver, and TNP regression test suite.
 * **Acceptance Tests:** TNP regression suite passes (upstream dimensions modified, downstream fillets/sketches remain attached).
-* **Status:** In Progress
-* **Finish Date:** -
+* **Status:** Done
+* **Finish Date:** 2026-10-20
 
 ---
 
@@ -86,14 +86,14 @@ This document tracks development milestones, architectural decisions, and open r
 * **Goal:** Save/load native versioned project files and industry-standard CAD exchange (STEP, STL, 3MF).
 * **Deliverables:** JSON/binary project serializer, STEP AP214/242 import/export, binary STL import/export.
 * **Acceptance Tests:** Round-trip export and import of complex models with volume verification.
-* **Status:** Todo
+* **Status:** In Progress
 * **Finish Date:** -
 
 ---
 
-### Milestone 7: UI Polish, Tablet Gestures & Phone Layout
-* **Goal:** Tablet-first UI polish (two-finger undo, three-finger redo, dark/light themes, original CAD icons) and responsive phone layout.
-* **Deliverables:** Jetpack Compose UI, original SVG icon library, adaptive phone bottom-sheet viewer.
-* **Acceptance Tests:** Complete end-to-end design of a mechanical part on tablet and inspection on phone.
+### Milestone 7: UI Polish, Tablet Gestures, Phone Layout & README Screenshots
+* **Goal:** Tablet-first UI polish (two-finger undo, three-finger redo, dark/light themes, original CAD icons), responsive phone layout, and tablet UI screenshots embedded in GitHub README.
+* **Deliverables:** Jetpack Compose UI, original SVG icon library, adaptive phone bottom-sheet viewer, tablet UI screenshots embedded in README.md.
+* **Acceptance Tests:** Complete end-to-end design of a mechanical part on tablet and inspection on phone; high-resolution tablet screenshots showcasing Fusion 360-style workflow published in repository README.md.
 * **Status:** Todo
 * **Finish Date:** -

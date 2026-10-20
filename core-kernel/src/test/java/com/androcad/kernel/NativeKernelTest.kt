@@ -125,4 +125,25 @@ class NativeKernelTest {
         val booleanRes = solid.join(solid)
         assertFalse(booleanRes.success)
     }
+
+    @Test
+    fun testTimelineContract() {
+        val timeline = NativeTimeline(0L)
+        assertFalse(timeline.setParameter("width", "100.0"))
+        assertEquals(0.0, timeline.getParameter("width"), 1e-6)
+        assertEquals(-1, timeline.addBox("Box1", "10", "20", "30"))
+        timeline.setRollbackIndex(0)
+
+        val rebuildRes = timeline.rebuild()
+        assertFalse(rebuildRes.success)
+        assertEquals("Invalid timeline handle.", rebuildRes.errorMessage)
+        timeline.close() // Verify close does not throw on 0L handle
+    }
+
+    @Test
+    fun testExpressionEvaluationMockContract() {
+        // In JVM test environment without native binary, should return Pair(false, 0.0) without crashing
+        val res = NativeKernel.evaluateExpression("10 + 20")
+        assertFalse(res.first)
+    }
 }

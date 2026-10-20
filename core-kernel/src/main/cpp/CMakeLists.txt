@@ -33,6 +33,9 @@ if(ANDROID)
         src/GCS.cpp
         src/Sketcher.cpp
         src/FeatureOps.cpp
+        src/ExpressionParser.cpp
+        src/TNPResolver.cpp
+        src/TimelineDAG.cpp
         src/native_kernel_jni.cpp
     )
 
@@ -99,4 +102,34 @@ else()
 
     enable_testing()
     add_test(NAME KernelSmokeTest COMMAND androcad_host_smoke_test)
+
+    add_executable(androcad_tnp_regression_test
+        src/AndroCadKernel.cpp
+        src/GCS.cpp
+        src/Sketcher.cpp
+        src/FeatureOps.cpp
+        src/ExpressionParser.cpp
+        src/TNPResolver.cpp
+        src/TimelineDAG.cpp
+        tests/test_tnp_regression.cpp
+    )
+
+    target_link_libraries(androcad_tnp_regression_test PRIVATE
+        TKernel
+        TKMath
+        TKG2d
+        TKG3d
+        TKGeomBase
+        TKGeomAlgo
+        TKBRep
+        TKTopAlgo
+        TKPrim
+        TKBO
+        TKBool
+        TKFillet
+        TKOffset
+        TKMesh
+    )
+
+    add_test(NAME TNPRegressionTest COMMAND androcad_tnp_regression_test)
 endif()
