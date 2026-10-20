@@ -240,6 +240,34 @@ bool TimelineDAG::Rebuild() {
                 }
                 break;
             }
+            case FeatureNodeType::Revolve: {
+                uint32_t sketchId = static_cast<uint32_t>(node.evaluatedParams["sketchId"]);
+                const FeatureNode* skNode = GetNode(sketchId);
+                if (!skNode || skNode->outputShape.IsNull()) {
+                    node.state = NodeState::ExecutionFailed;
+                    node.errorMessage = "Invalid sketch reference.";
+                    return false;
+                }
+
+                double ax = node.evaluatedParams["ax"];
+                double ay = node.evaluatedParams["ay"];
+                double az = node.evaluatedParams["az"];
+                double dx = node.evaluatedParams["dx"];
+                double dy = node.evaluatedParams["dy"];
+                double dz = node.evaluatedParams["dz"];
+                double angle = node.evaluatedParams["angle"];
+                TopoDS_Face profileFace = TopoDS::Face(skNode->outputShape);
+                node.outputMesh = FeatureOps::MakeRevolve(profileFace, ax, ay, az, dx, dy, dz, angle, node.outputShape);
+                if (node.outputMesh.success) {
+                    node.state = NodeState::Valid;
+                    activeModel = node.outputShape;
+                } else {
+                    node.state = NodeState::ExecutionFailed;
+                    node.errorMessage = node.outputMesh.errorMessage;
+                    return false;
+                }
+                break;
+            }
             case FeatureNodeType::Fillet: {
                 if (activeModel.IsNull()) {
                     node.state = NodeState::ExecutionFailed;

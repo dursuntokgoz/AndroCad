@@ -614,11 +614,6 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                         modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)
                     )
                 }
-                    modifier = Modifier
-                        .width(4.dp)
-                        .height(24.dp)
-                        .background(Color(0xFFFFB74D))
-                )
             }
         }
     }
