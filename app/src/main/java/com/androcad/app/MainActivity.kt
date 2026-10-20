@@ -32,6 +32,8 @@ import com.androcad.kernel.SketchProfileResult
 import com.androcad.kernel.SolveStatus
 import com.androcad.kernel.AssemblyJointType
 import com.androcad.kernel.AssemblySession
+import com.androcad.kernel.SheetMetalRule
+import com.androcad.kernel.SheetMetalFlatPattern
 
 class MainActivity : ComponentActivity() {
 
@@ -163,9 +165,9 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     )
 
                     val tabs = if (isTablet) {
-                        listOf("Solid", "Sketch", "Surface", "Assemble", "File / IO", "Inspect")
+                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Assemble", "File / IO", "Inspect")
                     } else {
-                        listOf("Solid", "Sketch", "Surface", "Assemble", "File / IO")
+                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Assemble", "File / IO")
                     }
 
                     tabs.forEach { tab ->
@@ -487,6 +489,52 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                             }
                                         } catch (t: Throwable) {
                                             featureStatusText = "Assembly op failed: ${t.message}"
+                                        }
+                                    }
+                            ) {
+                                Text(
+                                    text = tool,
+                                    color = textColor,
+                                    fontSize = 11.sp,
+                                    modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
+                                )
+                            }
+                        }
+                    } else if (activeTab == "Sheet Metal") {
+                        val sheetMetalTools = listOf("U-Bracket", "Unfold Pattern", "Export DXF")
+                        sheetMetalTools.forEach { tool ->
+                            Surface(
+                                color = chipBgColor,
+                                shape = RoundedCornerShape(4.dp),
+                                modifier = Modifier
+                                    .clickable {
+                                        try {
+                                            when (tool) {
+                                                "U-Bracket" -> {
+                                                    val uBracket = NativeKernel.createUBracket(100.0, 40.0, 50.0)
+                                                    if (uBracket.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = uBracket
+                                                        renderer?.updateMesh(uBracket)
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Sheet Metal (U-Bracket)").toMutableList()
+                                                        featureStatusText = "3D Sheet Metal: 100x40x50mm, T=2mm, R=2mm"
+                                                    }
+                                                }
+                                                "Unfold Pattern" -> {
+                                                    val pattern = NativeKernel.unfoldUBracket(100.0, 40.0, 50.0)
+                                                    if (pattern.success) {
+                                                        featureStatusText = "Flat Pattern: L=${pattern.flatLength.toInt()}mm, W=${pattern.flatWidth.toInt()}mm, 2 Bends (90° UP)"
+                                                    } else {
+                                                        featureStatusText = "Unfold failed: ${pattern.errorMessage}"
+                                                    }
+                                                }
+                                                "Export DXF" -> {
+                                                    val dxf = NativeKernel.exportSheetMetalDXF(100.0, 40.0, 50.0)
+                                                    featureStatusText = "2D DXF Generated: ${dxf.length} chars (CUT & BEND layers)"
+                                                }
+                                            }
+                                        } catch (t: Throwable) {
+                                            featureStatusText = "Sheet metal op failed: ${t.message}"
                                         }
                                     }
                             ) {

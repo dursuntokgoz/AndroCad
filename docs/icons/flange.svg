@@ -1,0 +1,13 @@
+<!-- Copyright (c) 2026 dursuntokgoz. All rights reserved. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Horizontal Base Sheet -->
+  <polygon points="6,34 30,34 38,26 14,26" stroke="#007ACC" fill="#007ACC" fill-opacity="0.2" />
+  <!-- Bent Upright Flange Wall -->
+  <polygon points="30,34 38,26 38,10 30,18" stroke="#00A4E4" fill="#00A4E4" fill-opacity="0.3" />
+  <!-- Sheet Thickness Bottom / Front Edge -->
+  <polygon points="6,34 30,34 30,38 6,38" stroke="#007ACC" fill="#1E2124" />
+  <!-- Flange Top Edge -->
+  <polygon points="30,18 38,10 35,8 27,16" stroke="#00A4E4" fill="#2F3136" />
+  <!-- Bend Highlight Arc -->
+  <path d="M 28,34 C 29,31 31,29 34,28" stroke="#FF9800" stroke-width="2" stroke-dasharray="2 1" />
+</svg>

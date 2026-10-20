@@ -146,8 +146,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - 2D DXF manufacturing export for laser/waterjet cutting.
   - **Release:** Beta APK `v0.10.0-beta`.
 * **Acceptance Tests:** U-bracket with two $90^\circ$ flanges unfolds to accurate flat sheet area matching analytical K-factor bend deduction.
-* **Status:** Planned
-* **Finish Date:** -
+* **Status:** Done
+* **Finish Date:** 2026-10-21
 
 ---
 

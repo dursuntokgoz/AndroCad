@@ -61,3 +61,4 @@ AndroCAD is built with a **tablet-first** engineering workflow following modern 
 * [Milestone 7 Report: UI Polish, Tablet Gestures, Phone Layout & Assets](docs/reports/milestone-7.md)
 * [Milestone 8 Report: Advanced Surface Modeling & Direct Editing](docs/reports/milestone-8.md)
 * [Milestone 9 Report: Multi-Component Assemblies & Kinematic Joints](docs/reports/milestone-9.md)
+* [Milestone 10 Report: Sheet Metal Engine, K-Factor Bends & Flat Pattern Unfolding](docs/reports/milestone-10.md)

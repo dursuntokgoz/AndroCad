@@ -1,0 +1,9 @@
+<!-- Copyright (c) 2026 dursuntokgoz. All rights reserved. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Corner Sheet Contour with Rectangular Relief Notch -->
+  <path d="M 6,36 L 20,36 L 20,28 L 26,28 L 26,36 L 42,36 L 42,12 L 6,12 Z" stroke="#007ACC" fill="#007ACC" fill-opacity="0.15" />
+  <!-- Fold Axis Through Relief Cutout -->
+  <line x1="23" y1="6" x2="23" y2="42" stroke="#FF9800" stroke-width="2" stroke-dasharray="3 2" />
+  <!-- Relief Indicator Circle -->
+  <circle cx="23" cy="28" r="4" stroke="#E91E63" stroke-width="2" />
+</svg>

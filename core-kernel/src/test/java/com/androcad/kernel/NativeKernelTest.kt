@@ -187,4 +187,38 @@ class NativeKernelTest {
         val loadProjRes = timeline.loadProject("dummy.androcad")
         assertFalse(loadProjRes.success)
     }
+
+    @Test
+    fun testSheetMetalContracts() {
+        val rule = SheetMetalRule(thickness = 2.0, bendRadius = 2.0, kFactor = 0.44)
+        assertEquals(2.0, rule.thickness, 1e-4)
+        assertEquals(2.0, rule.bendRadius, 1e-4)
+        assertEquals(0.44, rule.kFactor, 1e-4)
+
+        val bend = SheetMetalBendLine(
+            id = 1,
+            startX = 38.26,
+            startY = 0.0,
+            endX = 38.26,
+            endY = 50.0,
+            angleDeg = 90.0,
+            radius = 2.0,
+            isBendUp = true
+        )
+        assertEquals(1, bend.id)
+        assertEquals(38.26, bend.startX, 1e-4)
+        assertTrue(bend.isBendUp)
+
+        val pattern = SheetMetalFlatPattern(
+            success = true,
+            flatLength = 173.0478,
+            flatWidth = 50.0,
+            flatArea = 8652.39,
+            bends = listOf(bend)
+        )
+        assertTrue(pattern.success)
+        assertEquals(173.0478, pattern.flatLength, 1e-4)
+        assertEquals(50.0, pattern.flatWidth, 1e-4)
+        assertEquals(1, pattern.bends.size)
+    }
 }
