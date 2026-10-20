@@ -328,17 +328,18 @@ IOResult ProjectIO::SaveProject(const TimelineDAG& dag, const std::string& fileP
         for (const auto& kv : node.references) {
             const auto& r = kv.second;
             out << "        \"" << JsonEscape(kv.first) << "\": {\n";
-            out << "          \"sourceNodeId\": " << r.sourceNodeId << ",\n";
-            out << "          \"subshapeName\": \"" << JsonEscape(r.subshapeName) << "\",\n";
-            out << "          \"shapeType\": " << static_cast<int>(r.shapeType) << ",\n";
-            out << "          \"fp_geomType\": \"" << JsonEscape(r.fingerprint.geometryType) << "\",\n";
-            out << "          \"fp_cx\": " << r.fingerprint.centroidX << ",\n";
-            out << "          \"fp_cy\": " << r.fingerprint.centroidY << ",\n";
-            out << "          \"fp_cz\": " << r.fingerprint.centroidZ << ",\n";
-            out << "          \"fp_nx\": " << r.fingerprint.normalX << ",\n";
-            out << "          \"fp_ny\": " << r.fingerprint.normalY << ",\n";
-            out << "          \"fp_nz\": " << r.fingerprint.normalZ << ",\n";
-            out << "          \"fp_metric\": " << r.fingerprint.surfaceAreaOrLength << "\n";
+            out << "          \"semanticTag\": \"" << JsonEscape(r.semanticTag) << "\",\n";
+            out << "          \"lastKnownLocalId\": " << r.lastKnownLocalId << ",\n";
+            out << "          \"fp_type\": " << static_cast<int>(r.fingerprint.type) << ",\n";
+            out << "          \"fp_geomType\": " << r.fingerprint.geomType << ",\n";
+            out << "          \"fp_cx\": " << r.fingerprint.center[0] << ",\n";
+            out << "          \"fp_cy\": " << r.fingerprint.center[1] << ",\n";
+            out << "          \"fp_cz\": " << r.fingerprint.center[2] << ",\n";
+            out << "          \"fp_nx\": " << r.fingerprint.normal[0] << ",\n";
+            out << "          \"fp_ny\": " << r.fingerprint.normal[1] << ",\n";
+            out << "          \"fp_nz\": " << r.fingerprint.normal[2] << ",\n";
+            out << "          \"fp_size\": " << r.fingerprint.size << ",\n";
+            out << "          \"fp_subCount\": " << r.fingerprint.subEntityCount << "\n";
             out << "        }";
             if (++refCount < node.references.size()) out << ",";
             out << "\n";
@@ -539,56 +540,65 @@ IOResult ProjectIO::LoadProject(TimelineDAG& dag, const std::string& filePath) {
                             c = objClose + 1;
 
                             TopologicalReference tr;
-                            size_t rc = 0;
-                            size_t sId = refObj.find("\"sourceNodeId\"");
+                            size_t sTag = refObj.find("\"semanticTag\"");
+                            if (sTag != std::string::npos) {
+                                size_t sc = refObj.find(':', sTag) + 1;
+                                tr.semanticTag = ParseJsonString(refObj, sc);
+                            }
+                            size_t sId = refObj.find("\"lastKnownLocalId\"");
                             if (sId != std::string::npos) {
                                 size_t sc = refObj.find(':', sId) + 1;
-                                tr.sourceNodeId = static_cast<uint32_t>(ParseJsonNumber(refObj, sc));
+                                tr.lastKnownLocalId = static_cast<uint32_t>(ParseJsonNumber(refObj, sc));
                             }
-                            size_t sSub = refObj.find("\"subshapeName\"");
-                            if (sSub != std::string::npos) {
-                                size_t sc = refObj.find(':', sSub) + 1;
-                                tr.subshapeName = ParseJsonString(refObj, sc);
+                            size_t sType = refObj.find("\"fp_type\"");
+                            if (sType != std::string::npos) {
+                                size_t sc = refObj.find(':', sType) + 1;
+                                tr.fingerprint.type = static_cast<SubShapeType>(static_cast<int>(ParseJsonNumber(refObj, sc)));
                             }
                             size_t sGeom = refObj.find("\"fp_geomType\"");
                             if (sGeom != std::string::npos) {
                                 size_t sc = refObj.find(':', sGeom) + 1;
-                                tr.fingerprint.geometryType = ParseJsonString(refObj, sc);
+                                tr.fingerprint.geomType = static_cast<int>(ParseJsonNumber(refObj, sc));
                             }
                             size_t sCx = refObj.find("\"fp_cx\"");
                             if (sCx != std::string::npos) {
                                 size_t sc = refObj.find(':', sCx) + 1;
-                                tr.fingerprint.centroidX = ParseJsonNumber(refObj, sc);
+                                tr.fingerprint.center[0] = ParseJsonNumber(refObj, sc);
                             }
                             size_t sCy = refObj.find("\"fp_cy\"");
                             if (sCy != std::string::npos) {
                                 size_t sc = refObj.find(':', sCy) + 1;
-                                tr.fingerprint.centroidY = ParseJsonNumber(refObj, sc);
+                                tr.fingerprint.center[1] = ParseJsonNumber(refObj, sc);
                             }
                             size_t sCz = refObj.find("\"fp_cz\"");
                             if (sCz != std::string::npos) {
                                 size_t sc = refObj.find(':', sCz) + 1;
-                                tr.fingerprint.centroidZ = ParseJsonNumber(refObj, sc);
+                                tr.fingerprint.center[2] = ParseJsonNumber(refObj, sc);
                             }
                             size_t sNx = refObj.find("\"fp_nx\"");
                             if (sNx != std::string::npos) {
                                 size_t sc = refObj.find(':', sNx) + 1;
-                                tr.fingerprint.normalX = ParseJsonNumber(refObj, sc);
+                                tr.fingerprint.normal[0] = ParseJsonNumber(refObj, sc);
                             }
                             size_t sNy = refObj.find("\"fp_ny\"");
                             if (sNy != std::string::npos) {
                                 size_t sc = refObj.find(':', sNy) + 1;
-                                tr.fingerprint.normalY = ParseJsonNumber(refObj, sc);
+                                tr.fingerprint.normal[1] = ParseJsonNumber(refObj, sc);
                             }
                             size_t sNz = refObj.find("\"fp_nz\"");
                             if (sNz != std::string::npos) {
                                 size_t sc = refObj.find(':', sNz) + 1;
-                                tr.fingerprint.normalZ = ParseJsonNumber(refObj, sc);
+                                tr.fingerprint.normal[2] = ParseJsonNumber(refObj, sc);
                             }
-                            size_t sMetric = refObj.find("\"fp_metric\"");
-                            if (sMetric != std::string::npos) {
-                                size_t sc = refObj.find(':', sMetric) + 1;
-                                tr.fingerprint.surfaceAreaOrLength = ParseJsonNumber(refObj, sc);
+                            size_t sSize = refObj.find("\"fp_size\"");
+                            if (sSize != std::string::npos) {
+                                size_t sc = refObj.find(':', sSize) + 1;
+                                tr.fingerprint.size = ParseJsonNumber(refObj, sc);
+                            }
+                            size_t sSub = refObj.find("\"fp_subCount\"");
+                            if (sSub != std::string::npos) {
+                                size_t sc = refObj.find(':', sSub) + 1;
+                                tr.fingerprint.subEntityCount = static_cast<int>(ParseJsonNumber(refObj, sc));
                             }
 
                             node.references[refKey] = tr;

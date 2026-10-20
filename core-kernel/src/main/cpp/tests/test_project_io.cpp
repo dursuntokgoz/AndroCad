@@ -137,7 +137,7 @@ void TestProjectJsonSerializationRoundtrip() {
     assert(edgeMap.Extent() == 12);
 
     TopoDS_Edge topEdge = TopoDS::Edge(edgeMap(1));
-    TopologicalReference edgeRef = TNPResolver::CaptureReference(boxShape, topEdge, boxId, "Edge_1");
+    TopologicalReference edgeRef = TNPResolver::CreateEdgeReference(boxShape, topEdge, "BaseBox:Edge_1");
 
     uint32_t filletId = origDag.AddFilletNode("EdgeFillet", edgeRef, "filletRad");
     assert(filletId > 0);
