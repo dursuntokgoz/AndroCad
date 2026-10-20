@@ -1,0 +1,15 @@
+<!-- Copyright (c) 2026 dursuntokgoz. All rights reserved. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Cut Body Cross-Section Boundary -->
+  <polygon points="10,14 38,14 38,34 10,34" stroke="#007ACC" fill="#007ACC" fill-opacity="0.1" />
+  <!-- 45-degree Cross Hatching Lines -->
+  <line x1="14" y1="34" x2="34" y2="14" stroke="#007ACC" stroke-width="1.5" />
+  <line x1="22" y1="34" x2="38" y2="18" stroke="#007ACC" stroke-width="1.5" />
+  <line x1="10" y1="30" x2="26" y2="14" stroke="#007ACC" stroke-width="1.5" />
+  <line x1="10" y1="22" x2="18" y2="14" stroke="#007ACC" stroke-width="1.5" />
+  <line x1="30" y1="34" x2="38" y2="26" stroke="#007ACC" stroke-width="1.5" />
+  <!-- Cutting Plane Line with Direction Arrows (A-A) -->
+  <line x1="4" y1="24" x2="44" y2="24" stroke="#E91E63" stroke-width="2" stroke-dasharray="4 2" />
+  <polyline points="4,24 8,20 8,28" stroke="#E91E63" fill="#E91E63" />
+  <polyline points="44,24 40,20 40,28" stroke="#E91E63" fill="#E91E63" />
+</svg>

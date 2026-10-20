@@ -23,6 +23,10 @@ AndroCAD is built with a **tablet-first** engineering workflow following modern 
 ![AndroCAD Tablet Parametric Sheet Metal UI](docs/images/androcad_tablet_sheet_metal_ui.png)
 *Sheet Metal workspace: Parametric 3D U-Bracket with analytical K-factor bend deduction ($K = 0.44$), inner/outer cylindrical fillets ($R = 2.0\text{ mm}$), real-time 2D flat pattern layout unrolling with directional bend lines ($90^\circ\text{ UP}$), and direct AutoCAD DXF export for CNC laser cutting.*
 
+### 2D Engineering Drawings & Drafting Sheet (ANSI / ISO)
+![AndroCAD Tablet 2D Engineering Drawing UI](docs/images/androcad_tablet_drawing_ui.png)
+*2D Drawing workspace: Automated 4-view orthographic projection (Top, Front, Right, Isometric in 3rd Angle Projection) on standard A3 engineering sheet, Hidden Line Removal (HLR dashed occluded edges), automatic linear and radial dimension callouts, section cut views with 45° cross-hatching, ISO title block, and multi-format vector SVG/AutoCAD DXF export.*
+
 ---
 
 ## Key Features & Architecture
@@ -66,3 +70,4 @@ AndroCAD is built with a **tablet-first** engineering workflow following modern 
 * [Milestone 8 Report: Advanced Surface Modeling & Direct Editing](docs/reports/milestone-8.md)
 * [Milestone 9 Report: Multi-Component Assemblies & Kinematic Joints](docs/reports/milestone-9.md)
 * [Milestone 10 Report: Sheet Metal Engine, K-Factor Bends & Flat Pattern Unfolding](docs/reports/milestone-10.md)
+* [Milestone 11 Report: 2D Engineering Drawings, Orthographic Views & Dimension Drafting](docs/reports/milestone-11.md)

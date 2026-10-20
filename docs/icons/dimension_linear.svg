@@ -1,0 +1,14 @@
+<!-- Copyright (c) 2026 dursuntokgoz. All rights reserved. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Reference Object Top Edge -->
+  <line x1="8" y1="36" x2="40" y2="36" stroke="#72767D" stroke-width="2" />
+  <!-- Extension Lines -->
+  <line x1="8" y1="38" x2="8" y2="16" stroke="#007ACC" stroke-width="1.5" />
+  <line x1="40" y1="38" x2="40" y2="16" stroke="#007ACC" stroke-width="1.5" />
+  <!-- Dimension Line with Arrows -->
+  <line x1="12" y1="20" x2="36" y2="20" stroke="#007ACC" stroke-width="2" />
+  <polyline points="14,17 8,20 14,23" stroke="#007ACC" fill="#007ACC" />
+  <polyline points="34,17 40,20 34,23" stroke="#007ACC" fill="#007ACC" />
+  <!-- Dimension Number Marker (Ø or text badge) -->
+  <circle cx="24" cy="20" r="3" stroke="#00A4E4" fill="#1E2124" />
+</svg>

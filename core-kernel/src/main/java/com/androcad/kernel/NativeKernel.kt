@@ -396,6 +396,19 @@ data class SheetMetalFlatPattern(
     val errorMessage: String = ""
 )
 
+// -------------------------------------------------------------------------
+// Milestone 11: 2D Engineering Drawings & Drafting Sheet
+// -------------------------------------------------------------------------
+
+data class DrawingSheetInfo(
+    val sheetWidth: Double = 420.0,
+    val sheetHeight: Double = 297.0,
+    val partName: String = "Component1",
+    val scaleStr: String = "1:1",
+    val svgContent: String = "",
+    val dxfContent: String = ""
+)
+
 /**
  * High-performance JNI bridge to the OpenCASCADE native CAD kernel.
  */
@@ -1028,6 +1041,30 @@ object NativeKernel {
         }
     }
 
+    /**
+     * Milestone 11: Generates a complete 4-View Engineering Drawing Sheet in vector SVG.
+     */
+    fun exportDrawingSVG(
+        solid: BoxMeshResult,
+        partName: String = "Part1",
+        scale: Double = 1.0
+    ): String {
+        if (solid.nativeHandle == 0L || !solid.success) return "<svg></svg>"
+        return nativeExportDrawingSVG(solid.nativeHandle, partName, scale)
+    }
+
+    /**
+     * Milestone 11: Generates a complete 4-View Engineering Drawing Sheet in AutoCAD DXF.
+     */
+    fun exportDrawingDXF(
+        solid: BoxMeshResult,
+        partName: String = "Part1",
+        scale: Double = 1.0
+    ): String {
+        if (solid.nativeHandle == 0L || !solid.success) return ""
+        return nativeExportDrawingDXF(solid.nativeHandle, partName, scale)
+    }
+
     internal external fun nativeCreateBox(
         dx: Double,
         dy: Double,
@@ -1201,5 +1238,14 @@ object NativeKernel {
     internal external fun nativeSheetMetalExportDXF(
         baseLength: Double, flangeHeight: Double, width: Double,
         thickness: Double, bendRadius: Double, kFactor: Double
+    ): String
+
+    // Milestone 11 JNI Declarations (2D Drawings & Drafting)
+    internal external fun nativeExportDrawingSVG(
+        solidHandle: Long, partName: String, scale: Double
+    ): String
+
+    internal external fun nativeExportDrawingDXF(
+        solidHandle: Long, partName: String, scale: Double
     ): String
 }

@@ -221,4 +221,22 @@ class NativeKernelTest {
         assertEquals(50.0, pattern.flatWidth, 1e-4)
         assertEquals(1, pattern.bends.size)
     }
+
+    @Test
+    fun testDrawingSheetContracts() {
+        val sheet = DrawingSheetInfo(
+            sheetWidth = 420.0,
+            sheetHeight = 297.0,
+            partName = "TestBracket",
+            scaleStr = "1:1",
+            svgContent = "<svg></svg>",
+            dxfContent = "0\nEOF\n"
+        )
+        assertEquals(420.0, sheet.sheetWidth, 1e-4)
+        assertEquals(297.0, sheet.sheetHeight, 1e-4)
+        assertEquals("TestBracket", sheet.partName)
+        assertEquals("1:1", sheet.scaleStr)
+        assertTrue(sheet.svgContent.isNotEmpty())
+        assertTrue(sheet.dxfContent.isNotEmpty())
+    }
 }
