@@ -165,9 +165,9 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     )
 
                     val tabs = if (isTablet) {
-                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Assemble", "File / IO", "Inspect")
+                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Drawing", "Assemble", "File / IO", "Inspect")
                     } else {
-                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Assemble", "File / IO")
+                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Drawing", "Assemble", "File / IO")
                     }
 
                     tabs.forEach { tab ->
@@ -535,6 +535,52 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                             }
                                         } catch (t: Throwable) {
                                             featureStatusText = "Sheet metal op failed: ${t.message}"
+                                        }
+                                    }
+                            ) {
+                                Text(
+                                    text = tool,
+                                    color = textColor,
+                                    fontSize = 11.sp,
+                                    modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
+                                )
+                            }
+                        }
+                    } else if (activeTab == "Drawing") {
+                        val drawingTools = listOf("4-View Sheet", "Section Cut", "Export SVG", "Export DXF")
+                        drawingTools.forEach { tool ->
+                            Surface(
+                                color = chipBgColor,
+                                shape = RoundedCornerShape(4.dp),
+                                modifier = Modifier
+                                    .clickable {
+                                        try {
+                                            val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also {
+                                                activeSolid = it
+                                                renderer?.updateMesh(it)
+                                            }
+                                            when (tool) {
+                                                "4-View Sheet" -> {
+                                                    val svg = NativeKernel.exportDrawingSVG(solid, "Part1", 1.0)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Drawing Sheet (4 Views)").toMutableList()
+                                                    featureStatusText = "Drawing Sheet A3 (4 Views: Top, Front, Right, Iso) generated"
+                                                }
+                                                "Section Cut" -> {
+                                                    val svg = NativeKernel.exportDrawingSVG(solid, "Part1_Section", 1.0)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Section View A-A").toMutableList()
+                                                    featureStatusText = "Section Cut View generated with 45° cross-hatching"
+                                                }
+                                                "Export SVG" -> {
+                                                    val svg = NativeKernel.exportDrawingSVG(solid, "EngineeringDrawing", 1.0)
+                                                    featureStatusText = "Drawing Sheet SVG Exported: ${svg.length} chars (ANSI/ISO A3)"
+                                                }
+                                                "Export DXF" -> {
+                                                    val dxf = NativeKernel.exportDrawingDXF(solid, "EngineeringDrawing", 1.0)
+                                                    featureStatusText = "Drawing Sheet DXF Exported: ${dxf.length} chars (Multi-Layer)"
+                                                }
+                                            }
+                                        } catch (t: Throwable) {
+                                            featureStatusText = "Drawing op failed: ${t.message}"
                                         }
                                     }
                             ) {

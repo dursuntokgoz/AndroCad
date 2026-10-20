@@ -10,6 +10,7 @@
 #include "SurfaceOps.h"
 #include "AssemblyManager.h"
 #include "SheetMetalEngine.h"
+#include "DrawingEngine.h"
 
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <TopoDS_Shape.hxx>
@@ -1218,6 +1219,48 @@ Java_com_androcad_kernel_NativeKernel_nativeSheetMetalExportDXF(
 
     androcad::FlatPattern pattern = androcad::SheetMetalEngine::UnfoldUBracket(baseLength, flangeHeight, width, rule);
     return env->NewStringUTF(pattern.dxfContent.c_str());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeExportDrawingSVG(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong solidHandle,
+        jstring partNameStr,
+        jdouble scale) {
+    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    if (!session || session->shape.IsNull()) {
+        return env->NewStringUTF("<svg></svg>");
+    }
+
+    const char* partNameChars = env->GetStringUTFChars(partNameStr, nullptr);
+    std::string partName = partNameChars ? partNameChars : "Part1";
+    if (partNameChars) env->ReleaseStringUTFChars(partNameStr, partNameChars);
+
+    androcad::DrawingSheet sheet = androcad::DrawingEngine::GenerateStandardDrawingSheet(session->shape, partName, scale);
+    std::string svg = sheet.ToSVG();
+    return env->NewStringUTF(svg.c_str());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeExportDrawingDXF(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong solidHandle,
+        jstring partNameStr,
+        jdouble scale) {
+    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    if (!session || session->shape.IsNull()) {
+        return env->NewStringUTF("");
+    }
+
+    const char* partNameChars = env->GetStringUTFChars(partNameStr, nullptr);
+    std::string partName = partNameChars ? partNameChars : "Part1";
+    if (partNameChars) env->ReleaseStringUTFChars(partNameStr, partNameChars);
+
+    androcad::DrawingSheet sheet = androcad::DrawingEngine::GenerateStandardDrawingSheet(session->shape, partName, scale);
+    std::string dxf = sheet.ToDXF();
+    return env->NewStringUTF(dxf.c_str());
 }
 
 } // extern "C"

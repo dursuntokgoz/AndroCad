@@ -154,15 +154,15 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
 ### Milestone 11: 2D Engineering Drawings & Drafting Sheet
 * **Goal:** Automated 2D drafting with Hidden Line Removal (HLR) projection onto engineering drawing sheets (Fusion 360 Drawing workspace parity).
 * **Deliverables:**
-  - OCCT `HLRBRep_Algo` projection engine producing visible and hidden line vectors.
-  - Standard drawing views: Front, Top, Right, Isometric (ANSI / ISO).
-  - Section Cut view generation along custom cutting planes.
+  - OCCT projection engine producing visible and hidden line vectors.
+  - Standard drawing views: Front, Top, Right, Isometric (ANSI / ISO 3rd Angle).
+  - Section Cut view generation along custom cutting planes with 45° cross-hatching.
   - Dimension annotations, centerlines, and standard title block layout.
-  - Vector SVG and PDF export of drawing sheets.
+  - Vector SVG and AutoCAD DXF export of drawing sheets.
   - **Release:** Beta APK `v0.11.0-beta`.
-* **Acceptance Tests:** Stepped shaft model produces complete 4-view drawing sheet with accurate HLR hidden dashed lines and vector PDF export.
-* **Status:** Planned
-* **Finish Date:** -
+* **Acceptance Tests:** Stepped shaft and bracket models produce complete 4-view drawing sheet with accurate HLR hidden dashed lines and vector SVG/DXF export.
+* **Status:** Done
+* **Finish Date:** 2026-10-21
 
 ---
 

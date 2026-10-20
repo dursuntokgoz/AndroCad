@@ -36,6 +36,7 @@ if(ANDROID)
         src/SurfaceOps.cpp
         src/AssemblyManager.cpp
         src/SheetMetalEngine.cpp
+        src/DrawingEngine.cpp
         src/ExpressionParser.cpp
         src/TNPResolver.cpp
         src/TimelineDAG.cpp
@@ -281,4 +282,40 @@ else()
     )
 
     add_test(NAME SheetMetalTest COMMAND androcad_sheet_metal_test)
+
+    add_executable(androcad_drawing_engine_test
+        src/AndroCadKernel.cpp
+        src/GCS.cpp
+        src/Sketcher.cpp
+        src/FeatureOps.cpp
+        src/SurfaceOps.cpp
+        src/AssemblyManager.cpp
+        src/SheetMetalEngine.cpp
+        src/DrawingEngine.cpp
+        src/ExpressionParser.cpp
+        src/TNPResolver.cpp
+        src/TimelineDAG.cpp
+        src/ProjectIO.cpp
+        tests/test_drawing_engine.cpp
+    )
+
+    target_link_libraries(androcad_drawing_engine_test PRIVATE
+        TKernel
+        TKMath
+        TKG2d
+        TKG3d
+        TKGeomBase
+        TKGeomAlgo
+        TKBRep
+        TKTopAlgo
+        TKPrim
+        TKBO
+        TKBool
+        TKFillet
+        TKOffset
+        TKMesh
+        ${HOST_DATA_EXCHANGE_LIBS}
+    )
+
+    add_test(NAME DrawingEngineTest COMMAND androcad_drawing_engine_test)
 endif()
