@@ -28,8 +28,8 @@ int AssemblyManager::AddComponent(const std::string& name, const TopoDS_Shape& s
     comp.id = m_nextComponentId++;
     comp.name = name;
     comp.localShape = shape;
-    comp.localTransform.SetIdentity();
-    comp.worldTransform.SetIdentity();
+    comp.localTransform = gp_Trsf();
+    comp.worldTransform = gp_Trsf();
     comp.parentJointId = -1;
 
     m_components[comp.id] = comp;
@@ -146,11 +146,10 @@ void AssemblyManager::SolveForwardKinematics() {
             }
 
             gp_Trsf jointDelta;
-            jointDelta.SetIdentity();
 
             switch (j.type) {
                 case JointType::Rigid:
-                    jointDelta.SetIdentity();
+                    jointDelta = gp_Trsf();
                     break;
 
                 case JointType::Revolute: {
