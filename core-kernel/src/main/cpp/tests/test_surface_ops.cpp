@@ -8,6 +8,12 @@
 #include <BRepGProp.hxx>
 #include <GProp_GProps.hxx>
 #include <BRepCheck_Analyzer.hxx>
+#include <TopExp_Explorer.hxx>
+#include <TopoDS.hxx>
+#include <TopoDS_Face.hxx>
+#include <BRepAdaptor_Surface.hxx>
+#include <GeomAbs_SurfaceType.hxx>
+#include <gp_Pln.hxx>
 
 #include <iostream>
 #include <cassert>
