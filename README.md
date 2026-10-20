@@ -19,6 +19,10 @@ AndroCAD is built with a **tablet-first** engineering workflow following modern 
 ![AndroCAD Tablet 2D Parametric Sketcher UI](docs/images/androcad_tablet_sketch_ui.png)
 *2D Sketching mode with PlaneGCS geometric constraint solving: metric grid snapping, active dimensional and geometric constraints (tangent, coincident, horizontal/vertical), 'Fully Constrained (0 DoF)' status indicator, and instant 'Finish Sketch ✓' loop generation.*
 
+### Parametric Sheet Metal & Flat Pattern Unfolding
+![AndroCAD Tablet Parametric Sheet Metal UI](docs/images/androcad_tablet_sheet_metal_ui.png)
+*Sheet Metal workspace: Parametric 3D U-Bracket with analytical K-factor bend deduction ($K = 0.44$), inner/outer cylindrical fillets ($R = 2.0\text{ mm}$), real-time 2D flat pattern layout unrolling with directional bend lines ($90^\circ\text{ UP}$), and direct AutoCAD DXF export for CNC laser cutting.*
+
 ---
 
 ## Key Features & Architecture
