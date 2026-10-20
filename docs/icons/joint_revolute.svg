@@ -1,0 +1,12 @@
+<!-- Copyright (c) 2026 dursuntokgoz. All rights reserved. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Parent pin -->
+  <circle cx="24" cy="24" r="6" stroke="#007ACC" stroke-width="2.5" fill="#007ACC" fill-opacity="0.2" />
+  <circle cx="24" cy="24" r="2" fill="#007ACC" />
+  <!-- Revolute rotation arc -->
+  <path d="M 12 24 A 12 12 0 1 1 24 36" stroke="#00A4E4" stroke-width="2.5" />
+  <polyline points="20,38 24,36 24,32" stroke="#00A4E4" stroke-width="2.5" />
+  <!-- Mounting bracket ears -->
+  <line x1="6" y1="24" x2="12" y2="24" stroke="#B0B3B8" />
+  <line x1="36" y1="24" x2="42" y2="24" stroke="#B0B3B8" />
+</svg>

@@ -8,6 +8,7 @@
 #include "TimelineDAG.h"
 #include "ProjectIO.h"
 #include "SurfaceOps.h"
+#include "AssemblyManager.h"
 
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <TopoDS_Shape.hxx>
@@ -30,6 +31,10 @@ struct NativeSketchSession {
 
 struct NativeTimelineSession {
     std::unique_ptr<androcad::TimelineDAG> timeline;
+};
+
+struct NativeAssemblySession {
+    std::unique_ptr<androcad::AssemblyManager> assembly;
 };
 
 } // namespace
@@ -993,6 +998,137 @@ Java_com_androcad_kernel_NativeKernel_nativePressPullFace(
         outSession->payload.errorMessage = e.what();
     }
     return reinterpret_cast<jlong>(outSession.release());
+}
+
+// Milestone 9: Assemblies & Kinematic Joints
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeCreateAssembly(
+        JNIEnv* /* env */,
+        jobject /* this */) {
+    auto session = std::make_unique<NativeAssemblySession>();
+    session->assembly = std::make_unique<androcad::AssemblyManager>();
+    return reinterpret_cast<jlong>(session.release());
+}
+
+JNIEXPORT jint JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeAssemblyAddComponent(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong asmHandle,
+        jstring nameStr,
+        jlong meshHandle) {
+    auto* asmSession = reinterpret_cast<NativeAssemblySession*>(asmHandle);
+    auto* meshSession = reinterpret_cast<NativeMeshSession*>(meshHandle);
+    if (!asmSession || !asmSession->assembly || !meshSession || meshSession->shape.IsNull()) {
+        return -1;
+    }
+    const char* cName = env->GetStringUTFChars(nameStr, nullptr);
+    std::string name = cName ? cName : "Component";
+    env->ReleaseStringUTFChars(nameStr, cName);
+
+    try {
+        return asmSession->assembly->AddComponent(name, meshSession->shape);
+    } catch (...) {
+        return -1;
+    }
+}
+
+JNIEXPORT jint JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeAssemblyAddJoint(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong asmHandle,
+        jstring nameStr,
+        jint jointType,
+        jint parentCompId,
+        jint childCompId,
+        jdouble px, jdouble py, jdouble pz,
+        jdouble ax, jdouble ay, jdouble az,
+        jdouble minVal, jdouble maxVal) {
+    auto* asmSession = reinterpret_cast<NativeAssemblySession*>(asmHandle);
+    if (!asmSession || !asmSession->assembly) return -1;
+
+    const char* cName = env->GetStringUTFChars(nameStr, nullptr);
+    std::string name = cName ? cName : "Joint";
+    env->ReleaseStringUTFChars(nameStr, cName);
+
+    try {
+        gp_Pnt pivot(px, py, pz);
+        gp_Dir axis(ax, ay, az);
+        auto type = static_cast<androcad::JointType>(jointType);
+        return asmSession->assembly->AddJoint(name, type, parentCompId, childCompId, pivot, axis, minVal, maxVal);
+    } catch (...) {
+        return -1;
+    }
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeAssemblySetJointValue(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong asmHandle,
+        jint jointId,
+        jdouble value) {
+    auto* asmSession = reinterpret_cast<NativeAssemblySession*>(asmHandle);
+    if (!asmSession || !asmSession->assembly) return JNI_FALSE;
+    return asmSession->assembly->SetJointValue(jointId, value) ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT void JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeAssemblyStepAnimation(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong asmHandle,
+        jdouble phase) {
+    auto* asmSession = reinterpret_cast<NativeAssemblySession*>(asmHandle);
+    if (asmSession && asmSession->assembly) {
+        asmSession->assembly->StepAnimation(phase);
+    }
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeAssemblyCheckInterference(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong asmHandle,
+        jint compA,
+        jint compB) {
+    auto* asmSession = reinterpret_cast<NativeAssemblySession*>(asmHandle);
+    if (!asmSession || !asmSession->assembly) return JNI_FALSE;
+    return asmSession->assembly->CheckInterference(compA, compB) ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeAssemblyBuildMesh(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong asmHandle,
+        jdouble linearDeflection,
+        jdouble angularDeflection) {
+    auto* asmSession = reinterpret_cast<NativeAssemblySession*>(asmHandle);
+    auto meshSession = std::make_unique<NativeMeshSession>();
+    if (!asmSession || !asmSession->assembly) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = "Invalid assembly handle";
+        return reinterpret_cast<jlong>(meshSession.release());
+    }
+
+    try {
+        meshSession->payload = asmSession->assembly->BuildAssemblyMeshPayload(linearDeflection, angularDeflection);
+    } catch (const std::exception& e) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = e.what();
+    }
+    return reinterpret_cast<jlong>(meshSession.release());
+}
+
+JNIEXPORT void JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeReleaseAssembly(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong asmHandle) {
+    auto* asmSession = reinterpret_cast<NativeAssemblySession*>(asmHandle);
+    delete asmSession;
 }
 
 } // extern "C"

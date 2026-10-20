@@ -94,6 +94,8 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
     val context = androidx.compose.ui.platform.LocalContext.current
     val baseDir = remember { context.filesDir }
     val activeTimeline = remember { NativeKernel.createTimeline() }
+    val activeAssembly = remember { NativeKernel.createAssembly() }
+    var assemblyAngleDeg by remember { mutableStateOf(0.0) }
 
     // Phone layout bottom sheet toggle: null, "browser", "timeline", "properties"
     var phoneActiveSheet by remember { mutableStateOf<String?>(null) }
@@ -159,9 +161,9 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     )
 
                     val tabs = if (isTablet) {
-                        listOf("Solid", "Sketch", "Surface", "File / IO", "Mesh", "Inspect")
+                        listOf("Solid", "Sketch", "Surface", "Assemble", "File / IO", "Inspect")
                     } else {
-                        listOf("Solid", "Sketch", "Surface", "File / IO")
+                        listOf("Solid", "Sketch", "Surface", "Assemble", "File / IO")
                     }
 
                     tabs.forEach { tab ->
@@ -406,6 +408,83 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                             }
                                         } catch (t: Throwable) {
                                             featureStatusText = "Surface op failed: ${t.message}"
+                                        }
+                                    }
+                            ) {
+                                Text(
+                                    text = tool,
+                                    color = textColor,
+                                    fontSize = 11.sp,
+                                    modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
+                                )
+                            }
+                        }
+                    } else if (activeTab == "Assemble") {
+                        val assembleTools = listOf("Robot Arm", "Rotate (+15°)", "Reset Joint", "Check Collision")
+                        assembleTools.forEach { tool ->
+                            Surface(
+                                color = chipBgColor,
+                                shape = RoundedCornerShape(4.dp),
+                                modifier = Modifier
+                                    .clickable {
+                                        try {
+                                            when (tool) {
+                                                "Robot Arm" -> {
+                                                    val base = NativeKernel.createBox(60.0, 60.0, 20.0)
+                                                    val link1 = NativeKernel.createBox(100.0, 20.0, 20.0)
+                                                    val link2 = NativeKernel.createBox(80.0, 16.0, 16.0)
+
+                                                    val cBase = activeAssembly.addComponent("Base", base)
+                                                    val cLink1 = activeAssembly.addComponent("Link1", link1)
+                                                    val cLink2 = activeAssembly.addComponent("Link2", link2)
+
+                                                    activeAssembly.addJoint("Shoulder", AssemblyJointType.REVOLUTE, cBase, cLink1, 30.0, 30.0, 20.0, 0.0, 0.0, 1.0, -Math.PI, Math.PI)
+                                                    activeAssembly.addJoint("Elbow", AssemblyJointType.REVOLUTE, cLink1, cLink2, 100.0, 0.0, 0.0, 0.0, 0.0, 1.0, -Math.PI, Math.PI)
+
+                                                    val asmMesh = activeAssembly.buildMesh()
+                                                    if (asmMesh.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = asmMesh
+                                                        renderer?.updateMesh(asmMesh)
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Assemble (Robot Arm)").toMutableList()
+                                                        featureStatusText = "Assembly assembled: 3 Components, 2 Joints"
+                                                    }
+                                                    base.close()
+                                                    link1.close()
+                                                    link2.close()
+                                                }
+                                                "Rotate (+15°)" -> {
+                                                    assemblyAngleDeg = (assemblyAngleDeg + 15.0) % 360.0
+                                                    val rad = Math.toRadians(assemblyAngleDeg)
+                                                    activeAssembly.setJointValue(1, rad)
+                                                    activeAssembly.setJointValue(2, rad * 0.5)
+                                                    val asmMesh = activeAssembly.buildMesh()
+                                                    if (asmMesh.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = asmMesh
+                                                        renderer?.updateMesh(asmMesh)
+                                                        featureStatusText = "Joint #1 Angle: ${assemblyAngleDeg.toInt()}° (FK Solved)"
+                                                    }
+                                                }
+                                                "Reset Joint" -> {
+                                                    assemblyAngleDeg = 0.0
+                                                    activeAssembly.setJointValue(1, 0.0)
+                                                    activeAssembly.setJointValue(2, 0.0)
+                                                    val asmMesh = activeAssembly.buildMesh()
+                                                    if (asmMesh.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = asmMesh
+                                                        renderer?.updateMesh(asmMesh)
+                                                        featureStatusText = "Joints reset to 0°"
+                                                    }
+                                                }
+                                                "Check Collision" -> {
+                                                    val collides = activeAssembly.checkInterference(1, 2)
+                                                    featureStatusText = if (collides) "Collision Detected between components!" else "Clear: No Interference (0 collisions)"
+                                                }
+                                            }
+                                        } catch (t: Throwable) {
+                                            featureStatusText = "Assembly op failed: ${t.message}"
                                         }
                                     }
                             ) {

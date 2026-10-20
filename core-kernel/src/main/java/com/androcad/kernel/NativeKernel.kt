@@ -291,6 +291,81 @@ class NativeTimeline(val handle: Long) : Closeable {
     }
 }
 
+// -------------------------------------------------------------------------
+// Milestone 9: Assemblies & Kinematic Joints
+// -------------------------------------------------------------------------
+
+enum class AssemblyJointType(val id: Int) {
+    RIGID(0),
+    REVOLUTE(1),
+    SLIDER(2),
+    CYLINDRICAL(3),
+    BALL(4)
+}
+
+class AssemblySession(val handle: Long) : Closeable {
+    fun addComponent(name: String, solid: BoxMeshResult): Int {
+        if (handle == 0L || solid.nativeHandle == 0L) return -1
+        return NativeKernel.nativeAssemblyAddComponent(handle, name, solid.nativeHandle)
+    }
+
+    fun addJoint(
+        name: String,
+        type: AssemblyJointType,
+        parentCompId: Int,
+        childCompId: Int,
+        px: Double = 0.0, py: Double = 0.0, pz: Double = 0.0,
+        ax: Double = 0.0, ay: Double = 0.0, az: Double = 1.0,
+        minVal: Double = 0.0, maxVal: Double = 0.0
+    ): Int {
+        if (handle == 0L) return -1
+        return NativeKernel.nativeAssemblyAddJoint(
+            handle, name, type.id, parentCompId, childCompId,
+            px, py, pz, ax, ay, az, minVal, maxVal
+        )
+    }
+
+    fun setJointValue(jointId: Int, value: Double): Boolean {
+        if (handle == 0L) return false
+        return NativeKernel.nativeAssemblySetJointValue(handle, jointId, value)
+    }
+
+    fun stepAnimation(phase: Double) {
+        if (handle == 0L) return
+        NativeKernel.nativeAssemblyStepAnimation(handle, phase)
+    }
+
+    fun checkInterference(compA: Int, compB: Int): Boolean {
+        if (handle == 0L) return false
+        return NativeKernel.nativeAssemblyCheckInterference(handle, compA, compB)
+    }
+
+    fun buildMesh(linearDeflection: Double = 0.1, angularDeflection: Double = 0.5): BoxMeshResult {
+        if (handle == 0L) {
+            return BoxMeshResult(
+                success = false,
+                volume = 0.0,
+                faceCount = 0,
+                edgeCount = 0,
+                triangleCount = 0,
+                vertexBuffer = null,
+                indexBuffer = null,
+                edgeVertexBuffer = null,
+                boundingBox = BoundingBox(),
+                errorMessage = "Invalid assembly handle."
+            )
+        }
+        val meshHandle = NativeKernel.nativeAssemblyBuildMesh(handle, linearDeflection, angularDeflection)
+        return NativeKernel.buildMeshResult(meshHandle)
+    }
+
+    override fun close() {
+        if (handle != 0L) {
+            NativeKernel.nativeReleaseAssembly(handle)
+        }
+    }
+}
+
 /**
  * High-performance JNI bridge to the OpenCASCADE native CAD kernel.
  */
@@ -821,6 +896,14 @@ object NativeKernel {
         return buildMeshResult(handle)
     }
 
+    /**
+     * Milestone 9: Creates an assembly session for multi-component kinematic modeling.
+     */
+    fun createAssembly(): AssemblySession {
+        val handle = nativeCreateAssembly()
+        return AssemblySession(handle)
+    }
+
     internal external fun nativeCreateBox(
         dx: Double,
         dy: Double,
@@ -959,4 +1042,23 @@ object NativeKernel {
         linearDeflection: Double,
         angularDeflection: Double
     ): Long
+
+    // Milestone 9 JNI Declarations (Assemblies & Kinematic Joints)
+    internal external fun nativeCreateAssembly(): Long
+    internal external fun nativeAssemblyAddComponent(asmHandle: Long, name: String, meshHandle: Long): Int
+    internal external fun nativeAssemblyAddJoint(
+        asmHandle: Long,
+        name: String,
+        jointType: Int,
+        parentCompId: Int,
+        childCompId: Int,
+        px: Double, py: Double, pz: Double,
+        ax: Double, ay: Double, az: Double,
+        minVal: Double, maxVal: Double
+    ): Int
+    internal external fun nativeAssemblySetJointValue(asmHandle: Long, jointId: Int, value: Double): Boolean
+    internal external fun nativeAssemblyStepAnimation(asmHandle: Long, phase: Double)
+    internal external fun nativeAssemblyCheckInterference(asmHandle: Long, compA: Int, compB: Int): Boolean
+    internal external fun nativeAssemblyBuildMesh(asmHandle: Long, linearDeflection: Double, angularDeflection: Double): Long
+    internal external fun nativeReleaseAssembly(asmHandle: Long)
 }
