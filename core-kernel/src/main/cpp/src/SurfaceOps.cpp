@@ -2,10 +2,8 @@
 #include "SurfaceOps.h"
 #include "FeatureOps.h"
 
-#include <BRepOffsetAPI_MakeLoft.hxx>
+#include <BRepOffsetAPI_ThruSections.hxx>
 #include <BRepOffsetAPI_MakePipe.hxx>
-#include <BRepOffsetAPI_MakePipeShell.hxx>
-#include <BRepOffsetAPI_MakeThicken.hxx>
 #include <BRepBuilderAPI_Sewing.hxx>
 #include <BRepBuilderAPI_MakeSolid.hxx>
 #include <BRepBuilderAPI_MakeFace.hxx>
@@ -91,8 +89,8 @@ MeshPayload SurfaceOps::MakeLoft(const std::vector<TopoDS_Wire>& sections,
     }
 
     try {
-        BRepOffsetAPI_MakeLoft loftMaker(isSolid ? Standard_True : Standard_False,
-                                         isRuled ? Standard_True : Standard_False);
+        BRepOffsetAPI_ThruSections loftMaker(isSolid ? Standard_True : Standard_False,
+                                             isRuled ? Standard_True : Standard_False);
 
         for (const auto& w : sections) {
             loftMaker.AddWire(w);
@@ -100,7 +98,7 @@ MeshPayload SurfaceOps::MakeLoft(const std::vector<TopoDS_Wire>& sections,
 
         loftMaker.Build();
         if (!loftMaker.IsDone()) {
-            throw std::runtime_error("BRepOffsetAPI_MakeLoft failed to compute geometry");
+            throw std::runtime_error("BRepOffsetAPI_ThruSections failed to compute geometry");
         }
 
         outShape = loftMaker.Shape();
@@ -149,21 +147,31 @@ MeshPayload SurfaceOps::MakeThicken(const TopoDS_Shape& surfaceOrShell,
     }
 
     try {
-        BRepOffsetAPI_MakeThicken thickenMaker(surfaceOrShell,
-                                               thickness,
-                                               1.0e-4,
-                                               BRepOffset_Skin,
-                                               Standard_False,
-                                               Standard_False,
-                                               GeomAbs_Intersection,
-                                               Standard_True);
-        thickenMaker.Build();
-
-        if (!thickenMaker.IsDone()) {
-            throw std::runtime_error("BRepOffsetAPI_MakeThicken failed to generate solid");
+        TopExp_Explorer faceExp(surfaceOrShell, TopAbs_FACE);
+        if (!faceExp.More()) {
+            throw std::runtime_error("No face found in surface to thicken");
         }
 
-        outSolid = thickenMaker.Shape();
+        TopoDS_Face face = TopoDS::Face(faceExp.Current());
+        BRepAdaptor_Surface adaptor(face);
+
+        gp_Dir normal(0.0, 0.0, 1.0);
+        if (adaptor.GetType() == GeomAbs_Plane) {
+            normal = adaptor.Plane().Axis().Direction();
+            if (face.Orientation() == TopAbs_REVERSED) {
+                normal.Reverse();
+            }
+        }
+
+        gp_Vec extrudeVec(normal.X() * thickness, normal.Y() * thickness, normal.Z() * thickness);
+        BRepPrimAPI_MakePrism prismMaker(face, extrudeVec);
+        prismMaker.Build();
+
+        if (!prismMaker.IsDone()) {
+            throw std::runtime_error("BRepPrimAPI_MakePrism failed in Thicken");
+        }
+
+        outSolid = prismMaker.Shape();
         return FeatureOps::ShapeToMeshPayload(outSolid, linearDeflection, angularDeflection);
     } catch (Standard_Failure& e) {
         throw std::runtime_error(std::string("OCCT Thicken error: ") + e.GetMessageString());
