@@ -6,6 +6,7 @@
 #include "ExpressionParser.h"
 #include "TNPResolver.h"
 #include "TimelineDAG.h"
+#include "ProjectIO.h"
 
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <TopoDS_Shape.hxx>
@@ -753,6 +754,173 @@ Java_com_androcad_kernel_NativeKernel_nativeReleaseTimeline(
         jlong handle) {
     auto* session = reinterpret_cast<NativeTimelineSession*>(handle);
     delete session;
+}
+
+// -------------------------------------------------------------------------
+// Milestone 6: Versioned Project I/O & Data Exchange (STEP / STL / .androcad)
+// -------------------------------------------------------------------------
+
+JNIEXPORT jboolean JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeExportStep(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong handle,
+        jstring filePathStr,
+        jstring schemaStr,
+        jobjectArray outError) {
+    auto* session = reinterpret_cast<NativeMeshSession*>(handle);
+    if (!session || session->shape.IsNull()) {
+        if (outError && env->GetArrayLength(outError) > 0) {
+            env->SetObjectArrayElement(outError, 0, env->NewStringUTF("Invalid solid handle or null shape."));
+        }
+        return JNI_FALSE;
+    }
+
+    const char* cPath = env->GetStringUTFChars(filePathStr, nullptr);
+    const char* cSchema = schemaStr ? env->GetStringUTFChars(schemaStr, nullptr) : "AP214";
+
+    auto res = androcad::ProjectIO::ExportSTEP(session->shape, cPath, cSchema ? cSchema : "AP214");
+
+    if (schemaStr && cSchema) env->ReleaseStringUTFChars(schemaStr, cSchema);
+    env->ReleaseStringUTFChars(filePathStr, cPath);
+
+    if (!res.success && outError && env->GetArrayLength(outError) > 0) {
+        env->SetObjectArrayElement(outError, 0, env->NewStringUTF(res.errorMessage.c_str()));
+    }
+
+    return res.success ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeImportStep(
+        JNIEnv* env,
+        jobject /* this */,
+        jstring filePathStr,
+        jobjectArray outError) {
+    auto meshSession = std::make_unique<NativeMeshSession>();
+
+    const char* cPath = env->GetStringUTFChars(filePathStr, nullptr);
+    auto res = androcad::ProjectIO::ImportSTEP(cPath, meshSession->shape);
+    env->ReleaseStringUTFChars(filePathStr, cPath);
+
+    if (res.success && !meshSession->shape.IsNull()) {
+        meshSession->payload = androcad::FeatureOps::ShapeToMeshPayload(meshSession->shape);
+        meshSession->payload.volume = res.volume;
+    } else {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = res.errorMessage;
+        if (outError && env->GetArrayLength(outError) > 0) {
+            env->SetObjectArrayElement(outError, 0, env->NewStringUTF(res.errorMessage.c_str()));
+        }
+    }
+
+    return reinterpret_cast<jlong>(meshSession.release());
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeExportStl(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong handle,
+        jstring filePathStr,
+        jdouble linearDeflection,
+        jboolean binary,
+        jobjectArray outError) {
+    auto* session = reinterpret_cast<NativeMeshSession*>(handle);
+    if (!session || session->shape.IsNull()) {
+        if (outError && env->GetArrayLength(outError) > 0) {
+            env->SetObjectArrayElement(outError, 0, env->NewStringUTF("Invalid solid handle or null shape."));
+        }
+        return JNI_FALSE;
+    }
+
+    const char* cPath = env->GetStringUTFChars(filePathStr, nullptr);
+    auto res = androcad::ProjectIO::ExportSTL(session->shape, cPath, linearDeflection, 0.5, binary == JNI_TRUE);
+    env->ReleaseStringUTFChars(filePathStr, cPath);
+
+    if (!res.success && outError && env->GetArrayLength(outError) > 0) {
+        env->SetObjectArrayElement(outError, 0, env->NewStringUTF(res.errorMessage.c_str()));
+    }
+
+    return res.success ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeImportStl(
+        JNIEnv* env,
+        jobject /* this */,
+        jstring filePathStr,
+        jobjectArray outError) {
+    auto meshSession = std::make_unique<NativeMeshSession>();
+
+    const char* cPath = env->GetStringUTFChars(filePathStr, nullptr);
+    auto res = androcad::ProjectIO::ImportSTL(cPath, meshSession->shape);
+    env->ReleaseStringUTFChars(filePathStr, cPath);
+
+    if (res.success && !meshSession->shape.IsNull()) {
+        meshSession->payload = androcad::FeatureOps::ShapeToMeshPayload(meshSession->shape);
+        meshSession->payload.volume = res.volume;
+    } else {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = res.errorMessage;
+        if (outError && env->GetArrayLength(outError) > 0) {
+            env->SetObjectArrayElement(outError, 0, env->NewStringUTF(res.errorMessage.c_str()));
+        }
+    }
+
+    return reinterpret_cast<jlong>(meshSession.release());
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeSaveProject(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong handle,
+        jstring filePathStr,
+        jobjectArray outError) {
+    auto* session = reinterpret_cast<NativeTimelineSession*>(handle);
+    if (!session || !session->timeline) {
+        if (outError && env->GetArrayLength(outError) > 0) {
+            env->SetObjectArrayElement(outError, 0, env->NewStringUTF("Invalid timeline handle."));
+        }
+        return JNI_FALSE;
+    }
+
+    const char* cPath = env->GetStringUTFChars(filePathStr, nullptr);
+    auto res = androcad::ProjectIO::SaveProject(*session->timeline, cPath);
+    env->ReleaseStringUTFChars(filePathStr, cPath);
+
+    if (!res.success && outError && env->GetArrayLength(outError) > 0) {
+        env->SetObjectArrayElement(outError, 0, env->NewStringUTF(res.errorMessage.c_str()));
+    }
+
+    return res.success ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeLoadProject(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong handle,
+        jstring filePathStr,
+        jobjectArray outError) {
+    auto* session = reinterpret_cast<NativeTimelineSession*>(handle);
+    if (!session || !session->timeline) {
+        if (outError && env->GetArrayLength(outError) > 0) {
+            env->SetObjectArrayElement(outError, 0, env->NewStringUTF("Invalid timeline handle."));
+        }
+        return JNI_FALSE;
+    }
+
+    const char* cPath = env->GetStringUTFChars(filePathStr, nullptr);
+    auto res = androcad::ProjectIO::LoadProject(*session->timeline, cPath);
+    env->ReleaseStringUTFChars(filePathStr, cPath);
+
+    if (!res.success && outError && env->GetArrayLength(outError) > 0) {
+        env->SetObjectArrayElement(outError, 0, env->NewStringUTF(res.errorMessage.c_str()));
+    }
+
+    return res.success ? JNI_TRUE : JNI_FALSE;
 }
 
 } // extern "C"

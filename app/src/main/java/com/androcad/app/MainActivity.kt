@@ -85,6 +85,9 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
     var activeSketchTool by remember { mutableStateOf("Rectangle") }
     var sketchDoF by remember { mutableStateOf(0) }
     var sketchStatusText by remember { mutableStateOf("Ready to sketch") }
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val baseDir = remember { context.filesDir }
+    val activeTimeline = remember { NativeKernel.createTimeline() }
 
     // Register callback for GPU color picking
     LaunchedEffect(renderer) {
@@ -120,7 +123,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     modifier = Modifier.padding(end = 16.dp)
                 )
 
-                val tabs = listOf("Solid", "Sketch", "Surface", "Mesh", "Inspect")
+                val tabs = listOf("Solid", "Sketch", "File / IO", "Surface", "Mesh", "Inspect")
                 tabs.forEach { tab ->
                     TextButton(
                         onClick = {
@@ -195,6 +198,89 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             fontSize = 12.sp,
                             modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
                         )
+                    }
+                } else if (activeTab == "File / IO") {
+                    val ioActions = listOf("Save Project", "Open Project", "Export STEP", "Import STEP", "Export STL", "Import STL")
+                    ioActions.forEach { action ->
+                        Surface(
+                            color = Color(0xFF2F3136),
+                            shape = RoundedCornerShape(4.dp),
+                            modifier = Modifier
+                                .padding(2.dp)
+                                .clickable {
+                                    try {
+                                        when (action) {
+                                            "Save Project" -> {
+                                                val projFile = java.io.File(baseDir, "design_model.androcad")
+                                                val res = activeTimeline.saveProject(projFile.absolutePath)
+                                                featureStatusText = if (res.success) "Project saved: ${projFile.name}" else "Save failed: ${res.errorMessage}"
+                                            }
+                                            "Open Project" -> {
+                                                val projFile = java.io.File(baseDir, "design_model.androcad")
+                                                val res = activeTimeline.loadProject(projFile.absolutePath)
+                                                if (res.success) {
+                                                    val rebuilt = activeTimeline.rebuild()
+                                                    if (rebuilt.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = rebuilt
+                                                        renderer?.updateMesh(rebuilt)
+                                                    }
+                                                    featureStatusText = "Project loaded: ${projFile.name}"
+                                                } else {
+                                                    featureStatusText = "Load failed: ${res.errorMessage}"
+                                                }
+                                            }
+                                            "Export STEP" -> {
+                                                val stepFile = java.io.File(baseDir, "model.step")
+                                                activeSolid?.let { solid ->
+                                                    val res = NativeKernel.exportStep(solid, stepFile.absolutePath)
+                                                    featureStatusText = if (res.success) "Exported STEP: ${stepFile.name}" else "STEP export failed"
+                                                } ?: run { featureStatusText = "No active solid to export" }
+                                            }
+                                            "Import STEP" -> {
+                                                val stepFile = java.io.File(baseDir, "model.step")
+                                                val imported = NativeKernel.importStep(stepFile.absolutePath)
+                                                if (imported.success) {
+                                                    activeSolid?.close()
+                                                    activeSolid = imported
+                                                    renderer?.updateMesh(imported)
+                                                    featureStatusText = "Imported STEP (${imported.volume.toInt()} mm³)"
+                                                } else {
+                                                    featureStatusText = "STEP import failed: ${imported.errorMessage}"
+                                                }
+                                            }
+                                            "Export STL" -> {
+                                                val stlFile = java.io.File(baseDir, "model.stl")
+                                                activeSolid?.let { solid ->
+                                                    val res = NativeKernel.exportStl(solid, stlFile.absolutePath)
+                                                    featureStatusText = if (res.success) "Exported STL: ${stlFile.name}" else "STL export failed"
+                                                } ?: run { featureStatusText = "No active solid to export" }
+                                            }
+                                            "Import STL" -> {
+                                                val stlFile = java.io.File(baseDir, "model.stl")
+                                                val imported = NativeKernel.importStl(stlFile.absolutePath)
+                                                if (imported.success) {
+                                                    activeSolid?.close()
+                                                    activeSolid = imported
+                                                    renderer?.updateMesh(imported)
+                                                    featureStatusText = "Imported STL (${imported.triangleCount} tris)"
+                                                } else {
+                                                    featureStatusText = "STL import failed: ${imported.errorMessage}"
+                                                }
+                                            }
+                                        }
+                                    } catch (t: Throwable) {
+                                        featureStatusText = "IO Action failed: ${t.message}"
+                                    }
+                                }
+                        ) {
+                            Text(
+                                text = action,
+                                color = Color.White,
+                                fontSize = 12.sp,
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                            )
+                        }
                     }
                 } else {
                     val tools = listOf("Box", "Extrude", "Revolve", "Fillet", "Chamfer", "Hole", "Shell", "Combine")

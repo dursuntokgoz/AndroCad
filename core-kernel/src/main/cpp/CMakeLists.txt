@@ -36,6 +36,7 @@ if(ANDROID)
         src/ExpressionParser.cpp
         src/TNPResolver.cpp
         src/TimelineDAG.cpp
+        src/ProjectIO.cpp
         src/native_kernel_jni.cpp
     )
 
@@ -58,6 +59,9 @@ if(ANDROID)
         TKFillet
         TKOffset
         TKMesh
+        TKDESTEP
+        TKDESTL
+        TKXSBase
         log
         android
     )
@@ -132,4 +136,44 @@ else()
     )
 
     add_test(NAME TNPRegressionTest COMMAND androcad_tnp_regression_test)
+
+    # Find Data Exchange libraries on host (TKDESTEP/TKDESTL on OCCT 7.8+, or TKSTEP/TKSTL on OCCT 7.6)
+    find_library(LIB_TKDESTEP NAMES TKDESTEP PATHS /usr/lib /usr/lib/x86_64-linux-gnu ${OpenCASCADE_LIBRARY_DIRS})
+    if(LIB_TKDESTEP)
+        set(HOST_DATA_EXCHANGE_LIBS TKDESTEP TKDESTL TKXSBase)
+    else()
+        set(HOST_DATA_EXCHANGE_LIBS TKSTEP TKSTEPBase TKSTEPAttr TKSTEP209 TKSTL TKXSBase)
+    endif()
+
+    add_executable(androcad_project_io_test
+        src/AndroCadKernel.cpp
+        src/GCS.cpp
+        src/Sketcher.cpp
+        src/FeatureOps.cpp
+        src/ExpressionParser.cpp
+        src/TNPResolver.cpp
+        src/TimelineDAG.cpp
+        src/ProjectIO.cpp
+        tests/test_project_io.cpp
+    )
+
+    target_link_libraries(androcad_project_io_test PRIVATE
+        TKernel
+        TKMath
+        TKG2d
+        TKG3d
+        TKGeomBase
+        TKGeomAlgo
+        TKBRep
+        TKTopAlgo
+        TKPrim
+        TKBO
+        TKBool
+        TKFillet
+        TKOffset
+        TKMesh
+        ${HOST_DATA_EXCHANGE_LIBS}
+    )
+
+    add_test(NAME ProjectIOTest COMMAND androcad_project_io_test)
 endif()
