@@ -47,6 +47,15 @@ enum class BooleanType(val id: Int) {
 typealias SolidMeshResult = BoxMeshResult
 
 /**
+ * Milestone 6: Result of STEP / STL / Project File I/O operations.
+ */
+data class IOResult(
+    val success: Boolean,
+    val errorMessage: String = "",
+    val filePath: String = ""
+)
+
+/**
  * Result of analytical solid box creation, edge extraction, and tessellation.
  */
 data class BoxMeshResult(
@@ -255,6 +264,20 @@ class NativeTimeline(val handle: Long) : Closeable {
         return NativeKernel.buildMeshResult(meshHandle)
     }
 
+    fun saveProject(filePath: String): IOResult {
+        if (handle == 0L) return IOResult(false, "Invalid timeline handle.", filePath)
+        val errArr = arrayOfNulls<String>(1)
+        val ok = NativeKernel.nativeSaveProject(handle, filePath, errArr)
+        return IOResult(ok, errArr[0] ?: "", filePath)
+    }
+
+    fun loadProject(filePath: String): IOResult {
+        if (handle == 0L) return IOResult(false, "Invalid timeline handle.", filePath)
+        val errArr = arrayOfNulls<String>(1)
+        val ok = NativeKernel.nativeLoadProject(handle, filePath, errArr)
+        return IOResult(ok, errArr[0] ?: "", filePath)
+    }
+
     override fun close() {
         if (handle != 0L) {
             NativeKernel.nativeReleaseTimeline(handle)
@@ -292,6 +315,9 @@ object NativeKernel {
                     "TKFillet",
                     "TKOffset",
                     "TKMesh",
+                    "TKXSBase",
+                    "TKDESTEP",
+                    "TKDESTL",
                     "androcad_kernel"
                 )
                 for (tk in toolkits) {
@@ -635,6 +661,92 @@ object NativeKernel {
         return NativeTimeline(handle)
     }
 
+    /**
+     * Milestone 6: Exports solid model to STEP format (AP214 or AP242).
+     */
+    fun exportStep(solid: BoxMeshResult, filePath: String, schema: String = "AP214"): IOResult {
+        if (solid.nativeHandle == 0L || !solid.success) {
+            return IOResult(false, "Invalid solid mesh result.", filePath)
+        }
+        val errArr = arrayOfNulls<String>(1)
+        val ok = try {
+            nativeExportStep(solid.nativeHandle, filePath, schema, errArr)
+        } catch (t: Throwable) {
+            false
+        }
+        return IOResult(ok, errArr[0] ?: if (!ok) "Native export failed." else "", filePath)
+    }
+
+    /**
+     * Milestone 6: Imports solid model from STEP file.
+     */
+    fun importStep(filePath: String): BoxMeshResult {
+        val errArr = arrayOfNulls<String>(1)
+        val meshHandle = try {
+            nativeImportStep(filePath, errArr)
+        } catch (t: Throwable) {
+            0L
+        }
+        if (meshHandle == 0L) {
+            return BoxMeshResult(
+                success = false,
+                volume = 0.0,
+                faceCount = 0,
+                edgeCount = 0,
+                triangleCount = 0,
+                vertexBuffer = null,
+                indexBuffer = null,
+                edgeVertexBuffer = null,
+                boundingBox = BoundingBox(),
+                errorMessage = errArr[0] ?: "Failed to import STEP file."
+            )
+        }
+        return buildMeshResult(meshHandle)
+    }
+
+    /**
+     * Milestone 6: Exports solid model to STL mesh format.
+     */
+    fun exportStl(solid: BoxMeshResult, filePath: String, linearDeflection: Double = 0.1, binary: Boolean = true): IOResult {
+        if (solid.nativeHandle == 0L || !solid.success) {
+            return IOResult(false, "Invalid solid mesh result.", filePath)
+        }
+        val errArr = arrayOfNulls<String>(1)
+        val ok = try {
+            nativeExportStl(solid.nativeHandle, filePath, linearDeflection, binary, errArr)
+        } catch (t: Throwable) {
+            false
+        }
+        return IOResult(ok, errArr[0] ?: if (!ok) "Native export failed." else "", filePath)
+    }
+
+    /**
+     * Milestone 6: Imports triangle mesh from STL file.
+     */
+    fun importStl(filePath: String): BoxMeshResult {
+        val errArr = arrayOfNulls<String>(1)
+        val meshHandle = try {
+            nativeImportStl(filePath, errArr)
+        } catch (t: Throwable) {
+            0L
+        }
+        if (meshHandle == 0L) {
+            return BoxMeshResult(
+                success = false,
+                volume = 0.0,
+                faceCount = 0,
+                edgeCount = 0,
+                triangleCount = 0,
+                vertexBuffer = null,
+                indexBuffer = null,
+                edgeVertexBuffer = null,
+                boundingBox = BoundingBox(),
+                errorMessage = errArr[0] ?: "Failed to import STL file."
+            )
+        }
+        return buildMeshResult(meshHandle)
+    }
+
     internal external fun nativeCreateBox(
         dx: Double,
         dy: Double,
@@ -742,4 +854,12 @@ object NativeKernel {
     internal external fun nativeTimelineSetRollback(handle: Long, rollbackIndex: Int)
     internal external fun nativeTimelineRebuild(handle: Long): Long
     internal external fun nativeReleaseTimeline(handle: Long)
+
+    // Milestone 6 JNI Declarations (STEP / STL / Project I/O)
+    internal external fun nativeExportStep(handle: Long, filePath: String, schema: String, outError: Array<String?>?): Boolean
+    internal external fun nativeImportStep(filePath: String, outError: Array<String?>?): Long
+    internal external fun nativeExportStl(handle: Long, filePath: String, deflection: Double, binary: Boolean, outError: Array<String?>?): Boolean
+    internal external fun nativeImportStl(filePath: String, outError: Array<String?>?): Long
+    internal external fun nativeSaveProject(handle: Long, filePath: String, outError: Array<String?>?): Boolean
+    internal external fun nativeLoadProject(handle: Long, filePath: String, outError: Array<String?>?): Boolean
 }

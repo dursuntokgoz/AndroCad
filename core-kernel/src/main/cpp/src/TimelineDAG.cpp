@@ -155,6 +155,7 @@ void TimelineDAG::SetRollbackIndex(int index) {
 }
 
 bool TimelineDAG::Rebuild() {
+    rebuildLog.clear();
     EvaluateAllParameters();
 
     size_t effectiveCount = nodes.size();
@@ -470,6 +471,22 @@ bool TimelineDAG::IsAllValid() const {
         if (nodes[i].state != NodeState::Valid) return false;
     }
     return true;
+}
+
+void TimelineDAG::Clear() {
+    nodes.clear();
+    userParameters.clear();
+    evaluatedParameters.clear();
+    rollbackIndex = -1;
+    nextNodeId = 1;
+    rebuildLog.clear();
+}
+
+void TimelineDAG::AddNode(const FeatureNode& node) {
+    nodes.push_back(node);
+    if (node.id >= nextNodeId) {
+        nextNodeId = node.id + 1;
+    }
 }
 
 } // namespace androcad

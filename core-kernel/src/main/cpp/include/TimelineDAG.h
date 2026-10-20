@@ -86,6 +86,10 @@ public:
     int GetNodeCount() const { return static_cast<int>(nodes.size()); }
     int GetRollbackIndex() const { return rollbackIndex; }
     void SetRollbackIndex(int index); // -1 means all nodes active
+    void Clear();
+    void AddNode(const FeatureNode& node);
+    const std::vector<FeatureNode>& GetNodes() const { return nodes; }
+    std::string GetRebuildLog() const { return rebuildLog; }
 
     // 4. Deterministic Rebuild
     bool Rebuild();
@@ -103,6 +107,7 @@ private:
     std::vector<FeatureNode> nodes;
     int rollbackIndex = -1;
     uint32_t nextNodeId = 1;
+    std::string rebuildLog;
 
     bool EvaluateAllParameters();
 };

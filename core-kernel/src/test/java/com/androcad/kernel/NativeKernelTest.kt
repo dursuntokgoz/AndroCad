@@ -146,4 +146,45 @@ class NativeKernelTest {
         val res = NativeKernel.evaluateExpression("10 + 20")
         assertFalse(res.first)
     }
+
+    @Test
+    fun testDataExchangeContract() {
+        val ioRes = IOResult(success = true, errorMessage = "", filePath = "test.step")
+        assertTrue(ioRes.success)
+        assertEquals("test.step", ioRes.filePath)
+
+        val bbox = BoundingBox(0f, 0f, 0f, 10f, 10f, 10f)
+        val dummySolid = BoxMeshResult(
+            success = true,
+            volume = 1000.0,
+            faceCount = 6,
+            edgeCount = 12,
+            triangleCount = 12,
+            vertexBuffer = null,
+            indexBuffer = null,
+            edgeVertexBuffer = null,
+            boundingBox = bbox,
+            nativeHandle = 0L
+        )
+
+        // Verify export/import guards against 0L handles without throwing
+        val stepExportRes = NativeKernel.exportStep(dummySolid, "dummy.step")
+        assertFalse(stepExportRes.success)
+
+        val stlExportRes = NativeKernel.exportStl(dummySolid, "dummy.stl")
+        assertFalse(stlExportRes.success)
+
+        val stepImportRes = NativeKernel.importStep("dummy.step")
+        assertFalse(stepImportRes.success)
+
+        val stlImportRes = NativeKernel.importStl("dummy.stl")
+        assertFalse(stlImportRes.success)
+
+        val timeline = NativeTimeline(0L)
+        val saveProjRes = timeline.saveProject("dummy.androcad")
+        assertFalse(saveProjRes.success)
+
+        val loadProjRes = timeline.loadProject("dummy.androcad")
+        assertFalse(loadProjRes.success)
+    }
 }
