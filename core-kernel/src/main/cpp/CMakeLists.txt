@@ -35,6 +35,7 @@ if(ANDROID)
         src/FeatureOps.cpp
         src/SurfaceOps.cpp
         src/AssemblyManager.cpp
+        src/SheetMetalEngine.cpp
         src/ExpressionParser.cpp
         src/TNPResolver.cpp
         src/TimelineDAG.cpp
@@ -245,4 +246,39 @@ else()
     )
 
     add_test(NAME AssemblyJointsTest COMMAND androcad_assembly_joints_test)
+
+    add_executable(androcad_sheet_metal_test
+        src/AndroCadKernel.cpp
+        src/GCS.cpp
+        src/Sketcher.cpp
+        src/FeatureOps.cpp
+        src/SurfaceOps.cpp
+        src/AssemblyManager.cpp
+        src/SheetMetalEngine.cpp
+        src/ExpressionParser.cpp
+        src/TNPResolver.cpp
+        src/TimelineDAG.cpp
+        src/ProjectIO.cpp
+        tests/test_sheet_metal.cpp
+    )
+
+    target_link_libraries(androcad_sheet_metal_test PRIVATE
+        TKernel
+        TKMath
+        TKG2d
+        TKG3d
+        TKGeomBase
+        TKGeomAlgo
+        TKBRep
+        TKTopAlgo
+        TKPrim
+        TKBO
+        TKBool
+        TKFillet
+        TKOffset
+        TKMesh
+        ${HOST_DATA_EXCHANGE_LIBS}
+    )
+
+    add_test(NAME SheetMetalTest COMMAND androcad_sheet_metal_test)
 endif()

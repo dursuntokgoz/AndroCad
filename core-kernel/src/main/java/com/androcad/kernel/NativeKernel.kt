@@ -366,6 +366,36 @@ class AssemblySession(val handle: Long) : Closeable {
     }
 }
 
+// -------------------------------------------------------------------------
+// Milestone 10: Sheet Metal & Flat Pattern Unfolding
+// -------------------------------------------------------------------------
+
+data class SheetMetalRule(
+    val thickness: Double = 2.0,
+    val bendRadius: Double = 2.0,
+    val kFactor: Double = 0.44
+)
+
+data class SheetMetalBendLine(
+    val id: Int,
+    val startX: Double,
+    val startY: Double,
+    val endX: Double,
+    val endY: Double,
+    val angleDeg: Double,
+    val radius: Double,
+    val isBendUp: Boolean
+)
+
+data class SheetMetalFlatPattern(
+    val success: Boolean,
+    val flatLength: Double,
+    val flatWidth: Double,
+    val flatArea: Double,
+    val bends: List<SheetMetalBendLine> = emptyList(),
+    val errorMessage: String = ""
+)
+
 /**
  * High-performance JNI bridge to the OpenCASCADE native CAD kernel.
  */
@@ -904,6 +934,100 @@ object NativeKernel {
         return AssemblySession(handle)
     }
 
+    /**
+     * Milestone 10: Creates a 3D U-Bracket sheet metal solid with cylindrical bend fillets.
+     */
+    fun createUBracket(
+        baseLength: Double,
+        flangeHeight: Double,
+        width: Double,
+        rule: SheetMetalRule = SheetMetalRule(),
+        linearDeflection: Double = 0.1,
+        angularDeflection: Double = 0.5
+    ): BoxMeshResult {
+        val handle = nativeSheetMetalCreateUBracket(
+            baseLength, flangeHeight, width,
+            rule.thickness, rule.bendRadius, rule.kFactor,
+            linearDeflection, angularDeflection
+        )
+        return buildMeshResult(handle)
+    }
+
+    /**
+     * Milestone 10: Calculates 2D unwrapped flat pattern layout with K-factor bend deduction.
+     */
+    fun unfoldUBracket(
+        baseLength: Double,
+        flangeHeight: Double,
+        width: Double,
+        rule: SheetMetalRule = SheetMetalRule()
+    ): SheetMetalFlatPattern {
+        val json = nativeSheetMetalUnfoldUBracket(
+            baseLength, flangeHeight, width,
+            rule.thickness, rule.bendRadius, rule.kFactor
+        )
+        return parseFlatPatternJson(json)
+    }
+
+    /**
+     * Milestone 10: Exports 2D DXF polyline file with CUT perimeter and BEND layers.
+     */
+    fun exportSheetMetalDXF(
+        baseLength: Double,
+        flangeHeight: Double,
+        width: Double,
+        rule: SheetMetalRule = SheetMetalRule()
+    ): String {
+        return nativeSheetMetalExportDXF(
+            baseLength, flangeHeight, width,
+            rule.thickness, rule.bendRadius, rule.kFactor
+        )
+    }
+
+    private fun parseFlatPatternJson(json: String): SheetMetalFlatPattern {
+        try {
+            val isSuccess = json.contains("\"success\":true")
+            val lenRegex = "\"flatLength\":([0-9.-]+)".toRegex()
+            val widthRegex = "\"flatWidth\":([0-9.-]+)".toRegex()
+            val areaRegex = "\"flatArea\":([0-9.-]+)".toRegex()
+            val errRegex = "\"errorMessage\":\"([^\"]*)\"".toRegex()
+
+            val flatLen = lenRegex.find(json)?.groupValues?.get(1)?.toDoubleOrNull() ?: 0.0
+            val flatW = widthRegex.find(json)?.groupValues?.get(1)?.toDoubleOrNull() ?: 0.0
+            val flatA = areaRegex.find(json)?.groupValues?.get(1)?.toDoubleOrNull() ?: 0.0
+            val errMsg = errRegex.find(json)?.groupValues?.get(1) ?: ""
+
+            val bendList = mutableListOf<SheetMetalBendLine>()
+            val bendItemRegex = "\\{\"id\":(\\d+),\"startX\":([0-9.-]+),\"startY\":([0-9.-]+),\"endX\":([0-9.-]+),\"endY\":([0-9.-]+),\"angleDeg\":([0-9.-]+),\"radius\":([0-9.-]+),\"isBendUp\":(true|false)\\}".toRegex()
+            for (match in bendItemRegex.findAll(json)) {
+                val g = match.groupValues
+                bendList.add(
+                    SheetMetalBendLine(
+                        id = g[1].toInt(),
+                        startX = g[2].toDouble(),
+                        startY = g[3].toDouble(),
+                        endX = g[4].toDouble(),
+                        endY = g[5].toDouble(),
+                        angleDeg = g[6].toDouble(),
+                        radius = g[7].toDouble(),
+                        isBendUp = g[8] == "true"
+                    )
+                )
+            }
+
+            return SheetMetalFlatPattern(
+                success = isSuccess,
+                flatLength = flatLen,
+                flatWidth = flatW,
+                flatArea = flatA,
+                bends = bendList,
+                errorMessage = errMsg
+            )
+        } catch (e: Exception) {
+            return SheetMetalFlatPattern(false, 0.0, 0.0, 0.0, emptyList(), e.message ?: "JSON parse error")
+        }
+    }
+
     internal external fun nativeCreateBox(
         dx: Double,
         dy: Double,
@@ -1061,4 +1185,21 @@ object NativeKernel {
     internal external fun nativeAssemblyCheckInterference(asmHandle: Long, compA: Int, compB: Int): Boolean
     internal external fun nativeAssemblyBuildMesh(asmHandle: Long, linearDeflection: Double, angularDeflection: Double): Long
     internal external fun nativeReleaseAssembly(asmHandle: Long)
+
+    // Milestone 10 JNI Declarations (Sheet Metal & Flat Pattern)
+    internal external fun nativeSheetMetalCreateUBracket(
+        baseLength: Double, flangeHeight: Double, width: Double,
+        thickness: Double, bendRadius: Double, kFactor: Double,
+        linearDeflection: Double, angularDeflection: Double
+    ): Long
+
+    internal external fun nativeSheetMetalUnfoldUBracket(
+        baseLength: Double, flangeHeight: Double, width: Double,
+        thickness: Double, bendRadius: Double, kFactor: Double
+    ): String
+
+    internal external fun nativeSheetMetalExportDXF(
+        baseLength: Double, flangeHeight: Double, width: Double,
+        thickness: Double, bendRadius: Double, kFactor: Double
+    ): String
 }

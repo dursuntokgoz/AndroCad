@@ -9,6 +9,7 @@
 #include "ProjectIO.h"
 #include "SurfaceOps.h"
 #include "AssemblyManager.h"
+#include "SheetMetalEngine.h"
 
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <TopoDS_Shape.hxx>
@@ -1129,6 +1130,94 @@ Java_com_androcad_kernel_NativeKernel_nativeReleaseAssembly(
         jlong asmHandle) {
     auto* asmSession = reinterpret_cast<NativeAssemblySession*>(asmHandle);
     delete asmSession;
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeSheetMetalCreateUBracket(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jdouble baseLength,
+        jdouble flangeHeight,
+        jdouble width,
+        jdouble thickness,
+        jdouble bendRadius,
+        jdouble kFactor,
+        jdouble linearDeflection,
+        jdouble angularDeflection) {
+    auto session = std::make_unique<NativeMeshSession>();
+    try {
+        androcad::SheetMetalRule rule;
+        rule.thickness = thickness;
+        rule.bendRadius = bendRadius;
+        rule.kFactor = kFactor;
+
+        session->shape = androcad::SheetMetalEngine::CreateUBracket(baseLength, flangeHeight, width, rule);
+        session->payload = androcad::SheetMetalEngine::ToMeshPayload(session->shape, linearDeflection, angularDeflection);
+    } catch (const std::exception& e) {
+        session->payload.success = false;
+        session->payload.errorMessage = e.what();
+    }
+    return reinterpret_cast<jlong>(session.release());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeSheetMetalUnfoldUBracket(
+        JNIEnv* env,
+        jobject /* this */,
+        jdouble baseLength,
+        jdouble flangeHeight,
+        jdouble width,
+        jdouble thickness,
+        jdouble bendRadius,
+        jdouble kFactor) {
+    androcad::SheetMetalRule rule;
+    rule.thickness = thickness;
+    rule.bendRadius = bendRadius;
+    rule.kFactor = kFactor;
+
+    androcad::FlatPattern pattern = androcad::SheetMetalEngine::UnfoldUBracket(baseLength, flangeHeight, width, rule);
+
+    std::ostringstream ss;
+    ss << "{\"success\":" << (pattern.success ? "true" : "false")
+       << ",\"flatLength\":" << pattern.flatLength
+       << ",\"flatWidth\":" << pattern.flatWidth
+       << ",\"flatArea\":" << pattern.flatArea
+       << ",\"bends\":[";
+    for (size_t i = 0; i < pattern.bends.size(); ++i) {
+        const auto& b = pattern.bends[i];
+        if (i > 0) ss << ",";
+        ss << "{\"id\":" << b.id
+           << ",\"startX\":" << b.startX
+           << ",\"startY\":" << b.startY
+           << ",\"endX\":" << b.endX
+           << ",\"endY\":" << b.endY
+           << ",\"angleDeg\":" << b.angleDeg
+           << ",\"radius\":" << b.radius
+           << ",\"isBendUp\":" << (b.isBendUp ? "true" : "false")
+           << "}";
+    }
+    ss << "],\"errorMessage\":\"" << pattern.errorMessage << "\"}";
+
+    return env->NewStringUTF(ss.str().c_str());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeSheetMetalExportDXF(
+        JNIEnv* env,
+        jobject /* this */,
+        jdouble baseLength,
+        jdouble flangeHeight,
+        jdouble width,
+        jdouble thickness,
+        jdouble bendRadius,
+        jdouble kFactor) {
+    androcad::SheetMetalRule rule;
+    rule.thickness = thickness;
+    rule.bendRadius = bendRadius;
+    rule.kFactor = kFactor;
+
+    androcad::FlatPattern pattern = androcad::SheetMetalEngine::UnfoldUBracket(baseLength, flangeHeight, width, rule);
+    return env->NewStringUTF(pattern.dxfContent.c_str());
 }
 
 } // extern "C"
