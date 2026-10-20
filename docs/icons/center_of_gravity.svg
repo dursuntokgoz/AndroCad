@@ -1,0 +1,12 @@
+<!-- Copyright (c) 2026 dursuntokgoz. All rights reserved. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- International Standard CoG Symbol (Crosshair Circle with 2 filled quadrants) -->
+  <circle cx="24" cy="24" r="16" stroke="#007ACC" stroke-width="2" fill="#FFFFFF" fill-opacity="0.05" />
+  <!-- Quadrant 1 (Top-Right): Filled -->
+  <path d="M 24,24 L 24,8 A 16,16 0 0,1 40,24 Z" fill="#FF9800" stroke="#FF9800" />
+  <!-- Quadrant 3 (Bottom-Left): Filled -->
+  <path d="M 24,24 L 24,40 A 16,16 0 0,1 8,24 Z" fill="#FF9800" stroke="#FF9800" />
+  <!-- Crosshairs -->
+  <line x1="4" y1="24" x2="44" y2="24" stroke="#007ACC" stroke-width="2" />
+  <line x1="24" y1="4" x2="24" y2="44" stroke="#007ACC" stroke-width="2" />
+</svg>

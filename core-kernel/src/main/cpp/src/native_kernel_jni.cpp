@@ -11,6 +11,7 @@
 #include "AssemblyManager.h"
 #include "SheetMetalEngine.h"
 #include "DrawingEngine.h"
+#include "MaterialEngine.h"
 
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <TopoDS_Shape.hxx>
@@ -1261,6 +1262,68 @@ Java_com_androcad_kernel_NativeKernel_nativeExportDrawingDXF(
     androcad::DrawingSheet sheet = androcad::DrawingEngine::GenerateStandardDrawingSheet(session->shape, partName, scale);
     std::string dxf = sheet.ToDXF();
     return env->NewStringUTF(dxf.c_str());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeComputePhysicalProperties(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong solidHandle,
+        jint materialId) {
+    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    if (!session || session->shape.IsNull()) {
+        return env->NewStringUTF("{\"success\":false,\"errorMessage\":\"Invalid solid handle\"}");
+    }
+
+    androcad::Material mat = androcad::MaterialEngine::GetMaterial(materialId);
+    androcad::PhysicalProperties props = androcad::MaterialEngine::ComputePhysicalProperties(session->shape, mat);
+
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(4);
+    ss << "{\"success\":" << (props.success ? "true" : "false")
+       << ",\"materialName\":\"" << props.materialName << "\""
+       << ",\"density\":" << props.densityGcm3
+       << ",\"volume\":" << props.volumeMm3
+       << ",\"surfaceArea\":" << props.surfaceAreaMm2
+       << ",\"massGrams\":" << props.massGrams
+       << ",\"massKg\":" << props.massKg
+       << ",\"cogX\":" << props.cogX
+       << ",\"cogY\":" << props.cogY
+       << ",\"cogZ\":" << props.cogZ
+       << ",\"ixx\":" << props.ixx
+       << ",\"iyy\":" << props.iyy
+       << ",\"izz\":" << props.izz
+       << ",\"hexColor\":\"" << mat.appearance.hexColor << "\""
+       << ",\"metallic\":" << mat.appearance.metallic
+       << ",\"roughness\":" << mat.appearance.roughness
+       << ",\"errorMessage\":\"" << props.errorMessage << "\""
+       << "}";
+
+    return env->NewStringUTF(ss.str().c_str());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeGetMaterialList(
+        JNIEnv* env,
+        jobject /* this */) {
+    auto list = androcad::MaterialEngine::GetDefaultMaterials();
+    std::ostringstream ss;
+    ss << "[";
+    for (size_t i = 0; i < list.size(); ++i) {
+        const auto& m = list[i];
+        if (i > 0) ss << ",";
+        ss << "{\"id\":" << m.id
+           << ",\"name\":\"" << m.name << "\""
+           << ",\"category\":\"" << m.category << "\""
+           << ",\"density\":" << m.density
+           << ",\"youngModulus\":" << m.youngModulusGPa
+           << ",\"hexColor\":\"" << m.appearance.hexColor << "\""
+           << ",\"metallic\":" << m.appearance.metallic
+           << ",\"roughness\":" << m.appearance.roughness
+           << "}";
+    }
+    ss << "]";
+    return env->NewStringUTF(ss.str().c_str());
 }
 
 } // extern "C"

@@ -1,0 +1,16 @@
+<!-- Copyright (c) 2026 dursuntokgoz. All rights reserved. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Scale Fulcrum & Post -->
+  <polygon points="24,36 20,44 28,44" stroke="#72767D" fill="#1E2124" />
+  <line x1="24" y1="18" x2="24" y2="36" stroke="#72767D" stroke-width="2" />
+  <!-- Scale Beam -->
+  <line x1="10" y1="20" x2="38" y2="20" stroke="#007ACC" stroke-width="2" />
+  <!-- Left Pan with Solid Mass Block -->
+  <line x1="10" y1="20" x2="10" y2="30" stroke="#007ACC" stroke-width="1.5" />
+  <line x1="6" y1="30" x2="14" y2="30" stroke="#007ACC" stroke-width="2" />
+  <rect x="7" y="24" width="6" height="6" stroke="#00A4E4" fill="#00A4E4" fill-opacity="0.3" />
+  <!-- Right Pan with Precision Weight -->
+  <line x1="38" y1="20" x2="38" y2="30" stroke="#007ACC" stroke-width="1.5" />
+  <line x1="34" y1="30" x2="42" y2="30" stroke="#007ACC" stroke-width="2" />
+  <polygon points="38,24 36,28 40,28" stroke="#FF9800" fill="#FF9800" />
+</svg>

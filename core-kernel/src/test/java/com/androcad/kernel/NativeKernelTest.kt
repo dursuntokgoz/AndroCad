@@ -239,4 +239,41 @@ class NativeKernelTest {
         assertTrue(sheet.svgContent.isNotEmpty())
         assertTrue(sheet.dxfContent.isNotEmpty())
     }
+
+    @Test
+    fun testMaterialAndPhysicalPropertiesContracts() {
+        val mat = MaterialInfo(
+            id = 0,
+            name = "Steel (Structural)",
+            category = "Metal",
+            density = 7.85,
+            youngModulus = 210.0,
+            hexColor = "#9EA5AD",
+            metallic = 0.85f,
+            roughness = 0.35f
+        )
+        assertEquals(0, mat.id)
+        assertEquals(7.85, mat.density, 1e-4)
+        assertEquals(210.0, mat.youngModulus, 1e-4)
+
+        val props = PhysicalPropertiesInfo(
+            success = true,
+            materialName = "Steel (Structural)",
+            density = 7.85,
+            volumeMm3 = 100000.0,
+            surfaceAreaMm2 = 16000.0,
+            massGrams = 785.0,
+            massKg = 0.785,
+            cogX = 50.0, cogY = 25.0, cogZ = 10.0,
+            ixx = 10.0, iyy = 20.0, izz = 30.0,
+            hexColor = "#9EA5AD",
+            metallic = 0.85f,
+            roughness = 0.35f
+        )
+        assertTrue(props.success)
+        assertEquals(100000.0, props.volumeMm3, 1e-4)
+        assertEquals(785.0, props.massGrams, 1e-4)
+        assertEquals(0.785, props.massKg, 1e-4)
+        assertEquals(50.0, props.cogX, 1e-4)
+    }
 }

@@ -34,6 +34,8 @@ import com.androcad.kernel.AssemblyJointType
 import com.androcad.kernel.AssemblySession
 import com.androcad.kernel.SheetMetalRule
 import com.androcad.kernel.SheetMetalFlatPattern
+import com.androcad.kernel.MaterialInfo
+import com.androcad.kernel.PhysicalPropertiesInfo
 
 class MainActivity : ComponentActivity() {
 
@@ -165,9 +167,9 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     )
 
                     val tabs = if (isTablet) {
-                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Drawing", "Assemble", "File / IO", "Inspect")
+                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Drawing", "Assemble", "Inspect", "File / IO")
                     } else {
-                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Drawing", "Assemble", "File / IO")
+                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Drawing", "Assemble", "Inspect", "File / IO")
                     }
 
                     tabs.forEach { tab ->
@@ -581,6 +583,54 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                             }
                                         } catch (t: Throwable) {
                                             featureStatusText = "Drawing op failed: ${t.message}"
+                                        }
+                                    }
+                            ) {
+                                Text(
+                                    text = tool,
+                                    color = textColor,
+                                    fontSize = 11.sp,
+                                    modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
+                                )
+                            }
+                        }
+                    } else if (activeTab == "Inspect") {
+                        val inspectTools = listOf("Mass (Steel)", "Mat: Aluminum", "Mat: Titanium", "Mat: Brass", "CoG & Inertia")
+                        inspectTools.forEach { tool ->
+                            Surface(
+                                color = chipBgColor,
+                                shape = RoundedCornerShape(4.dp),
+                                modifier = Modifier
+                                    .clickable {
+                                        try {
+                                            val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also {
+                                                activeSolid = it
+                                                renderer?.updateMesh(it)
+                                            }
+                                            when (tool) {
+                                                "Mass (Steel)" -> {
+                                                    val props = NativeKernel.computePhysicalProperties(solid, 0)
+                                                    featureStatusText = "Steel AISI 1018 | Mass: ${props.massGrams.toInt()}g | Vol: ${props.volumeMm3.toInt()}mm³ | Area: ${props.surfaceAreaMm2.toInt()}mm²"
+                                                }
+                                                "Mat: Aluminum" -> {
+                                                    val props = NativeKernel.computePhysicalProperties(solid, 1)
+                                                    featureStatusText = "Aluminum 6061-T6 | Mass: ${props.massGrams.toInt()}g | Density: 2.70 g/cm³ | E: 68.9 GPa"
+                                                }
+                                                "Mat: Titanium" -> {
+                                                    val props = NativeKernel.computePhysicalProperties(solid, 3)
+                                                    featureStatusText = "Titanium Ti-6Al-4V | Mass: ${props.massGrams.toInt()}g | Yield: 880 MPa"
+                                                }
+                                                "Mat: Brass" -> {
+                                                    val props = NativeKernel.computePhysicalProperties(solid, 2)
+                                                    featureStatusText = "Brass C26000 | Mass: ${props.massGrams.toInt()}g | Density: 8.53 g/cm³"
+                                                }
+                                                "CoG & Inertia" -> {
+                                                    val props = NativeKernel.computePhysicalProperties(solid, 0)
+                                                    featureStatusText = "CoG: (${props.cogX.toInt()}, ${props.cogY.toInt()}, ${props.cogZ.toInt()}) mm | Izz: ${props.izz.toInt()} kg·mm²"
+                                                }
+                                            }
+                                        } catch (t: Throwable) {
+                                            featureStatusText = "Inspect failed: ${t.message}"
                                         }
                                     }
                             ) {
