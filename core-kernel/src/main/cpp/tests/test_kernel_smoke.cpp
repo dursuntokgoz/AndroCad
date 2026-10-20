@@ -2,7 +2,9 @@
 #include "AndroCadKernel.h"
 #include "GCS.h"
 #include "Sketcher.h"
+#include "FeatureOps.h"
 
+#include <BRepPrimAPI_MakeBox.hxx>
 #include <cassert>
 #include <cmath>
 #include <iostream>
@@ -210,6 +212,179 @@ int main() {
         return 1;
     }
 
-    std::cout << "[PASS] All AndroCAD Milestone 3 PlaneGCS & Sketcher Tests passed successfully!" << std::endl;
+    // =========================================================================
+    // Milestone 4: 3D Parametric Features Tests
+    // =========================================================================
+    std::cout << "\n[AndroCAD Test] Running Milestone 4 Tests (Extrude, Revolve, Fillet, Chamfer, Hole, Shell, Combine)..." << std::endl;
+
+    // Test 4.1: Extrude 2D profile face into 3D solid prism
+    TopoDS_Shape extrudeSolid;
+    auto extrudeMesh = androcad::FeatureOps::MakeExtrude(rectFaceResult.face, 0.0, 0.0, 30.0, extrudeSolid);
+    std::cout << "  Extrude Result: success=" << extrudeMesh.success
+              << ", volume=" << extrudeMesh.volume << " mm³ (Expected: 150000.0)"
+              << ", faces=" << extrudeMesh.faceCount << ", edges=" << extrudeMesh.edgeCount
+              << ", triangles=" << extrudeMesh.triangleCount << std::endl;
+
+    if (!extrudeMesh.success) {
+        std::cerr << "[FAIL] MakeExtrude failed: " << extrudeMesh.errorMessage << std::endl;
+        return 1;
+    }
+    if (std::abs(extrudeMesh.volume - 150000.0) > 1e-2) {
+        std::cerr << "[FAIL] Extrude volume mismatch! Expected 150000.0, got " << extrudeMesh.volume << std::endl;
+        return 1;
+    }
+    if (extrudeMesh.faceCount != 6 || extrudeMesh.edgeCount != 12) {
+        std::cerr << "[FAIL] Extrude topology mismatch! Expected 6 faces and 12 edges, got " 
+                  << extrudeMesh.faceCount << " faces, " << extrudeMesh.edgeCount << " edges" << std::endl;
+        return 1;
+    }
+
+    // Test 4.2: Fillet target edge with constant radius
+    TopoDS_Shape filletSolid;
+    auto filletMesh = androcad::FeatureOps::MakeFillet(extrudeSolid, 5.0, 1, filletSolid);
+    std::cout << "  Fillet Result: success=" << filletMesh.success
+              << ", volume=" << filletMesh.volume << " mm³ (Pre-fillet: " << extrudeMesh.volume << ")"
+              << ", faces=" << filletMesh.faceCount << " (Expected: 7)" << std::endl;
+
+    if (!filletMesh.success) {
+        std::cerr << "[FAIL] MakeFillet failed: " << filletMesh.errorMessage << std::endl;
+        return 1;
+    }
+    if (filletMesh.faceCount != 7) {
+        std::cerr << "[FAIL] Fillet face count mismatch! Expected 7, got " << filletMesh.faceCount << std::endl;
+        return 1;
+    }
+    if (filletMesh.volume >= extrudeMesh.volume || filletMesh.volume < 149000.0) {
+        std::cerr << "[FAIL] Fillet volume out of expected range: " << filletMesh.volume << std::endl;
+        return 1;
+    }
+
+    // Test 4.3: Chamfer target edge with distance bevel
+    TopoDS_Shape chamferSolid;
+    auto chamferMesh = androcad::FeatureOps::MakeChamfer(extrudeSolid, 3.0, 2, chamferSolid);
+    std::cout << "  Chamfer Result: success=" << chamferMesh.success
+              << ", volume=" << chamferMesh.volume << " mm³"
+              << ", faces=" << chamferMesh.faceCount << " (Expected: 7)" << std::endl;
+
+    if (!chamferMesh.success) {
+        std::cerr << "[FAIL] MakeChamfer failed: " << chamferMesh.errorMessage << std::endl;
+        return 1;
+    }
+    if (chamferMesh.faceCount != 7) {
+        std::cerr << "[FAIL] Chamfer face count mismatch! Expected 7, got " << chamferMesh.faceCount << std::endl;
+        return 1;
+    }
+    if (chamferMesh.volume >= extrudeMesh.volume) {
+        std::cerr << "[FAIL] Chamfer volume should be less than original box: " << chamferMesh.volume << std::endl;
+        return 1;
+    }
+
+    // Test 4.4: Hole (cylindrical cut through solid)
+    TopoDS_Shape holeSolid;
+    auto holeMesh = androcad::FeatureOps::MakeHole(extrudeSolid, 50.0, 25.0, 0.0, 0.0, 0.0, 1.0, 10.0, 30.0, holeSolid);
+    double expectedHoleCutVolume = M_PI * 100.0 * 30.0;
+    double expectedRemainingVolume = 150000.0 - expectedHoleCutVolume;
+    std::cout << "  Hole Result: success=" << holeMesh.success
+              << ", volume=" << holeMesh.volume << " mm³ (Expected: " << expectedRemainingVolume << ")"
+              << ", faces=" << holeMesh.faceCount << std::endl;
+
+    if (!holeMesh.success) {
+        std::cerr << "[FAIL] MakeHole failed: " << holeMesh.errorMessage << std::endl;
+        return 1;
+    }
+    if (std::abs(holeMesh.volume - expectedRemainingVolume) > 1.0) {
+        std::cerr << "[FAIL] Hole cut volume mismatch! Expected " << expectedRemainingVolume << ", got " << holeMesh.volume << std::endl;
+        return 1;
+    }
+
+    // Test 4.5: Revolve 2D profile face around an axis
+    androcad::Sketcher revSketch(androcad::SketchPlane::XY());
+    int rp1 = revSketch.AddPoint(20.0, 0.0, true);
+    int rp2 = revSketch.AddPoint(30.0, 0.0, true);
+    int rp3 = revSketch.AddPoint(30.0, 10.0, true);
+    int rp4 = revSketch.AddPoint(20.0, 10.0, true);
+    revSketch.AddLine(rp1, rp2);
+    revSketch.AddLine(rp2, rp3);
+    revSketch.AddLine(rp3, rp4);
+    revSketch.AddLine(rp4, rp1);
+    auto revProfileFace = revSketch.BuildProfileFace();
+
+    TopoDS_Shape revSolid;
+    auto revMesh = androcad::FeatureOps::MakeRevolve(revProfileFace.face, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 2.0 * M_PI, revSolid);
+    double expectedRevVolume = 2.0 * M_PI * 25.0 * 100.0; // Pappus's centroid theorem
+    std::cout << "  Revolve Result: success=" << revMesh.success
+              << ", volume=" << revMesh.volume << " mm³ (Expected: " << expectedRevVolume << ")"
+              << ", triangles=" << revMesh.triangleCount << std::endl;
+
+    if (!revMesh.success) {
+        std::cerr << "[FAIL] MakeRevolve failed: " << revMesh.errorMessage << std::endl;
+        return 1;
+    }
+    if (std::abs(revMesh.volume - expectedRevVolume) > 15.0) {
+        std::cerr << "[FAIL] Revolve volume mismatch! Expected " << expectedRevVolume << ", got " << revMesh.volume << std::endl;
+        return 1;
+    }
+
+    // Test 4.6: Boolean Combine (Join, Cut, Intersect)
+    BRepPrimAPI_MakeBox mkBoxA(40.0, 40.0, 40.0);
+    TopoDS_Shape shapeA = mkBoxA.Shape();
+    BRepPrimAPI_MakeBox mkBoxB(gp_Pnt(10.0, 10.0, 10.0), 20.0, 20.0, 20.0);
+    TopoDS_Shape shapeB = mkBoxB.Shape();
+
+    // Boolean Cut: A \ B = 64000 - 8000 = 56000 mm³
+    TopoDS_Shape boolCutSolid;
+    auto boolCutMesh = androcad::FeatureOps::MakeBoolean(shapeA, shapeB, androcad::BooleanType::Cut, 1e-5, boolCutSolid);
+    std::cout << "  Boolean Cut Volume: " << boolCutMesh.volume << " mm³ (Expected: 56000.0)" << std::endl;
+    if (!boolCutMesh.success || std::abs(boolCutMesh.volume - 56000.0) > 1e-2) {
+        std::cerr << "[FAIL] Boolean Cut failed or volume mismatch!" << std::endl;
+        return 1;
+    }
+
+    // Boolean Intersect: A n B = 8000 mm³
+    TopoDS_Shape boolIntSolid;
+    auto boolIntMesh = androcad::FeatureOps::MakeBoolean(shapeA, shapeB, androcad::BooleanType::Intersect, 1e-5, boolIntSolid);
+    std::cout << "  Boolean Intersect Volume: " << boolIntMesh.volume << " mm³ (Expected: 8000.0)" << std::endl;
+    if (!boolIntMesh.success || std::abs(boolIntMesh.volume - 8000.0) > 1e-2) {
+        std::cerr << "[FAIL] Boolean Intersect failed or volume mismatch!" << std::endl;
+        return 1;
+    }
+
+    // Test 4.7: Shell (Hollow out solid with opening face)
+    BRepPrimAPI_MakeBox mkShellBox(50.0, 50.0, 50.0);
+    TopoDS_Shape shellBaseShape = mkShellBox.Shape();
+    TopoDS_Shape shellOutSolid;
+    auto shellMesh = androcad::FeatureOps::MakeShell(shellBaseShape, 2.0, 1, shellOutSolid);
+    std::cout << "  Shell Result: success=" << shellMesh.success
+              << ", volume=" << shellMesh.volume << " mm³ (Original: 125000.0)"
+              << ", faces=" << shellMesh.faceCount << std::endl;
+
+    if (!shellMesh.success) {
+        std::cerr << "[FAIL] MakeShell failed: " << shellMesh.errorMessage << std::endl;
+        return 1;
+    }
+    if (shellMesh.volume >= 125000.0 || shellMesh.volume <= 0.0) {
+        std::cerr << "[FAIL] Shell volume out of expected bounds: " << shellMesh.volume << std::endl;
+        return 1;
+    }
+
+    // Test 4.8: Negative / Error Handling Validation
+    TopoDS_Shape dummyOut;
+    auto negExtrude = androcad::FeatureOps::MakeExtrude(TopoDS_Face(), 0, 0, 10, dummyOut);
+    if (negExtrude.success) {
+        std::cerr << "[FAIL] Expected failure for null face extrude!" << std::endl;
+        return 1;
+    }
+    auto negZeroVecExtrude = androcad::FeatureOps::MakeExtrude(rectFaceResult.face, 0, 0, 0, dummyOut);
+    if (negZeroVecExtrude.success) {
+        std::cerr << "[FAIL] Expected failure for zero-vector extrude!" << std::endl;
+        return 1;
+    }
+    auto negFillet = androcad::FeatureOps::MakeFillet(extrudeSolid, -2.0, 1, dummyOut);
+    if (negFillet.success) {
+        std::cerr << "[FAIL] Expected failure for negative radius fillet!" << std::endl;
+        return 1;
+    }
+
+    std::cout << "[PASS] All AndroCAD Milestone 3 & 4 Tests passed successfully!" << std::endl;
     return 0;
 }

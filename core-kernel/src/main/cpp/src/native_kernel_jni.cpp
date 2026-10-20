@@ -2,6 +2,11 @@
 #include <jni.h>
 #include "AndroCadKernel.h"
 #include "Sketcher.h"
+#include "FeatureOps.h"
+
+#include <BRepPrimAPI_MakeBox.hxx>
+#include <TopoDS_Shape.hxx>
+#include <Standard_Failure.hxx>
 
 #include <memory>
 #include <vector>
@@ -10,6 +15,7 @@ namespace {
 
 struct NativeMeshSession {
     androcad::MeshPayload payload;
+    TopoDS_Shape shape;
 };
 
 struct NativeSketchSession {
@@ -31,9 +37,24 @@ Java_com_androcad_kernel_NativeKernel_nativeCreateBox(
         jdouble linearDeflection,
         jdouble angularDeflection) {
     
-    androcad::AndroCadKernel kernel;
     auto session = std::make_unique<NativeMeshSession>();
-    session->payload = kernel.CreateBox(dx, dy, dz, linearDeflection, angularDeflection);
+    try {
+        BRepPrimAPI_MakeBox boxMaker(dx, dy, dz);
+        boxMaker.Build();
+        if (boxMaker.IsDone()) {
+            session->shape = boxMaker.Shape();
+            session->payload = androcad::FeatureOps::ShapeToMeshPayload(session->shape, linearDeflection, angularDeflection);
+        } else {
+            session->payload.success = false;
+            session->payload.errorMessage = "BRepPrimAPI_MakeBox failed to build box shape.";
+        }
+    } catch (const Standard_Failure& e) {
+        session->payload.success = false;
+        session->payload.errorMessage = e.GetMessageString();
+    } catch (const std::exception& e) {
+        session->payload.success = false;
+        session->payload.errorMessage = e.what();
+    }
 
     return reinterpret_cast<jlong>(session.release());
 }
@@ -348,6 +369,231 @@ Java_com_androcad_kernel_NativeKernel_nativeReleaseSketch(
         jlong handle) {
     auto* session = reinterpret_cast<NativeSketchSession*>(handle);
     delete session;
+}
+
+// -------------------------------------------------------------------------
+// Milestone 4: 3D Parametric Features JNI Bindings
+// -------------------------------------------------------------------------
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeExtrude(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong sketchHandle,
+        jdouble dx, jdouble dy, jdouble dz,
+        jdouble linearDeflection,
+        jdouble angularDeflection) {
+    auto* sketchSession = reinterpret_cast<NativeSketchSession*>(sketchHandle);
+    auto meshSession = std::make_unique<NativeMeshSession>();
+    if (!sketchSession || !sketchSession->sketcher) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = "Invalid sketch handle.";
+        return reinterpret_cast<jlong>(meshSession.release());
+    }
+
+    if (sketchSession->lastResult.face.IsNull()) {
+        sketchSession->lastResult = sketchSession->sketcher->BuildProfileFace();
+    }
+    if (sketchSession->lastResult.face.IsNull() || !sketchSession->lastResult.success) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = "Sketch does not contain a valid closed profile face.";
+        return reinterpret_cast<jlong>(meshSession.release());
+    }
+
+    meshSession->payload = androcad::FeatureOps::MakeExtrude(
+        sketchSession->lastResult.face,
+        dx, dy, dz,
+        meshSession->shape,
+        linearDeflection,
+        angularDeflection
+    );
+    return reinterpret_cast<jlong>(meshSession.release());
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeRevolve(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong sketchHandle,
+        jdouble ax, jdouble ay, jdouble az,
+        jdouble dx, jdouble dy, jdouble dz,
+        jdouble angleRad,
+        jdouble linearDeflection,
+        jdouble angularDeflection) {
+    auto* sketchSession = reinterpret_cast<NativeSketchSession*>(sketchHandle);
+    auto meshSession = std::make_unique<NativeMeshSession>();
+    if (!sketchSession || !sketchSession->sketcher) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = "Invalid sketch handle.";
+        return reinterpret_cast<jlong>(meshSession.release());
+    }
+
+    if (sketchSession->lastResult.face.IsNull()) {
+        sketchSession->lastResult = sketchSession->sketcher->BuildProfileFace();
+    }
+    if (sketchSession->lastResult.face.IsNull() || !sketchSession->lastResult.success) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = "Sketch does not contain a valid closed profile face.";
+        return reinterpret_cast<jlong>(meshSession.release());
+    }
+
+    meshSession->payload = androcad::FeatureOps::MakeRevolve(
+        sketchSession->lastResult.face,
+        ax, ay, az,
+        dx, dy, dz,
+        angleRad,
+        meshSession->shape,
+        linearDeflection,
+        angularDeflection
+    );
+    return reinterpret_cast<jlong>(meshSession.release());
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeFillet(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong solidHandle,
+        jdouble radius,
+        jint targetEdgeId,
+        jdouble linearDeflection,
+        jdouble angularDeflection) {
+    auto* solidSession = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto meshSession = std::make_unique<NativeMeshSession>();
+    if (!solidSession || solidSession->shape.IsNull()) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = "Invalid solid handle or null shape.";
+        return reinterpret_cast<jlong>(meshSession.release());
+    }
+
+    meshSession->payload = androcad::FeatureOps::MakeFillet(
+        solidSession->shape,
+        radius,
+        targetEdgeId,
+        meshSession->shape,
+        linearDeflection,
+        angularDeflection
+    );
+    return reinterpret_cast<jlong>(meshSession.release());
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeChamfer(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong solidHandle,
+        jdouble distance,
+        jint targetEdgeId,
+        jdouble linearDeflection,
+        jdouble angularDeflection) {
+    auto* solidSession = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto meshSession = std::make_unique<NativeMeshSession>();
+    if (!solidSession || solidSession->shape.IsNull()) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = "Invalid solid handle or null shape.";
+        return reinterpret_cast<jlong>(meshSession.release());
+    }
+
+    meshSession->payload = androcad::FeatureOps::MakeChamfer(
+        solidSession->shape,
+        distance,
+        targetEdgeId,
+        meshSession->shape,
+        linearDeflection,
+        angularDeflection
+    );
+    return reinterpret_cast<jlong>(meshSession.release());
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeHole(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong solidHandle,
+        jdouble px, jdouble py, jdouble pz,
+        jdouble dx, jdouble dy, jdouble dz,
+        jdouble radius,
+        jdouble depth,
+        jdouble linearDeflection,
+        jdouble angularDeflection) {
+    auto* solidSession = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto meshSession = std::make_unique<NativeMeshSession>();
+    if (!solidSession || solidSession->shape.IsNull()) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = "Invalid solid handle or null shape.";
+        return reinterpret_cast<jlong>(meshSession.release());
+    }
+
+    meshSession->payload = androcad::FeatureOps::MakeHole(
+        solidSession->shape,
+        px, py, pz,
+        dx, dy, dz,
+        radius,
+        depth,
+        meshSession->shape,
+        linearDeflection,
+        angularDeflection
+    );
+    return reinterpret_cast<jlong>(meshSession.release());
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeShell(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong solidHandle,
+        jdouble thickness,
+        jint removeFaceId,
+        jdouble linearDeflection,
+        jdouble angularDeflection) {
+    auto* solidSession = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto meshSession = std::make_unique<NativeMeshSession>();
+    if (!solidSession || solidSession->shape.IsNull()) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = "Invalid solid handle or null shape.";
+        return reinterpret_cast<jlong>(meshSession.release());
+    }
+
+    meshSession->payload = androcad::FeatureOps::MakeShell(
+        solidSession->shape,
+        thickness,
+        removeFaceId,
+        meshSession->shape,
+        linearDeflection,
+        angularDeflection
+    );
+    return reinterpret_cast<jlong>(meshSession.release());
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeBoolean(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong solidAHandle,
+        jlong solidBHandle,
+        jint opType,
+        jdouble fuzzyValue,
+        jdouble linearDeflection,
+        jdouble angularDeflection) {
+    auto* solidA = reinterpret_cast<NativeMeshSession*>(solidAHandle);
+    auto* solidB = reinterpret_cast<NativeMeshSession*>(solidBHandle);
+    auto meshSession = std::make_unique<NativeMeshSession>();
+    if (!solidA || solidA->shape.IsNull() || !solidB || solidB->shape.IsNull()) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = "Invalid solid handles for Boolean operation.";
+        return reinterpret_cast<jlong>(meshSession.release());
+    }
+
+    meshSession->payload = androcad::FeatureOps::MakeBoolean(
+        solidA->shape,
+        solidB->shape,
+        static_cast<androcad::BooleanType>(opType),
+        fuzzyValue,
+        meshSession->shape,
+        linearDeflection,
+        angularDeflection
+    );
+    return reinterpret_cast<jlong>(meshSession.release());
 }
 
 } // extern "C"

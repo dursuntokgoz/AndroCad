@@ -28,7 +28,7 @@ enum class NamedView {
     LEFT
 }
 
-class CadRenderer(private val meshResult: BoxMeshResult?) : GLSurfaceView.Renderer {
+class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Renderer {
 
     // Camera parameters (spherical orbit)
     var azimuth = 35.0f      // Horizontal orbit angle
@@ -213,14 +213,39 @@ class CadRenderer(private val meshResult: BoxMeshResult?) : GLSurfaceView.Render
         zoomToFit()
     }
 
+    fun updateMesh(newMesh: BoxMeshResult?) {
+        meshResult = newMesh
+        setupMeshBuffers()
+        zoomToFit()
+    }
+
     private fun setupMeshBuffers() {
-        if (meshResult == null || !meshResult.success) return
+        if (faceVbo != 0) {
+            GLES30.glDeleteBuffers(2, intArrayOf(faceVbo, faceIbo), 0)
+            faceVbo = 0
+            faceIbo = 0
+        }
+        if (faceVao != 0) {
+            GLES30.glDeleteVertexArrays(1, intArrayOf(faceVao), 0)
+            faceVao = 0
+        }
+        if (edgeVbo != 0) {
+            GLES30.glDeleteBuffers(1, intArrayOf(edgeVbo), 0)
+            edgeVbo = 0
+        }
+        if (edgeVao != 0) {
+            GLES30.glDeleteVertexArrays(1, intArrayOf(edgeVao), 0)
+            edgeVao = 0
+        }
+
+        val currentMesh = meshResult ?: return
+        if (!currentMesh.success) return
 
         // 1. Setup Face Buffers
-        val vBuf = meshResult.vertexBuffer
-        val iBuf = meshResult.indexBuffer
+        val vBuf = currentMesh.vertexBuffer
+        val iBuf = currentMesh.indexBuffer
         if (vBuf != null && iBuf != null) {
-            triangleIndexCount = meshResult.triangleCount * 3
+            triangleIndexCount = currentMesh.triangleCount * 3
 
             val vaos = IntArray(1)
             GLES30.glGenVertexArrays(1, vaos, 0)
@@ -256,7 +281,7 @@ class CadRenderer(private val meshResult: BoxMeshResult?) : GLSurfaceView.Render
         }
 
         // 2. Setup Edge Buffers (Milestone 2)
-        val edgeBuf = meshResult.edgeVertexBuffer
+        val edgeBuf = currentMesh.edgeVertexBuffer
         if (edgeBuf != null) {
             val edgeStride = (3 * 4) + 4 // pos (12) + edgeId (4) = 16 bytes
             edgeVertexCount = edgeBuf.capacity() / edgeStride
@@ -507,8 +532,9 @@ class CadRenderer(private val meshResult: BoxMeshResult?) : GLSurfaceView.Render
     }
 
     fun zoomToFit() {
-        if (meshResult != null && meshResult.success) {
-            val bbox = meshResult.boundingBox
+        val currentMesh = meshResult
+        if (currentMesh != null && currentMesh.success) {
+            val bbox = currentMesh.boundingBox
             targetX = 0f
             targetY = 0f
             targetZ = 0f

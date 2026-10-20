@@ -84,4 +84,45 @@ class NativeKernelTest {
         val sketch = NativeSketch(0L)
         sketch.close() // Verify safe close on 0L handle
     }
+
+    @Test
+    fun testBooleanTypeEnum() {
+        assertEquals(0, BooleanType.JOIN.id)
+        assertEquals(1, BooleanType.CUT.id)
+        assertEquals(2, BooleanType.INTERSECT.id)
+    }
+
+    @Test
+    fun testFeatureOperationsContract() {
+        val bbox = BoundingBox(0f, 0f, 0f, 100f, 50f, 30f)
+        val solid = BoxMeshResult(
+            success = true,
+            volume = 150000.0,
+            faceCount = 6,
+            edgeCount = 12,
+            triangleCount = 12,
+            vertexBuffer = null,
+            indexBuffer = null,
+            edgeVertexBuffer = null,
+            boundingBox = bbox,
+            errorMessage = null,
+            nativeHandle = 0L
+        )
+
+        // Verifying default mock error behavior on 0L handle (does not crash JVM)
+        val filletRes = solid.fillet(5.0, 1)
+        assertFalse(filletRes.success)
+
+        val chamferRes = solid.chamfer(3.0, 1)
+        assertFalse(chamferRes.success)
+
+        val holeRes = solid.hole(50.0, 25.0, 0.0, 0.0, 0.0, 1.0, 10.0, 30.0)
+        assertFalse(holeRes.success)
+
+        val shellRes = solid.shell(2.0, 1)
+        assertFalse(shellRes.success)
+
+        val booleanRes = solid.join(solid)
+        assertFalse(booleanRes.success)
+    }
 }

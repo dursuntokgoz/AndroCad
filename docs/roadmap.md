@@ -68,8 +68,8 @@ This document tracks development milestones, architectural decisions, and open r
 * **Goal:** Core 3D solid operations wrapped in safe transactional C++ boundaries with `IsDone()` and exception handling.
 * **Deliverables:** Extrude, Revolve, Fillet, Chamfer, Hole, Shell, Combine (Join/Cut/Intersect).
 * **Acceptance Tests:** Unit test suite validating solid creation and edge-case handling for each feature.
-* **Status:** In Progress
-* **Finish Date:** -
+* **Status:** Done
+* **Finish Date:** 2026-10-20
 
 ---
 
@@ -77,7 +77,7 @@ This document tracks development milestones, architectural decisions, and open r
 * **Goal:** Deterministic feature DAG timeline with rollback marker, user parameters, and persistent topological naming.
 * **Deliverables:** Feature DAG engine, rollback bar, expression parser for parameters, 3-tier TNP resolver, and TNP regression test suite.
 * **Acceptance Tests:** TNP regression suite passes (upstream dimensions modified, downstream fillets/sketches remain attached).
-* **Status:** Todo
+* **Status:** In Progress
 * **Finish Date:** -
 
 ---
