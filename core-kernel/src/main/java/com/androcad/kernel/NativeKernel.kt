@@ -338,6 +338,7 @@ object NativeKernel {
         outResult: FloatArray
     ): Boolean
     internal external fun nativeReleaseMesh(handle: Long)
+    internal fun releaseMesh(handle: Long) { nativeReleaseMesh(handle) }
 
     // Milestone 3 JNI Declarations
     internal external fun nativeCreateSketch(
