@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Original Sharp Corner Phantom -->
+  <polyline points="5,5 5,19 19,19" stroke="#555555" stroke-dasharray="2 2" stroke-width="1.5" />
+  <!-- Beveled Chamfer Edge -->
+  <line x1="5" y1="12" x2="12" y2="19" stroke="#FFB74D" stroke-width="2.5" />
+  <line x1="5" y1="5" x2="5" y2="12" stroke="#007ACC" stroke-width="2" />
+  <line x1="12" y1="19" x2="19" y2="19" stroke="#007ACC" stroke-width="2" />
+  <!-- Dimension indicators -->
+  <line x1="3" y1="12" x2="3" y2="19" stroke="#888888" stroke-width="1" />
+  <line x1="5" y1="21" x2="12" y2="21" stroke="#888888" stroke-width="1" />
+</svg>

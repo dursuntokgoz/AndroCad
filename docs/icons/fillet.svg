@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Original Sharp Corner Phantom -->
+  <polyline points="5,4 5,19 20,19" stroke="#555555" stroke-dasharray="2 2" stroke-width="1.5" />
+  <!-- Rounded Fillet Blend Curve -->
+  <path d="M5,10 C5,15 9,19 14,19" stroke="#007ACC" stroke-width="2.5" />
+  <line x1="5" y1="4" x2="5" y2="10" stroke="#007ACC" stroke-width="2" />
+  <line x1="14" y1="19" x2="20" y2="19" stroke="#007ACC" stroke-width="2" />
+  <!-- Radius indicator -->
+  <line x1="11" y1="13" x2="7" y2="17" stroke="#4CAF50" stroke-width="1.2" />
+  <circle cx="11" cy="13" r="1.5" fill="#4CAF50" />
+</svg>

@@ -95,5 +95,5 @@ This document tracks development milestones, architectural decisions, and open r
 * **Goal:** Tablet-first UI polish (two-finger undo, three-finger redo, dark/light themes, original CAD icons), responsive phone layout, and tablet UI screenshots embedded in GitHub README.
 * **Deliverables:** Jetpack Compose UI, original SVG icon library, adaptive phone bottom-sheet viewer, tablet UI screenshots embedded in README.md.
 * **Acceptance Tests:** Complete end-to-end design of a mechanical part on tablet and inspection on phone; high-resolution tablet screenshots showcasing Fusion 360-style workflow published in repository README.md.
-* **Status:** In Progress
-* **Finish Date:** -
+* **Status:** Done
+* **Finish Date:** 2026-10-20

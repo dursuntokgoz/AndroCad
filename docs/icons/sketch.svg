@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Drafting grid points -->
+  <circle cx="5" cy="5" r="1" fill="#555555" />
+  <circle cx="12" cy="5" r="1" fill="#555555" />
+  <circle cx="19" cy="5" r="1" fill="#555555" />
+  <circle cx="5" cy="12" r="1" fill="#555555" />
+  <circle cx="19" cy="12" r="1" fill="#555555" />
+  <circle cx="5" cy="19" r="1" fill="#555555" />
+  <circle cx="12" cy="19" r="1" fill="#555555" />
+  <circle cx="19" cy="19" r="1" fill="#555555" />
+  <!-- Parametric Sketch Profile -->
+  <path d="M7,16 L12,7 L17,16 Z" stroke="#007ACC" stroke-width="2" fill="#007ACC" fill-opacity="0.15" />
+  <!-- Stylus / Pencil icon -->
+  <path d="M14,4 L18,8 M19,3 L21,5 L16,10 L14,10 L14,8 Z" stroke="#4CAF50" fill="#4CAF50" stroke-width="1.2" />
+</svg>

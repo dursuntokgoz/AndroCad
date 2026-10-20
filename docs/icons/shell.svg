@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Outer Box -->
+  <polygon points="3,7 12,2 21,7 21,17 12,22 3,17" stroke="#555555" stroke-width="1.5" />
+  <!-- Inner Hollow Shell Walls -->
+  <polygon points="6,9 12,5.5 18,9 18,15 12,18.5 6,15" fill="#007ACC" fill-opacity="0.25" stroke="#007ACC" stroke-width="2" />
+  <!-- Thickness indicator -->
+  <line x1="12" y1="2" x2="12" y2="5.5" stroke="#4CAF50" stroke-width="1.8" />
+  <circle cx="12" cy="3.75" r="1" fill="#4CAF50" />
+</svg>
