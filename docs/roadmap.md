@@ -50,8 +50,8 @@ This document tracks development milestones, architectural decisions, and open r
 * **Goal:** Interactive 3D viewport on Android: orbit, pan, zoom, ViewCube, display modes (shaded, shaded+edges, wireframe), and $O(1)$ GPU color-coded face and edge picking.
 * **Deliverables:** Native GLES 3.x render loop, ViewCube widget, touch gesture recognizer (single/two finger), color-buffer picking pass.
 * **Acceptance Tests:** Smooth 60+ FPS touch manipulation; accurate face and edge selection.
-* **Status:** In Progress
-* **Finish Date:** -
+* **Status:** Done
+* **Finish Date:** 2026-10-20
 
 ---
 
@@ -59,7 +59,7 @@ This document tracks development milestones, architectural decisions, and open r
 * **Goal:** 2D parametric sketcher on datum planes and planar faces with pencil/touch snapping and constraint solving.
 * **Deliverables:** Primitives (line, arc, circle, rectangle, spline), constraints (coincident, horizontal, vertical, parallel, perpendicular, tangent, equal, dimension), profile loop detection.
 * **Acceptance Tests:** Over/under-constrained status indicators; profile closes into valid `TopoDS_Face`.
-* **Status:** Todo
+* **Status:** In Progress
 * **Finish Date:** -
 
 ---
