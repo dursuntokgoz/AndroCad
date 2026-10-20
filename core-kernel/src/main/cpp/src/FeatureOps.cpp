@@ -13,7 +13,6 @@
 #include <TopExp.hxx>
 #include <TopExp_Explorer.hxx>
 #include <TopTools_IndexedMapOfShape.hxx>
-#include <TopTools_IndexedDataMapOfShapeListOfShape.hxx>
 #include <TopTools_ListOfShape.hxx>
 #include <TopoDS.hxx>
 #include <BRep_Tool.hxx>
@@ -343,18 +342,9 @@ MeshPayload FeatureOps::MakeChamfer(const TopoDS_Shape& solid,
             return err;
         }
 
-        TopTools_IndexedDataMapOfShapeListOfShape edgeToFaceMap;
-        TopExp::MapShapesAndAncestors(solid, TopAbs_EDGE, TopAbs_FACE, edgeToFaceMap);
-
         int edgeIdx = (targetEdgeId > 0 && targetEdgeId <= edgeMap.Extent()) ? targetEdgeId : 1;
         const TopoDS_Edge& edge = TopoDS::Edge(edgeMap(edgeIdx));
-
-        if (edgeToFaceMap.Contains(edge) && !edgeToFaceMap.FindFromKey(edge).IsEmpty()) {
-            const TopoDS_Face& face = TopoDS::Face(edgeToFaceMap.FindFromKey(edge).First());
-            mkChamfer.Add(distance, edge, face);
-        } else {
-            mkChamfer.Add(distance, edge);
-        }
+        mkChamfer.Add(distance, edge);
 
         mkChamfer.Build();
         if (!mkChamfer.IsDone()) {
