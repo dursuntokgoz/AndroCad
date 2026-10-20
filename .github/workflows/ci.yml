@@ -123,17 +123,19 @@ jobs:
           EOF
 
       - name: Upload Debug APK Artifact
+        continue-on-error: true
         uses: actions/upload-artifact@v4.3.4
         with:
           name: androcad-debug-apk
           path: app/build/outputs/apk/debug/*.apk
-          retention-days: 14
+          retention-days: 2
 
       - name: Upload Test Reports
         if: always()
+        continue-on-error: true
         uses: actions/upload-artifact@v4.3.4
         with:
           name: unit-test-reports
           path: |
             **/build/reports/tests/
-          retention-days: 7
+          retention-days: 2
