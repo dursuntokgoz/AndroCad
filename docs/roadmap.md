@@ -132,8 +132,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Collision interference detection (`BRepAlgoAPI_Section`).
   - **Release:** Beta APK `v0.9.0-beta`.
 * **Acceptance Tests:** Two-link kinematic arm with revolute and slider joints solves and animates within angular bounds without joint divergence.
-* **Status:** Planned
-* **Finish Date:** -
+* **Status:** Done
+* **Finish Date:** 2026-10-21
 
 ---
 
