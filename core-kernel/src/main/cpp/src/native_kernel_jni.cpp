@@ -3,6 +3,9 @@
 #include "AndroCadKernel.h"
 #include "Sketcher.h"
 #include "FeatureOps.h"
+#include "ExpressionParser.h"
+#include "TNPResolver.h"
+#include "TimelineDAG.h"
 
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <TopoDS_Shape.hxx>
@@ -21,6 +24,10 @@ struct NativeMeshSession {
 struct NativeSketchSession {
     std::unique_ptr<androcad::Sketcher> sketcher;
     androcad::SketchResult lastResult;
+};
+
+struct NativeTimelineSession {
+    std::unique_ptr<androcad::TimelineDAG> timeline;
 };
 
 } // namespace
@@ -594,6 +601,158 @@ Java_com_androcad_kernel_NativeKernel_nativeBoolean(
         angularDeflection
     );
     return reinterpret_cast<jlong>(meshSession.release());
+}
+
+// -------------------------------------------------------------------------
+// Milestone 5: Expression Parser & Parametric Timeline DAG JNI Bindings
+// -------------------------------------------------------------------------
+
+JNIEXPORT jdoubleArray JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeEvaluateExpression(
+        JNIEnv* env,
+        jobject /* this */,
+        jstring exprStr,
+        jobjectArray varNames,
+        jdoubleArray varValues) {
+    if (!exprStr) return nullptr;
+
+    const char* cExpr = env->GetStringUTFChars(exprStr, nullptr);
+    std::string expr(cExpr);
+    env->ReleaseStringUTFChars(exprStr, cExpr);
+
+    androcad::ExpressionParser parser;
+    if (varNames && varValues) {
+        jsize count = env->GetArrayLength(varNames);
+        jdouble* vals = env->GetDoubleArrayElements(varValues, nullptr);
+        for (jsize i = 0; i < count; ++i) {
+            jstring nStr = static_cast<jstring>(env->GetObjectArrayElement(varNames, i));
+            const char* cName = env->GetStringUTFChars(nStr, nullptr);
+            parser.SetVariable(cName, vals[i]);
+            env->ReleaseStringUTFChars(nStr, cName);
+            env->DeleteLocalRef(nStr);
+        }
+        env->ReleaseDoubleArrayElements(varValues, vals, JNI_ABORT);
+    }
+
+    auto res = parser.Evaluate(expr);
+    jdoubleArray out = env->NewDoubleArray(2);
+    jdouble buf[2] = {res.success ? 1.0 : 0.0, res.value};
+    env->SetDoubleArrayRegion(out, 0, 2, buf);
+    return out;
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeCreateTimeline(
+        JNIEnv* /* env */,
+        jobject /* this */) {
+    auto session = std::make_unique<NativeTimelineSession>();
+    session->timeline = std::make_unique<androcad::TimelineDAG>();
+    return reinterpret_cast<jlong>(session.release());
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeTimelineSetParameter(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong handle,
+        jstring nameStr,
+        jstring exprStr) {
+    auto* session = reinterpret_cast<NativeTimelineSession*>(handle);
+    if (!session || !session->timeline || !nameStr || !exprStr) return JNI_FALSE;
+
+    const char* cName = env->GetStringUTFChars(nameStr, nullptr);
+    const char* cExpr = env->GetStringUTFChars(exprStr, nullptr);
+    session->timeline->SetParameter(cName, cExpr);
+    env->ReleaseStringUTFChars(nameStr, cName);
+    env->ReleaseStringUTFChars(exprStr, cExpr);
+    return JNI_TRUE;
+}
+
+JNIEXPORT jdouble JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeTimelineGetParameter(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong handle,
+        jstring nameStr) {
+    auto* session = reinterpret_cast<NativeTimelineSession*>(handle);
+    if (!session || !session->timeline || !nameStr) return 0.0;
+
+    const char* cName = env->GetStringUTFChars(nameStr, nullptr);
+    double val = session->timeline->GetParameterValue(cName);
+    env->ReleaseStringUTFChars(nameStr, cName);
+    return val;
+}
+
+JNIEXPORT jint JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeTimelineAddBox(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong handle,
+        jstring nameStr,
+        jstring dxStr,
+        jstring dyStr,
+        jstring dzStr) {
+    auto* session = reinterpret_cast<NativeTimelineSession*>(handle);
+    if (!session || !session->timeline) return -1;
+
+    const char* cName = env->GetStringUTFChars(nameStr, nullptr);
+    const char* cDx = env->GetStringUTFChars(dxStr, nullptr);
+    const char* cDy = env->GetStringUTFChars(dyStr, nullptr);
+    const char* cDz = env->GetStringUTFChars(dzStr, nullptr);
+
+    uint32_t id = session->timeline->AddBoxNode(cName, cDx, cDy, cDz);
+
+    env->ReleaseStringUTFChars(nameStr, cName);
+    env->ReleaseStringUTFChars(dxStr, cDx);
+    env->ReleaseStringUTFChars(dyStr, cDy);
+    env->ReleaseStringUTFChars(dzStr, cDz);
+    return static_cast<jint>(id);
+}
+
+JNIEXPORT void JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeTimelineSetRollback(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong handle,
+        jint rollbackIndex) {
+    auto* session = reinterpret_cast<NativeTimelineSession*>(handle);
+    if (!session || !session->timeline) return;
+    session->timeline->SetRollbackIndex(rollbackIndex);
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeTimelineRebuild(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong handle) {
+    auto* session = reinterpret_cast<NativeTimelineSession*>(handle);
+    auto meshSession = std::make_unique<NativeMeshSession>();
+    if (!session || !session->timeline) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = "Invalid timeline handle.";
+        return reinterpret_cast<jlong>(meshSession.release());
+    }
+
+    bool success = session->timeline->Rebuild();
+    if (success) {
+        meshSession->shape = session->timeline->GetActiveShape();
+        meshSession->payload = session->timeline->GetActiveMesh();
+    } else {
+        meshSession->payload.success = false;
+        const auto* active = session->timeline->GetActiveNode();
+        meshSession->payload.errorMessage = active ? active->errorMessage : "Timeline rebuild failed.";
+    }
+
+    return reinterpret_cast<jlong>(meshSession.release());
+}
+
+JNIEXPORT void JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeReleaseTimeline(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong handle) {
+    auto* session = reinterpret_cast<NativeTimelineSession*>(handle);
+    delete session;
 }
 
 } // extern "C"

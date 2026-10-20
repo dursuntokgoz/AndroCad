@@ -213,6 +213,56 @@ class NativeSketch(val handle: Long) : Closeable {
 }
 
 /**
+ * Milestone 5: Parametric Timeline DAG & Persistent Naming.
+ */
+class NativeTimeline(val handle: Long) : Closeable {
+    fun setParameter(name: String, expression: String): Boolean {
+        if (handle == 0L) return false
+        return NativeKernel.nativeTimelineSetParameter(handle, name, expression)
+    }
+
+    fun getParameter(name: String): Double {
+        if (handle == 0L) return 0.0
+        return NativeKernel.nativeTimelineGetParameter(handle, name)
+    }
+
+    fun addBox(name: String, dx: String, dy: String, dz: String): Int {
+        if (handle == 0L) return -1
+        return NativeKernel.nativeTimelineAddBox(handle, name, dx, dy, dz)
+    }
+
+    fun setRollbackIndex(index: Int) {
+        if (handle == 0L) return
+        NativeKernel.nativeTimelineSetRollback(handle, index)
+    }
+
+    fun rebuild(): BoxMeshResult {
+        if (handle == 0L) {
+            return BoxMeshResult(
+                success = false,
+                volume = 0.0,
+                faceCount = 0,
+                edgeCount = 0,
+                triangleCount = 0,
+                vertexBuffer = null,
+                indexBuffer = null,
+                edgeVertexBuffer = null,
+                boundingBox = BoundingBox(),
+                errorMessage = "Invalid timeline handle."
+            )
+        }
+        val meshHandle = NativeKernel.nativeTimelineRebuild(handle)
+        return NativeKernel.buildMeshResult(meshHandle)
+    }
+
+    override fun close() {
+        if (handle != 0L) {
+            NativeKernel.nativeReleaseTimeline(handle)
+        }
+    }
+}
+
+/**
  * High-performance JNI bridge to the OpenCASCADE native CAD kernel.
  */
 object NativeKernel {
@@ -551,8 +601,38 @@ object NativeKernel {
         vx: Double = 0.0, vy: Double = 1.0, vz: Double = 0.0,
         nx: Double = 0.0, ny: Double = 0.0, nz: Double = 1.0
     ): NativeSketch {
-        val handle = nativeCreateSketch(ox, oy, oz, ux, uy, uz, vx, vy, vz, nx, ny, nz)
+        val handle = try {
+            nativeCreateSketch(ox, oy, oz, ux, uy, uz, vx, vy, vz, nx, ny, nz)
+        } catch (t: Throwable) {
+            0L
+        }
         return NativeSketch(handle)
+    }
+
+    /**
+     * Milestone 5: Evaluates mathematical expression with optional variable substitutions.
+     */
+    fun evaluateExpression(expr: String, variables: Map<String, Double> = emptyMap()): Pair<Boolean, Double> {
+        return try {
+            val names = variables.keys.toTypedArray()
+            val values = variables.values.toDoubleArray()
+            val res = nativeEvaluateExpression(expr, names, values) ?: return Pair(false, 0.0)
+            Pair(res[0] > 0.5, res[1])
+        } catch (t: Throwable) {
+            Pair(false, 0.0)
+        }
+    }
+
+    /**
+     * Milestone 5: Creates a parametric Timeline feature DAG.
+     */
+    fun createTimeline(): NativeTimeline {
+        val handle = try {
+            nativeCreateTimeline()
+        } catch (t: Throwable) {
+            0L
+        }
+        return NativeTimeline(handle)
     }
 
     internal external fun nativeCreateBox(
@@ -652,4 +732,14 @@ object NativeKernel {
         fuzzyValue: Double,
         linearDeflection: Double, angularDeflection: Double
     ): Long
+
+    // Milestone 5 JNI Declarations
+    internal external fun nativeEvaluateExpression(expr: String, varNames: Array<String>, varValues: DoubleArray): DoubleArray?
+    internal external fun nativeCreateTimeline(): Long
+    internal external fun nativeTimelineSetParameter(handle: Long, name: String, expr: String): Boolean
+    internal external fun nativeTimelineGetParameter(handle: Long, name: String): Double
+    internal external fun nativeTimelineAddBox(handle: Long, name: String, dx: String, dy: String, dz: String): Int
+    internal external fun nativeTimelineSetRollback(handle: Long, rollbackIndex: Int)
+    internal external fun nativeTimelineRebuild(handle: Long): Long
+    internal external fun nativeReleaseTimeline(handle: Long)
 }

@@ -79,6 +79,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
     // Milestone 3 & 4: Sketch & Parametric Solid Features state
     var activeSolid by remember { mutableStateOf(meshResult) }
     var timelineItems by remember { mutableStateOf(listOf("1. Box (100x50x20)")) }
+    var rollbackPos by remember { mutableStateOf(-1) }
     var featureStatusText by remember { mutableStateOf("Ready") }
     var activeSketchProfile by remember { mutableStateOf<SketchProfileResult?>(null) }
     var activeSketchTool by remember { mutableStateOf("Rectangle") }
@@ -512,6 +513,12 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                         Text(text = "DoF: $sketchDoF ($sketchStatusText)", color = if (sketchDoF == 0) successGreen else highlightOrange, fontSize = 11.sp)
                     }
 
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(text = "USER PARAMETERS (TNP)", color = Color.White, fontSize = 12.sp)
+                    Text(text = "• width = 100.0 mm", color = textMuted, fontSize = 11.sp)
+                    Text(text = "• length = width * 2 (200.0 mm)", color = textMuted, fontSize = 11.sp)
+                    Text(text = "• height = 25.0 mm", color = textMuted, fontSize = 11.sp)
+
                     Spacer(modifier = Modifier.height(14.dp))
                     Text(text = "SELECTION", color = Color.White, fontSize = 12.sp)
                     Spacer(modifier = Modifier.height(4.dp))
@@ -552,14 +559,22 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                 Text(text = "TIMELINE:", color = textMuted, fontSize = 12.sp, modifier = Modifier.padding(end = 12.dp))
 
                 timelineItems.forEachIndexed { index, item ->
+                    val isRolledBack = (rollbackPos >= 0 && index > rollbackPos)
                     Surface(
-                        color = Color(0xFF2F3136),
+                        color = if (isRolledBack) Color(0xFF222428) else Color(0xFF2F3136),
                         shape = RoundedCornerShape(4.dp),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, if (index == timelineItems.lastIndex) accentBlue else Color(0xFF454950))
+                        border = androidx.compose.foundation.BorderStroke(
+                            1.dp,
+                            if (index == rollbackPos || (rollbackPos == -1 && index == timelineItems.lastIndex)) accentBlue else Color(0xFF454950)
+                        ),
+                        modifier = Modifier.clickable {
+                            rollbackPos = index
+                            featureStatusText = "Rolled back to step ${index + 1}"
+                        }
                     ) {
                         Text(
                             text = item,
-                            color = Color.White,
+                            color = if (isRolledBack) Color(0xFF70757D) else Color.White,
                             fontSize = 11.sp,
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                         )
@@ -583,8 +598,22 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     Spacer(modifier = Modifier.width(6.dp))
                 }
 
-                // Rollback Marker
-                Box(
+                // Rollback Marker / Unroll control
+                Surface(
+                    color = Color(0xFFFFB74D),
+                    shape = RoundedCornerShape(4.dp),
+                    modifier = Modifier.clickable {
+                        rollbackPos = -1
+                        featureStatusText = "Timeline rolled forward (Latest state)"
+                    }
+                ) {
+                    Text(
+                        text = if (rollbackPos == -1) "● LIVE" else "▶ ROLL FORWARD",
+                        color = Color.Black,
+                        fontSize = 10.sp,
+                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)
+                    )
+                }
                     modifier = Modifier
                         .width(4.dp)
                         .height(24.dp)
