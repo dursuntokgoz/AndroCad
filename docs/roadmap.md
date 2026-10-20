@@ -118,8 +118,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - **UI Integration:** Surface workspace ribbon tools and property parameters.
   - **Release:** Beta APK `v0.8.0-beta`.
 * **Acceptance Tests:** Complex multi-section loft and pipe sweep pass regression; stitched surface produces valid solid verified via `BRepCheck_Analyzer`.
-* **Status:** In Progress
-* **Finish Date:** -
+* **Status:** Done
+* **Finish Date:** 2026-10-20
 
 ---
 

@@ -1,0 +1,12 @@
+<!-- Copyright (c) 2026 dursuntokgoz. All rights reserved. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Bottom rectangular section -->
+  <polygon points="8,40 40,40 32,32 16,32" stroke="#007ACC" fill="#007ACC" fill-opacity="0.15" />
+  <!-- Top circular section -->
+  <ellipse cx="24" cy="14" rx="10" ry="5" stroke="#00A4E4" fill="#00A4E4" fill-opacity="0.25" />
+  <!-- Loft transition guide edges -->
+  <line x1="8" y1="40" x2="14" y2="14" stroke="#B0B3B8" stroke-dasharray="2 2" />
+  <line x1="40" y1="40" x2="34" y2="14" stroke="#B0B3B8" stroke-dasharray="2 2" />
+  <line x1="16" y1="32" x2="20" y2="10" stroke="#B0B3B8" stroke-dasharray="2 2" />
+  <line x1="32" y1="32" x2="28" y2="10" stroke="#B0B3B8" stroke-dasharray="2 2" />
+</svg>
