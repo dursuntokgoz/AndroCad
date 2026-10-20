@@ -328,6 +328,20 @@ object NativeKernel {
         linearDeflection: Double = 0.1,
         angularDeflection: Double = 0.5
     ): BoxMeshResult {
+        if (sketch.handle == 0L) {
+            return BoxMeshResult(
+                success = false,
+                volume = 0.0,
+                faceCount = 0,
+                edgeCount = 0,
+                triangleCount = 0,
+                vertexBuffer = null,
+                indexBuffer = null,
+                edgeVertexBuffer = null,
+                boundingBox = BoundingBox(),
+                errorMessage = "Invalid sketch handle."
+            )
+        }
         val handle = nativeExtrude(sketch.handle, dx, dy, dz, linearDeflection, angularDeflection)
         return buildMeshResult(handle)
     }
@@ -343,6 +357,20 @@ object NativeKernel {
         linearDeflection: Double = 0.1,
         angularDeflection: Double = 0.5
     ): BoxMeshResult {
+        if (sketch.handle == 0L) {
+            return BoxMeshResult(
+                success = false,
+                volume = 0.0,
+                faceCount = 0,
+                edgeCount = 0,
+                triangleCount = 0,
+                vertexBuffer = null,
+                indexBuffer = null,
+                edgeVertexBuffer = null,
+                boundingBox = BoundingBox(),
+                errorMessage = "Invalid sketch handle."
+            )
+        }
         val handle = nativeRevolve(sketch.handle, ax, ay, az, dx, dy, dz, angleRad, linearDeflection, angularDeflection)
         return buildMeshResult(handle)
     }
@@ -357,6 +385,20 @@ object NativeKernel {
         linearDeflection: Double = 0.1,
         angularDeflection: Double = 0.5
     ): BoxMeshResult {
+        if (solid.nativeHandle == 0L || !solid.success) {
+            return BoxMeshResult(
+                success = false,
+                volume = 0.0,
+                faceCount = 0,
+                edgeCount = 0,
+                triangleCount = 0,
+                vertexBuffer = null,
+                indexBuffer = null,
+                edgeVertexBuffer = null,
+                boundingBox = BoundingBox(),
+                errorMessage = "Invalid solid handle or failed solid."
+            )
+        }
         val handle = nativeFillet(solid.nativeHandle, radius, targetEdgeId, linearDeflection, angularDeflection)
         return buildMeshResult(handle)
     }
@@ -371,6 +413,20 @@ object NativeKernel {
         linearDeflection: Double = 0.1,
         angularDeflection: Double = 0.5
     ): BoxMeshResult {
+        if (solid.nativeHandle == 0L || !solid.success) {
+            return BoxMeshResult(
+                success = false,
+                volume = 0.0,
+                faceCount = 0,
+                edgeCount = 0,
+                triangleCount = 0,
+                vertexBuffer = null,
+                indexBuffer = null,
+                edgeVertexBuffer = null,
+                boundingBox = BoundingBox(),
+                errorMessage = "Invalid solid handle or failed solid."
+            )
+        }
         val handle = nativeChamfer(solid.nativeHandle, distance, targetEdgeId, linearDeflection, angularDeflection)
         return buildMeshResult(handle)
     }
@@ -387,6 +443,20 @@ object NativeKernel {
         linearDeflection: Double = 0.1,
         angularDeflection: Double = 0.5
     ): BoxMeshResult {
+        if (solid.nativeHandle == 0L || !solid.success) {
+            return BoxMeshResult(
+                success = false,
+                volume = 0.0,
+                faceCount = 0,
+                edgeCount = 0,
+                triangleCount = 0,
+                vertexBuffer = null,
+                indexBuffer = null,
+                edgeVertexBuffer = null,
+                boundingBox = BoundingBox(),
+                errorMessage = "Invalid solid handle or failed solid."
+            )
+        }
         val handle = nativeHole(solid.nativeHandle, px, py, pz, dx, dy, dz, radius, depth, linearDeflection, angularDeflection)
         return buildMeshResult(handle)
     }
@@ -401,6 +471,20 @@ object NativeKernel {
         linearDeflection: Double = 0.1,
         angularDeflection: Double = 0.5
     ): BoxMeshResult {
+        if (solid.nativeHandle == 0L || !solid.success) {
+            return BoxMeshResult(
+                success = false,
+                volume = 0.0,
+                faceCount = 0,
+                edgeCount = 0,
+                triangleCount = 0,
+                vertexBuffer = null,
+                indexBuffer = null,
+                edgeVertexBuffer = null,
+                boundingBox = BoundingBox(),
+                errorMessage = "Invalid solid handle or failed solid."
+            )
+        }
         val handle = nativeShell(solid.nativeHandle, thickness, removeFaceId, linearDeflection, angularDeflection)
         return buildMeshResult(handle)
     }
@@ -416,6 +500,20 @@ object NativeKernel {
         linearDeflection: Double = 0.1,
         angularDeflection: Double = 0.5
     ): BoxMeshResult {
+        if (solidA.nativeHandle == 0L || !solidA.success || solidB.nativeHandle == 0L || !solidB.success) {
+            return BoxMeshResult(
+                success = false,
+                volume = 0.0,
+                faceCount = 0,
+                edgeCount = 0,
+                triangleCount = 0,
+                vertexBuffer = null,
+                indexBuffer = null,
+                edgeVertexBuffer = null,
+                boundingBox = BoundingBox(),
+                errorMessage = "Invalid solid handles or failed solid."
+            )
+        }
         val handle = nativeBoolean(solidA.nativeHandle, solidB.nativeHandle, type.id, fuzzy, linearDeflection, angularDeflection)
         return buildMeshResult(handle)
     }
