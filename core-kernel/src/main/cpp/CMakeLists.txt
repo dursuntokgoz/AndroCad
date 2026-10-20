@@ -30,6 +30,8 @@ if(ANDROID)
 
     add_library(androcad_kernel SHARED
         src/AndroCadKernel.cpp
+        src/GCS.cpp
+        src/Sketcher.cpp
         src/native_kernel_jni.cpp
     )
 
@@ -68,6 +70,8 @@ else()
 
     add_executable(androcad_host_smoke_test
         src/AndroCadKernel.cpp
+        src/GCS.cpp
+        src/Sketcher.cpp
         tests/test_kernel_smoke.cpp
     )
 

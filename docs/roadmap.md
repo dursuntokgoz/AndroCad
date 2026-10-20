@@ -59,8 +59,8 @@ This document tracks development milestones, architectural decisions, and open r
 * **Goal:** 2D parametric sketcher on datum planes and planar faces with pencil/touch snapping and constraint solving.
 * **Deliverables:** Primitives (line, arc, circle, rectangle, spline), constraints (coincident, horizontal, vertical, parallel, perpendicular, tangent, equal, dimension), profile loop detection.
 * **Acceptance Tests:** Over/under-constrained status indicators; profile closes into valid `TopoDS_Face`.
-* **Status:** In Progress
-* **Finish Date:** -
+* **Status:** Done
+* **Finish Date:** 2026-10-20
 
 ---
 
@@ -68,7 +68,7 @@ This document tracks development milestones, architectural decisions, and open r
 * **Goal:** Core 3D solid operations wrapped in safe transactional C++ boundaries with `IsDone()` and exception handling.
 * **Deliverables:** Extrude, Revolve, Fillet, Chamfer, Hole, Shell, Combine (Join/Cut/Intersect).
 * **Acceptance Tests:** Unit test suite validating solid creation and edge-case handling for each feature.
-* **Status:** Todo
+* **Status:** In Progress
 * **Finish Date:** -
 
 ---

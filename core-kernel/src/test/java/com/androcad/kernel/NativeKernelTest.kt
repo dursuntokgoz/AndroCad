@@ -65,4 +65,23 @@ class NativeKernelTest {
         assertTrue(pickEdge.isEdge)
         assertEquals(7, pickEdge.entityId)
     }
+
+    @Test
+    fun testSketchDataContract() {
+        val profileRes = SketchProfileResult(
+            success = true,
+            isClosedProfile = true,
+            area = 5000.0,
+            degreesOfFreedom = 0,
+            solveStatus = SolveStatus.FULLY_CONSTRAINED
+        )
+        assertTrue(profileRes.success)
+        assertTrue(profileRes.isClosedProfile)
+        assertEquals(5000.0, profileRes.area, 1e-4)
+        assertEquals(0, profileRes.degreesOfFreedom)
+        assertEquals(SolveStatus.FULLY_CONSTRAINED, profileRes.solveStatus)
+
+        val sketch = NativeSketch(0L)
+        sketch.close() // Verify safe close on 0L handle
+    }
 }
