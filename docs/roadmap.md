@@ -100,7 +100,7 @@ This document tracks development milestones, architectural decisions, and open r
 
 ---
 
-## Post-M7 Fusion 360 Parity & Autonomous Expansion (Milestones 8 - 12)
+## Post-M7 Fusion 360 Parity & Autonomous Expansion (Milestones 8 - 15)
 
 With the foundation established (Milestones 1–7), the roadmap expands toward professional engineering parity with Fusion 360 workflows. Each milestone produces a public/private GitHub Release with an attached **Beta APK** (`app-debug.apk`), continuing autonomously without blocking on user confirmations.
 
@@ -175,5 +175,46 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - High-res raytraced / rasterized snapshot export.
   - **Release:** Beta APK `v1.0.0-beta`.
 * **Acceptance Tests:** Calculated mass and center of gravity match analytical physics values within $0.05\%$; PBR metallic preview renders with environment reflection.
+* **Status:** Planned
+* **Finish Date:** -
+
+---
+
+### Milestone 13: Mesh Workspace & Scan-to-CAD Reverse Engineering
+* **Goal:** Triangle mesh manipulation, organic sculpting repair, and mesh-to-BREP conversion (Fusion 360 Mesh workspace parity).
+* **Deliverables:**
+  - Mesh decimation and remeshing algorithms for 3D scans and complex STLs.
+  - Planar and cylindrical facet clustering to detect analytic CAD features.
+  - Mesh-to-solid watertight conversion via OCCT `BRepBuilderAPI_Sewing`.
+  - **Release:** Beta APK `v1.1.0-beta`.
+* **Acceptance Tests:** 50,000-triangle organic mesh successfully decimate-optimized and converted into solid manifold B-Rep.
+* **Status:** Planned
+* **Finish Date:** -
+
+---
+
+### Milestone 14: Linear Static Stress Simulation & FEA Heatmap
+* **Goal:** Tablet-based structural stress analysis and displacement verification (Fusion 360 Simulation workspace parity).
+* **Deliverables:**
+  - Boundary constraint application (Fixed support, Pin constraint, Roller constraint).
+  - External force and pressure vectors on picked faces.
+  - Lightweight tetrahedral finite element discretization and linear elastic solver.
+  - Real-time Von Mises stress color heatmap overlay on GLES viewport.
+  - **Release:** Beta APK `v1.2.0-beta`.
+* **Acceptance Tests:** Cantilever beam under point load matches theoretical Euler-Bernoulli deflection within $2.0\%$.
+* **Status:** Planned
+* **Finish Date:** -
+
+---
+
+### Milestone 15: Subtractive CAM & G-Code Post-Processing
+* **Goal:** 2.5D and 3D CNC machining toolpath generation and machine code export (Fusion 360 Manufacture workspace parity).
+* **Deliverables:**
+  - Stock setup and WCS coordinate origin definition.
+  - Toolpath operations: Facing, 2D Adaptive Clearing, 2D Pocket, 2D Contour, Drill cycles.
+  - Tool library (Flat endmills, Ballnose, Chamfer mills).
+  - Material removal simulation and standard ISO G-Code / GRBL post-processor.
+  - **Release:** Production Release `v2.0.0`.
+* **Acceptance Tests:** Pocketed mechanical bracket generates collision-free 3-axis G-Code toolpath verified against theoretical volume removal.
 * **Status:** Planned
 * **Finish Date:** -
