@@ -76,7 +76,10 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
     var selectedType by remember { mutableStateOf<String?>(null) }
     var selectedId by remember { mutableStateOf(0) }
 
-    // Milestone 3: Sketch & PlaneGCS state
+    // Milestone 3 & 4: Sketch & Parametric Solid Features state
+    var activeSolid by remember { mutableStateOf(meshResult) }
+    var timelineItems by remember { mutableStateOf(listOf("1. Box (100x50x20)")) }
+    var featureStatusText by remember { mutableStateOf("Ready") }
     var activeSketchProfile by remember { mutableStateOf<SketchProfileResult?>(null) }
     var activeSketchTool by remember { mutableStateOf("Rectangle") }
     var sketchDoF by remember { mutableStateOf(0) }
@@ -193,12 +196,119 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                         )
                     }
                 } else {
-                    val tools = listOf("Create Box", "Extrude", "Revolve", "Fillet", "Combine", "Shell")
+                    val tools = listOf("Box", "Extrude", "Revolve", "Fillet", "Chamfer", "Hole", "Shell", "Combine")
                     tools.forEach { tool ->
                         Surface(
                             color = Color(0xFF2F3136),
                             shape = RoundedCornerShape(4.dp),
-                            modifier = Modifier.padding(2.dp)
+                            modifier = Modifier
+                                .padding(2.dp)
+                                .clickable {
+                                    try {
+                                        when (tool) {
+                                            "Box" -> {
+                                                val newBox = NativeKernel.createBox(100.0, 50.0, 20.0)
+                                                if (newBox.success) {
+                                                    activeSolid?.close()
+                                                    activeSolid = newBox
+                                                    renderer?.updateMesh(newBox)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Box (100x50x20)").toMutableList()
+                                                    featureStatusText = "Box created: 100,000 mm³"
+                                                }
+                                            }
+                                            "Extrude" -> {
+                                                val sketch = NativeKernel.createSketch()
+                                                sketch.addRectangle(0.0, 0.0, 100.0, 50.0)
+                                                val extrudeSolid = sketch.extrude(0.0, 0.0, 30.0)
+                                                sketch.close()
+                                                if (extrudeSolid.success) {
+                                                    activeSolid?.close()
+                                                    activeSolid = extrudeSolid
+                                                    renderer?.updateMesh(extrudeSolid)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Extrude (Z: 30 mm)").toMutableList()
+                                                    featureStatusText = "Extruded 150,000 mm³"
+                                                }
+                                            }
+                                            "Revolve" -> {
+                                                val sketch = NativeKernel.createSketch()
+                                                sketch.addRectangle(20.0, 0.0, 10.0, 10.0)
+                                                val revSolid = sketch.revolve(0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 2.0 * Math.PI)
+                                                sketch.close()
+                                                if (revSolid.success) {
+                                                    activeSolid?.close()
+                                                    activeSolid = revSolid
+                                                    renderer?.updateMesh(revSolid)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Revolve (360°)").toMutableList()
+                                                    featureStatusText = "Revolved solid"
+                                                }
+                                            }
+                                            "Fillet" -> {
+                                                activeSolid?.let { solid ->
+                                                    val filleted = solid.fillet(5.0, if (selectedType == "Edge") selectedId else 1)
+                                                    if (filleted.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = filleted
+                                                        renderer?.updateMesh(filleted)
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Fillet (R: 5 mm)").toMutableList()
+                                                        featureStatusText = "Fillet applied"
+                                                    }
+                                                }
+                                            }
+                                            "Chamfer" -> {
+                                                activeSolid?.let { solid ->
+                                                    val chamfered = solid.chamfer(3.0, if (selectedType == "Edge") selectedId else 2)
+                                                    if (chamfered.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = chamfered
+                                                        renderer?.updateMesh(chamfered)
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Chamfer (D: 3 mm)").toMutableList()
+                                                        featureStatusText = "Chamfer applied"
+                                                    }
+                                                }
+                                            }
+                                            "Hole" -> {
+                                                activeSolid?.let { solid ->
+                                                    val holed = solid.hole(50.0, 25.0, 0.0, 0.0, 0.0, 1.0, 10.0, 30.0)
+                                                    if (holed.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = holed
+                                                        renderer?.updateMesh(holed)
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Hole (Ø20 x 30 mm)").toMutableList()
+                                                        featureStatusText = "Hole cut"
+                                                    }
+                                                }
+                                            }
+                                            "Shell" -> {
+                                                activeSolid?.let { solid ->
+                                                    val shelled = solid.shell(2.0, if (selectedType == "Face") selectedId else 1)
+                                                    if (shelled.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = shelled
+                                                        renderer?.updateMesh(shelled)
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Shell (T: 2 mm)").toMutableList()
+                                                        featureStatusText = "Shell hollowed"
+                                                    }
+                                                }
+                                            }
+                                            "Combine" -> {
+                                                activeSolid?.let { solidA ->
+                                                    val solidB = NativeKernel.createBox(30.0, 30.0, 30.0)
+                                                    val combined = solidA.join(solidB)
+                                                    solidB.close()
+                                                    if (combined.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = combined
+                                                        renderer?.updateMesh(combined)
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Combine (Join)").toMutableList()
+                                                        featureStatusText = "Combine Join executed"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } catch (t: Throwable) {
+                                        featureStatusText = "Feature op failed: ${t.message}"
+                                    }
+                                }
                         ) {
                             Text(
                                 text = tool,
@@ -383,15 +493,16 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                 Text(text = "PROPERTIES", color = Color.White, fontSize = 13.sp)
                 Spacer(modifier = Modifier.height(8.dp))
 
-                if (meshResult != null && meshResult.success) {
-                    Text(text = "Solid: Box 1", color = Color.White, fontSize = 12.sp)
+                if (activeSolid != null && activeSolid!!.success) {
+                    Text(text = "Solid: Active Body", color = Color.White, fontSize = 12.sp)
                     Text(text = "Kernel: OCCT 7.8.0", color = textMuted, fontSize = 11.sp)
                     Text(text = "Solver: PlaneGCS (LGPL)", color = textMuted, fontSize = 11.sp)
+                    Text(text = "Status: $featureStatusText", color = accentBlue, fontSize = 11.sp)
                     Spacer(modifier = Modifier.height(6.dp))
-                    Text(text = "Volume: ${"%.1f".format(meshResult.volume)} mm³", color = textMuted, fontSize = 11.sp)
-                    Text(text = "Faces: ${meshResult.faceCount}", color = textMuted, fontSize = 11.sp)
-                    Text(text = "Edges: ${meshResult.edgeCount}", color = textMuted, fontSize = 11.sp)
-                    Text(text = "Triangles: ${meshResult.triangleCount}", color = textMuted, fontSize = 11.sp)
+                    Text(text = "Volume: ${"%.1f".format(activeSolid!!.volume)} mm³", color = textMuted, fontSize = 11.sp)
+                    Text(text = "Faces: ${activeSolid!!.faceCount}", color = textMuted, fontSize = 11.sp)
+                    Text(text = "Edges: ${activeSolid!!.edgeCount}", color = textMuted, fontSize = 11.sp)
+                    Text(text = "Triangles: ${activeSolid!!.triangleCount}", color = textMuted, fontSize = 11.sp)
 
                     if (activeSketchProfile != null) {
                         Spacer(modifier = Modifier.height(10.dp))
@@ -440,37 +551,38 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
             ) {
                 Text(text = "TIMELINE:", color = textMuted, fontSize = 12.sp, modifier = Modifier.padding(end = 12.dp))
 
-                // Feature 1: Box 1
-                Surface(
-                    color = Color(0xFF2F3136),
-                    shape = RoundedCornerShape(4.dp),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, accentBlue)
-                ) {
-                    Text(
-                        text = "1. Box (100x50x20)",
-                        color = Color.White,
-                        fontSize = 11.sp,
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-                    )
+                timelineItems.forEachIndexed { index, item ->
+                    Surface(
+                        color = Color(0xFF2F3136),
+                        shape = RoundedCornerShape(4.dp),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, if (index == timelineItems.lastIndex) accentBlue else Color(0xFF454950))
+                    ) {
+                        Text(
+                            text = item,
+                            color = Color.White,
+                            fontSize = 11.sp,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(6.dp))
                 }
 
                 if (activeSketchProfile != null && activeSketchProfile!!.isClosedProfile) {
-                    Spacer(modifier = Modifier.width(8.dp))
                     Surface(
                         color = Color(0xFF2F3136),
                         shape = RoundedCornerShape(4.dp),
                         border = androidx.compose.foundation.BorderStroke(1.dp, successGreen)
                     ) {
                         Text(
-                            text = "2. Sketch 1 (Rect 100x50)",
+                            text = "Sketch (100x50)",
                             color = Color.White,
                             fontSize = 11.sp,
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                         )
                     }
+                    Spacer(modifier = Modifier.width(6.dp))
                 }
 
-                Spacer(modifier = Modifier.width(8.dp))
                 // Rollback Marker
                 Box(
                     modifier = Modifier

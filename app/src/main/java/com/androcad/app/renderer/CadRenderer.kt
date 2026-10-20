@@ -28,7 +28,7 @@ enum class NamedView {
     LEFT
 }
 
-class CadRenderer(private val meshResult: BoxMeshResult?) : GLSurfaceView.Renderer {
+class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Renderer {
 
     // Camera parameters (spherical orbit)
     var azimuth = 35.0f      // Horizontal orbit angle
@@ -213,8 +213,32 @@ class CadRenderer(private val meshResult: BoxMeshResult?) : GLSurfaceView.Render
         zoomToFit()
     }
 
+    fun updateMesh(newMesh: BoxMeshResult?) {
+        meshResult = newMesh
+        setupMeshBuffers()
+        zoomToFit()
+    }
+
     private fun setupMeshBuffers() {
-        if (meshResult == null || !meshResult.success) return
+        if (faceVbo != 0) {
+            GLES30.glDeleteBuffers(2, intArrayOf(faceVbo, faceIbo), 0)
+            faceVbo = 0
+            faceIbo = 0
+        }
+        if (faceVao != 0) {
+            GLES30.glDeleteVertexArrays(1, intArrayOf(faceVao), 0)
+            faceVao = 0
+        }
+        if (edgeVbo != 0) {
+            GLES30.glDeleteBuffers(1, intArrayOf(edgeVbo), 0)
+            edgeVbo = 0
+        }
+        if (edgeVao != 0) {
+            GLES30.glDeleteVertexArrays(1, intArrayOf(edgeVao), 0)
+            edgeVao = 0
+        }
+
+        if (meshResult == null || !meshResult!!.success) return
 
         // 1. Setup Face Buffers
         val vBuf = meshResult.vertexBuffer

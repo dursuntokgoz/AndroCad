@@ -38,6 +38,14 @@ data class PickResult(
     val hitZ: Float
 )
 
+enum class BooleanType(val id: Int) {
+    JOIN(0),
+    CUT(1),
+    INTERSECT(2)
+}
+
+typealias SolidMeshResult = BoxMeshResult
+
 /**
  * Result of analytical solid box creation, edge extraction, and tessellation.
  */
@@ -66,6 +74,27 @@ data class BoxMeshResult(
         if (nativeHandle == 0L || !success) return null
         return NativeKernel.pickByRay(nativeHandle, ox, oy, oz, dx, dy, dz, edgeTolerance)
     }
+
+    fun fillet(radius: Double, edgeId: Int = -1): BoxMeshResult =
+        NativeKernel.fillet(this, radius, edgeId)
+
+    fun chamfer(distance: Double, edgeId: Int = -1): BoxMeshResult =
+        NativeKernel.chamfer(this, distance, edgeId)
+
+    fun hole(px: Double, py: Double, pz: Double, dx: Double, dy: Double, dz: Double, radius: Double, depth: Double): BoxMeshResult =
+        NativeKernel.hole(this, px, py, pz, dx, dy, dz, radius, depth)
+
+    fun shell(thickness: Double, removeFaceId: Int = -1): BoxMeshResult =
+        NativeKernel.shell(this, thickness, removeFaceId)
+
+    fun join(other: BoxMeshResult): BoxMeshResult =
+        NativeKernel.booleanOp(this, other, BooleanType.JOIN)
+
+    fun cut(other: BoxMeshResult): BoxMeshResult =
+        NativeKernel.booleanOp(this, other, BooleanType.CUT)
+
+    fun intersect(other: BoxMeshResult): BoxMeshResult =
+        NativeKernel.booleanOp(this, other, BooleanType.INTERSECT)
 
     override fun close() {
         if (nativeHandle != 0L) {
@@ -170,6 +199,12 @@ class NativeSketch(val handle: Long) : Closeable {
         )
     }
 
+    fun extrude(dx: Double, dy: Double, dz: Double): BoxMeshResult =
+        NativeKernel.extrude(this, dx, dy, dz)
+
+    fun revolve(ax: Double, ay: Double, az: Double, dx: Double, dy: Double, dz: Double, angleRad: Double): BoxMeshResult =
+        NativeKernel.revolve(this, ax, ay, az, dx, dy, dz, angleRad)
+
     override fun close() {
         if (handle != 0L) {
             NativeKernel.nativeReleaseSketch(handle)
@@ -199,10 +234,13 @@ object NativeKernel {
                     "TKG3d",
                     "TKGeomBase",
                     "TKBRep",
+                    "TKGeomAlgo",
                     "TKTopAlgo",
                     "TKPrim",
                     "TKBO",
                     "TKBool",
+                    "TKFillet",
+                    "TKOffset",
                     "TKMesh",
                     "androcad_kernel"
                 )
@@ -220,18 +258,7 @@ object NativeKernel {
         }
     }
 
-    /**
-     * Constructs a solid rectangular prism, computes volume, extracts boundary edges,
-     * and tessellates its boundary representation into direct ByteBuffers.
-     */
-    fun createBox(
-        dx: Double,
-        dy: Double,
-        dz: Double,
-        linearDeflection: Double = 0.1,
-        angularDeflection: Double = 0.5
-    ): BoxMeshResult {
-        val handle = nativeCreateBox(dx, dy, dz, linearDeflection, angularDeflection)
+    internal fun buildMeshResult(handle: Long): BoxMeshResult {
         val success = nativeIsSuccess(handle)
         return if (success) {
             val boundsArray = FloatArray(6)
@@ -273,6 +300,124 @@ object NativeKernel {
                 errorMessage = error
             )
         }
+    }
+
+    /**
+     * Constructs a solid rectangular prism, computes volume, extracts boundary edges,
+     * and tessellates its boundary representation into direct ByteBuffers.
+     */
+    fun createBox(
+        dx: Double,
+        dy: Double,
+        dz: Double,
+        linearDeflection: Double = 0.1,
+        angularDeflection: Double = 0.5
+    ): BoxMeshResult {
+        val handle = nativeCreateBox(dx, dy, dz, linearDeflection, angularDeflection)
+        return buildMeshResult(handle)
+    }
+
+    /**
+     * Extrudes a 2D closed sketch profile into a 3D solid prism along vector (dx, dy, dz).
+     */
+    fun extrude(
+        sketch: NativeSketch,
+        dx: Double,
+        dy: Double,
+        dz: Double,
+        linearDeflection: Double = 0.1,
+        angularDeflection: Double = 0.5
+    ): BoxMeshResult {
+        val handle = nativeExtrude(sketch.handle, dx, dy, dz, linearDeflection, angularDeflection)
+        return buildMeshResult(handle)
+    }
+
+    /**
+     * Revolves a 2D closed sketch profile around an axis by an angle in radians.
+     */
+    fun revolve(
+        sketch: NativeSketch,
+        ax: Double, ay: Double, az: Double,
+        dx: Double, dy: Double, dz: Double,
+        angleRad: Double,
+        linearDeflection: Double = 0.1,
+        angularDeflection: Double = 0.5
+    ): BoxMeshResult {
+        val handle = nativeRevolve(sketch.handle, ax, ay, az, dx, dy, dz, angleRad, linearDeflection, angularDeflection)
+        return buildMeshResult(handle)
+    }
+
+    /**
+     * Applies constant-radius rounding fillet to target edge (or all edges if targetEdgeId = -1).
+     */
+    fun fillet(
+        solid: BoxMeshResult,
+        radius: Double,
+        targetEdgeId: Int = -1,
+        linearDeflection: Double = 0.1,
+        angularDeflection: Double = 0.5
+    ): BoxMeshResult {
+        val handle = nativeFillet(solid.nativeHandle, radius, targetEdgeId, linearDeflection, angularDeflection)
+        return buildMeshResult(handle)
+    }
+
+    /**
+     * Applies chamfer bevel to target edge (or first edge if targetEdgeId = -1).
+     */
+    fun chamfer(
+        solid: BoxMeshResult,
+        distance: Double,
+        targetEdgeId: Int = -1,
+        linearDeflection: Double = 0.1,
+        angularDeflection: Double = 0.5
+    ): BoxMeshResult {
+        val handle = nativeChamfer(solid.nativeHandle, distance, targetEdgeId, linearDeflection, angularDeflection)
+        return buildMeshResult(handle)
+    }
+
+    /**
+     * Cuts a cylindrical hole through a solid at position (px, py, pz) along direction (dx, dy, dz).
+     */
+    fun hole(
+        solid: BoxMeshResult,
+        px: Double, py: Double, pz: Double,
+        dx: Double, dy: Double, dz: Double,
+        radius: Double,
+        depth: Double,
+        linearDeflection: Double = 0.1,
+        angularDeflection: Double = 0.5
+    ): BoxMeshResult {
+        val handle = nativeHole(solid.nativeHandle, px, py, pz, dx, dy, dz, radius, depth, linearDeflection, angularDeflection)
+        return buildMeshResult(handle)
+    }
+
+    /**
+     * Hollows out a solid with wall thickness, removing opening face if specified.
+     */
+    fun shell(
+        solid: BoxMeshResult,
+        thickness: Double,
+        removeFaceId: Int = -1,
+        linearDeflection: Double = 0.1,
+        angularDeflection: Double = 0.5
+    ): BoxMeshResult {
+        val handle = nativeShell(solid.nativeHandle, thickness, removeFaceId, linearDeflection, angularDeflection)
+        return buildMeshResult(handle)
+    }
+
+    /**
+     * Performs Boolean operation (Join/Fuse, Cut/Difference, Intersect/Common) between two solids.
+     */
+    fun booleanOp(
+        solidA: BoxMeshResult,
+        solidB: BoxMeshResult,
+        type: BooleanType,
+        fuzzy: Double = 1e-5,
+        linearDeflection: Double = 0.1,
+        angularDeflection: Double = 0.5
+    ): BoxMeshResult {
+        val handle = nativeBoolean(solidA.nativeHandle, solidB.nativeHandle, type.id, fuzzy, linearDeflection, angularDeflection)
+        return buildMeshResult(handle)
     }
 
     /**
@@ -357,4 +502,56 @@ object NativeKernel {
     internal external fun nativeSketchGetPoint(handle: Long, pointId: Int, outCoords: DoubleArray)
     internal external fun nativeSketchBuildProfileFace(handle: Long, outResult: DoubleArray): Boolean
     internal external fun nativeReleaseSketch(handle: Long)
+
+    // Milestone 4 JNI Declarations
+    internal external fun nativeExtrude(
+        sketchHandle: Long,
+        dx: Double, dy: Double, dz: Double,
+        linearDeflection: Double, angularDeflection: Double
+    ): Long
+
+    internal external fun nativeRevolve(
+        sketchHandle: Long,
+        ax: Double, ay: Double, az: Double,
+        dx: Double, dy: Double, dz: Double,
+        angleRad: Double,
+        linearDeflection: Double, angularDeflection: Double
+    ): Long
+
+    internal external fun nativeFillet(
+        solidHandle: Long,
+        radius: Double,
+        targetEdgeId: Int,
+        linearDeflection: Double, angularDeflection: Double
+    ): Long
+
+    internal external fun nativeChamfer(
+        solidHandle: Long,
+        distance: Double,
+        targetEdgeId: Int,
+        linearDeflection: Double, angularDeflection: Double
+    ): Long
+
+    internal external fun nativeHole(
+        solidHandle: Long,
+        px: Double, py: Double, pz: Double,
+        dx: Double, dy: Double, dz: Double,
+        radius: Double, depth: Double,
+        linearDeflection: Double, angularDeflection: Double
+    ): Long
+
+    internal external fun nativeShell(
+        solidHandle: Long,
+        thickness: Double,
+        removeFaceId: Int,
+        linearDeflection: Double, angularDeflection: Double
+    ): Long
+
+    internal external fun nativeBoolean(
+        solidAHandle: Long,
+        solidBHandle: Long,
+        opType: Int,
+        fuzzyValue: Double,
+        linearDeflection: Double, angularDeflection: Double
+    ): Long
 }

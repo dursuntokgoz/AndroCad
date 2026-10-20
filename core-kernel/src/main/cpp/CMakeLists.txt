@@ -32,6 +32,7 @@ if(ANDROID)
         src/AndroCadKernel.cpp
         src/GCS.cpp
         src/Sketcher.cpp
+        src/FeatureOps.cpp
         src/native_kernel_jni.cpp
     )
 
@@ -45,11 +46,14 @@ if(ANDROID)
         TKG2d
         TKG3d
         TKGeomBase
+        TKGeomAlgo
         TKBRep
         TKTopAlgo
         TKPrim
         TKBO
         TKBool
+        TKFillet
+        TKOffset
         TKMesh
         log
         android
@@ -72,6 +76,7 @@ else()
         src/AndroCadKernel.cpp
         src/GCS.cpp
         src/Sketcher.cpp
+        src/FeatureOps.cpp
         tests/test_kernel_smoke.cpp
     )
 
@@ -81,11 +86,14 @@ else()
         TKG2d
         TKG3d
         TKGeomBase
+        TKGeomAlgo
         TKBRep
         TKTopAlgo
         TKPrim
         TKBO
         TKBool
+        TKFillet
+        TKOffset
         TKMesh
     )
 
