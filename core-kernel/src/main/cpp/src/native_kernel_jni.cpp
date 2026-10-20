@@ -7,6 +7,7 @@
 #include "TNPResolver.h"
 #include "TimelineDAG.h"
 #include "ProjectIO.h"
+#include "SurfaceOps.h"
 
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <TopoDS_Shape.hxx>
@@ -921,6 +922,77 @@ Java_com_androcad_kernel_NativeKernel_nativeLoadProject(
     }
 
     return res.success ? JNI_TRUE : JNI_FALSE;
+}
+
+// Milestone 8: Surface & Direct Modeling
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeCreateLoftRectToCircle(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jdouble zHeight,
+        jdouble radius,
+        jdouble linearDeflection,
+        jdouble angularDeflection) {
+    auto session = std::make_unique<NativeMeshSession>();
+    try {
+        TopoDS_Wire wireBottom = androcad::SurfaceOps::CreateRectangleWire(0.0, 0.0, 0.0, 100.0, 50.0);
+        TopoDS_Wire wireTop = androcad::SurfaceOps::CreateCircleWire(50.0, 25.0, zHeight, radius);
+        std::vector<TopoDS_Wire> sections = {wireBottom, wireTop};
+        session->payload = androcad::SurfaceOps::MakeLoft(sections, true, false, session->shape, linearDeflection, angularDeflection);
+    } catch (const std::exception& e) {
+        session->payload.success = false;
+        session->payload.errorMessage = e.what();
+    }
+    return reinterpret_cast<jlong>(session.release());
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeThicken(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong solidHandle,
+        jdouble thickness,
+        jdouble linearDeflection,
+        jdouble angularDeflection) {
+    auto* inSession = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto outSession = std::make_unique<NativeMeshSession>();
+    if (!inSession || inSession->shape.IsNull()) {
+        outSession->payload.success = false;
+        outSession->payload.errorMessage = "Invalid input shape for Thicken";
+        return reinterpret_cast<jlong>(outSession.release());
+    }
+    try {
+        outSession->payload = androcad::SurfaceOps::MakeThicken(inSession->shape, thickness, outSession->shape, linearDeflection, angularDeflection);
+    } catch (const std::exception& e) {
+        outSession->payload.success = false;
+        outSession->payload.errorMessage = e.what();
+    }
+    return reinterpret_cast<jlong>(outSession.release());
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativePressPullFace(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong solidHandle,
+        jint faceId,
+        jdouble distance,
+        jdouble linearDeflection,
+        jdouble angularDeflection) {
+    auto* inSession = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto outSession = std::make_unique<NativeMeshSession>();
+    if (!inSession || inSession->shape.IsNull()) {
+        outSession->payload.success = false;
+        outSession->payload.errorMessage = "Invalid input shape for Press-Pull";
+        return reinterpret_cast<jlong>(outSession.release());
+    }
+    try {
+        outSession->payload = androcad::SurfaceOps::PressPullFace(inSession->shape, faceId, distance, outSession->shape, linearDeflection, angularDeflection);
+    } catch (const std::exception& e) {
+        outSession->payload.success = false;
+        outSession->payload.errorMessage = e.what();
+    }
+    return reinterpret_cast<jlong>(outSession.release());
 }
 
 } // extern "C"

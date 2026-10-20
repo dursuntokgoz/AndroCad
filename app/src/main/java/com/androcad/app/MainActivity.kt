@@ -159,9 +159,9 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     )
 
                     val tabs = if (isTablet) {
-                        listOf("Solid", "Sketch", "File / IO", "Surface", "Mesh", "Inspect")
+                        listOf("Solid", "Sketch", "Surface", "File / IO", "Mesh", "Inspect")
                     } else {
-                        listOf("Solid", "Sketch", "File / IO")
+                        listOf("Solid", "Sketch", "Surface", "File / IO")
                     }
 
                     tabs.forEach { tab ->
@@ -334,6 +334,86 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                     color = textColor,
                                     fontSize = 11.sp,
                                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                                )
+                            }
+                        }
+                    } else if (activeTab == "Surface") {
+                        val surfaceTools = listOf("Loft", "Press-Pull (+10)", "Press-Pull (-5)", "Thicken (5mm)")
+                        surfaceTools.forEach { tool ->
+                            Surface(
+                                color = chipBgColor,
+                                shape = RoundedCornerShape(4.dp),
+                                modifier = Modifier
+                                    .clickable {
+                                        try {
+                                            when (tool) {
+                                                "Loft" -> {
+                                                    val loftSolid = NativeKernel.createLoft(40.0, 20.0)
+                                                    if (loftSolid.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = loftSolid
+                                                        renderer?.updateMesh(loftSolid)
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Loft (Rect->Circ)").toMutableList()
+                                                        featureStatusText = "Loft solid generated: ${loftSolid.volume.toInt()} mm³"
+                                                    } else {
+                                                        featureStatusText = "Loft failed: ${loftSolid.errorMessage}"
+                                                    }
+                                                }
+                                                "Press-Pull (+10)" -> {
+                                                    activeSolid?.let { solid ->
+                                                        val targetFace = if (selectedType == "Face") selectedId else 1
+                                                        val pulled = solid.pressPull(10.0, targetFace)
+                                                        if (pulled.success) {
+                                                            activeSolid?.close()
+                                                            activeSolid = pulled
+                                                            renderer?.updateMesh(pulled)
+                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Press-Pull (+10mm)").toMutableList()
+                                                            featureStatusText = "Face #$targetFace offset +10mm (New Vol: ${pulled.volume.toInt()} mm³)"
+                                                        } else {
+                                                            featureStatusText = "Press-Pull failed: ${pulled.errorMessage}"
+                                                        }
+                                                    } ?: run { featureStatusText = "No active solid" }
+                                                }
+                                                "Press-Pull (-5)" -> {
+                                                    activeSolid?.let { solid ->
+                                                        val targetFace = if (selectedType == "Face") selectedId else 1
+                                                        val pulled = solid.pressPull(-5.0, targetFace)
+                                                        if (pulled.success) {
+                                                            activeSolid?.close()
+                                                            activeSolid = pulled
+                                                            renderer?.updateMesh(pulled)
+                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Press-Pull (-5mm)").toMutableList()
+                                                            featureStatusText = "Face #$targetFace offset -5mm"
+                                                        } else {
+                                                            featureStatusText = "Press-Pull failed: ${pulled.errorMessage}"
+                                                        }
+                                                    } ?: run { featureStatusText = "No active solid" }
+                                                }
+                                                "Thicken (5mm)" -> {
+                                                    activeSolid?.let { solid ->
+                                                        val thickened = solid.thicken(5.0)
+                                                        if (thickened.success) {
+                                                            activeSolid?.close()
+                                                            activeSolid = thickened
+                                                            renderer?.updateMesh(thickened)
+                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Thicken (5mm)").toMutableList()
+                                                            featureStatusText = "Thicken 5mm applied"
+                                                        } else {
+                                                            featureStatusText = "Thicken failed: ${thickened.errorMessage}"
+                                                        }
+                                                    } ?: run { featureStatusText = "No active solid" }
+                                                }
+                                            }
+                                        } catch (t: Throwable) {
+                                            featureStatusText = "Surface op failed: ${t.message}"
+                                        }
+                                    }
+                            ) {
+                                Text(
+                                    text = tool,
+                                    color = textColor,
+                                    fontSize = 11.sp,
+                                    modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
                                 )
                             }
                         }

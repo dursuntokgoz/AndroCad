@@ -33,6 +33,7 @@ if(ANDROID)
         src/GCS.cpp
         src/Sketcher.cpp
         src/FeatureOps.cpp
+        src/SurfaceOps.cpp
         src/ExpressionParser.cpp
         src/TNPResolver.cpp
         src/TimelineDAG.cpp
@@ -176,4 +177,37 @@ else()
     )
 
     add_test(NAME ProjectIOTest COMMAND androcad_project_io_test)
+
+    add_executable(androcad_surface_ops_test
+        src/AndroCadKernel.cpp
+        src/GCS.cpp
+        src/Sketcher.cpp
+        src/FeatureOps.cpp
+        src/SurfaceOps.cpp
+        src/ExpressionParser.cpp
+        src/TNPResolver.cpp
+        src/TimelineDAG.cpp
+        src/ProjectIO.cpp
+        tests/test_surface_ops.cpp
+    )
+
+    target_link_libraries(androcad_surface_ops_test PRIVATE
+        TKernel
+        TKMath
+        TKG2d
+        TKG3d
+        TKGeomBase
+        TKGeomAlgo
+        TKBRep
+        TKTopAlgo
+        TKPrim
+        TKBO
+        TKBool
+        TKFillet
+        TKOffset
+        TKMesh
+        ${HOST_DATA_EXCHANGE_LIBS}
+    )
+
+    add_test(NAME SurfaceOpsTest COMMAND androcad_surface_ops_test)
 endif()

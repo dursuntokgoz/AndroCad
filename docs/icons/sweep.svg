@@ -1,0 +1,12 @@
+<!-- Copyright (c) 2026 dursuntokgoz. All rights reserved. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Swept pipe spine curve -->
+  <path d="M 10 38 C 10 20, 24 10, 40 10" stroke="#007ACC" stroke-width="3" fill="none" />
+  <!-- Profile start ellipse -->
+  <ellipse cx="10" cy="38" rx="5" ry="3" stroke="#00A4E4" fill="#00A4E4" fill-opacity="0.3" transform="rotate(-15 10 38)" />
+  <!-- Profile end ellipse -->
+  <ellipse cx="40" cy="10" rx="3" ry="5" stroke="#00A4E4" fill="#00A4E4" fill-opacity="0.3" transform="rotate(15 40 10)" />
+  <!-- Sweep boundary contours -->
+  <path d="M 6 36 C 6 16, 22 6, 38 6" stroke="#B0B3B8" stroke-dasharray="2 2" />
+  <path d="M 14 40 C 14 24, 26 14, 42 14" stroke="#B0B3B8" stroke-dasharray="2 2" />
+</svg>

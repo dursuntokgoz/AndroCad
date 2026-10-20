@@ -105,6 +105,12 @@ data class BoxMeshResult(
     fun intersect(other: BoxMeshResult): BoxMeshResult =
         NativeKernel.booleanOp(this, other, BooleanType.INTERSECT)
 
+    fun pressPull(distance: Double, faceId: Int = 1): BoxMeshResult =
+        NativeKernel.pressPull(this, faceId, distance)
+
+    fun thicken(thickness: Double): BoxMeshResult =
+        NativeKernel.thicken(this, thickness)
+
     override fun close() {
         if (nativeHandle != 0L) {
             NativeKernel.releaseMesh(nativeHandle)
@@ -747,6 +753,74 @@ object NativeKernel {
         return buildMeshResult(meshHandle)
     }
 
+    /**
+     * Milestone 8: Creates a loft solid transitioning from bottom rectangle (100x50) to top circle (radius).
+     */
+    fun createLoft(
+        zHeight: Double = 40.0,
+        radius: Double = 20.0,
+        linearDeflection: Double = 0.1,
+        angularDeflection: Double = 0.5
+    ): BoxMeshResult {
+        val handle = nativeCreateLoftRectToCircle(zHeight, radius, linearDeflection, angularDeflection)
+        return buildMeshResult(handle)
+    }
+
+    /**
+     * Milestone 8: Direct modeling Press-Pull face offset.
+     */
+    fun pressPull(
+        solid: BoxMeshResult,
+        faceId: Int,
+        distance: Double,
+        linearDeflection: Double = 0.1,
+        angularDeflection: Double = 0.5
+    ): BoxMeshResult {
+        if (solid.nativeHandle == 0L || !solid.success) {
+            return BoxMeshResult(
+                success = false,
+                volume = 0.0,
+                faceCount = 0,
+                edgeCount = 0,
+                triangleCount = 0,
+                vertexBuffer = null,
+                indexBuffer = null,
+                edgeVertexBuffer = null,
+                boundingBox = BoundingBox(),
+                errorMessage = "Invalid solid handle for Press-Pull."
+            )
+        }
+        val handle = nativePressPullFace(solid.nativeHandle, faceId, distance, linearDeflection, angularDeflection)
+        return buildMeshResult(handle)
+    }
+
+    /**
+     * Milestone 8: Shell thicken operation.
+     */
+    fun thicken(
+        solid: BoxMeshResult,
+        thickness: Double,
+        linearDeflection: Double = 0.1,
+        angularDeflection: Double = 0.5
+    ): BoxMeshResult {
+        if (solid.nativeHandle == 0L || !solid.success) {
+            return BoxMeshResult(
+                success = false,
+                volume = 0.0,
+                faceCount = 0,
+                edgeCount = 0,
+                triangleCount = 0,
+                vertexBuffer = null,
+                indexBuffer = null,
+                edgeVertexBuffer = null,
+                boundingBox = BoundingBox(),
+                errorMessage = "Invalid solid handle for Thicken."
+            )
+        }
+        val handle = nativeThicken(solid.nativeHandle, thickness, linearDeflection, angularDeflection)
+        return buildMeshResult(handle)
+    }
+
     internal external fun nativeCreateBox(
         dx: Double,
         dy: Double,
@@ -862,4 +936,27 @@ object NativeKernel {
     internal external fun nativeImportStl(filePath: String, outError: Array<String?>?): Long
     internal external fun nativeSaveProject(handle: Long, filePath: String, outError: Array<String?>?): Boolean
     internal external fun nativeLoadProject(handle: Long, filePath: String, outError: Array<String?>?): Boolean
+
+    // Milestone 8 JNI Declarations (Surface & Direct Modeling)
+    internal external fun nativeCreateLoftRectToCircle(
+        zHeight: Double,
+        radius: Double,
+        linearDeflection: Double,
+        angularDeflection: Double
+    ): Long
+
+    internal external fun nativeThicken(
+        solidHandle: Long,
+        thickness: Double,
+        linearDeflection: Double,
+        angularDeflection: Double
+    ): Long
+
+    internal external fun nativePressPullFace(
+        solidHandle: Long,
+        faceId: Int,
+        distance: Double,
+        linearDeflection: Double,
+        angularDeflection: Double
+    ): Long
 }
