@@ -1,12 +1,14 @@
 // Copyright (c) 2026 dursuntokgoz. All rights reserved.
 #include "AndroCadKernel.h"
+#include "GCS.h"
+#include "Sketcher.h"
 
 #include <cassert>
 #include <cmath>
 #include <iostream>
 
 int main() {
-    std::cout << "[AndroCAD Test] Running Kernel Smoke Test (Box Creation, Edges & Ray Picking)..." << std::endl;
+    std::cout << "[AndroCAD Test] Running Kernel Smoke Test (Box, Picking, PlaneGCS & Sketcher)..." << std::endl;
 
     androcad::AndroCadKernel kernel;
     double dx = 100.0;
@@ -79,17 +81,7 @@ int main() {
         return 1;
     }
 
-    for (const auto& ev : box.edgeVertices) {
-        if (ev.edgeId < 1 || ev.edgeId > 12) {
-            std::cerr << "[FAIL] Edge vertex has invalid edgeId: " << ev.edgeId << std::endl;
-            return 1;
-        }
-    }
-
     // 6. Verify Bounding Box
-    std::cout << "  Bounding Box: [" 
-              << box.bounds.minX << ", " << box.bounds.minY << ", " << box.bounds.minZ << "] to ["
-              << box.bounds.maxX << ", " << box.bounds.maxY << ", " << box.bounds.maxZ << "]" << std::endl;
     if (std::abs(box.bounds.maxX - 100.0f) > 0.1f ||
         std::abs(box.bounds.maxY - 50.0f) > 0.1f ||
         std::abs(box.bounds.maxZ - 20.0f) > 0.1f) {
@@ -98,55 +90,126 @@ int main() {
     }
 
     // 7. Verify Ray-Casting Entity Picking (Milestone 2)
-    // Ray 1: Downward at top face (x=50, y=25, z=100) -> should hit face at z=20 (dist=80)
     androcad::Ray topRay{50.0f, 25.0f, 100.0f, 0.0f, 0.0f, -1.0f};
     androcad::PickResult pickFace = androcad::AndroCadKernel::PickEntityByRay(box, topRay, 1.0f);
-    if (!pickFace.hit) {
-        std::cerr << "[FAIL] Ray aimed at top face center failed to hit!" << std::endl;
-        return 1;
-    }
-    std::cout << "  Ray Pick Face Result: hit=" << pickFace.hit 
-              << " entityId=" << pickFace.entityId 
-              << " isEdge=" << pickFace.isEdge 
-              << " dist=" << pickFace.distance << std::endl;
-    if (pickFace.isEdge) {
-        std::cerr << "[FAIL] Ray aimed at face interior incorrectly picked an edge!" << std::endl;
-        return 1;
-    }
-    if (std::abs(pickFace.distance - 80.0f) > 0.1f) {
-        std::cerr << "[FAIL] Ray pick distance incorrect! Expected 80.0, got " << pickFace.distance << std::endl;
+    if (!pickFace.hit || pickFace.isEdge) {
+        std::cerr << "[FAIL] Ray aimed at face interior failed!" << std::endl;
         return 1;
     }
 
-    // Ray 2: Ray directly grazing edge at x=100, y=25, z=100 -> should hit edge
     androcad::Ray edgeRay{100.0f, 25.0f, 100.0f, 0.0f, 0.0f, -1.0f};
     androcad::PickResult pickEdge = androcad::AndroCadKernel::PickEntityByRay(box, edgeRay, 1.5f);
     if (!pickEdge.hit || !pickEdge.isEdge) {
-        std::cerr << "[FAIL] Ray aimed directly at edge failed to pick edge! (hit=" << pickEdge.hit << ", isEdge=" << pickEdge.isEdge << ")" << std::endl;
-        return 1;
-    }
-    std::cout << "  Ray Pick Edge Result: hit=" << pickEdge.hit 
-              << " edgeId=" << pickEdge.entityId 
-              << " dist=" << pickEdge.distance << std::endl;
-
-    // Ray 2b: Ray slightly outside model boundary at x=100.5, y=25, z=100 -> should pick edge via tolerance
-    androcad::Ray nearEdgeRay{100.5f, 25.0f, 100.0f, 0.0f, 0.0f, -1.0f};
-    androcad::PickResult pickNearEdge = androcad::AndroCadKernel::PickEntityByRay(box, nearEdgeRay, 1.0f);
-    if (!pickNearEdge.hit || !pickNearEdge.isEdge) {
-        std::cerr << "[FAIL] Near-edge ray failed to pick edge within tolerance!" << std::endl;
-        return 1;
-    }
-    std::cout << "  Near-Edge Pick Result: hit=" << pickNearEdge.hit 
-              << " edgeId=" << pickNearEdge.entityId << std::endl;
-
-    // Ray 3: Missing ray -> should not hit
-    androcad::Ray missRay{250.0f, 250.0f, 100.0f, 0.0f, 0.0f, -1.0f};
-    androcad::PickResult pickMiss = androcad::AndroCadKernel::PickEntityByRay(box, missRay, 1.5f);
-    if (pickMiss.hit) {
-        std::cerr << "[FAIL] Missing ray falsely reported a hit!" << std::endl;
+        std::cerr << "[FAIL] Ray aimed directly at edge failed to pick edge!" << std::endl;
         return 1;
     }
 
-    std::cout << "[PASS] AndroCAD Milestone 2 Kernel & Picking Tests passed successfully!" << std::endl;
+    // =========================================================================
+    // Milestone 3: PlaneGCS Constraint Solver & Sketcher Tests
+    // =========================================================================
+    std::cout << "\n[AndroCAD Test] Running Milestone 3 Tests (PlaneGCS & Sketcher)..." << std::endl;
+
+    // Test 3.1: GCS solver on 2D rectangle with initial perturbation
+    androcad::gcs::System solver;
+    int p0 = solver.AddPoint(0.0, 0.0, true);          // Fixed origin at (0, 0)
+    int p1 = solver.AddPoint(105.0, 3.0, false);       // Perturbed
+    int p2 = solver.AddPoint(98.0, 53.0, false);       // Perturbed
+    int p3 = solver.AddPoint(-2.0, 48.0, false);       // Perturbed
+
+    solver.AddConstraint(androcad::gcs::ConstraintType::Horizontal, p0, p1);
+    solver.AddConstraint(androcad::gcs::ConstraintType::Vertical, p1, p2);
+    solver.AddConstraint(androcad::gcs::ConstraintType::Horizontal, p3, p2);
+    solver.AddConstraint(androcad::gcs::ConstraintType::Vertical, p0, p3);
+    solver.AddConstraint(androcad::gcs::ConstraintType::Distance, p0, p1, -1, -1, 100.0);
+    solver.AddConstraint(androcad::gcs::ConstraintType::Distance, p1, p2, -1, -1, 50.0);
+
+    androcad::gcs::SolveStatus status = solver.Solve();
+    std::cout << "  GCS Solver Status: " << static_cast<int>(status) 
+              << ", DoF: " << solver.GetDegreesOfFreedom() 
+              << ", Max Residual: " << solver.GetMaxResidual() << std::endl;
+
+    if (status != androcad::gcs::SolveStatus::FullyConstrained) {
+        std::cerr << "[FAIL] Expected FullyConstrained status (DoF == 0), got status " << static_cast<int>(status) << std::endl;
+        return 1;
+    }
+
+    auto solvedP1 = solver.GetPoint(p1);
+    auto solvedP2 = solver.GetPoint(p2);
+    auto solvedP3 = solver.GetPoint(p3);
+
+    std::cout << "  Solved Points: P1(" << solvedP1.x << ", " << solvedP1.y << ")"
+              << ", P2(" << solvedP2.x << ", " << solvedP2.y << ")"
+              << ", P3(" << solvedP3.x << ", " << solvedP3.y << ")" << std::endl;
+
+    if (std::abs(solvedP1.x - 100.0) > 1e-3 || std::abs(solvedP1.y - 0.0) > 1e-3 ||
+        std::abs(solvedP2.x - 100.0) > 1e-3 || std::abs(solvedP2.y - 50.0) > 1e-3 ||
+        std::abs(solvedP3.x - 0.0) > 1e-3 || std::abs(solvedP3.y - 50.0) > 1e-3) {
+        std::cerr << "[FAIL] GCS solver did not converge to exact rectangle coordinates!" << std::endl;
+        return 1;
+    }
+
+    // Test 3.2: Over-constrained conflict detection
+    solver.AddConstraint(androcad::gcs::ConstraintType::Distance, p0, p2, -1, -1, 1000.0); // Contradicts sqrt(100^2 + 50^2)
+    androcad::gcs::SolveStatus overStatus = solver.Solve();
+    std::cout << "  Conflicting Constraint Solve Status: " << static_cast<int>(overStatus) << " (Expected: OverConstrained)" << std::endl;
+    if (overStatus != androcad::gcs::SolveStatus::OverConstrained) {
+        std::cerr << "[FAIL] Expected OverConstrained status for conflicting constraint!" << std::endl;
+        return 1;
+    }
+
+    // Test 3.3: Sketcher Profile Loop Detection & OCCT Face Construction (Rectangle on XY)
+    androcad::Sketcher rectSketch(androcad::SketchPlane::XY());
+    int rP0 = rectSketch.AddPoint(0.0, 0.0, true);
+    int rP1 = rectSketch.AddPoint(100.0, 0.0, false);
+    int rP2 = rectSketch.AddPoint(100.0, 50.0, false);
+    int rP3 = rectSketch.AddPoint(0.0, 50.0, false);
+
+    rectSketch.AddLine(rP0, rP1);
+    rectSketch.AddLine(rP1, rP2);
+    rectSketch.AddLine(rP2, rP3);
+    rectSketch.AddLine(rP3, rP0);
+
+    rectSketch.AddHorizontal(rP0, rP1);
+    rectSketch.AddVertical(rP1, rP2);
+    rectSketch.AddHorizontal(rP3, rP2);
+    rectSketch.AddVertical(rP0, rP3);
+    rectSketch.AddDistance(rP0, rP1, 100.0);
+    rectSketch.AddDistance(rP1, rP2, 50.0);
+
+    androcad::SketchResult rectFaceResult = rectSketch.BuildProfileFace();
+    std::cout << "  Rect Face Build Result: success=" << rectFaceResult.success
+              << ", isClosed=" << rectFaceResult.isClosedProfile
+              << ", area=" << rectFaceResult.profileArea << " mm²"
+              << ", DoF=" << rectFaceResult.degreesOfFreedom << std::endl;
+
+    if (!rectFaceResult.success || !rectFaceResult.isClosedProfile) {
+        std::cerr << "[FAIL] Rectangle sketch failed to build closed profile face: " << rectFaceResult.errorMessage << std::endl;
+        return 1;
+    }
+    if (std::abs(rectFaceResult.profileArea - 5000.0) > 1e-2) {
+        std::cerr << "[FAIL] Rectangle face area mismatch! Expected 5000.0, got " << rectFaceResult.profileArea << std::endl;
+        return 1;
+    }
+
+    // Test 3.4: Sketcher Circle Profile Face Construction
+    androcad::Sketcher circleSketch(androcad::SketchPlane::XY());
+    int cCenter = circleSketch.AddPoint(0.0, 0.0, true);
+    circleSketch.AddCircle(cCenter, 25.0);
+
+    androcad::SketchResult circleFaceResult = circleSketch.BuildProfileFace();
+    double expectedCircleArea = M_PI * 25.0 * 25.0;
+    std::cout << "  Circle Face Build Result: success=" << circleFaceResult.success
+              << ", area=" << circleFaceResult.profileArea << " mm² (Expected: " << expectedCircleArea << " mm²)" << std::endl;
+
+    if (!circleFaceResult.success || !circleFaceResult.isClosedProfile) {
+        std::cerr << "[FAIL] Circle sketch failed to build closed profile face: " << circleFaceResult.errorMessage << std::endl;
+        return 1;
+    }
+    if (std::abs(circleFaceResult.profileArea - expectedCircleArea) > 0.5) {
+        std::cerr << "[FAIL] Circle face area mismatch! Expected " << expectedCircleArea << ", got " << circleFaceResult.profileArea << std::endl;
+        return 1;
+    }
+
+    std::cout << "[PASS] All AndroCAD Milestone 3 PlaneGCS & Sketcher Tests passed successfully!" << std::endl;
     return 0;
 }

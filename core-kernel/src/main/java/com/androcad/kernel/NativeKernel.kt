@@ -74,6 +74,109 @@ data class BoxMeshResult(
     }
 }
 
+// -------------------------------------------------------------------------
+// Milestone 3: 2D Sketcher & PlaneGCS Constraint Data Models
+// -------------------------------------------------------------------------
+
+enum class SolveStatus {
+    SUCCESS,
+    CONVERGED,
+    UNDER_CONSTRAINED,
+    FULLY_CONSTRAINED,
+    OVER_CONSTRAINED,
+    FAILED
+}
+
+enum class ConstraintType(val id: Int) {
+    COINCIDENT(0),
+    HORIZONTAL(1),
+    VERTICAL(2),
+    DISTANCE(3),
+    PARALLEL(4),
+    PERPENDICULAR(5),
+    EQUAL_LENGTH(6)
+}
+
+data class SketchPoint(val id: Int, val u: Double, val v: Double, val isFixed: Boolean)
+
+data class SketchProfileResult(
+    val success: Boolean,
+    val isClosedProfile: Boolean,
+    val area: Double,
+    val degreesOfFreedom: Int,
+    val solveStatus: SolveStatus
+)
+
+class NativeSketch(val handle: Long) : Closeable {
+    fun addPoint(u: Double, v: Double, isFixed: Boolean = false): Int {
+        return NativeKernel.nativeSketchAddPoint(handle, u, v, isFixed)
+    }
+
+    fun addLine(pStart: Int, pEnd: Int): Int {
+        return NativeKernel.nativeSketchAddLine(handle, pStart, pEnd)
+    }
+
+    fun addCircle(pCenter: Int, radius: Double): Int {
+        return NativeKernel.nativeSketchAddCircle(handle, pCenter, radius)
+    }
+
+    fun addRectangle(u: Double, v: Double, width: Double, height: Double): Int {
+        return NativeKernel.nativeSketchAddRectangle(handle, u, v, width, height)
+    }
+
+    fun addConstraint(type: ConstraintType, p1: Int, p2: Int, p3: Int = -1, p4: Int = -1, value: Double = 0.0): Int {
+        return NativeKernel.nativeSketchAddConstraint(handle, type.id, p1, p2, p3, p4, value)
+    }
+
+    fun solve(): SolveStatus {
+        val statusCode = NativeKernel.nativeSketchSolve(handle)
+        return when (statusCode) {
+            0 -> SolveStatus.SUCCESS
+            1 -> SolveStatus.CONVERGED
+            2 -> SolveStatus.UNDER_CONSTRAINED
+            3 -> SolveStatus.FULLY_CONSTRAINED
+            4 -> SolveStatus.OVER_CONSTRAINED
+            else -> SolveStatus.FAILED
+        }
+    }
+
+    fun getDegreesOfFreedom(): Int {
+        return NativeKernel.nativeSketchGetDoF(handle)
+    }
+
+    fun getPoint(pointId: Int): Pair<Double, Double> {
+        val coords = DoubleArray(2)
+        NativeKernel.nativeSketchGetPoint(handle, pointId, coords)
+        return Pair(coords[0], coords[1])
+    }
+
+    fun buildProfileFace(): SketchProfileResult {
+        val res = DoubleArray(4)
+        val success = NativeKernel.nativeSketchBuildProfileFace(handle, res)
+        val status = when (res[3].toInt()) {
+            0 -> SolveStatus.SUCCESS
+            1 -> SolveStatus.CONVERGED
+            2 -> SolveStatus.UNDER_CONSTRAINED
+            3 -> SolveStatus.FULLY_CONSTRAINED
+            4 -> SolveStatus.OVER_CONSTRAINED
+            else -> SolveStatus.FAILED
+        }
+        return SketchProfileResult(
+            success = success,
+            isClosedProfile = res[0] > 0.5,
+            area = res[1],
+            degreesOfFreedom = res[2].toInt(),
+            solveStatus = status
+        )
+    }
+
+    override fun close() {
+        if (handle != 0L) {
+            NativeKernel.nativeReleaseSketch(handle)
+        }
+    }
+}
+
 /**
  * High-performance JNI bridge to the OpenCASCADE native CAD kernel.
  */
@@ -196,6 +299,19 @@ object NativeKernel {
         )
     }
 
+    /**
+     * Creates a 2D parametric sketch on a specified 3D datum plane.
+     */
+    fun createSketch(
+        ox: Double = 0.0, oy: Double = 0.0, oz: Double = 0.0,
+        ux: Double = 1.0, uy: Double = 0.0, uz: Double = 0.0,
+        vx: Double = 0.0, vy: Double = 1.0, vz: Double = 0.0,
+        nx: Double = 0.0, ny: Double = 0.0, nz: Double = 1.0
+    ): NativeSketch {
+        val handle = nativeCreateSketch(ox, oy, oz, ux, uy, uz, vx, vy, vz, nx, ny, nz)
+        return NativeSketch(handle)
+    }
+
     internal external fun nativeCreateBox(
         dx: Double,
         dy: Double,
@@ -223,7 +339,21 @@ object NativeKernel {
     ): Boolean
     internal external fun nativeReleaseMesh(handle: Long)
 
-    internal fun releaseMesh(handle: Long) {
-        nativeReleaseMesh(handle)
-    }
+    // Milestone 3 JNI Declarations
+    internal external fun nativeCreateSketch(
+        ox: Double, oy: Double, oz: Double,
+        ux: Double, uy: Double, uz: Double,
+        vx: Double, vy: Double, vz: Double,
+        nx: Double, ny: Double, nz: Double
+    ): Long
+    internal external fun nativeSketchAddPoint(handle: Long, u: Double, v: Double, isFixed: Boolean): Int
+    internal external fun nativeSketchAddLine(handle: Long, pStart: Int, pEnd: Int): Int
+    internal external fun nativeSketchAddCircle(handle: Long, pCenter: Int, radius: Double): Int
+    internal external fun nativeSketchAddRectangle(handle: Long, u: Double, v: Double, width: Double, height: Double): Int
+    internal external fun nativeSketchAddConstraint(handle: Long, type: Int, p1: Int, p2: Int, p3: Int, p4: Int, value: Double): Int
+    internal external fun nativeSketchSolve(handle: Long): Int
+    internal external fun nativeSketchGetDoF(handle: Long): Int
+    internal external fun nativeSketchGetPoint(handle: Long, pointId: Int, outCoords: DoubleArray)
+    internal external fun nativeSketchBuildProfileFace(handle: Long, outResult: DoubleArray): Boolean
+    internal external fun nativeReleaseSketch(handle: Long)
 }

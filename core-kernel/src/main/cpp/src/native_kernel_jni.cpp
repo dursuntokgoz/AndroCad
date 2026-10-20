@@ -1,6 +1,7 @@
 // Copyright (c) 2026 dursuntokgoz. All rights reserved.
 #include <jni.h>
 #include "AndroCadKernel.h"
+#include "Sketcher.h"
 
 #include <memory>
 #include <vector>
@@ -9,6 +10,11 @@ namespace {
 
 struct NativeMeshSession {
     androcad::MeshPayload payload;
+};
+
+struct NativeSketchSession {
+    std::unique_ptr<androcad::Sketcher> sketcher;
+    androcad::SketchResult lastResult;
 };
 
 } // namespace
@@ -184,6 +190,163 @@ Java_com_androcad_kernel_NativeKernel_nativeReleaseMesh(
         jobject /* this */,
         jlong handle) {
     auto* session = reinterpret_cast<NativeMeshSession*>(handle);
+    delete session;
+}
+
+// -------------------------------------------------------------------------
+// Milestone 3: 2D Sketcher & PlaneGCS Constraint Solver JNI Bindings
+// -------------------------------------------------------------------------
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeCreateSketch(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jdouble ox, jdouble oy, jdouble oz,
+        jdouble ux, jdouble uy, jdouble uz,
+        jdouble vx, jdouble vy, jdouble vz,
+        jdouble nx, jdouble ny, jdouble nz) {
+    
+    androcad::SketchPlane plane{ox, oy, oz, ux, uy, uz, vx, vy, vz, nx, ny, nz};
+    auto session = std::make_unique<NativeSketchSession>();
+    session->sketcher = std::make_unique<androcad::Sketcher>(plane);
+
+    return reinterpret_cast<jlong>(session.release());
+}
+
+JNIEXPORT jint JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeSketchAddPoint(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong handle,
+        jdouble u, jdouble v,
+        jboolean isFixed) {
+    auto* session = reinterpret_cast<NativeSketchSession*>(handle);
+    if (!session || !session->sketcher) return -1;
+    return session->sketcher->AddPoint(u, v, isFixed == JNI_TRUE);
+}
+
+JNIEXPORT jint JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeSketchAddLine(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong handle,
+        jint pStart, jint pEnd) {
+    auto* session = reinterpret_cast<NativeSketchSession*>(handle);
+    if (!session || !session->sketcher) return -1;
+    return session->sketcher->AddLine(pStart, pEnd);
+}
+
+JNIEXPORT jint JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeSketchAddCircle(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong handle,
+        jint pCenter, jdouble radius) {
+    auto* session = reinterpret_cast<NativeSketchSession*>(handle);
+    if (!session || !session->sketcher) return -1;
+    return session->sketcher->AddCircle(pCenter, radius);
+}
+
+JNIEXPORT jint JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeSketchAddRectangle(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong handle,
+        jdouble u, jdouble v,
+        jdouble width, jdouble height) {
+    auto* session = reinterpret_cast<NativeSketchSession*>(handle);
+    if (!session || !session->sketcher) return -1;
+    return session->sketcher->AddRectangle(u, v, width, height);
+}
+
+JNIEXPORT jint JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeSketchAddConstraint(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong handle,
+        jint constraintType,
+        jint p1, jint p2, jint p3, jint p4,
+        jdouble value) {
+    auto* session = reinterpret_cast<NativeSketchSession*>(handle);
+    if (!session || !session->sketcher) return -1;
+
+    switch (constraintType) {
+        case 0: return session->sketcher->AddCoincident(p1, p2);
+        case 1: return session->sketcher->AddHorizontal(p1, p2);
+        case 2: return session->sketcher->AddVertical(p1, p2);
+        case 3: return session->sketcher->AddDistance(p1, p2, value);
+        case 4: return session->sketcher->AddParallel(p1, p2, p3, p4);
+        case 5: return session->sketcher->AddPerpendicular(p1, p2, p3, p4);
+        case 6: return session->sketcher->AddEqualLength(p1, p2, p3, p4);
+        default: return -1;
+    }
+}
+
+JNIEXPORT jint JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeSketchSolve(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong handle) {
+    auto* session = reinterpret_cast<NativeSketchSession*>(handle);
+    if (!session || !session->sketcher) return -1;
+    androcad::gcs::SolveStatus status = session->sketcher->Solve();
+    return static_cast<jint>(status);
+}
+
+JNIEXPORT jint JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeSketchGetDoF(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong handle) {
+    auto* session = reinterpret_cast<NativeSketchSession*>(handle);
+    if (!session || !session->sketcher) return 0;
+    return session->sketcher->GetDegreesOfFreedom();
+}
+
+JNIEXPORT void JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeSketchGetPoint(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong handle,
+        jint pointId,
+        jdoubleArray outCoords) {
+    auto* session = reinterpret_cast<NativeSketchSession*>(handle);
+    if (!session || !session->sketcher || !outCoords) return;
+
+    auto pt = session->sketcher->GetPoint(pointId);
+    jdouble coords[2] = {pt.x, pt.y};
+    env->SetDoubleArrayRegion(outCoords, 0, 2, coords);
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeSketchBuildProfileFace(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong handle,
+        jdoubleArray outResult) {
+    auto* session = reinterpret_cast<NativeSketchSession*>(handle);
+    if (!session || !session->sketcher) return JNI_FALSE;
+
+    session->lastResult = session->sketcher->BuildProfileFace();
+
+    if (outResult) {
+        jdouble res[4];
+        res[0] = session->lastResult.isClosedProfile ? 1.0 : 0.0;
+        res[1] = session->lastResult.profileArea;
+        res[2] = static_cast<jdouble>(session->lastResult.degreesOfFreedom);
+        res[3] = static_cast<jdouble>(session->lastResult.solveStatus);
+        env->SetDoubleArrayRegion(outResult, 0, 4, res);
+    }
+
+    return session->lastResult.success ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT void JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeReleaseSketch(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong handle) {
+    auto* session = reinterpret_cast<NativeSketchSession*>(handle);
     delete session;
 }
 

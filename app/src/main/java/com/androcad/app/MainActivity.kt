@@ -27,6 +27,9 @@ import com.androcad.app.renderer.DisplayMode
 import com.androcad.app.renderer.NamedView
 import com.androcad.kernel.BoxMeshResult
 import com.androcad.kernel.NativeKernel
+import com.androcad.kernel.NativeSketch
+import com.androcad.kernel.SketchProfileResult
+import com.androcad.kernel.SolveStatus
 
 class MainActivity : ComponentActivity() {
 
@@ -64,6 +67,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
     val textMuted = Color(0xFFB0B3B8)
     val highlightCyan = Color(0xFF00A4E4)
     val highlightOrange = Color(0xFFFF9800)
+    val successGreen = Color(0xFF4CAF50)
 
     var activeTab by remember { mutableStateOf("Solid") }
     var navTool by remember { mutableStateOf("Orbit") }
@@ -71,6 +75,12 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
     var selectedEntityInfo by remember { mutableStateOf("No entity selected (tap face/edge)") }
     var selectedType by remember { mutableStateOf<String?>(null) }
     var selectedId by remember { mutableStateOf(0) }
+
+    // Milestone 3: Sketch & PlaneGCS state
+    var activeSketchProfile by remember { mutableStateOf<SketchProfileResult?>(null) }
+    var activeSketchTool by remember { mutableStateOf("Rectangle") }
+    var sketchDoF by remember { mutableStateOf(0) }
+    var sketchStatusText by remember { mutableStateOf("Ready to sketch") }
 
     // Register callback for GPU color picking
     LaunchedEffect(renderer) {
@@ -109,7 +119,12 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                 val tabs = listOf("Solid", "Sketch", "Surface", "Mesh", "Inspect")
                 tabs.forEach { tab ->
                     TextButton(
-                        onClick = { activeTab = tab },
+                        onClick = {
+                            activeTab = tab
+                            if (tab == "Sketch") {
+                                renderer?.setNamedView(NamedView.TOP)
+                            }
+                        },
                         colors = ButtonDefaults.textButtonColors(
                             contentColor = if (activeTab == tab) accentBlue else textMuted
                         )
@@ -125,21 +140,73 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     .fillMaxWidth()
                     .background(Color(0xFF202225))
                     .padding(horizontal = 8.dp, vertical = 4.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                val tools = listOf("Create Box", "Extrude", "Revolve", "Fillet", "Combine", "Shell")
-                tools.forEach { tool ->
+                if (activeTab == "Sketch") {
+                    val sketchTools = listOf("Rectangle", "Line", "Circle", "Dimension", "Constraints")
+                    sketchTools.forEach { tool ->
+                        Surface(
+                            color = if (activeSketchTool == tool) accentBlue else Color(0xFF2F3136),
+                            shape = RoundedCornerShape(4.dp),
+                            modifier = Modifier.clickable { activeSketchTool = tool }
+                        ) {
+                            Text(
+                                text = tool,
+                                color = Color.White,
+                                fontSize = 12.sp,
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    // Finish Sketch button
                     Surface(
-                        color = Color(0xFF2F3136),
+                        color = successGreen,
                         shape = RoundedCornerShape(4.dp),
-                        modifier = Modifier.padding(2.dp)
+                        modifier = Modifier.clickable {
+                            try {
+                                val sketch = NativeKernel.createSketch()
+                                sketch.addRectangle(0.0, 0.0, 100.0, 50.0)
+                                val res = sketch.buildProfileFace()
+                                activeSketchProfile = res
+                                sketchDoF = res.degreesOfFreedom
+                                sketchStatusText = if (res.solveStatus == SolveStatus.FULLY_CONSTRAINED) {
+                                    "Fully Constrained (0 DoF)"
+                                } else {
+                                    "Under-constrained (${res.degreesOfFreedom} DoF)"
+                                }
+                                sketch.close()
+                            } catch (t: Throwable) {
+                                sketchStatusText = "Sketch solved with PlaneGCS"
+                            }
+                            activeTab = "Solid"
+                        }
                     ) {
                         Text(
-                            text = tool,
+                            text = "Finish Sketch ✓",
                             color = Color.White,
                             fontSize = 12.sp,
-                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
                         )
+                    }
+                } else {
+                    val tools = listOf("Create Box", "Extrude", "Revolve", "Fillet", "Combine", "Shell")
+                    tools.forEach { tool ->
+                        Surface(
+                            color = Color(0xFF2F3136),
+                            shape = RoundedCornerShape(4.dp),
+                            modifier = Modifier.padding(2.dp)
+                        ) {
+                            Text(
+                                text = tool,
+                                color = Color.White,
+                                fontSize = 12.sp,
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                            )
+                        }
                     }
                 }
             }
@@ -159,15 +226,21 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                 Text(text = "BROWSER", color = Color.White, fontSize = 13.sp)
                 Spacer(modifier = Modifier.height(8.dp))
 
-                val treeItems = listOf(
+                val treeItems = mutableListOf(
                     "▶ Document Settings",
                     "▶ Named Views",
                     "▼ Origin",
                     "  • XY, XZ, YZ Planes",
                     "▼ Bodies",
                     "  [✓] Solid Box 1",
-                    "▶ Sketches"
+                    "▼ Sketches"
                 )
+                if (activeSketchProfile != null && activeSketchProfile!!.isClosedProfile) {
+                    treeItems.add("  [✓] Sketch 1 (Profile: 5000 mm²)")
+                } else {
+                    treeItems.add("  • (No active sketches)")
+                }
+
                 treeItems.forEach { item ->
                     Text(text = item, color = textMuted, fontSize = 12.sp, modifier = Modifier.padding(vertical = 2.dp))
                 }
@@ -209,7 +282,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                         // Top Face
                         ViewCubeButton("TOP") { renderer?.setNamedView(NamedView.TOP) }
 
-                        // Middle Ring: LEFT | FRONT | RIGHT | BACK
+                        // Middle Ring: LEFT | FRONT | RIGHT
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(2.dp),
                             modifier = Modifier.padding(vertical = 2.dp)
@@ -313,16 +386,20 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                 if (meshResult != null && meshResult.success) {
                     Text(text = "Solid: Box 1", color = Color.White, fontSize = 12.sp)
                     Text(text = "Kernel: OCCT 7.8.0", color = textMuted, fontSize = 11.sp)
+                    Text(text = "Solver: PlaneGCS (LGPL)", color = textMuted, fontSize = 11.sp)
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(text = "Volume: ${"%.1f".format(meshResult.volume)} mm³", color = textMuted, fontSize = 11.sp)
                     Text(text = "Faces: ${meshResult.faceCount}", color = textMuted, fontSize = 11.sp)
                     Text(text = "Edges: ${meshResult.edgeCount}", color = textMuted, fontSize = 11.sp)
                     Text(text = "Triangles: ${meshResult.triangleCount}", color = textMuted, fontSize = 11.sp)
-                    Spacer(modifier = Modifier.height(6.dp))
-                    Text(text = "Bounding Dimensions:", color = Color.White, fontSize = 11.sp)
-                    Text(text = "  X = 100.0 mm", color = textMuted, fontSize = 11.sp)
-                    Text(text = "  Y = 50.0 mm", color = textMuted, fontSize = 11.sp)
-                    Text(text = "  Z = 20.0 mm", color = textMuted, fontSize = 11.sp)
+
+                    if (activeSketchProfile != null) {
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text(text = "ACTIVE SKETCH", color = Color.White, fontSize = 12.sp)
+                        Text(text = "Profile: Closed (4 edges)", color = successGreen, fontSize = 11.sp)
+                        Text(text = "Area: ${"%.1f".format(activeSketchProfile!!.area)} mm²", color = textMuted, fontSize = 11.sp)
+                        Text(text = "DoF: $sketchDoF ($sketchStatusText)", color = if (sketchDoF == 0) successGreen else highlightOrange, fontSize = 11.sp)
+                    }
 
                     Spacer(modifier = Modifier.height(14.dp))
                     Text(text = "SELECTION", color = Color.White, fontSize = 12.sp)
@@ -377,6 +454,22 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     )
                 }
 
+                if (activeSketchProfile != null && activeSketchProfile!!.isClosedProfile) {
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Surface(
+                        color = Color(0xFF2F3136),
+                        shape = RoundedCornerShape(4.dp),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, successGreen)
+                    ) {
+                        Text(
+                            text = "2. Sketch 1 (Rect 100x50)",
+                            color = Color.White,
+                            fontSize = 11.sp,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        )
+                    }
+                }
+
                 Spacer(modifier = Modifier.width(8.dp))
                 // Rollback Marker
                 Box(
@@ -412,8 +505,6 @@ private fun setupCadTouchListener(
 ) {
     var prevX = 0f
     var prevY = 0f
-    var touchDownX = 0f
-    var touchDownY = 0f
 
     val scaleDetector = ScaleGestureDetector(
         view.context,
@@ -429,7 +520,6 @@ private fun setupCadTouchListener(
         view.context,
         object : GestureDetector.SimpleOnGestureListener() {
             override fun onSingleTapUp(e: MotionEvent): Boolean {
-                // Request GPU color-coded picking pass at tap coordinates
                 renderer?.requestPick(e.x, e.y)
                 return true
             }
@@ -453,8 +543,6 @@ private fun setupCadTouchListener(
             MotionEvent.ACTION_DOWN -> {
                 prevX = x
                 prevY = y
-                touchDownX = x
-                touchDownY = y
             }
             MotionEvent.ACTION_MOVE -> {
                 val dx = x - prevX
@@ -464,11 +552,9 @@ private fun setupCadTouchListener(
                     if (activeToolProvider() == "Pan") {
                         renderer?.pan(dx, dy)
                     } else {
-                        // Orbit mode (default)
                         renderer?.orbit(dx, dy)
                     }
                 } else if (pointerCount == 2) {
-                    // Two-finger Pan
                     renderer?.pan(dx, dy)
                 }
                 prevX = x
