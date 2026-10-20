@@ -30,6 +30,8 @@ import com.androcad.kernel.NativeKernel
 import com.androcad.kernel.NativeSketch
 import com.androcad.kernel.SketchProfileResult
 import com.androcad.kernel.SolveStatus
+import com.androcad.kernel.AssemblyJointType
+import com.androcad.kernel.AssemblySession
 
 class MainActivity : ComponentActivity() {
 
