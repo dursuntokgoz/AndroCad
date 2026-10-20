@@ -1,0 +1,74 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Build Beta APK and Publish GitHub Release
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4.1.7
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4.2.1
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android NDK
+        uses: nttld/setup-ndk@v1.5.0
+        with:
+          ndk-version: r26d
+          link-to-sdk: true
+
+      - name: Restore or Build OCCT Android arm64-v8a
+        id: cache-occt
+        uses: actions/cache@v4
+        with:
+          path: occt-install-android-arm64-v8a
+          key: occt-android-arm64-v8a-V7_8_0-ndk26.3-api24-flags-O2-v2-${{ hashFiles('scripts/build_occt_android.sh') }}
+
+      - name: Build OCCT on Cache Miss
+        if: steps.cache-occt.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build
+          chmod +x scripts/build_occt_android.sh
+          ./scripts/build_occt_android.sh arm64-v8a 24
+
+      - name: Stage OCCT Shared Libraries
+        run: |
+          mkdir -p core-kernel/src/main/jniLibs/arm64-v8a
+          LIB_SRC="occt-install-android-arm64-v8a/lib"
+          if [ ! -d "${LIB_SRC}" ] && [ -d "occt-install-android-arm64-v8a/lin64/gcc/lib" ]; then
+            LIB_SRC="occt-install-android-arm64-v8a/lin64/gcc/lib"
+          elif [ ! -d "${LIB_SRC}" ] && [ -d "occt-install-android-arm64-v8a/android/clang/lib" ]; then
+            LIB_SRC="occt-install-android-arm64-v8a/android/clang/lib"
+          fi
+          cp "${LIB_SRC}"/*.so core-kernel/src/main/jniLibs/arm64-v8a/
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3.4.2
+        with:
+          gradle-version: '8.7'
+
+      - name: Assemble Release/Debug APK
+        run: |
+          gradle assembleDebug --stacktrace -POCCT_INSTALL_DIR=$(pwd)/occt-install-android-arm64-v8a
+
+      - name: Create GitHub Release with APK
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "AndroCAD ${{ github.ref_name }}"
+          prerelease: true
+          generate_release_notes: true
+          files: |
+            app/build/outputs/apk/debug/app-debug.apk

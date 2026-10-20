@@ -97,3 +97,83 @@ This document tracks development milestones, architectural decisions, and open r
 * **Acceptance Tests:** Complete end-to-end design of a mechanical part on tablet and inspection on phone; high-resolution tablet screenshots showcasing Fusion 360-style workflow published in repository README.md.
 * **Status:** Done
 * **Finish Date:** 2026-10-20
+
+---
+
+## Post-M7 Fusion 360 Parity & Autonomous Expansion (Milestones 8 - 12)
+
+With the foundation established (Milestones 1–7), the roadmap expands toward professional engineering parity with Fusion 360 workflows. Each milestone produces a public/private GitHub Release with an attached **Beta APK** (`app-debug.apk`), continuing autonomously without blocking on user confirmations.
+
+---
+
+### Milestone 8: Advanced Surface Modeling & Direct Editing
+* **Goal:** Expand beyond basic prismatic solids into complex freeform surface modeling and direct topology modification (Fusion 360 Surface workspace parity).
+* **Deliverables:**
+  - **Loft:** Cross-sectional profile lofting (`BRepOffsetAPI_MakeLoft`) with periodic and ruled surface flags.
+  - **Sweep:** Trajectory pipe and spine guide sweep (`BRepOffsetAPI_MakePipe` / `BRepOffsetAPI_MakePipeShell`).
+  - **Surface Patch & Sewing:** Boundary curve patching and watertight sewing (`BRepBuilderAPI_Sewing`) transforming composite shells into solid manifolds.
+  - **Thicken:** Uniform shell thickening (`BRepOffsetAPI_MakeThicken`) converting open surfaces to solid geometry.
+  - **Direct Modeling:** Face offset / Press-Pull and face defeaturing/removal.
+  - **Host CTest Suite:** `test_surface_ops.cpp` verifying surface continuity, volume, and sewing tolerances.
+  - **UI Integration:** Surface workspace ribbon tools and property parameters.
+  - **Release:** Beta APK `v0.8.0-beta`.
+* **Acceptance Tests:** Complex multi-section loft and pipe sweep pass regression; stitched surface produces valid solid verified via `BRepCheck_Analyzer`.
+* **Status:** In Progress
+* **Finish Date:** -
+
+---
+
+### Milestone 9: Multi-Component Assemblies & Kinematic Joints
+* **Goal:** Multi-body assembly architecture with real-time kinematic degree-of-freedom (DoF) constraint solving (Fusion 360 Assemble workspace parity).
+* **Deliverables:**
+  - Component tree architecture with independent coordinate transformations (`TopLoc_Location` / `gp_Trsf`).
+  - Kinematic Joint primitives: Rigid, Revolute (rotational limits $[-\theta, +\theta]$), Slider (prismatic displacement bounds), Cylindrical, Ball-and-Socket.
+  - Interactive joint motion solver and animated simulation player.
+  - Collision interference detection (`BRepAlgoAPI_Section`).
+  - **Release:** Beta APK `v0.9.0-beta`.
+* **Acceptance Tests:** Two-link kinematic arm with revolute and slider joints solves and animates within angular bounds without joint divergence.
+* **Status:** Planned
+* **Finish Date:** -
+
+---
+
+### Milestone 10: Parametric Sheet Metal & Flat Pattern Generation
+* **Goal:** Specialized sheet metal manufacturing workflow with automatic flat pattern unwrapping (Fusion 360 Sheet Metal workspace parity).
+* **Deliverables:**
+  - Sheet metal rules (material thickness $t$, bend radius $R$, neutral axis K-factor $K \approx 0.44$).
+  - Flange tool (edge bend extrusion), Bend Relief cuts.
+  - Unfold engine computing 2D flat patterns with bend centerlines (Up/Down direction and bend angles).
+  - 2D DXF manufacturing export for laser/waterjet cutting.
+  - **Release:** Beta APK `v0.10.0-beta`.
+* **Acceptance Tests:** U-bracket with two $90^\circ$ flanges unfolds to accurate flat sheet area matching analytical K-factor bend deduction.
+* **Status:** Planned
+* **Finish Date:** -
+
+---
+
+### Milestone 11: 2D Engineering Drawings & Drafting Sheet
+* **Goal:** Automated 2D drafting with Hidden Line Removal (HLR) projection onto engineering drawing sheets (Fusion 360 Drawing workspace parity).
+* **Deliverables:**
+  - OCCT `HLRBRep_Algo` projection engine producing visible and hidden line vectors.
+  - Standard drawing views: Front, Top, Right, Isometric (ANSI / ISO).
+  - Section Cut view generation along custom cutting planes.
+  - Dimension annotations, centerlines, and standard title block layout.
+  - Vector SVG and PDF export of drawing sheets.
+  - **Release:** Beta APK `v0.11.0-beta`.
+* **Acceptance Tests:** Stepped shaft model produces complete 4-view drawing sheet with accurate HLR hidden dashed lines and vector PDF export.
+* **Status:** Planned
+* **Finish Date:** -
+
+---
+
+### Milestone 12: Materials, Mass Physical Properties & PBR Visualization
+* **Goal:** Engineering materials physics, mass moment calculations, and photorealistic PBR rendering (Fusion 360 Render & Inspect parity).
+* **Deliverables:**
+  - Material database (Steel, 6061-T6 Aluminum, Brass, Titanium, ABS, Polycarbonate, Oak) with density, Young's modulus, and Poisson's ratio.
+  - Mass properties engine (`BRepGProp`): precise volume, mass, Center of Gravity (CoG), and principal moments of inertia ($I_{xx}, I_{yy}, I_{zz}$).
+  - Physically Based Rendering (PBR) shader pipeline: Metallic-Roughness, normal mapping, and Image-Based Lighting (IBL) environment reflection.
+  - High-res raytraced / rasterized snapshot export.
+  - **Release:** Beta APK `v1.0.0-beta`.
+* **Acceptance Tests:** Calculated mass and center of gravity match analytical physics values within $0.05\%$; PBR metallic preview renders with environment reflection.
+* **Status:** Planned
+* **Finish Date:** -
