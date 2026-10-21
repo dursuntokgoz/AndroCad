@@ -27,6 +27,10 @@ AndroCAD is built with a **tablet-first** engineering workflow following modern 
 ![AndroCAD Tablet 2D Engineering Drawing UI](docs/images/androcad_tablet_drawing_ui.png)
 *2D Drawing workspace: Automated 4-view orthographic projection (Top, Front, Right, Isometric in 3rd Angle Projection) on standard A3 engineering sheet, Hidden Line Removal (HLR dashed occluded edges), automatic linear and radial dimension callouts, section cut views with 45° cross-hatching, ISO title block, and multi-format vector SVG/AutoCAD DXF export.*
 
+### Materials, Mass Physical Properties & PBR Visualization
+![AndroCAD Tablet Materials & Physical Properties UI](docs/images/androcad_tablet_materials_ui.png)
+*Inspect & Render workspace: Engineering materials physics library (Steel, 6061-T6 Aluminum, Brass, Titanium, Plastics, Wood) with exact analytical volume, surface area, mass, 3D Center-of-Gravity (CoG) coordinate tripod badge, mass moments of inertia ($I_{xx}, I_{yy}, I_{zz}$), and photorealistic PBR metallic-roughness rendering.*
+
 ---
 
 ## Key Features & Architecture
@@ -71,3 +75,4 @@ AndroCAD is built with a **tablet-first** engineering workflow following modern 
 * [Milestone 9 Report: Multi-Component Assemblies & Kinematic Joints](docs/reports/milestone-9.md)
 * [Milestone 10 Report: Sheet Metal Engine, K-Factor Bends & Flat Pattern Unfolding](docs/reports/milestone-10.md)
 * [Milestone 11 Report: 2D Engineering Drawings, Orthographic Views & Dimension Drafting](docs/reports/milestone-11.md)
+* [Milestone 12 Report: Engineering Materials, Mass Physical Properties & PBR Visualization](docs/reports/milestone-12.md)

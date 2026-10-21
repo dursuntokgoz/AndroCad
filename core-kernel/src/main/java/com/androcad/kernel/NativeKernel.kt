@@ -409,6 +409,41 @@ data class DrawingSheetInfo(
     val dxfContent: String = ""
 )
 
+// -------------------------------------------------------------------------
+// Milestone 12: Materials, Mass Physical Properties & PBR Visualization
+// -------------------------------------------------------------------------
+
+data class MaterialInfo(
+    val id: Int,
+    val name: String,
+    val category: String,
+    val density: Double,
+    val youngModulus: Double,
+    val hexColor: String,
+    val metallic: Float,
+    val roughness: Float
+)
+
+data class PhysicalPropertiesInfo(
+    val success: Boolean,
+    val materialName: String,
+    val density: Double,
+    val volumeMm3: Double,
+    val surfaceAreaMm2: Double,
+    val massGrams: Double,
+    val massKg: Double,
+    val cogX: Double,
+    val cogY: Double,
+    val cogZ: Double,
+    val ixx: Double,
+    val iyy: Double,
+    val izz: Double,
+    val hexColor: String = "#CCCCCC",
+    val metallic: Float = 0.5f,
+    val roughness: Float = 0.3f,
+    val errorMessage: String = ""
+)
+
 /**
  * High-performance JNI bridge to the OpenCASCADE native CAD kernel.
  */
@@ -1065,6 +1100,81 @@ object NativeKernel {
         return nativeExportDrawingDXF(solid.nativeHandle, partName, scale)
     }
 
+    /**
+     * Milestone 12: Returns list of available engineering materials with physical & PBR properties.
+     */
+    fun getMaterials(): List<MaterialInfo> {
+        val json = nativeGetMaterialList()
+        return parseMaterialsJson(json)
+    }
+
+    /**
+     * Milestone 12: Computes physical mass, volume, surface area, center-of-gravity, and moments of inertia.
+     */
+    fun computePhysicalProperties(solid: BoxMeshResult, materialId: Int = 0): PhysicalPropertiesInfo {
+        if (solid.nativeHandle == 0L || !solid.success) {
+            return PhysicalPropertiesInfo(false, "", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, errorMessage = "Invalid solid")
+        }
+        val json = nativeComputePhysicalProperties(solid.nativeHandle, materialId)
+        return parsePhysicalPropertiesJson(json)
+    }
+
+    private fun parseMaterialsJson(json: String): List<MaterialInfo> {
+        val list = mutableListOf<MaterialInfo>()
+        try {
+            val itemRegex = "\\{\"id\":(\\d+),\"name\":\"([^\"]*)\",\"category\":\"([^\"]*)\",\"density\":([0-9.-]+),\"youngModulus\":([0-9.-]+),\"hexColor\":\"([^\"]*)\",\"metallic\":([0-9.-]+),\"roughness\":([0-9.-]+)\\}".toRegex()
+            for (m in itemRegex.findAll(json)) {
+                val g = m.groupValues
+                list.add(
+                    MaterialInfo(
+                        id = g[1].toInt(),
+                        name = g[2],
+                        category = g[3],
+                        density = g[4].toDouble(),
+                        youngModulus = g[5].toDouble(),
+                        hexColor = g[6],
+                        metallic = g[7].toFloat(),
+                        roughness = g[8].toFloat()
+                    )
+                )
+            }
+        } catch (_: Exception) {}
+        if (list.isEmpty()) {
+            list.add(MaterialInfo(0, "Steel (Structural)", "Metal", 7.85, 210.0, "#9EA5AD", 0.85f, 0.35f))
+        }
+        return list
+    }
+
+    private fun parsePhysicalPropertiesJson(json: String): PhysicalPropertiesInfo {
+        return try {
+            val isSuccess = json.contains("\"success\":true")
+            val extractStr = { key: String -> "\"$key\":\"([^\"]*)\"".toRegex().find(json)?.groupValues?.get(1) ?: "" }
+            val extractNum = { key: String -> "\"$key\":([0-9.-]+)".toRegex().find(json)?.groupValues?.get(1)?.toDoubleOrNull() ?: 0.0 }
+
+            PhysicalPropertiesInfo(
+                success = isSuccess,
+                materialName = extractStr("materialName"),
+                density = extractNum("density"),
+                volumeMm3 = extractNum("volume"),
+                surfaceAreaMm2 = extractNum("surfaceArea"),
+                massGrams = extractNum("massGrams"),
+                massKg = extractNum("massKg"),
+                cogX = extractNum("cogX"),
+                cogY = extractNum("cogY"),
+                cogZ = extractNum("cogZ"),
+                ixx = extractNum("ixx"),
+                iyy = extractNum("iyy"),
+                izz = extractNum("izz"),
+                hexColor = extractStr("hexColor").ifEmpty { "#CCCCCC" },
+                metallic = extractNum("metallic").toFloat(),
+                roughness = extractNum("roughness").toFloat(),
+                errorMessage = extractStr("errorMessage")
+            )
+        } catch (e: Exception) {
+            PhysicalPropertiesInfo(false, "", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, errorMessage = e.message ?: "JSON parse error")
+        }
+    }
+
     internal external fun nativeCreateBox(
         dx: Double,
         dy: Double,
@@ -1248,4 +1358,11 @@ object NativeKernel {
     internal external fun nativeExportDrawingDXF(
         solidHandle: Long, partName: String, scale: Double
     ): String
+
+    // Milestone 12 JNI Declarations (Materials & Physical Properties)
+    internal external fun nativeComputePhysicalProperties(
+        solidHandle: Long, materialId: Int
+    ): String
+
+    internal external fun nativeGetMaterialList(): String
 }

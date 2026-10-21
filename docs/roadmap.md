@@ -173,10 +173,10 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Mass properties engine (`BRepGProp`): precise volume, mass, Center of Gravity (CoG), and principal moments of inertia ($I_{xx}, I_{yy}, I_{zz}$).
   - Physically Based Rendering (PBR) shader pipeline: Metallic-Roughness, normal mapping, and Image-Based Lighting (IBL) environment reflection.
   - High-res raytraced / rasterized snapshot export.
-  - **Release:** Beta APK `v1.0.0-beta`.
+  - **Release:** Beta APK `v0.12.0-beta`.
 * **Acceptance Tests:** Calculated mass and center of gravity match analytical physics values within $0.05\%$; PBR metallic preview renders with environment reflection.
-* **Status:** Planned
-* **Finish Date:** -
+* **Status:** Done
+* **Finish Date:** 2026-10-21
 
 ---
 
