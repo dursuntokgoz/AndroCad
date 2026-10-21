@@ -28,6 +28,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.androcad.app.renderer.CadRenderer
+import androidx.compose.ui.platform.testTag
+import com.androcad.app.model.BrowserState
+import com.androcad.app.model.CadBodyItem
+import com.androcad.app.model.CadSketchItem
+import com.androcad.app.ui.CadBrowserView
 import com.androcad.app.renderer.DisplayMode
 import com.androcad.app.renderer.NamedView
 import com.androcad.kernel.BoxMeshResult
@@ -145,6 +150,15 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 
     // Phone layout bottom sheet toggle: null, "browser", "timeline", "properties"
     var phoneActiveSheet by remember { mutableStateOf<String?>(null) }
+    val browserState = remember {
+        mutableStateOf(
+            BrowserState(
+                bodies = mutableListOf(
+                    CadBodyItem("body_1", "Solid Box 1", isVisible = true, isSelected = false)
+                )
+            )
+        )
+    }
 
     // Multi-finger undo / redo actions
     fun handleUndo() {
@@ -220,7 +234,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_androcad_logo),
                         contentDescription = "Logo",
-                        modifier = Modifier.size(24.dp).padding(end = 6.dp)
+                        modifier = Modifier.size(24.dp).padding(end = 6.dp).testTag("app_logo")
                     )
                     Text(
                         text = "AndroCAD",
@@ -237,6 +251,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     }
 
                     tabs.forEach { tab ->
+                        val tabTag = "tab_" + tab.replace(" ", "").replace("/", "").replace("(", "").replace(")", "")
                         TextButton(
                             onClick = {
                                 activeTab = tab
@@ -246,7 +261,8 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             },
                             colors = ButtonDefaults.textButtonColors(
                                 contentColor = if (activeTab == tab) accentBlue else textMuted
-                            )
+                            ),
+                            modifier = Modifier.testTag(tabTag)
                         ) {
                             Text(text = tab, fontSize = 13.sp)
                         }
@@ -258,7 +274,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     Surface(
                         color = chipBgColor,
                         shape = RoundedCornerShape(4.dp),
-                        modifier = Modifier.clickable { isDarkTheme = !isDarkTheme }
+                        modifier = Modifier.testTag("btn_theme_toggle").clickable { isDarkTheme = !isDarkTheme }
                     ) {
                         Text(
                             text = if (isDarkTheme) "🌙 DARK" else "☀️ LIGHT",
@@ -285,7 +301,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             Surface(
                                 color = if (activeSketchTool == tool) accentBlue else chipBgColor,
                                 shape = RoundedCornerShape(4.dp),
-                                modifier = Modifier.clickable {
+                                modifier = Modifier.testTag(getToolTestTag(tool)).clickable {
                                     activeSketchTool = tool
                                     if (tool == "Project Edge") {
                                         activeSolid?.let { solid ->
@@ -347,7 +363,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                         Surface(
                             color = successGreen,
                             shape = RoundedCornerShape(4.dp),
-                            modifier = Modifier.clickable {
+                            modifier = Modifier.testTag("btn_finish_sketch").clickable {
                                 try {
                                     val sketch = NativeKernel.createSketch()
                                     sketch.addRectangle(0.0, 0.0, 100.0, 50.0)
@@ -380,6 +396,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 color = chipBgColor,
                                 shape = RoundedCornerShape(4.dp),
                                 modifier = Modifier
+                                    .testTag(getToolTestTag(action))
                                     .clickable {
                                         try {
                                             when (action) {
@@ -501,6 +518,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 color = chipBgColor,
                                 shape = RoundedCornerShape(4.dp),
                                 modifier = Modifier
+                                    .testTag(getToolTestTag(tool))
                                     .clickable {
                                         try {
                                             when (tool) {
@@ -613,6 +631,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 color = chipBgColor,
                                 shape = RoundedCornerShape(4.dp),
                                 modifier = Modifier
+                                    .testTag(getToolTestTag(tool))
                                     .clickable {
                                         try {
                                             when (tool) {
@@ -715,6 +734,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 color = chipBgColor,
                                 shape = RoundedCornerShape(4.dp),
                                 modifier = Modifier
+                                    .testTag(getToolTestTag(tool))
                                     .clickable {
                                         try {
                                             when (tool) {
@@ -796,6 +816,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 color = chipBgColor,
                                 shape = RoundedCornerShape(4.dp),
                                 modifier = Modifier
+                                    .testTag(getToolTestTag(tool))
                                     .clickable {
                                         try {
                                             val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also {
@@ -896,6 +917,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 color = chipBgColor,
                                 shape = RoundedCornerShape(4.dp),
                                 modifier = Modifier
+                                    .testTag(getToolTestTag(tool))
                                     .clickable {
                                         try {
                                             val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also {
@@ -969,6 +991,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 color = chipBgColor,
                                 shape = RoundedCornerShape(4.dp),
                                 modifier = Modifier
+                                    .testTag(getToolTestTag(tool))
                                     .clickable {
                                         try {
                                             val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also {
@@ -1068,6 +1091,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 color = chipBgColor,
                                 shape = RoundedCornerShape(4.dp),
                                 modifier = Modifier
+                                    .testTag(getToolTestTag(tool))
                                     .clickable {
                                         try {
                                             when (tool) {
@@ -1250,6 +1274,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 color = chipBgColor,
                                 shape = RoundedCornerShape(4.dp),
                                 modifier = Modifier
+                                    .testTag(getToolTestTag(tool))
                                     .clickable {
                                         try {
                                             when (tool) {
@@ -1339,6 +1364,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 color = chipBgColor,
                                 shape = RoundedCornerShape(4.dp),
                                 modifier = Modifier
+                                    .testTag(getToolTestTag(tool))
                                     .clickable {
                                         try {
                                             when (tool) {
@@ -1420,6 +1446,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 color = chipBgColor,
                                 shape = RoundedCornerShape(4.dp),
                                 modifier = Modifier
+                                    .testTag(getToolTestTag(tool))
                                     .clickable {
                                         try {
                                             when (tool) {
@@ -1715,36 +1742,33 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
             Row(modifier = Modifier.weight(1f).fillMaxWidth()) {
                 // Tablet Left Browser Panel
                 if (isTablet) {
-                    Column(
+                    CadBrowserView(
+                        browserState = browserState.value,
+                        isDarkTheme = isDarkTheme,
+                        onSelectEntity = { id ->
+                            browserState.value.selectItem(id)
+                            selectedEntityInfo = "Browser Selection: $id"
+                            featureStatusText = "Selected $id from Browser"
+                        },
+                        onToggleVisibility = { id ->
+                            browserState.value.toggleVisibility(id)
+                            featureStatusText = "Toggled visibility for $id"
+                        },
+                        onRenameBody = { id, newName ->
+                            browserState.value.renameBody(id, newName)
+                            featureStatusText = "Renamed body $id to '$newName'"
+                        },
+                        onDeleteBody = { id ->
+                            browserState.value.deleteBody(id)
+                            featureStatusText = "Deleted body $id"
+                        },
+                        onNamedViewClick = { namedView ->
+                            renderer?.setNamedView(namedView)
+                        },
                         modifier = Modifier
-                            .width(180.dp)
+                            .width(190.dp)
                             .fillMaxHeight()
-                            .background(darkPanelColor)
-                            .border(width = 1.dp, color = borderColor)
-                            .padding(8.dp)
-                    ) {
-                        Text(text = "BROWSER", color = textColor, fontSize = 13.sp)
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        val treeItems = mutableListOf(
-                            "▶ Document Settings",
-                            "▶ Named Views",
-                            "▼ Origin",
-                            "  • XY, XZ, YZ Planes",
-                            "▼ Bodies",
-                            "  [✓] Solid Box 1",
-                            "▼ Sketches"
-                        )
-                        if (activeSketchProfile != null && activeSketchProfile!!.isClosedProfile) {
-                            treeItems.add("  [✓] Sketch 1 (Profile: 5000 mm²)")
-                        } else {
-                            treeItems.add("  • (No active sketches)")
-                        }
-
-                        treeItems.forEach { item ->
-                            Text(text = item, color = textMuted, fontSize = 11.sp, modifier = Modifier.padding(vertical = 2.dp))
-                        }
-                    }
+                    )
                 }
 
                 // Center Viewport with GLES Renderer, ViewCube & Navigation Bar
@@ -1794,16 +1818,16 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             Spacer(modifier = Modifier.height(3.dp))
 
                             // Top Face
-                            ViewCubeButton("TOP", isDarkTheme) { renderer?.setNamedView(NamedView.TOP) }
+                            ViewCubeButton("TOP", isDarkTheme, testTag = "viewcube_TOP") { renderer?.setNamedView(NamedView.TOP) }
 
                             // Middle Ring: LEFT | FRONT | RIGHT
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(2.dp),
                                 modifier = Modifier.padding(vertical = 2.dp)
                             ) {
-                                ViewCubeButton("L", isDarkTheme, width = 26) { renderer?.setNamedView(NamedView.LEFT) }
-                                ViewCubeButton("FRONT", isDarkTheme, width = 46) { renderer?.setNamedView(NamedView.FRONT) }
-                                ViewCubeButton("R", isDarkTheme, width = 26) { renderer?.setNamedView(NamedView.RIGHT) }
+                                ViewCubeButton("L", isDarkTheme, width = 26, testTag = "viewcube_LEFT") { renderer?.setNamedView(NamedView.LEFT) }
+                                ViewCubeButton("FRONT", isDarkTheme, width = 46, testTag = "viewcube_FRONT") { renderer?.setNamedView(NamedView.FRONT) }
+                                ViewCubeButton("R", isDarkTheme, width = 26, testTag = "viewcube_RIGHT") { renderer?.setNamedView(NamedView.RIGHT) }
                             }
 
                             // Bottom Row: BOTTOM and ISO (HOME)
@@ -1811,8 +1835,8 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                                 modifier = Modifier.padding(top = 2.dp)
                             ) {
-                                ViewCubeButton("BOTTOM", isDarkTheme, width = 52) { renderer?.setNamedView(NamedView.BOTTOM) }
-                                ViewCubeButton("ISO", isDarkTheme, width = 44) { renderer?.setNamedView(NamedView.HOME) }
+                                ViewCubeButton("BOTTOM", isDarkTheme, width = 52, testTag = "viewcube_BOTTOM") { renderer?.setNamedView(NamedView.BOTTOM) }
+                                ViewCubeButton("ISO", isDarkTheme, width = 44, testTag = "viewcube_ISO") { renderer?.setNamedView(NamedView.HOME) }
                             }
                         }
                     }
@@ -1836,7 +1860,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 text = "Orbit",
                                 color = if (navTool == "Orbit") accentBlue else textMuted,
                                 fontSize = 12.sp,
-                                modifier = Modifier.clickable { navTool = "Orbit" }
+                                modifier = Modifier.testTag("nav_orbit").clickable { navTool = "Orbit" }
                             )
 
                             // Pan Mode Toggle
@@ -1844,7 +1868,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 text = "Pan",
                                 color = if (navTool == "Pan") accentBlue else textMuted,
                                 fontSize = 12.sp,
-                                modifier = Modifier.clickable { navTool = "Pan" }
+                                modifier = Modifier.testTag("nav_pan").clickable { navTool = "Pan" }
                             )
 
                             // Fit to View (Home Zoom)
@@ -1852,7 +1876,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 text = "Fit",
                                 color = textMuted,
                                 fontSize = 12.sp,
-                                modifier = Modifier.clickable { renderer?.zoomToFit() }
+                                modifier = Modifier.testTag("nav_fit").clickable { renderer?.zoomToFit() }
                             )
 
                             // Display Mode Switcher
@@ -1864,7 +1888,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             Surface(
                                 color = chipBgColor,
                                 shape = RoundedCornerShape(10.dp),
-                                modifier = Modifier.clickable {
+                                modifier = Modifier.testTag("nav_display_mode").clickable {
                                     val nextMode = when (currentDisplayMode) {
                                         DisplayMode.SHADED_WITH_EDGES -> DisplayMode.SHADED
                                         DisplayMode.SHADED -> DisplayMode.WIREFRAME
@@ -1910,16 +1934,38 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                         text = "✕ CLOSE",
                                         color = textMuted,
                                         fontSize = 11.sp,
-                                        modifier = Modifier.clickable { phoneActiveSheet = null }
+                                        modifier = Modifier.testTag("phone_sheet_close").clickable { phoneActiveSheet = null }
                                     )
                                 }
                                 Spacer(modifier = Modifier.height(6.dp))
 
                                 when (phoneActiveSheet) {
                                     "browser" -> {
-                                        Text(text = "▼ Bodies: [✓] Solid Box 1", color = textMuted, fontSize = 12.sp)
-                                        Text(text = "▼ Sketches: (No active sketches)", color = textMuted, fontSize = 12.sp)
-                                        Text(text = "Status: $featureStatusText", color = accentBlue, fontSize = 11.sp)
+                                        CadBrowserView(
+                                            browserState = browserState.value,
+                                            isDarkTheme = isDarkTheme,
+                                            onSelectEntity = { id ->
+                                                browserState.value.selectItem(id)
+                                                selectedEntityInfo = "Browser Selection: $id"
+                                                featureStatusText = "Selected $id from Browser"
+                                            },
+                                            onToggleVisibility = { id ->
+                                                browserState.value.toggleVisibility(id)
+                                                featureStatusText = "Toggled visibility for $id"
+                                            },
+                                            onRenameBody = { id, newName ->
+                                                browserState.value.renameBody(id, newName)
+                                                featureStatusText = "Renamed body $id to '$newName'"
+                                            },
+                                            onDeleteBody = { id ->
+                                                browserState.value.deleteBody(id)
+                                                featureStatusText = "Deleted body $id"
+                                            },
+                                            onNamedViewClick = { namedView ->
+                                                renderer?.setNamedView(namedView)
+                                            },
+                                            modifier = Modifier.fillMaxSize()
+                                        )
                                     }
                                     "properties" -> {
                                         if (activeSolid != null && activeSolid!!.success) {
@@ -2072,10 +2118,12 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                     1.dp,
                                     if (index == rollbackPos || (rollbackPos == -1 && index == timelineItems.lastIndex)) accentBlue else borderColor
                                 ),
-                                modifier = Modifier.clickable {
-                                    rollbackPos = index
-                                    featureStatusText = "Rolled back to step ${index + 1}"
-                                }
+                                modifier = Modifier
+                                    .testTag("timeline_step_${index}")
+                                    .clickable {
+                                        rollbackPos = index
+                                        featureStatusText = "Rolled back to step ${index + 1}"
+                                    }
                             ) {
                                 Text(
                                     text = item,
@@ -2109,10 +2157,12 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                         Surface(
                             color = highlightOrange,
                             shape = RoundedCornerShape(4.dp),
-                            modifier = Modifier.clickable {
-                                rollbackPos = -1
-                                featureStatusText = "Timeline rolled forward (Latest state)"
-                            }
+                            modifier = Modifier
+                                .testTag("timeline_roll_forward")
+                                .clickable {
+                                    rollbackPos = -1
+                                    featureStatusText = "Timeline rolled forward (Latest state)"
+                                }
                         ) {
                             Text(
                                 text = if (rollbackPos == -1) "● LIVE" else "▶ ROLL FORWARD",
@@ -2139,25 +2189,31 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             text = "📁 Tree",
                             color = if (phoneActiveSheet == "browser") accentBlue else textMuted,
                             fontSize = 12.sp,
-                            modifier = Modifier.clickable {
-                                phoneActiveSheet = if (phoneActiveSheet == "browser") null else "browser"
-                            }
+                            modifier = Modifier
+                                .testTag("phone_nav_tree")
+                                .clickable {
+                                    phoneActiveSheet = if (phoneActiveSheet == "browser") null else "browser"
+                                }
                         )
                         Text(
                             text = "⏱ Timeline",
                             color = if (phoneActiveSheet == "timeline") accentBlue else textMuted,
                             fontSize = 12.sp,
-                            modifier = Modifier.clickable {
-                                phoneActiveSheet = if (phoneActiveSheet == "timeline") null else "timeline"
-                            }
+                            modifier = Modifier
+                                .testTag("phone_nav_timeline")
+                                .clickable {
+                                    phoneActiveSheet = if (phoneActiveSheet == "timeline") null else "timeline"
+                                }
                         )
                         Text(
                             text = "⚙ Props",
                             color = if (phoneActiveSheet == "properties") accentBlue else textMuted,
                             fontSize = 12.sp,
-                            modifier = Modifier.clickable {
-                                phoneActiveSheet = if (phoneActiveSheet == "properties") null else "properties"
-                            }
+                            modifier = Modifier
+                                .testTag("phone_nav_props")
+                                .clickable {
+                                    phoneActiveSheet = if (phoneActiveSheet == "properties") null else "properties"
+                                }
                         )
                     }
                 }
@@ -2167,12 +2223,16 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 }
 
 @Composable
-fun ViewCubeButton(label: String, isDarkTheme: Boolean, width: Int = 50, onClick: () -> Unit) {
+fun ViewCubeButton(label: String, isDarkTheme: Boolean, width: Int = 50, testTag: String? = null, onClick: () -> Unit) {
     Surface(
         color = if (isDarkTheme) Color(0xFF2A2D32) else Color(0xFFD6D9DE),
         shape = RoundedCornerShape(3.dp),
         border = androidx.compose.foundation.BorderStroke(1.dp, if (isDarkTheme) Color(0xFF454950) else Color(0xFFB0B3B8)),
-        modifier = Modifier.width(width.dp).height(22.dp).clickable(onClick = onClick)
+        modifier = Modifier
+            .width(width.dp)
+            .height(22.dp)
+            .then(if (testTag != null) Modifier.testTag(testTag) else Modifier)
+            .clickable(onClick = onClick)
     ) {
         Box(contentAlignment = Alignment.Center) {
             Text(
@@ -2280,74 +2340,151 @@ private fun setupCadTouchListener(
     }
 }
 
-fun getToolIconRes(tool: String): Int {
+fun getToolTestTag(tool: String): String {
     return when (tool) {
-        "Box" -> R.drawable.ic_box
-        "Extrude" -> R.drawable.ic_extrude
-        "Revolve" -> R.drawable.ic_revolve
-        "Fillet" -> R.drawable.ic_fillet
-        "Chamfer" -> R.drawable.ic_chamfer
-        "Hole" -> R.drawable.ic_hole
-        "Shell" -> R.drawable.ic_shell
-        "Combine" -> R.drawable.ic_combine
-        "Rect Pattern" -> R.drawable.ic_pattern_rectangular
-        "Circular Pattern" -> R.drawable.ic_pattern_circular
-        "Mirror" -> R.drawable.ic_mirror
-        "Draft Angle" -> R.drawable.ic_draft_angle
-        "ISO Hole (M6 CB)" -> R.drawable.ic_fastener_counterbore
-        "Threaded Bolt (M8)" -> R.drawable.ic_thread_helical
-        "Rectangle", "Line", "Circle" -> R.drawable.ic_sketch
-        "B-Spline" -> R.drawable.ic_bspline_curve
-        "Project Edge" -> R.drawable.ic_sketch_projection
-        "Dimension", "Constraints" -> R.drawable.ic_dimension_linear
-        "Save", "Open", "Export STEP", "Import STEP", "Export STL", "Import STL" -> R.drawable.ic_drawing_view
-        "Loft" -> R.drawable.ic_loft
-        "Sweep" -> R.drawable.ic_sweep
-        "Patch & Sew" -> R.drawable.ic_mesh_repair
-        "Thicken" -> R.drawable.ic_shell
-        "Press-Pull" -> R.drawable.ic_press_pull
-        "U-Bracket (2mm)" -> R.drawable.ic_flange
-        "Unfold Flat Pattern" -> R.drawable.ic_flat_pattern
-        "Bend Relief (Round)" -> R.drawable.ic_bend_relief
-        "Export Flat DXF" -> R.drawable.ic_drawing_view
-        "4-View Sheet" -> R.drawable.ic_drawing_view
-        "Section Cut" -> R.drawable.ic_section_view
-        "BOM & Balloons" -> R.drawable.ic_bom_table
-        "GD&T Frame" -> R.drawable.ic_gdt_feature_frame
-        "Detail View 2:1" -> R.drawable.ic_drawing_detail_view
-        "Auxiliary View" -> R.drawable.ic_drawing_view
-        "Multi-Sheet Doc" -> R.drawable.ic_drawing_view
-        "Export SVG", "Export DXF" -> R.drawable.ic_drawing_view
-        "Facing" -> R.drawable.ic_cam_facing
-        "2D Pocket" -> R.drawable.ic_cam_pocket
-        "2D Contour" -> R.drawable.ic_cam_contour
-        "Peck Drill" -> R.drawable.ic_cam_drill
-        "3D Adaptive" -> R.drawable.ic_cam_3d_adaptive
-        "3D Scallop" -> R.drawable.ic_cam_3d_scallop
-        "Post G-Code" -> R.drawable.ic_cam_gcode
-        "FDM Slice 0.2mm" -> R.drawable.ic_slicer_fdm
-        "Infill Honeycomb" -> R.drawable.ic_slicer_infill
-        "G-Code Preview" -> R.drawable.ic_slicer_fdm
-        "Export G-Code" -> R.drawable.ic_cam_gcode
-        "Solve Static FEA" -> R.drawable.ic_fea_solve
-        "Solve Tet10 (Quadratic)" -> R.drawable.ic_fea_tet10
-        "Modal Analysis" -> R.drawable.ic_fea_modal_freq
-        "Mode 1 Vibration" -> R.drawable.ic_fea_mode_shape
-        "Mode 2 Vibration" -> R.drawable.ic_fea_vibration
-        "Mode 3 Vibration" -> R.drawable.ic_fea_vibration
-        "Load: 5000 N" -> R.drawable.ic_fea_load
-        "Fixed Support" -> R.drawable.ic_fea_constraint
-        "Safety Factor" -> R.drawable.ic_fea_safety_factor
-        "Check Manifold" -> R.drawable.ic_mesh_repair
-        "Weld Vertices" -> R.drawable.ic_mesh_repair
-        "Smooth (Laplacian)" -> R.drawable.ic_mesh_smooth
-        "Mesh to Solid" -> R.drawable.ic_mesh_to_brep
-        "Revolute Joint" -> R.drawable.ic_joint_revolute
-        "Slider Joint" -> R.drawable.ic_joint_slider
-        "Fixed Joint" -> R.drawable.ic_assembly
-        "Animate Kinematics" -> R.drawable.ic_assembly
-        "Mass (Steel)", "Mat: Aluminum", "Mat: Titanium", "Mat: Brass" -> R.drawable.ic_material_physical
-        "CoG & Inertia" -> R.drawable.ic_center_of_gravity
+        "Box" -> "tool_Box"
+        "Extrude" -> "tool_Extrude"
+        "Revolve" -> "tool_Revolve"
+        "Fillet" -> "tool_Fillet"
+        "Chamfer" -> "tool_Chamfer"
+        "Hole" -> "tool_Hole"
+        "Shell" -> "tool_Shell"
+        "Combine" -> "tool_Combine"
+        "Rect Pattern" -> "tool_RectPattern"
+        "Circular Pattern" -> "tool_CircularPattern"
+        "Mirror" -> "tool_Mirror"
+        "Draft Angle" -> "tool_DraftAngle"
+        "ISO Hole (M6 CB)" -> "tool_ISOHoleM6"
+        "Threaded Bolt (M8)" -> "tool_ThreadedBoltM8"
+        "Rectangle" -> "tool_Rectangle"
+        "Line" -> "tool_Line"
+        "Circle" -> "tool_Circle"
+        "B-Spline" -> "tool_BSpline"
+        "Project Edge" -> "tool_ProjectEdge"
+        "Dimension" -> "tool_Dimension"
+        "Constraints" -> "tool_Constraints"
+        "Save" -> "tool_Save"
+        "Open" -> "tool_Open"
+        "Export STEP" -> "tool_ExportSTEP"
+        "Import STEP" -> "tool_ImportSTEP"
+        "Export STL" -> "tool_ExportSTL"
+        "Import STL" -> "tool_ImportSTL"
+        "Loft" -> "tool_Loft"
+        "Press-Pull (+10)" -> "tool_PressPull_Plus10"
+        "Press-Pull (-5)" -> "tool_PressPull_Minus5"
+        "Thicken (5mm)" -> "tool_Thicken5"
+        "U-Bracket" -> "tool_UBracket"
+        "Unfold Pattern" -> "tool_UnfoldPattern"
+        "Export DXF" -> "tool_ExportDXF_SheetMetal"
+        "4-View Sheet" -> "tool_4ViewSheet"
+        "Section Cut" -> "tool_SectionCut"
+        "BOM & Balloons" -> "tool_BOM_Balloons"
+        "GD&T Frame" -> "tool_GDTFrame"
+        "Detail View 2:1" -> "tool_DetailView"
+        "Auxiliary View" -> "tool_AuxiliaryView"
+        "Multi-Sheet Doc" -> "tool_MultiSheetDoc"
+        "Export SVG" -> "tool_ExportSVG_Drawing"
+        "Mass (Steel)" -> "tool_MassSteel"
+        "Mat: Aluminum" -> "tool_MatAluminum"
+        "Mat: Titanium" -> "tool_MatTitanium"
+        "Mat: Brass" -> "tool_MatBrass"
+        "CoG & Inertia" -> "tool_CoG_Inertia"
+        "Analyze Mesh" -> "tool_AnalyzeMesh"
+        "Repair Mesh" -> "tool_RepairMesh"
+        "Smooth Mesh" -> "tool_SmoothMesh"
+        "Mesh to Solid" -> "tool_MeshToSolid"
+        "Solve Beam FEA" -> "tool_SolveBeamFEA"
+        "Tet10 Quadratic FEA" -> "tool_Tet10QuadraticFEA"
+        "Modal Analysis" -> "tool_ModalAnalysis"
+        "Mode 1 Vibration" -> "tool_Mode1Vibration"
+        "Mode 2 Vibration" -> "tool_Mode2Vibration"
+        "Mode 3 Vibration" -> "tool_Mode3Vibration"
+        "Solve Part FEA" -> "tool_SolvePartFEA"
+        "Fixed Support" -> "tool_FixedSupport"
+        "Apply Load" -> "tool_ApplyLoad"
+        "Safety Factor" -> "tool_SafetyFactor"
+        "Displacement Field" -> "tool_DisplacementField"
+        "Generate G-Code (GRBL)" -> "tool_GenerateGCodeGRBL"
+        "Haas G-Code" -> "tool_HaasGCode"
+        "Fanuc G-Code" -> "tool_FanucGCode"
+        "3D Adaptive Clearing" -> "tool_3DAdaptiveClearing"
+        "3D Scallop Finishing" -> "tool_3DScallopFinishing"
+        "Facing Pass" -> "tool_FacingPass"
+        "2D Pocketing" -> "tool_2DPocketing"
+        "2D Contour" -> "tool_2DContour"
+        "Peck Drilling" -> "tool_PeckDrilling"
+        "Slice Solid (0.2mm)" -> "tool_SliceSolid"
+        "Honeycomb Infill (30%)" -> "tool_HoneycombInfill"
+        "Grid Infill (20%)" -> "tool_GridInfill"
+        "Export G-Code" -> "tool_ExportGCode_Slicer"
+        "Robot Arm" -> "tool_RobotArm"
+        "Rotate (+15°)" -> "tool_RotatePlus15"
+        "Reset Joint" -> "tool_ResetJoint"
+        "Check Collision" -> "tool_CheckCollision"
+        else -> "tool_${tool.replace(" ", "_").replace("(", "").replace(")", "").replace("+", "Plus").replace("-", "Minus")}"
+    }
+}
+
+fun getToolIconRes(tool: String): Int {
+    return when {
+        tool == "Box" -> R.drawable.ic_box
+        tool == "Extrude" -> R.drawable.ic_extrude
+        tool == "Revolve" -> R.drawable.ic_revolve
+        tool == "Fillet" -> R.drawable.ic_fillet
+        tool == "Chamfer" -> R.drawable.ic_chamfer
+        tool == "Hole" -> R.drawable.ic_hole
+        tool == "Shell" -> R.drawable.ic_shell
+        tool == "Combine" -> R.drawable.ic_combine
+        tool.contains("Rect Pattern") -> R.drawable.ic_pattern_rectangular
+        tool.contains("Circular Pattern") -> R.drawable.ic_pattern_circular
+        tool.contains("Mirror") -> R.drawable.ic_mirror
+        tool.contains("Draft Angle") -> R.drawable.ic_draft_angle
+        tool.contains("ISO Hole") || tool.contains("Counterbore") -> R.drawable.ic_fastener_counterbore
+        tool.contains("Threaded Bolt") -> R.drawable.ic_thread_helical
+        tool in listOf("Rectangle", "Line", "Circle") -> R.drawable.ic_sketch
+        tool == "B-Spline" -> R.drawable.ic_bspline_curve
+        tool == "Project Edge" -> R.drawable.ic_sketch_projection
+        tool in listOf("Dimension", "Constraints") -> R.drawable.ic_dimension_linear
+        tool in listOf("Save", "Open", "Export STEP", "Import STEP", "Export STL", "Import STL") -> R.drawable.ic_drawing_view
+        tool == "Loft" -> R.drawable.ic_loft
+        tool == "Sweep" -> R.drawable.ic_sweep
+        tool.contains("Press-Pull") -> R.drawable.ic_press_pull
+        tool.contains("Thicken") -> R.drawable.ic_shell
+        tool.contains("U-Bracket") -> R.drawable.ic_flange
+        tool.contains("Unfold") -> R.drawable.ic_flat_pattern
+        tool.contains("Bend Relief") -> R.drawable.ic_bend_relief
+        tool.contains("Sheet Metal DXF") || tool.contains("Export Flat DXF") || tool == "Export DXF" -> R.drawable.ic_drawing_view
+        tool == "4-View Sheet" -> R.drawable.ic_drawing_view
+        tool == "Section Cut" -> R.drawable.ic_section_view
+        tool.contains("BOM") -> R.drawable.ic_bom_table
+        tool.contains("GD&T") -> R.drawable.ic_gdt_feature_frame
+        tool.contains("Detail View") -> R.drawable.ic_drawing_detail_view
+        tool.contains("Auxiliary") || tool.contains("Multi-Sheet") || tool.contains("SVG") || tool.contains("DXF") -> R.drawable.ic_drawing_view
+        tool.contains("Facing") -> R.drawable.ic_cam_facing
+        tool.contains("Pocket") -> R.drawable.ic_cam_pocket
+        tool.contains("Contour") -> R.drawable.ic_cam_contour
+        tool.contains("Drill") -> R.drawable.ic_cam_drill
+        tool.contains("Adaptive") -> R.drawable.ic_cam_3d_adaptive
+        tool.contains("Scallop") -> R.drawable.ic_cam_3d_scallop
+        tool.contains("G-Code") -> R.drawable.ic_cam_gcode
+        tool.contains("Slice") -> R.drawable.ic_slicer_fdm
+        tool.contains("Infill") -> R.drawable.ic_slicer_infill
+        tool.contains("Tet10") -> R.drawable.ic_fea_tet10
+        tool.contains("Modal") -> R.drawable.ic_fea_modal_freq
+        tool.contains("Mode 1") -> R.drawable.ic_fea_mode_shape
+        tool.contains("Mode 2") || tool.contains("Mode 3") || tool.contains("Vibration") -> R.drawable.ic_fea_vibration
+        tool.contains("Beam FEA") || tool.contains("Part FEA") || tool.contains("Static FEA") -> R.drawable.ic_fea_solve
+        tool.contains("Load") -> R.drawable.ic_fea_load
+        tool.contains("Fixed Support") || tool.contains("Constraint") -> R.drawable.ic_fea_constraint
+        tool.contains("Safety Factor") -> R.drawable.ic_fea_safety_factor
+        tool.contains("Displacement") -> R.drawable.ic_fea_solve
+        tool.contains("Analyze Mesh") -> R.drawable.ic_mesh_repair
+        tool.contains("Repair") || tool.contains("Weld") -> R.drawable.ic_mesh_repair
+        tool.contains("Smooth") -> R.drawable.ic_mesh_smooth
+        tool.contains("Mesh to Solid") || tool.contains("Mesh to B-Rep") -> R.drawable.ic_mesh_to_brep
+        tool.contains("Robot Arm") || tool.contains("Joint") || tool.contains("Rotate") || tool.contains("Assemble") || tool.contains("Collision") -> R.drawable.ic_assembly
+        tool.contains("Mass") || tool.contains("Mat:") || tool.contains("Material") -> R.drawable.ic_material_physical
+        tool.contains("CoG") || tool.contains("Inertia") -> R.drawable.ic_center_of_gravity
         else -> R.drawable.ic_box
     }
 }
