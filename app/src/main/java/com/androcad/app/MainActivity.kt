@@ -46,6 +46,11 @@ import com.androcad.kernel.SplinePoint2DData
 import com.androcad.kernel.SlicerExecutionResult
 import com.androcad.kernel.SlicerSettings
 import com.androcad.kernel.SlicerInfillPattern
+import com.androcad.kernel.GDTType
+import com.androcad.kernel.GDTCondition
+import com.androcad.kernel.BOMItemData
+import com.androcad.kernel.DrawingSheetSummary
+import com.androcad.kernel.DrawingDocumentData
 
 class MainActivity : ComponentActivity() {
 
@@ -613,7 +618,17 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             }
                         }
                     } else if (activeTab == "Drawing") {
-                        val drawingTools = listOf("4-View Sheet", "Section Cut", "Export SVG", "Export DXF")
+                        val drawingTools = listOf(
+                            "4-View Sheet",
+                            "Section Cut",
+                            "BOM & Balloons",
+                            "GD&T Frame",
+                            "Detail View 2:1",
+                            "Auxiliary View",
+                            "Multi-Sheet Doc",
+                            "Export SVG",
+                            "Export DXF"
+                        )
                         drawingTools.forEach { tool ->
                             Surface(
                                 color = chipBgColor,
@@ -636,13 +651,42 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     timelineItems = (timelineItems + "${timelineItems.size + 1}. Section View A-A").toMutableList()
                                                     featureStatusText = "Section Cut View generated with 45° cross-hatching"
                                                 }
+                                                "BOM & Balloons" -> {
+                                                    val doc = NativeKernel.generateMultiSheetDocument(solid, "Mechanical Assembly")
+                                                    val svg = NativeKernel.exportMultiSheetSVG(solid, "Mechanical Assembly", 1)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. BOM Table & Balloons").toMutableList()
+                                                    featureStatusText = "BOM Table (4 Items) & Item Callout Balloons added to Sheet 1"
+                                                }
+                                                "GD&T Frame" -> {
+                                                    val gdtStr = NativeKernel.formatGDTFrame(
+                                                        GDTType.POSITION, 0.05, true, GDTCondition.MMC, "A", "B", "C"
+                                                    )
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. GD&T Frame ($gdtStr)").toMutableList()
+                                                    featureStatusText = "GD&T Control Frame added: $gdtStr per ASME Y14.5"
+                                                }
+                                                "Detail View 2:1" -> {
+                                                    val svg = NativeKernel.exportMultiSheetSVG(solid, "Mechanical Assembly", 3)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Detail View A (2:1)").toMutableList()
+                                                    featureStatusText = "Circular Detail View A (2:1 Scale) generated on Sheet 3"
+                                                }
+                                                "Auxiliary View" -> {
+                                                    val svg = NativeKernel.exportMultiSheetSVG(solid, "Mechanical Assembly", 3)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Auxiliary View [1,1,1]").toMutableList()
+                                                    featureStatusText = "Auxiliary Oblique Projection View generated on Sheet 3"
+                                                }
+                                                "Multi-Sheet Doc" -> {
+                                                    val doc = NativeKernel.generateMultiSheetDocument(solid, "Mechanical Assembly")
+                                                    val svg = NativeKernel.exportMultiSheetSVG(solid, "Mechanical Assembly", 0)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Multi-Sheet Document (3 Sheets)").toMutableList()
+                                                    featureStatusText = "Multi-Sheet Vector Drafting Document generated: ${doc.sheets.size} Sheets (A3 Landscape)"
+                                                }
                                                 "Export SVG" -> {
-                                                    val svg = NativeKernel.exportDrawingSVG(solid, "EngineeringDrawing", 1.0)
-                                                    featureStatusText = "Drawing Sheet SVG Exported: ${svg.length} chars (ANSI/ISO A3)"
+                                                    val svg = NativeKernel.exportMultiSheetSVG(solid, "EngineeringDrawing", 0)
+                                                    featureStatusText = "Multi-Sheet Drawing SVG Exported: ${svg.length} chars (ANSI/ISO A3)"
                                                 }
                                                 "Export DXF" -> {
-                                                    val dxf = NativeKernel.exportDrawingDXF(solid, "EngineeringDrawing", 1.0)
-                                                    featureStatusText = "Drawing Sheet DXF Exported: ${dxf.length} chars (Multi-Layer)"
+                                                    val dxf = NativeKernel.exportMultiSheetDXF(solid, "EngineeringDrawing")
+                                                    featureStatusText = "Multi-Sheet Drawing DXF Exported: ${dxf.length} chars (Multi-Layer)"
                                                 }
                                             }
                                         } catch (t: Throwable) {

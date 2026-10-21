@@ -1,0 +1,19 @@
+<!-- Copyright (c) 2026 dursuntokgoz. All rights reserved. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Target Component Outline (Part representation) -->
+  <polygon points="6,34 22,26 42,32 26,42" fill="#1E2124" stroke="#6C757D" stroke-width="1.6" />
+  <line x1="22" y1="26" x2="22" y2="38" stroke="#6C757D" stroke-width="1.6" />
+
+  <!-- Touch Point on Component -->
+  <circle cx="28" cy="34" r="2" fill="#007ACC" stroke="#00A4E4" stroke-width="1" />
+
+  <!-- Leader Line from Part to Callout Balloon -->
+  <line x1="28" y1="34" x2="22" y2="18" stroke="#007ACC" stroke-width="1.8" />
+  <line x1="22" y1="18" x2="16" y2="18" stroke="#007ACC" stroke-width="1.8" />
+
+  <!-- Callout Balloon Circle -->
+  <circle cx="16" cy="18" r="10" fill="#1E2124" stroke="#00A4E4" stroke-width="2" />
+
+  <!-- Item Number inside Balloon -->
+  <text x="16" y="22" font-family="monospace" font-size="11" font-weight="bold" fill="#00A4E4" text-anchor="middle" stroke="none">1</text>
+</svg>

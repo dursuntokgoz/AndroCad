@@ -626,6 +626,53 @@ data class SlicerExecutionResult(
     val errorMessage: String = ""
 )
 
+// -------------------------------------------------------------------------
+// Milestone 20: GD&T, Bill of Materials (BOM) & Multi-Sheet Vector Drafting
+// -------------------------------------------------------------------------
+
+enum class GDTType(val code: Int) {
+    POSITION(0),
+    FLATNESS(1),
+    PERPENDICULARITY(2),
+    PARALLELISM(3),
+    CYLINDRICITY(4),
+    TOTAL_RUNOUT(5),
+    CONCENTRICITY(6),
+    PROFILE_OF_SURFACE(7)
+}
+
+enum class GDTCondition(val code: Int) {
+    NONE(0), // RFS
+    MMC(1),  // Maximum Material Condition
+    LMC(2)   // Least Material Condition
+}
+
+data class BOMItemData(
+    val itemNumber: Int,
+    val partNumber: String,
+    val description: String,
+    val quantity: Int,
+    val materialName: String,
+    val unitMassGrams: Double,
+    val totalMassGrams: Double
+)
+
+data class DrawingSheetSummary(
+    val sheetIndex: Int,
+    val sheetName: String,
+    val viewCount: Int,
+    val widthMm: Double,
+    val heightMm: Double
+)
+
+data class DrawingDocumentData(
+    val success: Boolean,
+    val title: String,
+    val sheetCount: Int,
+    val sheets: List<DrawingSheetSummary> = emptyList(),
+    val errorMessage: String = ""
+)
+
 /**
  * High-performance JNI bridge to the OpenCASCADE native CAD kernel.
  */
@@ -1319,6 +1366,91 @@ object NativeKernel {
     ): String {
         if (solid.nativeHandle == 0L || !solid.success) return ""
         return nativeExportDrawingDXF(solid.nativeHandle, partName, scale)
+    }
+
+    /**
+     * Milestone 20: Generates a multi-sheet production drafting document.
+     */
+    fun generateMultiSheetDocument(
+        solid: BoxMeshResult,
+        partName: String = "Mechanical Assembly"
+    ): DrawingDocumentData {
+        if (solid.nativeHandle == 0L || !solid.success) {
+            return DrawingDocumentData(false, "", 0, emptyList(), "Invalid solid handle")
+        }
+        val json = nativeGenerateMultiSheetDocument(solid.nativeHandle, partName)
+        return parseMultiSheetJson(json)
+    }
+
+    /**
+     * Milestone 20: Exports multi-sheet SVG markup (sheetIndex 0 = all sheets, 1..N = specific sheet).
+     */
+    fun exportMultiSheetSVG(
+        solid: BoxMeshResult,
+        partName: String = "Mechanical Assembly",
+        sheetIndex: Int = 0
+    ): String {
+        if (solid.nativeHandle == 0L || !solid.success) return "<svg></svg>"
+        return nativeExportMultiSheetSVG(solid.nativeHandle, partName, sheetIndex)
+    }
+
+    /**
+     * Milestone 20: Exports multi-sheet AutoCAD DXF representation.
+     */
+    fun exportMultiSheetDXF(
+        solid: BoxMeshResult,
+        partName: String = "Mechanical Assembly"
+    ): String {
+        if (solid.nativeHandle == 0L || !solid.success) return ""
+        return nativeExportMultiSheetDXF(solid.nativeHandle, partName)
+    }
+
+    /**
+     * Milestone 20: Formats an ASME Y14.5 / ISO 1101 GD&T Feature Control Frame.
+     */
+    fun formatGDTFrame(
+        type: GDTType,
+        tolerance: Double,
+        hasDiameterSymbol: Boolean = false,
+        condition: GDTCondition = GDTCondition.NONE,
+        primaryDatum: String = "",
+        secondaryDatum: String = "",
+        tertiaryDatum: String = ""
+    ): String {
+        return nativeFormatGDTFrame(
+            type.code,
+            tolerance,
+            hasDiameterSymbol,
+            condition.code,
+            primaryDatum,
+            secondaryDatum,
+            tertiaryDatum
+        )
+    }
+
+    private fun parseMultiSheetJson(json: String): DrawingDocumentData {
+        return try {
+            val isSuccess = json.contains("\"success\":true")
+            val extractNum = { key: String -> "\"$key\":([0-9.-]+)".toRegex().find(json)?.groupValues?.get(1)?.toDoubleOrNull() ?: 0.0 }
+            val extractStr = { key: String -> "\"$key\":\"(.*?)\"".toRegex().find(json)?.groupValues?.get(1) ?: "" }
+            val title = extractStr("title")
+            val sheetCount = extractNum("sheetCount").toInt()
+
+            val sheets = mutableListOf<DrawingSheetSummary>()
+            val sheetRegex = "\\{\"sheetIndex\":(\\d+),\"sheetName\":\"(.*?)\",\"viewCount\":(\\d+),\"widthMm\":([0-9.-]+),\"heightMm\":([0-9.-]+)\\}".toRegex()
+            for (match in sheetRegex.findAll(json)) {
+                val idx = match.groupValues[1].toIntOrNull() ?: 1
+                val name = match.groupValues[2]
+                val vCount = match.groupValues[3].toIntOrNull() ?: 0
+                val w = match.groupValues[4].toDoubleOrNull() ?: 420.0
+                val h = match.groupValues[5].toDoubleOrNull() ?: 297.0
+                sheets.add(DrawingSheetSummary(idx, name, vCount, w, h))
+            }
+
+            DrawingDocumentData(isSuccess, title, sheetCount, sheets)
+        } catch (e: Exception) {
+            DrawingDocumentData(false, "", 0, emptyList(), e.message ?: "Multi-Sheet JSON parsing error")
+        }
     }
 
     /**
@@ -2238,5 +2370,32 @@ object NativeKernel {
     internal external fun nativeSimulateModal(
         lengthMm: Double, widthMm: Double, heightMm: Double,
         materialId: Int, numModes: Int, deformationScale: Double
+    ): String
+
+    // Milestone 20 JNI Declarations (GD&T, BOM & Multi-Sheet Drafting)
+    internal external fun nativeGenerateMultiSheetDocument(
+        solidHandle: Long,
+        partName: String
+    ): String
+
+    internal external fun nativeExportMultiSheetSVG(
+        solidHandle: Long,
+        partName: String,
+        sheetIndex: Int
+    ): String
+
+    internal external fun nativeExportMultiSheetDXF(
+        solidHandle: Long,
+        partName: String
+    ): String
+
+    internal external fun nativeFormatGDTFrame(
+        characteristicCode: Int,
+        tolerance: Double,
+        hasDiameterSymbol: Boolean,
+        materialConditionCode: Int,
+        primaryDatum: String,
+        secondaryDatum: String,
+        tertiaryDatum: String
     ): String
 }

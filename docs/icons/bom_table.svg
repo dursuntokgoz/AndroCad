@@ -1,0 +1,42 @@
+<!-- Copyright (c) 2026 dursuntokgoz. All rights reserved. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Outer Table Border -->
+  <rect x="4" y="6" width="40" height="36" rx="2" fill="#1E2124" stroke="#007ACC" stroke-width="1.8" />
+
+  <!-- Header Row -->
+  <rect x="4" y="6" width="40" height="9" fill="#007ACC" stroke="#007ACC" />
+  <text x="7" y="12.5" font-family="sans-serif" font-size="3.2" font-weight="bold" fill="#FFFFFF" stroke="none">ITEM</text>
+  <text x="18" y="12.5" font-family="sans-serif" font-size="3.2" font-weight="bold" fill="#FFFFFF" stroke="none">PART NO</text>
+  <text x="36" y="12.5" font-family="sans-serif" font-size="3.2" font-weight="bold" fill="#FFFFFF" stroke="none">QTY</text>
+
+  <!-- Horizontal Grid Rows -->
+  <line x1="4" y1="21" x2="44" y2="21" stroke="#3A3F44" />
+  <line x1="4" y1="27" x2="44" y2="27" stroke="#3A3F44" />
+  <line x1="4" y1="33" x2="44" y2="33" stroke="#3A3F44" />
+  <line x1="4" y1="39" x2="44" y2="39" stroke="#3A3F44" />
+
+  <!-- Vertical Column Dividers -->
+  <line x1="15" y1="6" x2="15" y2="42" stroke="#3A3F44" />
+  <line x1="33" y1="6" x2="33" y2="42" stroke="#3A3F44" />
+
+  <!-- Row Data Samples -->
+  <!-- Row 1 -->
+  <text x="9.5" y="19" font-family="monospace" font-size="3.2" fill="#00A4E4" text-anchor="middle" stroke="none">1</text>
+  <text x="18" y="19" font-family="sans-serif" font-size="3.0" fill="#E0E0E0" stroke="none">AC-1001</text>
+  <text x="38.5" y="19" font-family="monospace" font-size="3.2" fill="#FFB74D" text-anchor="middle" stroke="none">1</text>
+
+  <!-- Row 2 -->
+  <text x="9.5" y="25" font-family="monospace" font-size="3.2" fill="#00A4E4" text-anchor="middle" stroke="none">2</text>
+  <text x="18" y="25" font-family="sans-serif" font-size="3.0" fill="#E0E0E0" stroke="none">AC-1002</text>
+  <text x="38.5" y="25" font-family="monospace" font-size="3.2" fill="#FFB74D" text-anchor="middle" stroke="none">2</text>
+
+  <!-- Row 3 -->
+  <text x="9.5" y="31" font-family="monospace" font-size="3.2" fill="#00A4E4" text-anchor="middle" stroke="none">3</text>
+  <text x="18" y="31" font-family="sans-serif" font-size="3.0" fill="#E0E0E0" stroke="none">ISO 4017</text>
+  <text x="38.5" y="31" font-family="monospace" font-size="3.2" fill="#FFB74D" text-anchor="middle" stroke="none">4</text>
+
+  <!-- Row 4 -->
+  <text x="9.5" y="37" font-family="monospace" font-size="3.2" fill="#00A4E4" text-anchor="middle" stroke="none">4</text>
+  <text x="18" y="37" font-family="sans-serif" font-size="3.0" fill="#E0E0E0" stroke="none">ISO 7089</text>
+  <text x="38.5" y="37" font-family="monospace" font-size="3.2" fill="#FFB74D" text-anchor="middle" stroke="none">4</text>
+</svg>

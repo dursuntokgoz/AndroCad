@@ -525,10 +525,417 @@ std::string DrawingSheet::ToSVG() const {
                 svg << "<text x=\"" << (dX + 2.0) << "\" y=\"" << midY << "\" font-family=\"sans-serif\" font-size=\"3.0\" fill=\"#007ACC\">" << dim.text << "</text>\n";
             }
         }
+
+        // GD&T Feature Control Frames
+        for (const auto& gdt : view.gdtFrames) {
+            svg << gdt.ToSVG();
+        }
+
+        // BOM Callout Balloons
+        for (const auto& balloon : view.balloons) {
+            svg << balloon.ToSVG();
+        }
+    }
+
+    // Bill of Materials Table
+    if (!bomTable.items.empty()) {
+        svg << bomTable.ToSVG();
     }
 
     svg << "</svg>\n";
     return svg.str();
+}
+
+std::string FeatureControlFrame::FormattedString() const {
+    std::ostringstream ss;
+    ss << "[ ";
+    switch (characteristic) {
+        case GDTCharacteristic::POSITION: ss << "POS (⌖)"; break;
+        case GDTCharacteristic::FLATNESS: ss << "FLAT (⏥)"; break;
+        case GDTCharacteristic::PERPENDICULARITY: ss << "PERP (⟂)"; break;
+        case GDTCharacteristic::PARALLELISM: ss << "PARA (∥)"; break;
+        case GDTCharacteristic::CYLINDRICITY: ss << "CYL (⌭)"; break;
+        case GDTCharacteristic::TOTAL_RUNOUT: ss << "RUNOUT (⌰)"; break;
+        case GDTCharacteristic::CONCENTRICITY: ss << "CONC (◎)"; break;
+        case GDTCharacteristic::PROFILE_OF_SURFACE: ss << "PROF (⌒)"; break;
+    }
+    ss << " | ";
+    if (hasDiameterSymbol) ss << "⌀";
+    ss << std::fixed << std::setprecision(3) << toleranceValue;
+    if (materialCondition == MaterialCondition::MMC) ss << " Ⓜ";
+    else if (materialCondition == MaterialCondition::LMC) ss << " Ⓛ";
+
+    if (!primaryDatum.empty()) {
+        ss << " | " << primaryDatum;
+        if (primaryDatumModifier == MaterialCondition::MMC) ss << " Ⓜ";
+        else if (primaryDatumModifier == MaterialCondition::LMC) ss << " Ⓛ";
+    }
+    if (!secondaryDatum.empty()) {
+        ss << " | " << secondaryDatum;
+        if (secondaryDatumModifier == MaterialCondition::MMC) ss << " Ⓜ";
+        else if (secondaryDatumModifier == MaterialCondition::LMC) ss << " Ⓛ";
+    }
+    if (!tertiaryDatum.empty()) {
+        ss << " | " << tertiaryDatum;
+        if (tertiaryDatumModifier == MaterialCondition::MMC) ss << " Ⓜ";
+        else if (tertiaryDatumModifier == MaterialCondition::LMC) ss << " Ⓛ";
+    }
+    ss << " ]";
+    return ss.str();
+}
+
+std::string FeatureControlFrame::ToSVG() const {
+    std::ostringstream svg;
+    svg << std::fixed << std::setprecision(2);
+    if (std::abs(attachX) > 1e-3 || std::abs(attachY) > 1e-3) {
+        svg << "<line x1=\"" << attachX << "\" y1=\"" << (297.0 - attachY)
+            << "\" x2=\"" << boxX << "\" y2=\"" << (297.0 - boxY)
+            << "\" stroke=\"#007ACC\" stroke-width=\"0.35\" marker-start=\"url(#arrow)\" />\n";
+    }
+
+    double sy = 297.0 - boxY;
+    svg << "<g id=\"gdt_frame\">\n";
+    svg << "  <rect x=\"" << boxX << "\" y=\"" << (sy - boxHeight) << "\" width=\"" << boxWidth << "\" height=\"" << boxHeight
+        << "\" fill=\"#FFFFFF\" stroke=\"#1E2124\" stroke-width=\"0.5\" />\n";
+    svg << "  <text x=\"" << (boxX + 2.0) << "\" y=\"" << (sy - 2.5) << "\" font-family=\"monospace\" font-size=\"3.0\" fill=\"#1E2124\">"
+        << FormattedString() << "</text>\n";
+    svg << "</g>\n";
+    return svg.str();
+}
+
+std::string BOMBalloon::ToSVG() const {
+    std::ostringstream svg;
+    svg << std::fixed << std::setprecision(2);
+    double sy = 297.0 - balloonY;
+    double say = 297.0 - attachY;
+
+    svg << "<line x1=\"" << attachX << "\" y1=\"" << say
+        << "\" x2=\"" << balloonX << "\" y2=\"" << sy
+        << "\" stroke=\"#007ACC\" stroke-width=\"0.35\" marker-start=\"url(#arrow)\" />\n";
+
+    svg << "<circle cx=\"" << balloonX << "\" cy=\"" << sy << "\" r=\"" << radius
+        << "\" fill=\"#FFFFFF\" stroke=\"#1E2124\" stroke-width=\"0.6\" />\n";
+
+    svg << "<text x=\"" << balloonX << "\" y=\"" << (sy + 1.2)
+        << "\" font-family=\"sans-serif\" font-size=\"4.0\" font-weight=\"bold\" text-anchor=\"middle\" dominant-baseline=\"middle\" fill=\"#007ACC\">"
+        << itemNumber << "</text>\n";
+
+    return svg.str();
+}
+
+std::string BOMTable::ToSVG() const {
+    if (items.empty()) return "";
+    std::ostringstream svg;
+    svg << std::fixed << std::setprecision(1);
+
+    double totalW = 145.0;
+    double colW[] = {12.0, 28.0, 42.0, 12.0, 26.0, 25.0};
+    double headerH = 7.0;
+    double rH = rowHeight;
+    double totalH = headerH + items.size() * rH;
+
+    double x = originX;
+    double y = 297.0 - originY;
+
+    svg << "<g id=\"bom_table\">\n";
+    svg << "  <rect x=\"" << x << "\" y=\"" << y << "\" width=\"" << totalW << "\" height=\"" << totalH
+        << "\" fill=\"#FFFFFF\" stroke=\"#1E2124\" stroke-width=\"0.6\" />\n";
+
+    svg << "  <rect x=\"" << x << "\" y=\"" << y << "\" width=\"" << totalW << "\" height=\"" << headerH
+        << "\" fill=\"#E2E8F0\" stroke=\"#1E2124\" stroke-width=\"0.4\" />\n";
+
+    const char* headers[] = {"ITEM", "PART NO", "DESCRIPTION", "QTY", "MATERIAL", "MASS (g)"};
+    double curX = x;
+    for (int c = 0; c < 6; ++c) {
+        svg << "  <text x=\"" << (curX + 1.5) << "\" y=\"" << (y + 4.8)
+            << "\" font-family=\"sans-serif\" font-size=\"2.8\" font-weight=\"bold\" fill=\"#1E2124\">"
+            << headers[c] << "</text>\n";
+        curX += colW[c];
+        if (c < 5) {
+            svg << "  <line x1=\"" << curX << "\" y1=\"" << y << "\" x2=\"" << curX << "\" y2=\"" << (y + totalH)
+                << "\" stroke=\"#1E2124\" stroke-width=\"0.3\" />\n";
+        }
+    }
+
+    for (size_t r = 0; r < items.size(); ++r) {
+        const auto& it = items[r];
+        double ry = y + headerH + r * rH;
+        svg << "  <line x1=\"" << x << "\" y1=\"" << ry << "\" x2=\"" << (x + totalW) << "\" y2=\"" << ry
+            << "\" stroke=\"#CBD5E1\" stroke-width=\"0.3\" />\n";
+
+        double cx = x;
+        svg << "  <text x=\"" << (cx + colW[0]*0.5) << "\" y=\"" << (ry + 4.8)
+            << "\" font-family=\"sans-serif\" font-size=\"2.6\" text-anchor=\"middle\" fill=\"#1E2124\">"
+            << it.itemNumber << "</text>\n";
+        cx += colW[0];
+
+        svg << "  <text x=\"" << (cx + 1.5) << "\" y=\"" << (ry + 4.8)
+            << "\" font-family=\"sans-serif\" font-size=\"2.6\" fill=\"#007ACC\">"
+            << it.partNumber << "</text>\n";
+        cx += colW[1];
+
+        svg << "  <text x=\"" << (cx + 1.5) << "\" y=\"" << (ry + 4.8)
+            << "\" font-family=\"sans-serif\" font-size=\"2.6\" fill=\"#1E2124\">"
+            << it.description << "</text>\n";
+        cx += colW[2];
+
+        svg << "  <text x=\"" << (cx + colW[3]*0.5) << "\" y=\"" << (ry + 4.8)
+            << "\" font-family=\"sans-serif\" font-size=\"2.6\" text-anchor=\"middle\" fill=\"#1E2124\">"
+            << it.quantity << "</text>\n";
+        cx += colW[3];
+
+        svg << "  <text x=\"" << (cx + 1.5) << "\" y=\"" << (ry + 4.8)
+            << "\" font-family=\"sans-serif\" font-size=\"2.6\" fill=\"#475569\">"
+            << it.materialName << "</text>\n";
+        cx += colW[4];
+
+        svg << "  <text x=\"" << (cx + colW[5] - 2.0) << "\" y=\"" << (ry + 4.8)
+            << "\" font-family=\"sans-serif\" font-size=\"2.6\" text-anchor=\"end\" fill=\"#1E2124\">"
+            << it.totalMassGrams << "</text>\n";
+    }
+    svg << "</g>\n";
+    return svg.str();
+}
+
+DrawingView DrawingEngine::CreateDetailView(const DrawingView& parentView,
+                                            double centerX, double centerY,
+                                            double radiusMm,
+                                            double scaleMultiplier,
+                                            double placementX, double placementY,
+                                            const std::string& detailLabel) {
+    DrawingView view;
+    view.type = ViewType::Detail;
+    std::ostringstream ss;
+    ss << "DETAIL " << detailLabel << " (" << static_cast<int>(scaleMultiplier) << ":1)";
+    view.name = ss.str();
+    view.originX = placementX;
+    view.originY = placementY;
+    view.scale = parentView.scale * scaleMultiplier;
+
+    double rSq = radiusMm * radiusMm;
+
+    for (const auto& seg : parentView.segments) {
+        double mx = (seg.x1 + seg.x2) * 0.5;
+        double my = (seg.y1 + seg.y2) * 0.5;
+
+        double dSq = (mx - centerX) * (mx - centerX) + (my - centerY) * (my - centerY);
+        if (dSq <= rSq * 1.2) {
+            ProjectedSegment cropSeg;
+            cropSeg.x1 = placementX + (seg.x1 - centerX) * scaleMultiplier;
+            cropSeg.y1 = placementY + (seg.y1 - centerY) * scaleMultiplier;
+            cropSeg.x2 = placementX + (seg.x2 - centerX) * scaleMultiplier;
+            cropSeg.y2 = placementY + (seg.y2 - centerY) * scaleMultiplier;
+            cropSeg.isHidden = seg.isHidden;
+            cropSeg.isCenterline = seg.isCenterline;
+            view.segments.push_back(cropSeg);
+        }
+    }
+
+    double detailR = radiusMm * scaleMultiplier;
+    int circleSamples = 24;
+    for (int i = 0; i < circleSamples; ++i) {
+        double th1 = 2.0 * M_PI * i / circleSamples;
+        double th2 = 2.0 * M_PI * (i + 1) / circleSamples;
+        ProjectedSegment cSeg;
+        cSeg.x1 = placementX + detailR * std::cos(th1);
+        cSeg.y1 = placementY + detailR * std::sin(th1);
+        cSeg.x2 = placementX + detailR * std::cos(th2);
+        cSeg.y2 = placementY + detailR * std::sin(th2);
+        cSeg.isHidden = false;
+        view.segments.push_back(cSeg);
+    }
+
+    view.width = detailR * 2.0;
+    view.height = detailR * 2.0;
+    return view;
+}
+
+DrawingView DrawingEngine::CreateAuxiliaryView(const TopoDS_Shape& shape,
+                                               double dirX, double dirY, double dirZ,
+                                               double originX, double originY,
+                                               double scale) {
+    DrawingView view;
+    view.type = ViewType::Auxiliary;
+    view.name = "AUXILIARY VIEW (OBLIQUE)";
+    view.originX = originX;
+    view.originY = originY;
+    view.scale = scale;
+
+    if (shape.IsNull()) return view;
+
+    double len = std::sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+    if (len < 1e-6) {
+        dirX = 1.0; dirY = 1.0; dirZ = 1.0; len = std::sqrt(3.0);
+    }
+    dirX /= len; dirY /= len; dirZ /= len;
+
+    gp_Dir wDir(dirX, dirY, dirZ);
+    gp_Dir uDir = (std::abs(dirZ) < 0.9) ? gp_Dir(-dirY, dirX, 0.0) : gp_Dir(0.0, -dirZ, dirY);
+    gp_Vec vVec = gp_Vec(wDir).Crossed(gp_Vec(uDir));
+    gp_Dir vDir(vVec);
+
+    Bnd_Box bnd;
+    BRepBndLib::Add(shape, bnd);
+    Standard_Real xmin, ymin, zmin, xmax, ymax, zmax;
+    bnd.Get(xmin, ymin, zmin, xmax, ymax, zmax);
+    double cx = (xmin + xmax) * 0.5;
+    double cy = (ymin + ymax) * 0.5;
+    double cz = (zmin + zmax) * 0.5;
+
+    double minU = 1e9, maxU = -1e9;
+    double minV = 1e9, maxV = -1e9;
+
+    for (TopExp_Explorer exp(shape, TopAbs_EDGE); exp.More(); exp.Next()) {
+        const TopoDS_Edge& edge = TopoDS::Edge(exp.Current());
+        BRepAdaptor_Curve curve(edge);
+        Standard_Real first = curve.FirstParameter();
+        Standard_Real last = curve.LastParameter();
+        if (std::isinf(first) || std::isinf(last) || first >= last) continue;
+
+        int numSamples = (curve.GetType() == GeomAbs_Line) ? 2 : 8;
+        for (int s = 0; s < numSamples - 1; ++s) {
+            double t1 = first + (last - first) * (static_cast<double>(s) / (numSamples - 1));
+            double t2 = first + (last - first) * (static_cast<double>(s + 1) / (numSamples - 1));
+
+            gp_Pnt p1 = curve.Value(t1);
+            gp_Pnt p2 = curve.Value(t2);
+
+            gp_Vec d1(p1.X() - cx, p1.Y() - cy, p1.Z() - cz);
+            gp_Vec d2(p2.X() - cx, p2.Y() - cy, p2.Z() - cz);
+
+            double u1 = d1.Dot(gp_Vec(uDir)) * scale;
+            double v1 = d1.Dot(gp_Vec(vDir)) * scale;
+            double u2 = d2.Dot(gp_Vec(uDir)) * scale;
+            double v2 = d2.Dot(gp_Vec(vDir)) * scale;
+
+            ProjectedSegment seg;
+            seg.x1 = originX + u1;
+            seg.y1 = originY + v1;
+            seg.x2 = originX + u2;
+            seg.y2 = originY + v2;
+            seg.isHidden = false;
+            view.segments.push_back(seg);
+
+            minU = std::min({minU, u1, u2});
+            maxU = std::max({maxU, u1, u2});
+            minV = std::min({minV, v1, v2});
+            maxV = std::max({maxV, v1, v2});
+        }
+    }
+
+    view.width = (maxU > minU) ? (maxU - minU) : 0.0;
+    view.height = (maxV > minV) ? (maxV - minV) : 0.0;
+    return view;
+}
+
+FeatureControlFrame DrawingEngine::CreateGDTFrame(GDTCharacteristic charac,
+                                                  double tol,
+                                                  bool diameterSymbol,
+                                                  MaterialCondition matCond,
+                                                  const std::string& primary,
+                                                  const std::string& secondary,
+                                                  const std::string& tertiary,
+                                                  double attachX, double attachY,
+                                                  double boxX, double boxY) {
+    FeatureControlFrame fcf;
+    fcf.characteristic = charac;
+    fcf.toleranceValue = tol;
+    fcf.hasDiameterSymbol = diameterSymbol;
+    fcf.materialCondition = matCond;
+    fcf.primaryDatum = primary;
+    fcf.secondaryDatum = secondary;
+    fcf.tertiaryDatum = tertiary;
+    fcf.attachX = attachX;
+    fcf.attachY = attachY;
+    fcf.boxX = boxX;
+    fcf.boxY = boxY;
+    return fcf;
+}
+
+DrawingDocument DrawingEngine::GenerateMultiSheetDocument(const TopoDS_Shape& shape,
+                                                          const std::vector<BOMItem>& bomItems,
+                                                          const std::string& partName) {
+    DrawingDocument doc;
+    doc.title = partName + " Production Multi-Sheet Drafting";
+
+    // SHEET 1: General Assembly Overview, Isometric View & BOM Table
+    DrawingSheet sheet1;
+    sheet1.sheetIndex = 1;
+    sheet1.sheetName = "Sheet 1 (Assembly & BOM)";
+    sheet1.titleBlock.partName = partName;
+    sheet1.titleBlock.sheetNumber = "1 / 3";
+    sheet1.titleBlock.title = "GENERAL ASSEMBLY & BILL OF MATERIALS";
+
+    DrawingView isoView = ProjectView(shape, ViewType::Isometric, 120.0, 150.0, 1.2);
+    BOMBalloon b1{1, 100.0, 140.0, 60.0, 200.0, 6.0};
+    BOMBalloon b2{2, 140.0, 160.0, 180.0, 220.0, 6.0};
+    isoView.balloons.push_back(b1);
+    isoView.balloons.push_back(b2);
+    sheet1.views.push_back(isoView);
+
+    sheet1.bomTable.originX = 250.0;
+    sheet1.bomTable.originY = 25.0;
+    sheet1.bomTable.items = bomItems;
+    doc.sheets.push_back(sheet1);
+
+    // SHEET 2: Component Orthographic Projections, Dimensions & GD&T
+    DrawingSheet sheet2 = GenerateStandardDrawingSheet(shape, partName, 1.0);
+    sheet2.sheetIndex = 2;
+    sheet2.sheetName = "Sheet 2 (Orthographic & GD&T)";
+    sheet2.titleBlock.sheetNumber = "2 / 3";
+    sheet2.titleBlock.title = "PART DETAILS & GEOMETRIC TOLERANCING (GD&T)";
+
+    FeatureControlFrame fcfPos = CreateGDTFrame(
+        GDTCharacteristic::POSITION, 0.05, true, MaterialCondition::MMC,
+        "A", "B", "C", 100.0, 80.0, 120.0, 100.0
+    );
+    FeatureControlFrame fcfFlat = CreateGDTFrame(
+        GDTCharacteristic::FLATNESS, 0.02, false, MaterialCondition::NONE,
+        "", "", "", 100.0, 220.0, 120.0, 240.0
+    );
+    FeatureControlFrame fcfPerp = CreateGDTFrame(
+        GDTCharacteristic::PERPENDICULARITY, 0.03, false, MaterialCondition::MMC,
+        "A", "B", "", 240.0, 80.0, 260.0, 100.0
+    );
+
+    if (!sheet2.views.empty()) sheet2.views[0].gdtFrames.push_back(fcfPos);
+    if (sheet2.views.size() > 1) sheet2.views[1].gdtFrames.push_back(fcfFlat);
+    if (sheet2.views.size() > 2) sheet2.views[2].gdtFrames.push_back(fcfPerp);
+
+    doc.sheets.push_back(sheet2);
+
+    // SHEET 3: Section Cuts, Enlarged Detail Views & Auxiliary Views
+    DrawingSheet sheet3;
+    sheet3.sheetIndex = 3;
+    sheet3.sheetName = "Sheet 3 (Sections & Details)";
+    sheet3.titleBlock.partName = partName;
+    sheet3.titleBlock.sheetNumber = "3 / 3";
+    sheet3.titleBlock.title = "SECTIONS, DETAILS & AUXILIARY VIEWS";
+
+    DrawingView secView = CreateSectionView(shape, 0.0, 110.0, 160.0, 1.2);
+    DrawingView detView = CreateDetailView(secView, 110.0, 160.0, 20.0, 2.0, 270.0, 180.0, "A");
+    DrawingView auxView = CreateAuxiliaryView(shape, 1.0, 1.0, 1.0, 270.0, 70.0, 1.0);
+
+    sheet3.views.push_back(secView);
+    sheet3.views.push_back(detView);
+    sheet3.views.push_back(auxView);
+    doc.sheets.push_back(sheet3);
+
+    return doc;
+}
+
+std::string DrawingDocument::ToMultiSheetSVG() const {
+    std::ostringstream ss;
+    for (size_t s = 0; s < sheets.size(); ++s) {
+        ss << "<!-- SHEET " << (s + 1) << ": " << sheets[s].sheetName << " -->\n";
+        ss << sheets[s].ToSVG() << "\n\n";
+    }
+    return ss.str();
+}
+
+std::string DrawingDocument::ToMultiSheetDXF() const {
+    if (sheets.empty()) return "";
+    return sheets[0].ToDXF();
 }
 
 std::string DrawingSheet::ToDXF() const {
