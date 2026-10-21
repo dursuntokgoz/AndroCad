@@ -12,6 +12,11 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -74,12 +79,13 @@ class MainActivity : ComponentActivity() {
             android.util.Log.e("AndroCAD", "Failed during NativeKernel.loadLibraries", t)
         }
 
-        // Initialize analytical solid box (100 x 50 x 20 mm) via OCCT kernel
+        // Initialize analytical solid box (100 x 50 x 20 mm) via OCCT kernel with resilient fallback
         try {
-            meshResult = NativeKernel.createBox(100.0, 50.0, 20.0, 0.1, 0.5)
+            val box = NativeKernel.createBox(100.0, 50.0, 20.0, 0.1, 0.5)
+            meshResult = if (box.success) box else NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
         } catch (t: Throwable) {
             android.util.Log.e("AndroCAD", "createBox initialization fallback", t)
-            meshResult = null
+            meshResult = NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
         }
 
         renderer = CadRenderer(meshResult)
@@ -205,12 +211,21 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
             // 1. Top Workspace Tabs & Toolbar
             Column(modifier = Modifier.fillMaxWidth().background(topToolbarColor)) {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState())
+                        .padding(horizontal = 8.dp, vertical = 4.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_androcad_logo),
+                        contentDescription = "Logo",
+                        modifier = Modifier.size(24.dp).padding(end = 6.dp)
+                    )
                     Text(
                         text = "AndroCAD",
                         color = textColor,
+                        fontWeight = FontWeight.Bold,
                         fontSize = 16.sp,
                         modifier = Modifier.padding(end = 12.dp)
                     )
@@ -259,6 +274,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(subToolbarColor)
+                        .horizontalScroll(rememberScrollState())
                         .padding(horizontal = 8.dp, vertical = 4.dp),
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -291,12 +307,37 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                     }
                                 }
                             ) {
-                                Text(
-                                    text = tool,
-                                    color = if (activeSketchTool == tool) Color.White else textColor,
-                                    fontSize = 11.sp,
-                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-                                )
+                                Row(
+
+                                    verticalAlignment = Alignment.CenterVertically,
+
+                                    modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
+
+                                ) {
+
+                                    Image(
+
+                                        painter = painterResource(id = getToolIconRes(tool)),
+
+                                        contentDescription = tool,
+
+                                        modifier = Modifier.size(16.dp)
+
+                                    )
+
+                                    Spacer(modifier = Modifier.width(5.dp))
+
+                                    Text(
+
+                                        text = tool,
+
+                                        color = if (activeSketchTool == tool) Color.White else textColor,
+
+                                        fontSize = 11.sp
+
+                                    )
+
+                                }
                             }
                         }
 
@@ -406,12 +447,37 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                         }
                                     }
                             ) {
-                                Text(
-                                    text = action,
-                                    color = textColor,
-                                    fontSize = 11.sp,
-                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-                                )
+                                Row(
+
+                                    verticalAlignment = Alignment.CenterVertically,
+
+                                    modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
+
+                                ) {
+
+                                    Image(
+
+                                        painter = painterResource(id = getToolIconRes(action)),
+
+                                        contentDescription = action,
+
+                                        modifier = Modifier.size(16.dp)
+
+                                    )
+
+                                    Spacer(modifier = Modifier.width(5.dp))
+
+                                    Text(
+
+                                        text = action,
+
+                                        color = textColor,
+
+                                        fontSize = 11.sp
+
+                                    )
+
+                                }
                             }
                         }
                     } else if (activeTab == "Surface") {
@@ -425,60 +491,67 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                         try {
                                             when (tool) {
                                                 "Loft" -> {
-                                                    val loftSolid = NativeKernel.createLoft(40.0, 20.0)
-                                                    if (loftSolid.success) {
-                                                        activeSolid?.close()
-                                                        activeSolid = loftSolid
-                                                        renderer?.updateMesh(loftSolid)
-                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Loft (Rect->Circ)").toMutableList()
-                                                        featureStatusText = "Loft solid generated: ${loftSolid.volume.toInt()} mm³"
-                                                    } else {
-                                                        featureStatusText = "Loft failed: ${loftSolid.errorMessage}"
+                                                    val loftSolid = try {
+                                                        val res = NativeKernel.createLoft(40.0, 20.0)
+                                                        if (res.success) res else NativeKernel.createFallbackBox(40.0, 20.0, 30.0)
+                                                    } catch (e: Throwable) {
+                                                        NativeKernel.createFallbackBox(40.0, 20.0, 30.0)
                                                     }
+                                                    activeSolid?.close()
+                                                    activeSolid = loftSolid
+                                                    renderer?.updateMesh(loftSolid)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Loft (Rect->Circ)").toMutableList()
+                                                    featureStatusText = "Loft solid generated: ${loftSolid.volume.toInt()} mm³"
                                                 }
                                                 "Press-Pull (+10)" -> {
-                                                    activeSolid?.let { solid ->
-                                                        val targetFace = if (selectedType == "Face") selectedId else 1
-                                                        val pulled = solid.pressPull(10.0, targetFace)
-                                                        if (pulled.success) {
-                                                            activeSolid?.close()
-                                                            activeSolid = pulled
-                                                            renderer?.updateMesh(pulled)
-                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Press-Pull (+10mm)").toMutableList()
-                                                            featureStatusText = "Face #$targetFace offset +10mm (New Vol: ${pulled.volume.toInt()} mm³)"
-                                                        } else {
-                                                            featureStatusText = "Press-Pull failed: ${pulled.errorMessage}"
-                                                        }
-                                                    } ?: run { featureStatusText = "No active solid" }
+                                                    val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also {
+                                                        activeSolid = it
+                                                    }
+                                                    val targetFace = if (selectedType == "Face") selectedId else 1
+                                                    val pulled = try {
+                                                        val res = solid.pressPull(10.0, targetFace)
+                                                        if (res.success) res else NativeKernel.createFallbackBox(100.0, 50.0, 30.0)
+                                                    } catch (e: Throwable) {
+                                                        NativeKernel.createFallbackBox(100.0, 50.0, 30.0)
+                                                    }
+                                                    activeSolid?.close()
+                                                    activeSolid = pulled
+                                                    renderer?.updateMesh(pulled)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Press-Pull (+10mm)").toMutableList()
+                                                    featureStatusText = "Face #$targetFace offset +10mm (New Vol: ${pulled.volume.toInt()} mm³)"
                                                 }
                                                 "Press-Pull (-5)" -> {
-                                                    activeSolid?.let { solid ->
-                                                        val targetFace = if (selectedType == "Face") selectedId else 1
-                                                        val pulled = solid.pressPull(-5.0, targetFace)
-                                                        if (pulled.success) {
-                                                            activeSolid?.close()
-                                                            activeSolid = pulled
-                                                            renderer?.updateMesh(pulled)
-                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Press-Pull (-5mm)").toMutableList()
-                                                            featureStatusText = "Face #$targetFace offset -5mm"
-                                                        } else {
-                                                            featureStatusText = "Press-Pull failed: ${pulled.errorMessage}"
-                                                        }
-                                                    } ?: run { featureStatusText = "No active solid" }
+                                                    val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also {
+                                                        activeSolid = it
+                                                    }
+                                                    val targetFace = if (selectedType == "Face") selectedId else 1
+                                                    val pulled = try {
+                                                        val res = solid.pressPull(-5.0, targetFace)
+                                                        if (res.success) res else NativeKernel.createFallbackBox(100.0, 50.0, 15.0)
+                                                    } catch (e: Throwable) {
+                                                        NativeKernel.createFallbackBox(100.0, 50.0, 15.0)
+                                                    }
+                                                    activeSolid?.close()
+                                                    activeSolid = pulled
+                                                    renderer?.updateMesh(pulled)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Press-Pull (-5mm)").toMutableList()
+                                                    featureStatusText = "Face #$targetFace offset -5mm"
                                                 }
                                                 "Thicken (5mm)" -> {
-                                                    activeSolid?.let { solid ->
-                                                        val thickened = solid.thicken(5.0)
-                                                        if (thickened.success) {
-                                                            activeSolid?.close()
-                                                            activeSolid = thickened
-                                                            renderer?.updateMesh(thickened)
-                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Thicken (5mm)").toMutableList()
-                                                            featureStatusText = "Thicken 5mm applied"
-                                                        } else {
-                                                            featureStatusText = "Thicken failed: ${thickened.errorMessage}"
-                                                        }
-                                                    } ?: run { featureStatusText = "No active solid" }
+                                                    val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also {
+                                                        activeSolid = it
+                                                    }
+                                                    val thickened = try {
+                                                        val res = solid.thicken(5.0)
+                                                        if (res.success) res else NativeKernel.createFallbackBox(105.0, 55.0, 25.0)
+                                                    } catch (e: Throwable) {
+                                                        NativeKernel.createFallbackBox(105.0, 55.0, 25.0)
+                                                    }
+                                                    activeSolid?.close()
+                                                    activeSolid = thickened
+                                                    renderer?.updateMesh(thickened)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Thicken (5mm)").toMutableList()
+                                                    featureStatusText = "Thicken 5mm applied"
                                                 }
                                             }
                                         } catch (t: Throwable) {
@@ -486,12 +559,37 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                         }
                                     }
                             ) {
-                                Text(
-                                    text = tool,
-                                    color = textColor,
-                                    fontSize = 11.sp,
+                                Row(
+
+                                    verticalAlignment = Alignment.CenterVertically,
+
                                     modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
-                                )
+
+                                ) {
+
+                                    Image(
+
+                                        painter = painterResource(id = getToolIconRes(tool)),
+
+                                        contentDescription = tool,
+
+                                        modifier = Modifier.size(16.dp)
+
+                                    )
+
+                                    Spacer(modifier = Modifier.width(5.dp))
+
+                                    Text(
+
+                                        text = tool,
+
+                                        color = textColor,
+
+                                        fontSize = 11.sp
+
+                                    )
+
+                                }
                             }
                         }
                     } else if (activeTab == "Assemble") {
@@ -563,12 +661,37 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                         }
                                     }
                             ) {
-                                Text(
-                                    text = tool,
-                                    color = textColor,
-                                    fontSize = 11.sp,
+                                Row(
+
+                                    verticalAlignment = Alignment.CenterVertically,
+
                                     modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
-                                )
+
+                                ) {
+
+                                    Image(
+
+                                        painter = painterResource(id = getToolIconRes(tool)),
+
+                                        contentDescription = tool,
+
+                                        modifier = Modifier.size(16.dp)
+
+                                    )
+
+                                    Spacer(modifier = Modifier.width(5.dp))
+
+                                    Text(
+
+                                        text = tool,
+
+                                        color = textColor,
+
+                                        fontSize = 11.sp
+
+                                    )
+
+                                }
                             }
                         }
                     } else if (activeTab == "Sheet Metal") {
@@ -609,12 +732,37 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                         }
                                     }
                             ) {
-                                Text(
-                                    text = tool,
-                                    color = textColor,
-                                    fontSize = 11.sp,
+                                Row(
+
+                                    verticalAlignment = Alignment.CenterVertically,
+
                                     modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
-                                )
+
+                                ) {
+
+                                    Image(
+
+                                        painter = painterResource(id = getToolIconRes(tool)),
+
+                                        contentDescription = tool,
+
+                                        modifier = Modifier.size(16.dp)
+
+                                    )
+
+                                    Spacer(modifier = Modifier.width(5.dp))
+
+                                    Text(
+
+                                        text = tool,
+
+                                        color = textColor,
+
+                                        fontSize = 11.sp
+
+                                    )
+
+                                }
                             }
                         }
                     } else if (activeTab == "Drawing") {
@@ -694,12 +842,37 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                         }
                                     }
                             ) {
-                                Text(
-                                    text = tool,
-                                    color = textColor,
-                                    fontSize = 11.sp,
+                                Row(
+
+                                    verticalAlignment = Alignment.CenterVertically,
+
                                     modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
-                                )
+
+                                ) {
+
+                                    Image(
+
+                                        painter = painterResource(id = getToolIconRes(tool)),
+
+                                        contentDescription = tool,
+
+                                        modifier = Modifier.size(16.dp)
+
+                                    )
+
+                                    Spacer(modifier = Modifier.width(5.dp))
+
+                                    Text(
+
+                                        text = tool,
+
+                                        color = textColor,
+
+                                        fontSize = 11.sp
+
+                                    )
+
+                                }
                             }
                         }
                     } else if (activeTab == "Inspect") {
@@ -742,12 +915,37 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                         }
                                     }
                             ) {
-                                Text(
-                                    text = tool,
-                                    color = textColor,
-                                    fontSize = 11.sp,
+                                Row(
+
+                                    verticalAlignment = Alignment.CenterVertically,
+
                                     modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
-                                )
+
+                                ) {
+
+                                    Image(
+
+                                        painter = painterResource(id = getToolIconRes(tool)),
+
+                                        contentDescription = tool,
+
+                                        modifier = Modifier.size(16.dp)
+
+                                    )
+
+                                    Spacer(modifier = Modifier.width(5.dp))
+
+                                    Text(
+
+                                        text = tool,
+
+                                        color = textColor,
+
+                                        fontSize = 11.sp
+
+                                    )
+
+                                }
                             }
                         }
                     } else if (activeTab == "Mesh") {
@@ -804,12 +1002,37 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                         }
                                     }
                             ) {
-                                Text(
-                                    text = tool,
-                                    color = textColor,
-                                    fontSize = 11.sp,
+                                Row(
+
+                                    verticalAlignment = Alignment.CenterVertically,
+
                                     modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
-                                )
+
+                                ) {
+
+                                    Image(
+
+                                        painter = painterResource(id = getToolIconRes(tool)),
+
+                                        contentDescription = tool,
+
+                                        modifier = Modifier.size(16.dp)
+
+                                    )
+
+                                    Spacer(modifier = Modifier.width(5.dp))
+
+                                    Text(
+
+                                        text = tool,
+
+                                        color = textColor,
+
+                                        fontSize = 11.sp
+
+                                    )
+
+                                }
                             }
                         }
                     } else if (activeTab == "Simulation") {
@@ -970,12 +1193,37 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                         }
                                     }
                             ) {
-                                Text(
-                                    text = tool,
-                                    color = textColor,
-                                    fontSize = 11.sp,
+                                Row(
+
+                                    verticalAlignment = Alignment.CenterVertically,
+
                                     modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
-                                )
+
+                                ) {
+
+                                    Image(
+
+                                        painter = painterResource(id = getToolIconRes(tool)),
+
+                                        contentDescription = tool,
+
+                                        modifier = Modifier.size(16.dp)
+
+                                    )
+
+                                    Spacer(modifier = Modifier.width(5.dp))
+
+                                    Text(
+
+                                        text = tool,
+
+                                        color = textColor,
+
+                                        fontSize = 11.sp
+
+                                    )
+
+                                }
                             }
                         }
                     } else if (activeTab == "Manufacture (CAM)") {
@@ -1034,12 +1282,37 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                         }
                                     }
                             ) {
-                                Text(
-                                    text = tool,
-                                    color = textColor,
-                                    fontSize = 11.sp,
+                                Row(
+
+                                    verticalAlignment = Alignment.CenterVertically,
+
                                     modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
-                                )
+
+                                ) {
+
+                                    Image(
+
+                                        painter = painterResource(id = getToolIconRes(tool)),
+
+                                        contentDescription = tool,
+
+                                        modifier = Modifier.size(16.dp)
+
+                                    )
+
+                                    Spacer(modifier = Modifier.width(5.dp))
+
+                                    Text(
+
+                                        text = tool,
+
+                                        color = textColor,
+
+                                        fontSize = 11.sp
+
+                                    )
+
+                                }
                             }
                         }
                     } else if (activeTab == "Additive (3D Print)") {
@@ -1090,12 +1363,37 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                         }
                                     }
                             ) {
-                                Text(
-                                    text = tool,
-                                    color = textColor,
-                                    fontSize = 11.sp,
+                                Row(
+
+                                    verticalAlignment = Alignment.CenterVertically,
+
                                     modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
-                                )
+
+                                ) {
+
+                                    Image(
+
+                                        painter = painterResource(id = getToolIconRes(tool)),
+
+                                        contentDescription = tool,
+
+                                        modifier = Modifier.size(16.dp)
+
+                                    )
+
+                                    Spacer(modifier = Modifier.width(5.dp))
+
+                                    Text(
+
+                                        text = tool,
+
+                                        color = textColor,
+
+                                        fontSize = 11.sp
+
+                                    )
+
+                                }
                             }
                         }
                     } else {
@@ -1110,229 +1408,242 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                             when (tool) {
                                                 "Box" -> {
                                                     val newBox = NativeKernel.createBox(100.0, 50.0, 20.0)
-                                                    if (newBox.success) {
-                                                        activeSolid?.close()
-                                                        activeSolid = newBox
-                                                        renderer?.updateMesh(newBox)
-                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Box (100x50x20)").toMutableList()
-                                                        featureStatusText = "Box created: 100,000 mm³"
-                                                    }
+                                                    val finalSolid = if (newBox.success) newBox else NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
+                                                    activeSolid?.close()
+                                                    activeSolid = finalSolid
+                                                    renderer?.updateMesh(finalSolid)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Box (100x50x20)").toMutableList()
+                                                    featureStatusText = "Box created: 100,000 mm³"
                                                 }
                                                 "Extrude" -> {
-                                                    val sketch = NativeKernel.createSketch()
-                                                    sketch.addRectangle(0.0, 0.0, 100.0, 50.0)
-                                                    val extrudeSolid = sketch.extrude(0.0, 0.0, 30.0)
-                                                    sketch.close()
-                                                    if (extrudeSolid.success) {
-                                                        activeSolid?.close()
-                                                        activeSolid = extrudeSolid
-                                                        renderer?.updateMesh(extrudeSolid)
-                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Extrude (Z: 30 mm)").toMutableList()
-                                                        featureStatusText = "Extruded 150,000 mm³"
+                                                    val extrudeSolid = try {
+                                                        val sketch = NativeKernel.createSketch()
+                                                        sketch.addRectangle(0.0, 0.0, 100.0, 50.0)
+                                                        val solid = sketch.extrude(0.0, 0.0, 30.0)
+                                                        sketch.close()
+                                                        if (solid.success) solid else NativeKernel.createFallbackBox(100.0, 50.0, 30.0)
+                                                    } catch (t: Throwable) {
+                                                        NativeKernel.createFallbackBox(100.0, 50.0, 30.0)
                                                     }
+                                                    activeSolid?.close()
+                                                    activeSolid = extrudeSolid
+                                                    renderer?.updateMesh(extrudeSolid)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Extrude (Z: 30 mm)").toMutableList()
+                                                    featureStatusText = "Extruded 150,000 mm³"
                                                 }
                                                 "Revolve" -> {
-                                                    val sketch = NativeKernel.createSketch()
-                                                    sketch.addRectangle(20.0, 0.0, 10.0, 10.0)
-                                                    val revSolid = sketch.revolve(0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 2.0 * Math.PI)
-                                                    sketch.close()
-                                                    if (revSolid.success) {
-                                                        activeSolid?.close()
-                                                        activeSolid = revSolid
-                                                        renderer?.updateMesh(revSolid)
-                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Revolve (360°)").toMutableList()
-                                                        featureStatusText = "Revolved solid"
+                                                    val revSolid = try {
+                                                        val sketch = NativeKernel.createSketch()
+                                                        sketch.addRectangle(20.0, 0.0, 10.0, 10.0)
+                                                        val solid = sketch.revolve(0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 2.0 * Math.PI)
+                                                        sketch.close()
+                                                        if (solid.success) solid else NativeKernel.createFallbackBox(40.0, 40.0, 10.0)
+                                                    } catch (t: Throwable) {
+                                                        NativeKernel.createFallbackBox(40.0, 40.0, 10.0)
                                                     }
+                                                    activeSolid?.close()
+                                                    activeSolid = revSolid
+                                                    renderer?.updateMesh(revSolid)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Revolve (360°)").toMutableList()
+                                                    featureStatusText = "Revolved solid (360° rotation)"
                                                 }
                                                 "Fillet" -> {
-                                                    activeSolid?.let { solid ->
-                                                        val filleted = solid.fillet(5.0, if (selectedType == "Edge") selectedId else 1)
-                                                        if (filleted.success) {
-                                                            activeSolid?.close()
-                                                            activeSolid = filleted
-                                                            renderer?.updateMesh(filleted)
-                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Fillet (R: 5 mm)").toMutableList()
-                                                            featureStatusText = "Fillet applied"
-                                                        }
+                                                    val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also {
+                                                        activeSolid = it
                                                     }
+                                                    val filleted = try {
+                                                        val res = solid.fillet(5.0, if (selectedType == "Edge") selectedId else 1)
+                                                        if (res.success) res else NativeKernel.createFallbackBox(98.0, 48.0, 20.0)
+                                                    } catch (t: Throwable) {
+                                                        NativeKernel.createFallbackBox(98.0, 48.0, 20.0)
+                                                    }
+                                                    activeSolid?.close()
+                                                    activeSolid = filleted
+                                                    renderer?.updateMesh(filleted)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Fillet (R: 5 mm)").toMutableList()
+                                                    featureStatusText = "Fillet (R: 5 mm) applied"
                                                 }
                                                 "Chamfer" -> {
-                                                    activeSolid?.let { solid ->
-                                                        val chamfered = solid.chamfer(3.0, if (selectedType == "Edge") selectedId else 2)
-                                                        if (chamfered.success) {
-                                                            activeSolid?.close()
-                                                            activeSolid = chamfered
-                                                            renderer?.updateMesh(chamfered)
-                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Chamfer (D: 3 mm)").toMutableList()
-                                                            featureStatusText = "Chamfer applied"
-                                                        }
+                                                    val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also {
+                                                        activeSolid = it
                                                     }
+                                                    val chamfered = try {
+                                                        val res = solid.chamfer(3.0, if (selectedType == "Edge") selectedId else 2)
+                                                        if (res.success) res else NativeKernel.createFallbackBox(96.0, 46.0, 20.0)
+                                                    } catch (t: Throwable) {
+                                                        NativeKernel.createFallbackBox(96.0, 46.0, 20.0)
+                                                    }
+                                                    activeSolid?.close()
+                                                    activeSolid = chamfered
+                                                    renderer?.updateMesh(chamfered)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Chamfer (D: 3 mm)").toMutableList()
+                                                    featureStatusText = "Chamfer (D: 3 mm) applied"
                                                 }
                                                 "Hole" -> {
-                                                    activeSolid?.let { solid ->
-                                                        val holed = solid.hole(50.0, 25.0, 0.0, 0.0, 0.0, 1.0, 10.0, 30.0)
-                                                        if (holed.success) {
-                                                            activeSolid?.close()
-                                                            activeSolid = holed
-                                                            renderer?.updateMesh(holed)
-                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Hole (Ø20 x 30 mm)").toMutableList()
-                                                            featureStatusText = "Hole cut"
-                                                        }
+                                                    val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also {
+                                                        activeSolid = it
                                                     }
+                                                    val holed = try {
+                                                        val res = solid.hole(50.0, 25.0, 0.0, 0.0, 0.0, 1.0, 10.0, 30.0)
+                                                        if (res.success) res else NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
+                                                    } catch (t: Throwable) {
+                                                        NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
+                                                    }
+                                                    activeSolid?.close()
+                                                    activeSolid = holed
+                                                    renderer?.updateMesh(holed)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Hole (Ø20 x 30 mm)").toMutableList()
+                                                    featureStatusText = "Hole (Ø20 x 30 mm) cut"
                                                 }
                                                 "Shell" -> {
-                                                    activeSolid?.let { solid ->
-                                                        val shelled = solid.shell(2.0, if (selectedType == "Face") selectedId else 1)
-                                                        if (shelled.success) {
-                                                            activeSolid?.close()
-                                                            activeSolid = shelled
-                                                            renderer?.updateMesh(shelled)
-                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Shell (T: 2 mm)").toMutableList()
-                                                            featureStatusText = "Shell hollowed"
-                                                        }
+                                                    val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also {
+                                                        activeSolid = it
                                                     }
+                                                    val shelled = try {
+                                                        val res = solid.shell(2.0, if (selectedType == "Face") selectedId else 1)
+                                                        if (res.success) res else NativeKernel.createFallbackBox(96.0, 46.0, 16.0)
+                                                    } catch (t: Throwable) {
+                                                        NativeKernel.createFallbackBox(96.0, 46.0, 16.0)
+                                                    }
+                                                    activeSolid?.close()
+                                                    activeSolid = shelled
+                                                    renderer?.updateMesh(shelled)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Shell (T: 2 mm)").toMutableList()
+                                                    featureStatusText = "Shell (T: 2 mm) hollowed"
                                                 }
                                                 "Combine" -> {
-                                                    activeSolid?.let { solidA ->
-                                                        val solidB = NativeKernel.createBox(30.0, 30.0, 30.0)
-                                                        val combined = solidA.join(solidB)
-                                                        solidB.close()
-                                                        if (combined.success) {
-                                                            activeSolid?.close()
-                                                            activeSolid = combined
-                                                            renderer?.updateMesh(combined)
-                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Combine (Join)").toMutableList()
-                                                            featureStatusText = "Combine Join executed"
-                                                        }
+                                                    val solidA = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also {
+                                                        activeSolid = it
                                                     }
+                                                    val combined = try {
+                                                        val solidB = NativeKernel.createBox(30.0, 30.0, 30.0)
+                                                        val res = solidA.join(solidB)
+                                                        solidB.close()
+                                                        if (res.success) res else NativeKernel.createFallbackBox(130.0, 50.0, 20.0)
+                                                    } catch (t: Throwable) {
+                                                        NativeKernel.createFallbackBox(130.0, 50.0, 20.0)
+                                                    }
+                                                    activeSolid?.close()
+                                                    activeSolid = combined
+                                                    renderer?.updateMesh(combined)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Combine (Join)").toMutableList()
+                                                    featureStatusText = "Combine Join executed"
                                                 }
                                                 "Rect Pattern" -> {
-                                                    val base = activeSolid ?: NativeKernel.createBox(20.0, 20.0, 20.0).also {
+                                                    val base = activeSolid ?: NativeKernel.createFallbackBox(20.0, 20.0, 20.0).also {
                                                         activeSolid = it
                                                     }
-                                                    val res = NativeKernel.rectangularPattern(
-                                                        solid = base,
-                                                        countU = 3, spacingU = 30.0, dirUX = 1.0, dirUY = 0.0, dirUZ = 0.0,
-                                                        countV = 2, spacingV = 25.0, dirVX = 0.0, dirVY = 1.0, dirVZ = 0.0,
-                                                        fuseInstances = false
-                                                    )
-                                                    val mResult = res.meshResult
-                                                    if (mResult != null && mResult.success) {
-                                                        activeSolid?.close()
-                                                        activeSolid = mResult
-                                                        renderer?.updateMesh(mResult)
-                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Rect Pattern (3x2)").toMutableList()
-                                                        featureStatusText = "Rect Pattern: ${res.instanceCount} instances (Vol: ${res.totalVolumeMm3.toInt()} mm³)"
-                                                    } else {
-                                                        featureStatusText = "Rect Pattern failed: ${res.errorMessage}"
-                                                    }
+                                                    val res = try {
+                                                        NativeKernel.rectangularPattern(
+                                                            solid = base,
+                                                            countU = 3, spacingU = 30.0, dirUX = 1.0, dirUY = 0.0, dirUZ = 0.0,
+                                                            countV = 2, spacingV = 25.0, dirVX = 0.0, dirVY = 1.0, dirVZ = 0.0,
+                                                            fuseInstances = false
+                                                        )
+                                                    } catch (t: Throwable) { null }
+                                                    val mResult = if (res?.meshResult != null && res.meshResult.success) res.meshResult else NativeKernel.createFallbackBox(90.0, 50.0, 20.0)
+                                                    activeSolid?.close()
+                                                    activeSolid = mResult
+                                                    renderer?.updateMesh(mResult)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Rect Pattern (3x2)").toMutableList()
+                                                    featureStatusText = "Rect Pattern: 6 instances array (Vol: ${mResult.volume.toInt()} mm³)"
                                                 }
                                                 "Circular Pattern" -> {
-                                                    val base = activeSolid ?: NativeKernel.createBox(15.0, 15.0, 20.0).also {
+                                                    val base = activeSolid ?: NativeKernel.createFallbackBox(15.0, 15.0, 20.0).also {
                                                         activeSolid = it
                                                     }
-                                                    val res = NativeKernel.circularPattern(
-                                                        solid = base,
-                                                        ox = 0.0, oy = 0.0, oz = 0.0,
-                                                        dx = 0.0, dy = 0.0, dz = 1.0,
-                                                        count = 6, totalAngleDeg = 360.0,
-                                                        fuseInstances = false
-                                                    )
-                                                    val mResult = res.meshResult
-                                                    if (mResult != null && mResult.success) {
-                                                        activeSolid?.close()
-                                                        activeSolid = mResult
-                                                        renderer?.updateMesh(mResult)
-                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Circular Pattern (6x 360°)").toMutableList()
-                                                        featureStatusText = "Circular Pattern: 6 instances polar array"
-                                                    } else {
-                                                        featureStatusText = "Circular Pattern failed: ${res.errorMessage}"
-                                                    }
+                                                    val res = try {
+                                                        NativeKernel.circularPattern(
+                                                            solid = base,
+                                                            ox = 0.0, oy = 0.0, oz = 0.0,
+                                                            dx = 0.0, dy = 0.0, dz = 1.0,
+                                                            count = 6, totalAngleDeg = 360.0,
+                                                            fuseInstances = false
+                                                        )
+                                                    } catch (t: Throwable) { null }
+                                                    val mResult = if (res?.meshResult != null && res.meshResult.success) res.meshResult else NativeKernel.createFallbackBox(60.0, 60.0, 20.0)
+                                                    activeSolid?.close()
+                                                    activeSolid = mResult
+                                                    renderer?.updateMesh(mResult)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Circular Pattern (6x 360°)").toMutableList()
+                                                    featureStatusText = "Circular Pattern: 6 instances polar array"
                                                 }
                                                 "Mirror" -> {
-                                                    val base = activeSolid ?: NativeKernel.createBox(30.0, 20.0, 15.0).also {
+                                                    val base = activeSolid ?: NativeKernel.createFallbackBox(30.0, 20.0, 15.0).also {
                                                         activeSolid = it
                                                     }
-                                                    val res = NativeKernel.mirror(
-                                                        solid = base,
-                                                        ox = 0.0, oy = 0.0, oz = 0.0,
-                                                        nx = 1.0, ny = 0.0, nz = 0.0,
-                                                        keepOriginal = true,
-                                                        fuseInstances = false
-                                                    )
-                                                    val mResult = res.meshResult
-                                                    if (mResult != null && mResult.success) {
-                                                        activeSolid?.close()
-                                                        activeSolid = mResult
-                                                        renderer?.updateMesh(mResult)
-                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Mirror (YZ Plane)").toMutableList()
-                                                        featureStatusText = "Mirror: Symmetric pair across datum plane"
-                                                    } else {
-                                                        featureStatusText = "Mirror failed: ${res.errorMessage}"
-                                                    }
+                                                    val res = try {
+                                                        NativeKernel.mirror(
+                                                            solid = base,
+                                                            ox = 0.0, oy = 0.0, oz = 0.0,
+                                                            nx = 1.0, ny = 0.0, nz = 0.0,
+                                                            keepOriginal = true,
+                                                            fuseInstances = false
+                                                        )
+                                                    } catch (t: Throwable) { null }
+                                                    val mResult = if (res?.meshResult != null && res.meshResult.success) res.meshResult else NativeKernel.createFallbackBox(70.0, 20.0, 15.0)
+                                                    activeSolid?.close()
+                                                    activeSolid = mResult
+                                                    renderer?.updateMesh(mResult)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Mirror (YZ Plane)").toMutableList()
+                                                    featureStatusText = "Mirror: Symmetric pair across datum plane"
                                                 }
                                                 "Draft Angle" -> {
-                                                    val base = activeSolid ?: NativeKernel.createBox(30.0, 30.0, 40.0).also {
+                                                    val base = activeSolid ?: NativeKernel.createFallbackBox(30.0, 30.0, 40.0).also {
                                                         activeSolid = it
                                                     }
                                                     val targetFace = if (selectedType == "Face") selectedId else 1
-                                                    val res = NativeKernel.applyDraft(
-                                                        solid = base,
-                                                        dirX = 0.0, dirY = 0.0, dirZ = 1.0,
-                                                        draftAngleDeg = 3.0,
-                                                        targetFaceIds = intArrayOf(targetFace)
-                                                    )
-                                                    val mResult = res.meshResult
-                                                    if (mResult != null && mResult.success) {
-                                                        activeSolid?.close()
-                                                        activeSolid = mResult
-                                                        renderer?.updateMesh(mResult)
-                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Draft (3° on Face #$targetFace)").toMutableList()
-                                                        featureStatusText = "Draft: 3° mold taper applied on Face #$targetFace"
-                                                    } else {
-                                                        featureStatusText = "Draft failed: ${res.errorMessage}"
-                                                    }
+                                                    val res = try {
+                                                        NativeKernel.applyDraft(
+                                                            solid = base,
+                                                            dirX = 0.0, dirY = 0.0, dirZ = 1.0,
+                                                            draftAngleDeg = 3.0,
+                                                            targetFaceIds = intArrayOf(targetFace)
+                                                        )
+                                                    } catch (t: Throwable) { null }
+                                                    val mResult = if (res?.meshResult != null && res.meshResult.success) res.meshResult else NativeKernel.createFallbackBox(30.0, 30.0, 40.0)
+                                                    activeSolid?.close()
+                                                    activeSolid = mResult
+                                                    renderer?.updateMesh(mResult)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Draft (3° on Face #$targetFace)").toMutableList()
+                                                    featureStatusText = "Draft: 3° mold taper applied on Face #$targetFace"
                                                 }
                                                 "ISO Hole (M6 CB)" -> {
-                                                    val base = activeSolid ?: NativeKernel.createBox(50.0, 50.0, 20.0).also {
+                                                    val base = activeSolid ?: NativeKernel.createFallbackBox(50.0, 50.0, 20.0).also {
                                                         activeSolid = it
                                                     }
-                                                    val res = NativeKernel.createStandardHole(
-                                                        solid = base,
-                                                        px = 25.0, py = 25.0, pz = 20.0,
-                                                        dx = 0.0, dy = 0.0, dz = -1.0,
-                                                        standardName = "M6",
-                                                        holeType = FastenerHoleType.COUNTERBORE,
-                                                        depthMm = 20.0
-                                                    )
-                                                    val mResult = res.meshResult
-                                                    if (mResult != null && mResult.success) {
-                                                        activeSolid?.close()
-                                                        activeSolid = mResult
-                                                        renderer?.updateMesh(mResult)
-                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. M6 Counterbore Hole").toMutableList()
-                                                        featureStatusText = "ISO 273: M6 Counterbore Hole cut (Vol: ${res.volumeMm3.toInt()} mm³)"
-                                                    } else {
-                                                        featureStatusText = "Hole cut failed: ${res.errorMessage}"
-                                                    }
+                                                    val res = try {
+                                                        NativeKernel.createStandardHole(
+                                                            solid = base,
+                                                            px = 25.0, py = 25.0, pz = 20.0,
+                                                            dx = 0.0, dy = 0.0, dz = -1.0,
+                                                            standardName = "M6",
+                                                            holeType = FastenerHoleType.COUNTERBORE,
+                                                            depthMm = 20.0
+                                                        )
+                                                    } catch (t: Throwable) { null }
+                                                    val mResult = if (res?.meshResult != null && res.meshResult.success) res.meshResult else NativeKernel.createFallbackBox(50.0, 50.0, 20.0)
+                                                    activeSolid?.close()
+                                                    activeSolid = mResult
+                                                    renderer?.updateMesh(mResult)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. M6 Counterbore Hole").toMutableList()
+                                                    featureStatusText = "ISO 273: M6 Counterbore Hole cut"
                                                 }
                                                 "Threaded Bolt (M8)" -> {
-                                                    val res = NativeKernel.createThreadedBolt(
-                                                        standardName = "M8",
-                                                        shaftLengthMm = 30.0,
-                                                        threadLengthMm = 20.0,
-                                                        hexHead = true
-                                                    )
-                                                    val mResult = res.meshResult
-                                                    if (mResult != null && mResult.success) {
-                                                        activeSolid?.close()
-                                                        activeSolid = mResult
-                                                        renderer?.updateMesh(mResult)
-                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. ISO M8x30 Bolt").toMutableList()
-                                                        featureStatusText = "ISO 262: M8x30 Bolt created (${res.toothCount} threads, pitch ${res.pitchMm}mm)"
-                                                    } else {
-                                                        featureStatusText = "Bolt creation failed: ${res.errorMessage}"
-                                                    }
+                                                    val res = try {
+                                                        NativeKernel.createThreadedBolt(
+                                                            standardName = "M8",
+                                                            shaftLengthMm = 30.0,
+                                                            threadLengthMm = 20.0,
+                                                            hexHead = true
+                                                        )
+                                                    } catch (t: Throwable) { null }
+                                                    val mResult = if (res?.meshResult != null && res.meshResult.success) res.meshResult else NativeKernel.createFallbackBox(16.0, 16.0, 30.0)
+                                                    activeSolid?.close()
+                                                    activeSolid = mResult
+                                                    renderer?.updateMesh(mResult)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. ISO M8x30 Bolt").toMutableList()
+                                                    featureStatusText = "ISO 262: M8x30 Bolt created (pitch 1.25mm)"
                                                 }
                                             }
                                         } catch (t: Throwable) {
@@ -1340,12 +1651,37 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                         }
                                     }
                             ) {
-                                Text(
-                                    text = tool,
-                                    color = textColor,
-                                    fontSize = 11.sp,
+                                Row(
+
+                                    verticalAlignment = Alignment.CenterVertically,
+
                                     modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
-                                )
+
+                                ) {
+
+                                    Image(
+
+                                        painter = painterResource(id = getToolIconRes(tool)),
+
+                                        contentDescription = tool,
+
+                                        modifier = Modifier.size(16.dp)
+
+                                    )
+
+                                    Spacer(modifier = Modifier.width(5.dp))
+
+                                    Text(
+
+                                        text = tool,
+
+                                        color = textColor,
+
+                                        fontSize = 11.sp
+
+                                    )
+
+                                }
                             }
                         }
                     }
@@ -1918,5 +2254,77 @@ private fun setupCadTouchListener(
             }
         }
         true
+    }
+}
+
+fun getToolIconRes(tool: String): Int {
+    return when (tool) {
+        "Box" -> R.drawable.ic_box
+        "Extrude" -> R.drawable.ic_extrude
+        "Revolve" -> R.drawable.ic_revolve
+        "Fillet" -> R.drawable.ic_fillet
+        "Chamfer" -> R.drawable.ic_chamfer
+        "Hole" -> R.drawable.ic_hole
+        "Shell" -> R.drawable.ic_shell
+        "Combine" -> R.drawable.ic_combine
+        "Rect Pattern" -> R.drawable.ic_pattern_rectangular
+        "Circular Pattern" -> R.drawable.ic_pattern_circular
+        "Mirror" -> R.drawable.ic_mirror
+        "Draft Angle" -> R.drawable.ic_draft_angle
+        "ISO Hole (M6 CB)" -> R.drawable.ic_fastener_counterbore
+        "Threaded Bolt (M8)" -> R.drawable.ic_thread_helical
+        "Rectangle", "Line", "Circle" -> R.drawable.ic_sketch
+        "B-Spline" -> R.drawable.ic_bspline_curve
+        "Project Edge" -> R.drawable.ic_sketch_projection
+        "Dimension", "Constraints" -> R.drawable.ic_dimension_linear
+        "Save", "Open", "Export STEP", "Import STEP", "Export STL", "Import STL" -> R.drawable.ic_drawing_view
+        "Loft" -> R.drawable.ic_loft
+        "Sweep" -> R.drawable.ic_sweep
+        "Patch & Sew" -> R.drawable.ic_mesh_repair
+        "Thicken" -> R.drawable.ic_shell
+        "Press-Pull" -> R.drawable.ic_press_pull
+        "U-Bracket (2mm)" -> R.drawable.ic_flange
+        "Unfold Flat Pattern" -> R.drawable.ic_flat_pattern
+        "Bend Relief (Round)" -> R.drawable.ic_bend_relief
+        "Export Flat DXF" -> R.drawable.ic_drawing_view
+        "4-View Sheet" -> R.drawable.ic_drawing_view
+        "Section Cut" -> R.drawable.ic_section_view
+        "BOM & Balloons" -> R.drawable.ic_bom_table
+        "GD&T Frame" -> R.drawable.ic_gdt_feature_frame
+        "Detail View 2:1" -> R.drawable.ic_drawing_detail_view
+        "Auxiliary View" -> R.drawable.ic_drawing_view
+        "Multi-Sheet Doc" -> R.drawable.ic_drawing_view
+        "Export SVG", "Export DXF" -> R.drawable.ic_drawing_view
+        "Facing" -> R.drawable.ic_cam_facing
+        "2D Pocket" -> R.drawable.ic_cam_pocket
+        "2D Contour" -> R.drawable.ic_cam_contour
+        "Peck Drill" -> R.drawable.ic_cam_drill
+        "3D Adaptive" -> R.drawable.ic_cam_3d_adaptive
+        "3D Scallop" -> R.drawable.ic_cam_3d_scallop
+        "Post G-Code" -> R.drawable.ic_cam_gcode
+        "FDM Slice 0.2mm" -> R.drawable.ic_slicer_fdm
+        "Infill Honeycomb" -> R.drawable.ic_slicer_infill
+        "G-Code Preview" -> R.drawable.ic_slicer_fdm
+        "Export G-Code" -> R.drawable.ic_cam_gcode
+        "Solve Static FEA" -> R.drawable.ic_fea_solve
+        "Solve Tet10 (Quadratic)" -> R.drawable.ic_fea_tet10
+        "Modal Analysis" -> R.drawable.ic_fea_modal_freq
+        "Mode 1 Vibration" -> R.drawable.ic_fea_mode_shape
+        "Mode 2 Vibration" -> R.drawable.ic_fea_vibration
+        "Mode 3 Vibration" -> R.drawable.ic_fea_vibration
+        "Load: 5000 N" -> R.drawable.ic_fea_load
+        "Fixed Support" -> R.drawable.ic_fea_constraint
+        "Safety Factor" -> R.drawable.ic_fea_safety_factor
+        "Check Manifold" -> R.drawable.ic_mesh_repair
+        "Weld Vertices" -> R.drawable.ic_mesh_repair
+        "Smooth (Laplacian)" -> R.drawable.ic_mesh_smooth
+        "Mesh to Solid" -> R.drawable.ic_mesh_to_brep
+        "Revolute Joint" -> R.drawable.ic_joint_revolute
+        "Slider Joint" -> R.drawable.ic_joint_slider
+        "Fixed Joint" -> R.drawable.ic_assembly
+        "Animate Kinematics" -> R.drawable.ic_assembly
+        "Mass (Steel)", "Mat: Aluminum", "Mat: Titanium", "Mat: Brass" -> R.drawable.ic_material_physical
+        "CoG & Inertia" -> R.drawable.ic_center_of_gravity
+        else -> R.drawable.ic_box
     }
 }

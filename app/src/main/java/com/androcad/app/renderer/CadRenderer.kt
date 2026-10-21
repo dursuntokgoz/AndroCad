@@ -74,6 +74,11 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
     private var pendingPickRequest: Pair<Float, Float>? = null
     var onPickResultListener: ((PickResult?) -> Unit)? = null
 
+    @Volatile
+    private var pendingMesh: BoxMeshResult? = null
+    @Volatile
+    private var meshNeedsUpload = false
+
     // 1. Shaders
     private val faceVertexShader = """
         #version 300 es
@@ -215,8 +220,8 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
 
     fun updateMesh(newMesh: BoxMeshResult?) {
         meshResult = newMesh
-        setupMeshBuffers()
-        zoomToFit()
+        pendingMesh = newMesh
+        meshNeedsUpload = true
     }
 
     private fun setupMeshBuffers() {
@@ -355,6 +360,12 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
     }
 
     override fun onDrawFrame(gl: GL10?) {
+        if (meshNeedsUpload) {
+            meshNeedsUpload = false
+            meshResult = pendingMesh
+            setupMeshBuffers()
+            zoomToFit()
+        }
         updateMatrices()
 
         // 1. Check if a pick was requested
