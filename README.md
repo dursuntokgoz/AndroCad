@@ -113,6 +113,7 @@ AndroCAD is built with a **tablet-first** engineering workflow following modern 
 
 ## Documentation & Milestone Reports
 
+* **[Session History & Multi-Machine Handoff Ledger](docs/SESSION_HISTORY.md)** *(Start here when resuming work on another machine)*
 * [Roadmap & Decisions Log](docs/roadmap.md)
 * [Third-Party Licenses & Compliance Ledger](docs/licenses.md)
 * [Milestone 1 Report: OCCT Android Build & JNI Smoke Test](docs/reports/milestone-1.md)

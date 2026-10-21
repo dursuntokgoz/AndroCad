@@ -294,3 +294,31 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
 * **Acceptance Tests:** 5-test CTest suite validating GD&T syntax, BOM hierarchy extraction, multi-sheet vector SVG and DXF generation, and balloon coordinate mapping.
 * **Status:** Done
 * **Finish Date:** 2026-10-21
+
+---
+
+### Release v1.0.1: Xiaomi Pad 6 Hardware & Viewport Stabilization
+* **Goal:** Resolve hardware-specific black screen, EGL thread safety violation, missing CAD icons, and toolbar clipping on Android tablets.
+* **Deliverables:**
+  - 56 custom Android VectorDrawable XML icons generated from SVG assets and integrated into UI tool chips.
+  - EGL thread safety: deferred mesh buffer upload to onDrawFrame() via @Volatile meshNeedsUpload.
+  - Topologically verified 49-library OCCT shared library loader eliminating UnsatisfiedLinkError.
+  - Modifier.horizontalScroll on ribbon tabs and sub-toolbars for tablets and phones.
+  - Resilient createFallbackBox() direct-buffer geometry engine.
+  - **Release:** v1.0.1.
+* **Status:** Done
+* **Finish Date:** 2026-10-21
+
+---
+
+### Release v1.0.2: JNI Name Mangling, Ground Floor Grid & STEP/STL IO Stabilization
+* **Goal:** Eliminate Kotlin JVM bytecode name mangling on JNI exports, add CAD ground floor tiles with coordinate grid, and stabilize file data exchange.
+* **Deliverables:**
+  - Replaced all 88 internal external fun declarations with external fun in NativeKernel.kt, resolving No implementation found for void com.androcad.kernel.NativeKernel....
+  - Fusion 360-style ground floor checkered tiles (floorProgram) and 10mm/50mm coordinate grid lines (gridProgram with Red X and Blue Z axes) rendered directly under solid base.
+  - Resilient STEP and STL export/import with direct vertex/index buffer fallback generator and ISO-10303-21 AP214 compliance.
+  - Auto-creation of default model on first import to guarantee seamless user workflow.
+  - **Release:** v1.0.2.
+* **Status:** Done
+* **Finish Date:** 2026-10-21
+
