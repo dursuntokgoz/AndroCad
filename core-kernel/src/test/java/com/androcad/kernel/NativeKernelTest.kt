@@ -556,4 +556,48 @@ class NativeKernelTest {
         assertTrue(modalResult.modes[1].frequencyHz > modalResult.modes[0].frequencyHz)
         assertTrue(modalResult.modes[2].frequencyHz > modalResult.modes[1].frequencyHz)
     }
+
+    @Test
+    fun testMultiSheetDraftingAndGDTContracts() {
+        // Milestone 20: BOM Item data contract
+        val bomItem1 = BOMItemData(
+            itemNumber = 1,
+            partNumber = "AC-1001",
+            description = "Chassis Mounting Bracket",
+            quantity = 2,
+            materialName = "Structural Steel",
+            unitMassGrams = 450.0,
+            totalMassGrams = 900.0
+        )
+        assertEquals(1, bomItem1.itemNumber)
+        assertEquals("AC-1001", bomItem1.partNumber)
+        assertEquals(2, bomItem1.quantity)
+        assertEquals(900.0, bomItem1.totalMassGrams, 1e-4)
+
+        // Milestone 20: Drawing Sheet Summary contract
+        val sheet1 = DrawingSheetSummary(1, "Sheet 1 (Assembly & BOM)", 1, 420.0, 297.0)
+        val sheet2 = DrawingSheetSummary(2, "Sheet 2 (Orthographic & GD&T)", 4, 420.0, 297.0)
+        val sheet3 = DrawingSheetSummary(3, "Sheet 3 (Sections & Details)", 3, 420.0, 297.0)
+
+        // Milestone 20: Multi-Sheet Document data contract
+        val docData = DrawingDocumentData(
+            success = true,
+            title = "Gearbox Assembly Production Multi-Sheet Drafting",
+            sheetCount = 3,
+            sheets = listOf(sheet1, sheet2, sheet3)
+        )
+        assertTrue(docData.success)
+        assertEquals(3, docData.sheetCount)
+        assertEquals(3, docData.sheets.size)
+        assertEquals("Sheet 1 (Assembly & BOM)", docData.sheets[0].sheetName)
+        assertEquals(4, docData.sheets[1].viewCount)
+        assertEquals(3, docData.sheets[2].viewCount)
+
+        // Milestone 20: GD&T Enum mappings
+        assertEquals(0, GDTType.POSITION.code)
+        assertEquals(1, GDTType.FLATNESS.code)
+        assertEquals(2, GDTType.PERPENDICULARITY.code)
+        assertEquals(1, GDTCondition.MMC.code)
+        assertEquals(2, GDTCondition.LMC.code)
+    }
 }

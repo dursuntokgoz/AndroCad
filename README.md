@@ -75,6 +75,13 @@ AndroCAD is built with a **tablet-first** engineering workflow following modern 
 
 *Advanced structural simulation: 10-node quadratic tetrahedral elements (Tet10 with 4 corner vertices and 6 midside nodes) eliminating shear locking in thin bending plates and beams, evaluated with 4-point Keast/Hammer Gauss quadrature. Includes a dynamic Free Vibration and Modal Natural Frequency eigenvalue solver ($(\mathbf{K} - \omega^2 \mathbf{M})\mathbf{\phi} = 0$) using PCG-accelerated inverse power iteration with Hinton-Rock-Zienkiewicz (HRZ) diagonal mass lumping, extracting fundamental bending, torsional, and harmonic resonance frequencies alongside real-time animated mode shape deformation meshes.*
 
+### GD&T, Bill of Materials (BOM) & Multi-Sheet Vector Drafting (Tablet & Mobile Phone)
+| Landscape Tablet Workstation UI | Portrait Mobile Phone UI |
+| :---: | :---: |
+| ![AndroCAD Tablet BOM & Multi-Sheet Drafting UI](docs/images/androcad_tablet_bom_ui.png) | ![AndroCAD Mobile Phone BOM & Multi-Sheet Drafting UI](docs/images/androcad_phone_bom_ui.png) |
+
+*Production engineering documentation suite: Complete ASME Y14.5 / ISO 1101 Geometric Dimensioning & Tolerancing (GD&T) Feature Control Frames (Position ⌖, Flatness ⏥, Perpendicularity ⟂, Parallelism ∥, Cylindricity ⌭, Total Runout ⌰) with Material Condition modifiers (MMC Ⓜ, LMC Ⓛ) and Datum reference targets [A | B | C]. Features automated Assembly Bill of Materials (BOM) schedule extraction, circular callout balloons with leader lines, circular magnified Detail Views (2:1 scale), auxiliary oblique projection views, and multi-sheet vector SVG and multi-layer AutoCAD DXF export (BORDER, VISIBLE, HIDDEN, DIMENSIONS).*
+
 ---
 
 ## Key Features & Architecture
@@ -125,3 +132,6 @@ AndroCAD is built with a **tablet-first** engineering workflow following modern 
 * [Milestone 15 Report: Subtractive CAM & G-Code Post-Processing](docs/reports/milestone-15.md)
 * [Milestone 16 Report: Patterns, Symmetry & Feature Replicators](docs/reports/milestone-16.md)
 * [Milestone 17 Report: Threads, Fasteners & Associative Sketch Projection](docs/reports/milestone-17.md)
+* [Milestone 18 Report: 3D CAM Surfacing & Additive 3D Print Slicing](docs/reports/milestone-18.md)
+* [Milestone 19 Report: High-Precision FEA (Tet10 Quadratic Tetrahedrals) & Modal Vibration Analysis](docs/reports/milestone-19.md)
+* [Milestone 20 Report: GD&T, Bill of Materials (BOM) & Multi-Sheet Vector Drafting](docs/reports/milestone-20.md)

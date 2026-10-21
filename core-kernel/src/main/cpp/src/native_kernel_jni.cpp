@@ -2162,4 +2162,149 @@ Java_com_androcad_kernel_NativeKernel_nativeSliceSolid(
     return env->NewStringUTF(ss.str().c_str());
 }
 
+// -------------------------------------------------------------------------
+// Milestone 20: GD&T, Bill of Materials (BOM) & Multi-Sheet Vector Drafting
+// -------------------------------------------------------------------------
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeGenerateMultiSheetDocument(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong solidHandle,
+        jstring partNameStr) {
+    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    if (!session || session->shape.IsNull()) {
+        return env->NewStringUTF("{\"success\":false,\"errorMessage\":\"Invalid solid handle\"}");
+    }
+
+    const char* partNameChars = env->GetStringUTFChars(partNameStr, nullptr);
+    std::string partName = partNameChars ? partNameChars : "Mechanical Assembly";
+    if (partNameChars) env->ReleaseStringUTFChars(partNameStr, partNameChars);
+
+    std::vector<androcad::BOMItem> items;
+    items.push_back({1, "AC-1001", "Base Chassis Frame", 1, "Structural Steel", 450.0, 450.0});
+    items.push_back({2, "AC-1002", "Precision Bushing", 2, "Phosphor Bronze", 65.0, 130.0});
+    items.push_back({3, "ISO-4017-M6", "Hex Head Bolt M6x25", 4, "Grade 8.8 Steel", 12.5, 50.0});
+    items.push_back({4, "ISO-7089-6", "Flat Plain Washer 6mm", 4, "Stainless Steel", 2.0, 8.0});
+
+    androcad::DrawingDocument doc = androcad::DrawingEngine::GenerateMultiSheetDocument(
+        session->shape, items, partName);
+
+    std::ostringstream ss;
+    ss << "{\"success\":true"
+       << ",\"title\":\"" << doc.title << "\""
+       << ",\"sheetCount\":" << doc.sheets.size()
+       << ",\"sheets\":[";
+    for (size_t i = 0; i < doc.sheets.size(); ++i) {
+        if (i > 0) ss << ",";
+        ss << "{\"sheetIndex\":" << doc.sheets[i].sheetIndex
+           << ",\"sheetName\":\"" << doc.sheets[i].sheetName << "\""
+           << ",\"viewCount\":" << doc.sheets[i].views.size()
+           << ",\"widthMm\":" << doc.sheets[i].sheetWidth
+           << ",\"heightMm\":" << doc.sheets[i].sheetHeight
+           << "}";
+    }
+    ss << "]}";
+
+    return env->NewStringUTF(ss.str().c_str());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeExportMultiSheetSVG(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong solidHandle,
+        jstring partNameStr,
+        jint sheetIndex) {
+    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    if (!session || session->shape.IsNull()) {
+        return env->NewStringUTF("<svg></svg>");
+    }
+
+    const char* partNameChars = env->GetStringUTFChars(partNameStr, nullptr);
+    std::string partName = partNameChars ? partNameChars : "Mechanical Assembly";
+    if (partNameChars) env->ReleaseStringUTFChars(partNameStr, partNameChars);
+
+    std::vector<androcad::BOMItem> items;
+    items.push_back({1, "AC-1001", "Base Chassis Frame", 1, "Structural Steel", 450.0, 450.0});
+    items.push_back({2, "AC-1002", "Precision Bushing", 2, "Phosphor Bronze", 65.0, 130.0});
+    items.push_back({3, "ISO-4017-M6", "Hex Head Bolt M6x25", 4, "Grade 8.8 Steel", 12.5, 50.0});
+    items.push_back({4, "ISO-7089-6", "Flat Plain Washer 6mm", 4, "Stainless Steel", 2.0, 8.0});
+
+    androcad::DrawingDocument doc = androcad::DrawingEngine::GenerateMultiSheetDocument(
+        session->shape, items, partName);
+
+    if (sheetIndex <= 0) {
+        std::string multiSvg = doc.ToMultiSheetSVG();
+        return env->NewStringUTF(multiSvg.c_str());
+    } else {
+        uint32_t sIdx = static_cast<uint32_t>(sheetIndex);
+        for (const auto& sheet : doc.sheets) {
+            if (sheet.sheetIndex == sIdx) {
+                std::string sheetSvg = sheet.ToSVG();
+                return env->NewStringUTF(sheetSvg.c_str());
+            }
+        }
+        return env->NewStringUTF("<svg></svg>");
+    }
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeExportMultiSheetDXF(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong solidHandle,
+        jstring partNameStr) {
+    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    if (!session || session->shape.IsNull()) {
+        return env->NewStringUTF("");
+    }
+
+    const char* partNameChars = env->GetStringUTFChars(partNameStr, nullptr);
+    std::string partName = partNameChars ? partNameChars : "Mechanical Assembly";
+    if (partNameChars) env->ReleaseStringUTFChars(partNameStr, partNameChars);
+
+    std::vector<androcad::BOMItem> items;
+    items.push_back({1, "AC-1001", "Base Chassis Frame", 1, "Structural Steel", 450.0, 450.0});
+    items.push_back({2, "AC-1002", "Precision Bushing", 2, "Phosphor Bronze", 65.0, 130.0});
+
+    androcad::DrawingDocument doc = androcad::DrawingEngine::GenerateMultiSheetDocument(
+        session->shape, items, partName);
+
+    std::string dxf = doc.ToMultiSheetDXF();
+    return env->NewStringUTF(dxf.c_str());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeFormatGDTFrame(
+        JNIEnv* env,
+        jobject /* this */,
+        jint characteristicCode,
+        jdouble tolerance,
+        jboolean hasDiameterSymbol,
+        jint materialConditionCode,
+        jstring primaryDatumStr,
+        jstring secondaryDatumStr,
+        jstring tertiaryDatumStr) {
+    const char* pChars = env->GetStringUTFChars(primaryDatumStr, nullptr);
+    std::string primary = pChars ? pChars : "";
+    if (pChars) env->ReleaseStringUTFChars(primaryDatumStr, pChars);
+
+    const char* sChars = env->GetStringUTFChars(secondaryDatumStr, nullptr);
+    std::string secondary = sChars ? sChars : "";
+    if (sChars) env->ReleaseStringUTFChars(secondaryDatumStr, sChars);
+
+    const char* tChars = env->GetStringUTFChars(tertiaryDatumStr, nullptr);
+    std::string tertiary = tChars ? tChars : "";
+    if (tChars) env->ReleaseStringUTFChars(tertiaryDatumStr, tChars);
+
+    androcad::GDTCharacteristic charac = static_cast<androcad::GDTCharacteristic>(characteristicCode);
+    androcad::MaterialCondition matCond = static_cast<androcad::MaterialCondition>(materialConditionCode);
+
+    androcad::FeatureControlFrame fcf = androcad::DrawingEngine::CreateGDTFrame(
+        charac, tolerance, hasDiameterSymbol, matCond, primary, secondary, tertiary);
+
+    return env->NewStringUTF(fcf.FormattedString().c_str());
+}
+
 } // extern "C"

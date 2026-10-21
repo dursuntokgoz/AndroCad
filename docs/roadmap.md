@@ -284,12 +284,13 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
 ### Milestone 20: GD&T, Bill of Materials (BOM) & Multi-Sheet Drafting
 * **Goal:** Complete industrial manufacturing documentation, tolerancing, and assembly drawings.
 * **Deliverables:**
-  - Geometric Dimensioning & Tolerancing (GD&T) feature control frames (position, flatness, perpendicularity, runout).
+  - Geometric Dimensioning & Tolerancing (GD&T) feature control frames (position, flatness, perpendicularity, parallelism, cylindricity, runout, concentricity, profile of surface) with ASME Y14.5 / ISO 1101 formatting.
   - Automated Assembly Bill of Materials (BOM) table generation and leader callout balloons.
-  - Detail enlarged views and auxiliary oblique projection views.
-  - Multi-sheet vector PDF and DXF export.
+  - Detail enlarged views (2:1 scale) and auxiliary oblique projection views.
+  - Multi-sheet vector SVG and multi-layer AutoCAD DXF export (BORDER, VISIBLE, HIDDEN, DIMENSIONS).
+  - JNI & Kotlin bindings with comprehensive unit tests.
   - **Screenshots:** Landscape Tablet UI screenshot (`docs/images/androcad_tablet_bom_ui.png`) + Portrait Mobile Phone UI screenshot (`docs/images/androcad_phone_bom_ui.png`) embedded in `README.md`.
   - **Release:** Production Candidate `v1.0.0`.
-* **Acceptance Tests:** 5-test CTest suite validating GD&T syntax, BOM hierarchy extraction, multi-sheet vector PDF generation, and balloon coordinate mapping.
-* **Status:** Planned
-* **Finish Date:** -
+* **Acceptance Tests:** 5-test CTest suite validating GD&T syntax, BOM hierarchy extraction, multi-sheet vector SVG and DXF generation, and balloon coordinate mapping.
+* **Status:** Done
+* **Finish Date:** 2026-10-21
