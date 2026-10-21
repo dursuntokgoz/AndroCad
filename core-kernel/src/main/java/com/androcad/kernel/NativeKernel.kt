@@ -460,6 +460,22 @@ data class MeshAnalysisInfo(
     val errorMessage: String = ""
 )
 
+// -------------------------------------------------------------------------
+// Milestone 14: FEA Simulation & Linear Static Stress Analysis
+// -------------------------------------------------------------------------
+
+data class SimulationResultInfo(
+    val success: Boolean,
+    val nodeCount: Long,
+    val elementCount: Long,
+    val maxVonMisesStressMPa: Double,
+    val minVonMisesStressMPa: Double,
+    val maxDisplacementMm: Double,
+    val minSafetyFactor: Double,
+    val meshResult: BoxMeshResult? = null,
+    val errorMessage: String = ""
+)
+
 /**
  * High-performance JNI bridge to the OpenCASCADE native CAD kernel.
  */
@@ -1249,6 +1265,60 @@ object NativeKernel {
         }
     }
 
+    /**
+     * Milestone 14: Solves a standard cantilever beam FEA simulation under point load.
+     */
+    fun simulateCantileverBeam(
+        lengthMm: Double = 100.0,
+        widthMm: Double = 10.0,
+        heightMm: Double = 10.0,
+        forceN: Double = 100.0,
+        materialId: Int = 0,
+        deformationScale: Double = 1.0
+    ): SimulationResultInfo {
+        val json = nativeSimulateCantileverBeam(lengthMm, widthMm, heightMm, forceN, materialId, deformationScale)
+        return parseSimulationJson(json)
+    }
+
+    /**
+     * Milestone 14: Solves 3D linear static stress FEA for an arbitrary B-Rep solid.
+     */
+    fun simulateSolid(
+        solid: BoxMeshResult,
+        targetElementSizeMm: Double = 10.0,
+        forceN: Double = 500.0,
+        materialId: Int = 0,
+        deformationScale: Double = 1.0
+    ): SimulationResultInfo {
+        if (solid.nativeHandle == 0L || !solid.success) {
+            return SimulationResultInfo(false, 0, 0, 0.0, 0.0, 0.0, 0.0, null, "Invalid solid")
+        }
+        val json = nativeSimulateSolid(solid.nativeHandle, targetElementSizeMm, forceN, materialId, deformationScale)
+        return parseSimulationJson(json)
+    }
+
+    private fun parseSimulationJson(json: String): SimulationResultInfo {
+        return try {
+            val isSuccess = json.contains("\"success\":true")
+            val extractNum = { key: String -> "\"$key\":([0-9.-]+)".toRegex().find(json)?.groupValues?.get(1)?.toDoubleOrNull() ?: 0.0 }
+            val meshHandle = "\"meshHandle\":([0-9.-]+)".toRegex().find(json)?.groupValues?.get(1)?.toLongOrNull() ?: 0L
+            val meshResult = if (meshHandle != 0L) buildMeshResult(meshHandle) else null
+            SimulationResultInfo(
+                success = isSuccess,
+                nodeCount = extractNum("nodeCount").toLong(),
+                elementCount = extractNum("elementCount").toLong(),
+                maxVonMisesStressMPa = extractNum("maxVonMisesStressMPa"),
+                minVonMisesStressMPa = extractNum("minVonMisesStressMPa"),
+                maxDisplacementMm = extractNum("maxDisplacementMm"),
+                minSafetyFactor = extractNum("minSafetyFactor"),
+                meshResult = meshResult,
+                errorMessage = ""
+            )
+        } catch (e: Exception) {
+            SimulationResultInfo(false, 0, 0, 0.0, 0.0, 0.0, 0.0, null, e.message ?: "JSON parse error")
+        }
+    }
+
     internal external fun nativeCreateBox(
         dx: Double,
         dy: Double,
@@ -1445,4 +1515,15 @@ object NativeKernel {
     internal external fun nativeMeshRepair(solidHandle: Long, weldTolerance: Double): Long
     internal external fun nativeMeshToSolid(solidHandle: Long, tolerance: Double): Long
     internal external fun nativeMeshAnalyze(solidHandle: Long): String
+
+    // Milestone 14 JNI Declarations (FEA Simulation)
+    internal external fun nativeSimulateCantileverBeam(
+        lengthMm: Double, widthMm: Double, heightMm: Double,
+        forceN: Double, materialId: Int, deformationScale: Double
+    ): String
+
+    internal external fun nativeSimulateSolid(
+        solidHandle: Long, targetElementSizeMm: Double,
+        forceN: Double, materialId: Int, deformationScale: Double
+    ): String
 }

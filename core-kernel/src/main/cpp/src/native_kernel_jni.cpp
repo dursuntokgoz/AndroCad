@@ -13,6 +13,7 @@
 #include "DrawingEngine.h"
 #include "MaterialEngine.h"
 #include "MeshEngine.h"
+#include "SimulationEngine.h"
 
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <TopoDS_Shape.hxx>
@@ -1430,6 +1431,129 @@ Java_com_androcad_kernel_NativeKernel_nativeMeshAnalyze(
        << ",\"enclosedVolume\":" << stats.enclosedVolume
        << ",\"isClosedManifold\":" << (stats.isClosedManifold ? "true" : "false")
        << ",\"eulerCharacteristic\":" << stats.eulerCharacteristic
+       << "}";
+
+    return env->NewStringUTF(ss.str().c_str());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeSimulateCantileverBeam(
+        JNIEnv* env,
+        jobject /* this */,
+        jdouble lengthMm,
+        jdouble widthMm,
+        jdouble heightMm,
+        jdouble forceN,
+        jint materialId,
+        jdouble deformationScale) {
+    androcad::Material mat = androcad::MaterialEngine::GetMaterial(materialId);
+    androcad::SimulationResult res = androcad::SimulationEngine::SolveCantileverBeam(
+        lengthMm, widthMm, heightMm, forceN, mat, deformationScale);
+
+    auto session = std::make_unique<NativeMeshSession>();
+    session->payload.success = res.success;
+    session->payload.errorMessage = res.errorMessage;
+
+    if (res.success) {
+        size_t vertCount = res.visualMesh.positions.size() / 3;
+        session->payload.vertices.resize(vertCount);
+        for (size_t i = 0; i < vertCount; ++i) {
+            session->payload.vertices[i].x = res.visualMesh.positions[i * 3 + 0];
+            session->payload.vertices[i].y = res.visualMesh.positions[i * 3 + 1];
+            session->payload.vertices[i].z = res.visualMesh.positions[i * 3 + 2];
+            session->payload.vertices[i].nx = res.visualMesh.colors[i * 3 + 0];
+            session->payload.vertices[i].ny = res.visualMesh.colors[i * 3 + 1];
+            session->payload.vertices[i].nz = res.visualMesh.colors[i * 3 + 2];
+            session->payload.vertices[i].faceId = static_cast<uint32_t>(res.visualMesh.stressesMPa[i]);
+        }
+        session->payload.indices = res.visualMesh.indices;
+    }
+
+    jlong handle = reinterpret_cast<jlong>(session.release());
+
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(4);
+    ss << "{\"success\":" << (res.success ? "true" : "false")
+       << ",\"nodeCount\":" << res.nodeCount
+       << ",\"elementCount\":" << res.elementCount
+       << ",\"maxVonMisesStressMPa\":" << res.maxVonMisesStressMPa
+       << ",\"minVonMisesStressMPa\":" << res.minVonMisesStressMPa
+       << ",\"maxDisplacementMm\":" << res.maxDisplacementMm
+       << ",\"minSafetyFactor\":" << res.minSafetyFactor
+       << ",\"meshHandle\":" << handle
+       << ",\"errorMessage\":\"" << res.errorMessage << "\""
+       << "}";
+
+    return env->NewStringUTF(ss.str().c_str());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeSimulateSolid(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong solidHandle,
+        jdouble targetElementSizeMm,
+        jdouble forceN,
+        jint materialId,
+        jdouble deformationScale) {
+    auto* inSession = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    if (!inSession || inSession->shape.IsNull()) {
+        return env->NewStringUTF("{\"success\":false,\"errorMessage\":\"Invalid solid handle\"}");
+    }
+
+    androcad::Material mat = androcad::MaterialEngine::GetMaterial(materialId);
+    androcad::SimulationEngine sim;
+    sim.SetMaterial(mat);
+    sim.DiscretizeShape(inSession->shape, targetElementSizeMm);
+
+    androcad::BoundaryConstraint bc;
+    bc.type = androcad::ConstraintType::FIXED;
+    bc.minX = -1e9;
+    bc.maxX = 5.0;
+    sim.AddConstraint(bc);
+
+    androcad::StructuralLoad load;
+    load.type = androcad::LoadType::TOTAL_FORCE;
+    load.forceZ = -forceN;
+    load.minX = 20.0;
+    load.maxX = 1e9;
+    sim.AddLoad(load);
+
+    androcad::SimulationResult res = sim.Solve(deformationScale);
+
+    auto outSession = std::make_unique<NativeMeshSession>();
+    outSession->shape = inSession->shape;
+    outSession->payload.success = res.success;
+    outSession->payload.errorMessage = res.errorMessage;
+
+    if (res.success) {
+        size_t vertCount = res.visualMesh.positions.size() / 3;
+        outSession->payload.vertices.resize(vertCount);
+        for (size_t i = 0; i < vertCount; ++i) {
+            outSession->payload.vertices[i].x = res.visualMesh.positions[i * 3 + 0];
+            outSession->payload.vertices[i].y = res.visualMesh.positions[i * 3 + 1];
+            outSession->payload.vertices[i].z = res.visualMesh.positions[i * 3 + 2];
+            outSession->payload.vertices[i].nx = res.visualMesh.colors[i * 3 + 0];
+            outSession->payload.vertices[i].ny = res.visualMesh.colors[i * 3 + 1];
+            outSession->payload.vertices[i].nz = res.visualMesh.colors[i * 3 + 2];
+            outSession->payload.vertices[i].faceId = static_cast<uint32_t>(res.visualMesh.stressesMPa[i]);
+        }
+        outSession->payload.indices = res.visualMesh.indices;
+    }
+
+    jlong handle = reinterpret_cast<jlong>(outSession.release());
+
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(4);
+    ss << "{\"success\":" << (res.success ? "true" : "false")
+       << ",\"nodeCount\":" << res.nodeCount
+       << ",\"elementCount\":" << res.elementCount
+       << ",\"maxVonMisesStressMPa\":" << res.maxVonMisesStressMPa
+       << ",\"minVonMisesStressMPa\":" << res.minVonMisesStressMPa
+       << ",\"maxDisplacementMm\":" << res.maxDisplacementMm
+       << ",\"minSafetyFactor\":" << res.minSafetyFactor
+       << ",\"meshHandle\":" << handle
+       << ",\"errorMessage\":\"" << res.errorMessage << "\""
        << "}";
 
     return env->NewStringUTF(ss.str().c_str());

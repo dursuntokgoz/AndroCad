@@ -297,4 +297,39 @@ class NativeKernelTest {
         assertTrue(analysis.isClosedManifold)
         assertEquals(100000.0, analysis.enclosedVolume, 1e-4)
     }
+
+    @Test
+    fun testSimulationContracts() {
+        val simResult = SimulationResultInfo(
+            success = true,
+            nodeCount = 525,
+            elementCount = 2000,
+            maxVonMisesStressMPa = 58.4,
+            minVonMisesStressMPa = 0.5,
+            maxDisplacementMm = 0.198,
+            minSafetyFactor = 4.28
+        )
+        assertTrue(simResult.success)
+        assertEquals(525L, simResult.nodeCount)
+        assertEquals(2000L, simResult.elementCount)
+        assertEquals(58.4, simResult.maxVonMisesStressMPa, 1e-4)
+        assertEquals(0.198, simResult.maxDisplacementMm, 1e-4)
+        assertEquals(4.28, simResult.minSafetyFactor, 1e-4)
+
+        val invalidSolid = BoxMeshResult(
+            success = false,
+            volume = 0.0,
+            faceCount = 0,
+            edgeCount = 0,
+            triangleCount = 0,
+            vertexBuffer = null,
+            indexBuffer = null,
+            edgeVertexBuffer = null,
+            boundingBox = BoundingBox(),
+            nativeHandle = 0L
+        )
+        val simResInvalid = NativeKernel.simulateSolid(invalidSolid)
+        assertFalse(simResInvalid.success)
+        assertEquals("Invalid solid", simResInvalid.errorMessage)
+    }
 }

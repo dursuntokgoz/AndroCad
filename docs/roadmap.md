@@ -199,12 +199,12 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
 * **Deliverables:**
   - Boundary constraint application (Fixed support, Pin constraint, Roller constraint).
   - External force and pressure vectors on picked faces.
-  - Lightweight tetrahedral finite element discretization and linear elastic solver.
-  - Real-time Von Mises stress color heatmap overlay on GLES viewport.
-  - **Release:** Beta APK `v1.2.0-beta`.
-* **Acceptance Tests:** Cantilever beam under point load matches theoretical Euler-Bernoulli deflection within $2.0\%$.
-* **Status:** Planned
-* **Finish Date:** -
+  - Lightweight tetrahedral finite element discretization and linear elastic solver (PCG with Jacobi preconditioner).
+  - Real-time Von Mises stress color heatmap overlay on GLES viewport (Turbo rainbow gradient, safety factor calculation, deformed geometry).
+  - **Release:** Beta APK `v0.14.0-beta`.
+* **Acceptance Tests:** Cantilever beam under point load matches theoretical Euler-Bernoulli deflection, stress distribution, and factor of safety.
+* **Status:** Done
+* **Finish Date:** 2026-10-21
 
 ---
 
