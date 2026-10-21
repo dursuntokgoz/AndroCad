@@ -27,6 +27,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import com.androcad.app.io.CadStorageManager
+import com.androcad.app.ui.EmptyStateView
 import com.androcad.app.renderer.CadRenderer
 import androidx.compose.ui.platform.testTag
 import com.androcad.app.model.BrowserState
@@ -150,6 +154,10 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 
     // Phone layout bottom sheet toggle: null, "browser", "timeline", "properties"
     var phoneActiveSheet by remember { mutableStateOf<String?>(null) }
+    var showEmptyState by remember { mutableStateOf(false) }
+    var showTutorial by remember { mutableStateOf(false) }
+    var showSamplesGallery by remember { mutableStateOf(false) }
+
     val browserState = remember {
         mutableStateOf(
             BrowserState(
@@ -158,6 +166,92 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                 )
             )
         )
+    }
+
+    // Storage Access Framework Launchers
+    val stepImportLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument()
+    ) { uri ->
+        if (uri != null) {
+            val imported = CadStorageManager.importStepFromUri(context, uri)
+            if (imported.success) {
+                activeSolid?.close()
+                activeSolid = imported
+                renderer?.updateMesh(imported)
+                timelineItems = (timelineItems + "${timelineItems.size + 1}. Import STEP (${uri.lastPathSegment ?: "model.step"})").toMutableList()
+                featureStatusText = "Imported STEP via SAF (${imported.volume.toInt()} mm³)"
+                showEmptyState = false
+            } else {
+                featureStatusText = "STEP import failed: ${imported.errorMessage}"
+            }
+        }
+    }
+
+    val stlImportLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument()
+    ) { uri ->
+        if (uri != null) {
+            val imported = CadStorageManager.importStlFromUri(context, uri)
+            if (imported.success) {
+                activeSolid?.close()
+                activeSolid = imported
+                renderer?.updateMesh(imported)
+                timelineItems = (timelineItems + "${timelineItems.size + 1}. Import STL (${uri.lastPathSegment ?: "model.stl"})").toMutableList()
+                featureStatusText = "Imported STL via SAF (${imported.triangleCount} triangles)"
+                showEmptyState = false
+            } else {
+                featureStatusText = "STL import failed: ${imported.errorMessage}"
+            }
+        }
+    }
+
+    val stepExportLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument("application/step")
+    ) { uri ->
+        if (uri != null) {
+            val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
+            val ok = CadStorageManager.exportStepToUri(context, solid, uri)
+            featureStatusText = if (ok) "Exported STEP to SAF document" else "STEP export failed"
+        }
+    }
+
+    val stlExportLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument("model/stl")
+    ) { uri ->
+        if (uri != null) {
+            val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
+            val ok = CadStorageManager.exportStlToUri(context, solid, uri)
+            featureStatusText = if (ok) "Exported STL to SAF document" else "STL export failed"
+        }
+    }
+
+    val projectSaveLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument("application/json")
+    ) { uri ->
+        if (uri != null) {
+            val ok = CadStorageManager.saveProjectToUri(context, activeTimeline, uri)
+            featureStatusText = if (ok) "Project saved to SAF document" else "Project save failed"
+        }
+    }
+
+    val projectOpenLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument()
+    ) { uri ->
+        if (uri != null) {
+            val ok = CadStorageManager.loadProjectFromUri(context, activeTimeline, uri)
+            if (ok) {
+                val rebuilt = activeTimeline.rebuild()
+                if (rebuilt.success) {
+                    activeSolid?.close()
+                    activeSolid = rebuilt
+                    renderer?.updateMesh(rebuilt)
+                }
+                featureStatusText = "Project loaded from SAF document"
+                showEmptyState = false
+            } else {
+                featureStatusText = "Project load failed"
+            }
+        }
     }
 
     // Multi-finger undo / redo actions
@@ -401,75 +495,93 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                         try {
                                             when (action) {
                                                 "Save" -> {
-                                                    val projFile = java.io.File(baseDir, "design_model.androcad")
-                                                    val res = activeTimeline.saveProject(projFile.absolutePath)
-                                                    featureStatusText = if (res.success) "Project saved: ${projFile.name}" else "Save failed: ${res.errorMessage}"
+                                                    try {
+                                                        projectSaveLauncher.launch("design_model.androcad")
+                                                    } catch (e: Throwable) {
+                                                        val projFile = java.io.File(baseDir, "design_model.androcad")
+                                                        val res = activeTimeline.saveProject(projFile.absolutePath)
+                                                        featureStatusText = if (res.success) "Project saved: ${projFile.name}" else "Save failed: ${res.errorMessage}"
+                                                    }
                                                 }
                                                 "Open" -> {
-                                                    val projFile = java.io.File(baseDir, "design_model.androcad")
-                                                    val res = activeTimeline.loadProject(projFile.absolutePath)
-                                                    if (res.success) {
-                                                        val rebuilt = activeTimeline.rebuild()
-                                                        if (rebuilt.success) {
-                                                            activeSolid?.close()
-                                                            activeSolid = rebuilt
-                                                            renderer?.updateMesh(rebuilt)
+                                                    try {
+                                                        projectOpenLauncher.launch(arrayOf("*/*"))
+                                                    } catch (e: Throwable) {
+                                                        val projFile = java.io.File(baseDir, "design_model.androcad")
+                                                        val res = activeTimeline.loadProject(projFile.absolutePath)
+                                                        if (res.success) {
+                                                            val rebuilt = activeTimeline.rebuild()
+                                                            if (rebuilt.success) {
+                                                                activeSolid?.close()
+                                                                activeSolid = rebuilt
+                                                                renderer?.updateMesh(rebuilt)
+                                                            }
+                                                            featureStatusText = "Project loaded: ${projFile.name}"
                                                         }
-                                                        featureStatusText = "Project loaded: ${projFile.name}"
-                                                    } else {
-                                                        featureStatusText = "Load failed: ${res.errorMessage}"
                                                     }
                                                 }
                                                 "Export STEP" -> {
-                                                    val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also {
-                                                        activeSolid = it
-                                                        renderer?.updateMesh(it)
+                                                    try {
+                                                        stepExportLauncher.launch("model.step")
+                                                    } catch (e: Throwable) {
+                                                        val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also {
+                                                            activeSolid = it
+                                                            renderer?.updateMesh(it)
+                                                        }
+                                                        val stepFile = java.io.File(baseDir, "model.step")
+                                                        val res = NativeKernel.exportStep(solid, stepFile.absolutePath)
+                                                        featureStatusText = if (res.success) "Exported STEP: ${stepFile.name}" else "STEP export failed"
                                                     }
-                                                    val stepFile = java.io.File(baseDir, "model.step")
-                                                    val res = NativeKernel.exportStep(solid, stepFile.absolutePath)
-                                                    featureStatusText = if (res.success) "Exported STEP: ${stepFile.name} (${stepFile.length()} bytes)" else "STEP export failed: ${res.errorMessage}"
                                                 }
                                                 "Import STEP" -> {
-                                                    val stepFile = java.io.File(baseDir, "model.step")
-                                                    if (!stepFile.exists()) {
-                                                        val initialSolid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0)
-                                                        NativeKernel.exportStep(initialSolid, stepFile.absolutePath)
-                                                    }
-                                                    val imported = NativeKernel.importStep(stepFile.absolutePath)
-                                                    if (imported.success) {
-                                                        activeSolid?.close()
-                                                        activeSolid = imported
-                                                        renderer?.updateMesh(imported)
-                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Import STEP (${stepFile.name})").toMutableList()
-                                                        featureStatusText = "Imported STEP: ${stepFile.name} (${imported.volume.toInt()} mm³)"
-                                                    } else {
-                                                        featureStatusText = "STEP import failed: ${imported.errorMessage}"
+                                                    try {
+                                                        stepImportLauncher.launch(arrayOf("*/*"))
+                                                    } catch (e: Throwable) {
+                                                        val stepFile = java.io.File(baseDir, "model.step")
+                                                        if (!stepFile.exists()) {
+                                                            val initialSolid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0)
+                                                            NativeKernel.exportStep(initialSolid, stepFile.absolutePath)
+                                                        }
+                                                        val imported = NativeKernel.importStep(stepFile.absolutePath)
+                                                        if (imported.success) {
+                                                            activeSolid?.close()
+                                                            activeSolid = imported
+                                                            renderer?.updateMesh(imported)
+                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Import STEP").toMutableList()
+                                                            featureStatusText = "Imported STEP: ${stepFile.name}"
+                                                        }
                                                     }
                                                 }
                                                 "Export STL" -> {
-                                                    val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also {
-                                                        activeSolid = it
-                                                        renderer?.updateMesh(it)
+                                                    try {
+                                                        stlExportLauncher.launch("model.stl")
+                                                    } catch (e: Throwable) {
+                                                        val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also {
+                                                            activeSolid = it
+                                                            renderer?.updateMesh(it)
+                                                        }
+                                                        val stlFile = java.io.File(baseDir, "model.stl")
+                                                        val res = NativeKernel.exportStl(solid, stlFile.absolutePath)
+                                                        featureStatusText = if (res.success) "Exported STL: ${stlFile.name}" else "STL export failed"
                                                     }
-                                                    val stlFile = java.io.File(baseDir, "model.stl")
-                                                    val res = NativeKernel.exportStl(solid, stlFile.absolutePath)
-                                                    featureStatusText = if (res.success) "Exported STL: ${stlFile.name} (${stlFile.length()} bytes)" else "STL export failed: ${res.errorMessage}"
                                                 }
                                                 "Import STL" -> {
-                                                    val stlFile = java.io.File(baseDir, "model.stl")
-                                                    if (!stlFile.exists()) {
-                                                        val initialSolid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0)
-                                                        NativeKernel.exportStl(initialSolid, stlFile.absolutePath)
-                                                    }
-                                                    val imported = NativeKernel.importStl(stlFile.absolutePath)
-                                                    if (imported.success) {
-                                                        activeSolid?.close()
-                                                        activeSolid = imported
-                                                        renderer?.updateMesh(imported)
-                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Import STL (${stlFile.name})").toMutableList()
-                                                        featureStatusText = "Imported STL: ${stlFile.name} (${imported.triangleCount} triangles)"
-                                                    } else {
-                                                        featureStatusText = "STL import failed: ${imported.errorMessage}"
+                                                    try {
+                                                        stlImportLauncher.launch(arrayOf("*/*"))
+                                                    } catch (e: Throwable) {
+                                                        val stlFile = java.io.File(baseDir, "model.stl")
+                                                        if (!stlFile.exists()) {
+                                                            val initialSolid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0)
+                                                            NativeKernel.exportStl(initialSolid, stlFile.absolutePath)
+                                                        }
+                                                        val imported = NativeKernel.importStl(stlFile.absolutePath)
+                                                        if (imported.success) {
+                                                            activeSolid?.close()
+                                                            activeSolid = imported
+                                                            renderer?.updateMesh(imported)
+                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Import STL").toMutableList()
+                                                            featureStatusText = "Imported STL: ${stlFile.name}"
+                                                        }
                                                     }
                                                 }
                                             }
@@ -2217,6 +2329,31 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                         )
                     }
                 }
+            }
+
+            if (showEmptyState) {
+                EmptyStateView(
+                    isDarkTheme = isDarkTheme,
+                    onStartTutorial = {
+                        showEmptyState = false
+                        showTutorial = true
+                    },
+                    onOpenSamples = {
+                        showEmptyState = false
+                        showSamplesGallery = true
+                    },
+                    onImportModel = {
+                        try {
+                            stepImportLauncher.launch(arrayOf("*/*"))
+                        } catch (e: Throwable) {
+                            showEmptyState = false
+                        }
+                    },
+                    onNewPart = {
+                        showEmptyState = false
+                    },
+                    modifier = Modifier.fillMaxSize()
+                )
             }
         }
     }
