@@ -50,7 +50,7 @@ struct ThreadResult {
     std::string errorMessage;
 };
 
-struct ProjectedSegment {
+struct ProjectedSketchEdge {
     double startU{0.0}, startV{0.0};
     double endU{0.0}, endV{0.0};
     bool isArc{false};
@@ -60,7 +60,7 @@ struct ProjectedSegment {
 
 struct ProjectionResult {
     bool success{false};
-    std::vector<ProjectedSegment> segments;
+    std::vector<ProjectedSketchEdge> segments;
     int edgeCount{0};
     std::string errorMessage;
 };

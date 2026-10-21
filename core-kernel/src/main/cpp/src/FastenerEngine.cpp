@@ -239,23 +239,28 @@ ProjectionResult FastenerEngine::ProjectEdgesToPlane(
             TopoDS_Edge edge = TopoDS::Edge(exp.Current());
             if (edge.IsNull()) continue;
 
-            Standard_Real first = 0.0, last = 0.0;
-            Handle(Geom_Curve) curve = BRep_Tool::Curve(edge, first, last);
-            if (curve.IsNull()) continue;
-
-            gp_Pnt pStart = curve->Value(first);
-            gp_Pnt pEnd = curve->Value(last);
+            BRepAdaptor_Curve curve(edge);
+            gp_Pnt pStart = curve.Value(curve.FirstParameter());
+            gp_Pnt pEnd = curve.Value(curve.LastParameter());
 
             // Project 3D points onto 2D plane coordinate system (U, V)
             gp_Vec vStart(planeOrigin, pStart);
             gp_Vec vEnd(planeOrigin, pEnd);
 
-            ProjectedSegment seg;
+            ProjectedSketchEdge seg;
             seg.startU = vStart.Dot(gp_Vec(planeX));
             seg.startV = vStart.Dot(gp_Vec(planeY));
             seg.endU = vEnd.Dot(gp_Vec(planeX));
             seg.endV = vEnd.Dot(gp_Vec(planeY));
-            seg.isArc = false;
+            seg.isArc = (curve.GetType() == GeomAbs_Circle);
+
+            if (seg.isArc) {
+                gp_Pnt center = curve.Circle().Location();
+                gp_Vec vCenter(planeOrigin, center);
+                seg.centerU = vCenter.Dot(gp_Vec(planeX));
+                seg.centerV = vCenter.Dot(gp_Vec(planeY));
+                seg.radius = curve.Circle().Radius();
+            }
 
             result.segments.push_back(seg);
         }
