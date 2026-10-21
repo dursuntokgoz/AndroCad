@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <unordered_map>
 #include <unordered_set>
+#include <map>
 #include <iostream>
 
 namespace androcad {
@@ -197,6 +198,167 @@ TriangleKey MakeKey(uint32_t a, uint32_t b, uint32_t c) {
     return TriangleKey{{arr[0], arr[1], arr[2]}};
 }
 
+bool Invert3x3(const double J[3][3], double invJ[3][3], double& detJ) {
+    detJ = J[0][0] * (J[1][1] * J[2][2] - J[1][2] * J[2][1]) -
+           J[0][1] * (J[1][0] * J[2][2] - J[1][2] * J[2][0]) +
+           J[0][2] * (J[1][0] * J[2][1] - J[1][1] * J[2][0]);
+    if (std::abs(detJ) < 1e-25) return false;
+
+    double invDet = 1.0 / detJ;
+    invJ[0][0] = (J[1][1] * J[2][2] - J[1][2] * J[2][1]) * invDet;
+    invJ[0][1] = (J[0][2] * J[2][1] - J[0][1] * J[2][2]) * invDet;
+    invJ[0][2] = (J[0][1] * J[1][2] - J[0][2] * J[1][1]) * invDet;
+
+    invJ[1][0] = (J[1][2] * J[2][0] - J[1][0] * J[2][2]) * invDet;
+    invJ[1][1] = (J[0][0] * J[2][2] - J[0][2] * J[2][0]) * invDet;
+    invJ[1][2] = (J[0][2] * J[1][0] - J[0][0] * J[1][2]) * invDet;
+
+    invJ[2][0] = (J[1][0] * J[2][1] - J[1][1] * J[2][0]) * invDet;
+    invJ[2][1] = (J[0][1] * J[2][0] - J[0][0] * J[2][1]) * invDet;
+    invJ[2][2] = (J[0][0] * J[1][1] - J[0][1] * J[1][0]) * invDet;
+    return true;
+}
+
+struct GaussPointTet {
+    double z0, z1, z2, z3; // Barycentric coordinates
+    double weight;         // Quadrature weight
+    double dN_dzeta[10][3]; // Shape function derivatives w.r.t (zeta1, zeta2, zeta3)
+};
+
+std::vector<GaussPointTet> GetTetGaussPoints() {
+    std::vector<GaussPointTet> gp(4);
+    const double a = (5.0 - std::sqrt(5.0)) / 20.0;
+    const double b = (5.0 + 3.0 * std::sqrt(5.0)) / 20.0;
+    const double w = 1.0 / 24.0;
+
+    double coords[4][4] = {
+        {b, a, a, a},
+        {a, b, a, a},
+        {a, a, b, a},
+        {a, a, a, b}
+    };
+
+    for (int p = 0; p < 4; ++p) {
+        gp[p].z0 = coords[p][0];
+        gp[p].z1 = coords[p][1];
+        gp[p].z2 = coords[p][2];
+        gp[p].z3 = coords[p][3];
+        gp[p].weight = w;
+
+        double z0 = gp[p].z0;
+        double z1 = gp[p].z1;
+        double z2 = gp[p].z2;
+        double z3 = gp[p].z3;
+
+        // Shape function derivatives for 10 nodes w.r.t. natural coordinates (zeta1, zeta2, zeta3)
+        // Corner nodes (0-3)
+        gp[p].dN_dzeta[0][0] = 1.0 - 4.0 * z0;
+        gp[p].dN_dzeta[0][1] = 1.0 - 4.0 * z0;
+        gp[p].dN_dzeta[0][2] = 1.0 - 4.0 * z0;
+
+        gp[p].dN_dzeta[1][0] = 4.0 * z1 - 1.0;
+        gp[p].dN_dzeta[1][1] = 0.0;
+        gp[p].dN_dzeta[1][2] = 0.0;
+
+        gp[p].dN_dzeta[2][0] = 0.0;
+        gp[p].dN_dzeta[2][1] = 4.0 * z2 - 1.0;
+        gp[p].dN_dzeta[2][2] = 0.0;
+
+        gp[p].dN_dzeta[3][0] = 0.0;
+        gp[p].dN_dzeta[3][1] = 0.0;
+        gp[p].dN_dzeta[3][2] = 4.0 * z3 - 1.0;
+
+        // Midside nodes (4-9)
+        gp[p].dN_dzeta[4][0] = 4.0 * (z0 - z1);
+        gp[p].dN_dzeta[4][1] = -4.0 * z1;
+        gp[p].dN_dzeta[4][2] = -4.0 * z1;
+
+        gp[p].dN_dzeta[5][0] = 4.0 * z2;
+        gp[p].dN_dzeta[5][1] = 4.0 * z1;
+        gp[p].dN_dzeta[5][2] = 0.0;
+
+        gp[p].dN_dzeta[6][0] = -4.0 * z2;
+        gp[p].dN_dzeta[6][1] = 4.0 * (z0 - z2);
+        gp[p].dN_dzeta[6][2] = -4.0 * z2;
+
+        gp[p].dN_dzeta[7][0] = -4.0 * z3;
+        gp[p].dN_dzeta[7][1] = -4.0 * z3;
+        gp[p].dN_dzeta[7][2] = 4.0 * (z0 - z3);
+
+        gp[p].dN_dzeta[8][0] = 4.0 * z3;
+        gp[p].dN_dzeta[8][1] = 0.0;
+        gp[p].dN_dzeta[8][2] = 4.0 * z1;
+
+        gp[p].dN_dzeta[9][0] = 0.0;
+        gp[p].dN_dzeta[9][1] = 4.0 * z3;
+        gp[p].dN_dzeta[9][2] = 4.0 * z2;
+    }
+    return gp;
+}
+
+std::vector<double> SolvePCGInternal(
+    const std::vector<std::vector<std::pair<int, double>>>& K_rows,
+    const std::vector<double>& F,
+    const std::vector<double>& invDiag,
+    int maxIterations,
+    double tolerance) {
+    size_t numDOFs = F.size();
+    std::vector<double> U(numDOFs, 0.0);
+    std::vector<double> r = F;
+    std::vector<double> z(numDOFs, 0.0);
+    for (size_t i = 0; i < numDOFs; ++i) {
+        z[i] = r[i] * invDiag[i];
+    }
+    std::vector<double> p = z;
+    double rho = 0.0;
+    for (size_t i = 0; i < numDOFs; ++i) rho += r[i] * z[i];
+
+    double normF = 0.0;
+    for (size_t i = 0; i < numDOFs; ++i) normF += F[i] * F[i];
+    normF = std::sqrt(normF);
+    if (normF < 1e-12) normF = 1.0;
+
+    for (int iter = 0; iter < maxIterations; ++iter) {
+        std::vector<double> q(numDOFs, 0.0);
+        for (size_t i = 0; i < numDOFs; ++i) {
+            double sum = 0.0;
+            for (const auto& entry : K_rows[i]) {
+                sum += entry.second * p[entry.first];
+            }
+            q[i] = sum;
+        }
+
+        double pDotQ = 0.0;
+        for (size_t i = 0; i < numDOFs; ++i) pDotQ += p[i] * q[i];
+        if (std::abs(pDotQ) < 1e-25) break;
+
+        double alpha = rho / pDotQ;
+        for (size_t i = 0; i < numDOFs; ++i) {
+            U[i] += alpha * p[i];
+            r[i] -= alpha * q[i];
+        }
+
+        double normR = 0.0;
+        for (size_t i = 0; i < numDOFs; ++i) normR += r[i] * r[i];
+        normR = std::sqrt(normR);
+        if (normR / normF < tolerance) break;
+
+        for (size_t i = 0; i < numDOFs; ++i) {
+            z[i] = r[i] * invDiag[i];
+        }
+
+        double rhoNew = 0.0;
+        for (size_t i = 0; i < numDOFs; ++i) rhoNew += r[i] * z[i];
+
+        double beta = rhoNew / rho;
+        for (size_t i = 0; i < numDOFs; ++i) {
+            p[i] = z[i] + beta * p[i];
+        }
+        rho = rhoNew;
+    }
+    return U;
+}
+
 } // namespace
 
 SimulationEngine::SimulationEngine() = default;
@@ -204,6 +366,7 @@ SimulationEngine::SimulationEngine() = default;
 void SimulationEngine::Clear() {
     nodes_.clear();
     elements_.clear();
+    tet10Elements_.clear();
     constraints_.clear();
     loads_.clear();
 }
@@ -212,6 +375,7 @@ void SimulationEngine::SetMaterial(const Material& material) {
     youngModulusPa_ = material.youngModulusGPa * 1.0e9;
     poissonRatio_ = material.poissonRatio;
     yieldStrengthPa_ = material.yieldStrengthMPa * 1.0e6;
+    densityKgM3_ = material.density * 1000.0;
 }
 
 void SimulationEngine::SetMaterialProperties(double youngModulusGPa, double poissonRatio, double yieldStrengthMPa) {
@@ -642,10 +806,7 @@ SimulationResult SimulationEngine::Solve(double deformationScale) {
     ApplyBoundaryConditions(F, K_rows);
 
     // Preconditioned Conjugate Gradient (PCG) with Jacobi diagonal preconditioner
-    std::vector<double> U(numDOFs, 0.0);
-    std::vector<double> r = F;
     std::vector<double> invDiag(numDOFs, 1.0);
-
     for (size_t i = 0; i < numDOFs; ++i) {
         double diag = 1.0;
         for (const auto& entry : K_rows[i]) {
@@ -659,66 +820,8 @@ SimulationResult SimulationEngine::Solve(double deformationScale) {
         }
     }
 
-    std::vector<double> z(numDOFs, 0.0);
-    for (size_t i = 0; i < numDOFs; ++i) {
-        z[i] = r[i] * invDiag[i];
-    }
-
-    std::vector<double> p = z;
-    double rho = 0.0;
-    for (size_t i = 0; i < numDOFs; ++i) rho += r[i] * z[i];
-
-    double normF = 0.0;
-    for (size_t i = 0; i < numDOFs; ++i) normF += F[i] * F[i];
-    normF = std::sqrt(normF);
-    if (normF < 1e-12) normF = 1.0;
-
     const int maxIterations = static_cast<int>(std::max(500UL, numDOFs * 2));
-    const double tolerance = 1e-6;
-
-    for (int iter = 0; iter < maxIterations; ++iter) {
-        // q = K * p
-        std::vector<double> q(numDOFs, 0.0);
-        for (size_t i = 0; i < numDOFs; ++i) {
-            double sum = 0.0;
-            for (const auto& entry : K_rows[i]) {
-                sum += entry.second * p[entry.first];
-            }
-            q[i] = sum;
-        }
-
-        double pDotQ = 0.0;
-        for (size_t i = 0; i < numDOFs; ++i) pDotQ += p[i] * q[i];
-
-        if (std::abs(pDotQ) < 1e-25) break;
-
-        double alpha = rho / pDotQ;
-        for (size_t i = 0; i < numDOFs; ++i) {
-            U[i] += alpha * p[i];
-            r[i] -= alpha * q[i];
-        }
-
-        double normR = 0.0;
-        for (size_t i = 0; i < numDOFs; ++i) normR += r[i] * r[i];
-        normR = std::sqrt(normR);
-
-        if (normR / normF < tolerance) {
-            break;
-        }
-
-        for (size_t i = 0; i < numDOFs; ++i) {
-            z[i] = r[i] * invDiag[i];
-        }
-
-        double rhoNew = 0.0;
-        for (size_t i = 0; i < numDOFs; ++i) rhoNew += r[i] * z[i];
-
-        double beta = rhoNew / rho;
-        for (size_t i = 0; i < numDOFs; ++i) {
-            p[i] = z[i] + beta * p[i];
-        }
-        rho = rhoNew;
-    }
+    std::vector<double> U = SolvePCGInternal(K_rows, F, invDiag, maxIterations, 1e-6);
 
     // Store nodal displacements
     double maxDispM = 0.0;
@@ -948,6 +1051,844 @@ SimulationResult SimulationEngine::SolveCantileverBeam(double lengthMm, double w
     sim.AddLoad(tipLoad);
 
     return sim.Solve(deformationScale);
+}
+
+void SimulationEngine::GenerateBeamMeshTet10(double lengthMm, double widthMm, double heightMm,
+                                             int nx, int ny, int nz) {
+    Clear();
+
+    double dx = (lengthMm * 1e-3) / nx;
+    double dy = (widthMm * 1e-3) / ny;
+    double dz = (heightMm * 1e-3) / nz;
+
+    double y0 = -(widthMm * 1e-3) * 0.5;
+    double z0 = -(heightMm * 1e-3) * 0.5;
+
+    auto cornerNodeIndex = [ny, nz](int i, int j, int k) -> uint32_t {
+        return static_cast<uint32_t>(i * (ny + 1) * (nz + 1) + j * (nz + 1) + k);
+    };
+
+    // First generate corner vertices
+    for (int i = 0; i <= nx; ++i) {
+        double x = i * dx;
+        for (int j = 0; j <= ny; ++j) {
+            double y = y0 + j * dy;
+            for (int k = 0; k <= nz; ++k) {
+                double z = z0 + k * dz;
+                FEANode node;
+                node.id = static_cast<uint32_t>(nodes_.size());
+                node.x = x;
+                node.y = y;
+                node.z = z;
+                nodes_.push_back(node);
+            }
+        }
+    }
+
+    // Map for sharing midside nodes across shared edges
+    std::map<std::pair<uint32_t, uint32_t>, uint32_t> edgeToMid;
+    auto getOrCreateMidNode = [&](uint32_t a, uint32_t b) -> uint32_t {
+        auto key = std::minmax(a, b);
+        auto it = edgeToMid.find(key);
+        if (it != edgeToMid.end()) {
+            return it->second;
+        }
+        FEANode midNode;
+        midNode.id = static_cast<uint32_t>(nodes_.size());
+        midNode.x = 0.5 * (nodes_[a].x + nodes_[b].x);
+        midNode.y = 0.5 * (nodes_[a].y + nodes_[b].y);
+        midNode.z = 0.5 * (nodes_[a].z + nodes_[b].z);
+        nodes_.push_back(midNode);
+        edgeToMid[key] = midNode.id;
+        return midNode.id;
+    };
+
+    uint32_t elemId = 0;
+    for (int i = 0; i < nx; ++i) {
+        for (int j = 0; j < ny; ++j) {
+            for (int k = 0; k < nz; ++k) {
+                uint32_t v0 = cornerNodeIndex(i,   j,   k);
+                uint32_t v1 = cornerNodeIndex(i+1, j,   k);
+                uint32_t v2 = cornerNodeIndex(i+1, j+1, k);
+                uint32_t v3 = cornerNodeIndex(i,   j+1, k);
+                uint32_t v4 = cornerNodeIndex(i,   j,   k+1);
+                uint32_t v5 = cornerNodeIndex(i+1, j,   k+1);
+                uint32_t v6 = cornerNodeIndex(i+1, j+1, k+1);
+                uint32_t v7 = cornerNodeIndex(i,   j+1, k+1);
+
+                uint32_t tets[5][4];
+                if ((i + j + k) % 2 == 0) {
+                    tets[0][0] = v0; tets[0][1] = v1; tets[0][2] = v3; tets[0][3] = v4;
+                    tets[1][0] = v1; tets[1][1] = v2; tets[1][2] = v3; tets[1][3] = v6;
+                    tets[2][0] = v1; tets[2][1] = v4; tets[2][2] = v5; tets[2][3] = v6;
+                    tets[3][0] = v3; tets[3][1] = v4; tets[3][2] = v6; tets[3][3] = v7;
+                    tets[4][0] = v1; tets[4][1] = v3; tets[4][2] = v4; tets[4][3] = v6;
+                } else {
+                    tets[0][0] = v1; tets[0][1] = v2; tets[0][2] = v0; tets[0][3] = v5;
+                    tets[1][0] = v0; tets[1][1] = v3; tets[1][2] = v2; tets[1][3] = v7;
+                    tets[2][0] = v0; tets[2][1] = v5; tets[2][2] = v7; tets[2][3] = v4;
+                    tets[3][0] = v2; tets[3][1] = v5; tets[3][2] = v6; tets[3][3] = v7;
+                    tets[4][0] = v0; tets[4][1] = v2; tets[4][2] = v5; tets[4][3] = v7;
+                }
+
+                for (int t = 0; t < 5; ++t) {
+                    FEATet10 el;
+                    el.id = elemId++;
+                    uint32_t c0 = tets[t][0];
+                    uint32_t c1 = tets[t][1];
+                    uint32_t c2 = tets[t][2];
+                    uint32_t c3 = tets[t][3];
+
+                    // Check signed volume of corners to ensure positive orientation
+                    const auto& p0 = nodes_[c0];
+                    const auto& p1 = nodes_[c1];
+                    const auto& p2 = nodes_[c2];
+                    const auto& p3 = nodes_[c3];
+                    double v1x = p1.x - p0.x, v1y = p1.y - p0.y, v1z = p1.z - p0.z;
+                    double v2x = p2.x - p0.x, v2y = p2.y - p0.y, v2z = p2.z - p0.z;
+                    double v3x = p3.x - p0.x, v3y = p3.y - p0.y, v3z = p3.z - p0.z;
+                    double det = v1x * (v2y * v3z - v2z * v3y) -
+                                 v1y * (v2x * v3z - v2z * v3x) +
+                                 v1z * (v2x * v3y - v2y * v3x);
+                    if (det < 0.0) {
+                        std::swap(c1, c2);
+                    }
+
+                    el.nodes[0] = c0;
+                    el.nodes[1] = c1;
+                    el.nodes[2] = c2;
+                    el.nodes[3] = c3;
+
+                    // 6 midside nodes along the 6 edges
+                    el.nodes[4] = getOrCreateMidNode(c0, c1);
+                    el.nodes[5] = getOrCreateMidNode(c1, c2);
+                    el.nodes[6] = getOrCreateMidNode(c2, c0);
+                    el.nodes[7] = getOrCreateMidNode(c0, c3);
+                    el.nodes[8] = getOrCreateMidNode(c1, c3);
+                    el.nodes[9] = getOrCreateMidNode(c2, c3);
+
+                    tet10Elements_.push_back(el);
+                }
+            }
+        }
+    }
+}
+
+SimulationResult SimulationEngine::SolveTet10(double deformationScale) {
+    SimulationResult result;
+    if (nodes_.empty() || tet10Elements_.empty()) {
+        result.success = false;
+        result.errorMessage = "Tet10 simulation mesh is empty";
+        return result;
+    }
+
+    size_t numNodes = nodes_.size();
+    size_t numDOFs = numNodes * 3;
+
+    double lambda = (youngModulusPa_ * poissonRatio_) / ((1.0 + poissonRatio_) * (1.0 - 2.0 * poissonRatio_));
+    double mu = youngModulusPa_ / (2.0 * (1.0 + poissonRatio_));
+
+    std::vector<std::unordered_map<int, double>> K_map(numDOFs);
+    const auto gaussPoints = GetTetGaussPoints();
+
+    for (auto& el : tet10Elements_) {
+        double coords[10][3];
+        for (int i = 0; i < 10; ++i) {
+            coords[i][0] = nodes_[el.nodes[i]].x;
+            coords[i][1] = nodes_[el.nodes[i]].y;
+            coords[i][2] = nodes_[el.nodes[i]].z;
+        }
+
+        double elemVol = 0.0;
+
+        for (int p = 0; p < 4; ++p) {
+            const auto& gp = gaussPoints[p];
+            double J[3][3] = {0.0};
+            for (int j = 0; j < 3; ++j) {
+                for (int k = 0; k < 3; ++k) {
+                    double sum = 0.0;
+                    for (int a = 0; a < 10; ++a) {
+                        sum += gp.dN_dzeta[a][j] * coords[a][k];
+                    }
+                    J[j][k] = sum;
+                }
+            }
+
+            double invJ[3][3];
+            double detJ = 0.0;
+            if (!Invert3x3(J, invJ, detJ) || detJ <= 0.0) continue;
+
+            double dW = detJ * (1.0 / 24.0);
+            elemVol += dW;
+
+            double b[10], c[10], d[10];
+            for (int a = 0; a < 10; ++a) {
+                b[a] = invJ[0][0] * gp.dN_dzeta[a][0] + invJ[0][1] * gp.dN_dzeta[a][1] + invJ[0][2] * gp.dN_dzeta[a][2];
+                c[a] = invJ[1][0] * gp.dN_dzeta[a][0] + invJ[1][1] * gp.dN_dzeta[a][1] + invJ[1][2] * gp.dN_dzeta[a][2];
+                d[a] = invJ[2][0] * gp.dN_dzeta[a][0] + invJ[2][1] * gp.dN_dzeta[a][1] + invJ[2][2] * gp.dN_dzeta[a][2];
+            }
+
+            for (int a = 0; a < 10; ++a) {
+                uint32_t na = el.nodes[a];
+                for (int b_node = 0; b_node < 10; ++b_node) {
+                    uint32_t nb = el.nodes[b_node];
+
+                    double k00 = dW * ((lambda + 2.0 * mu) * b[a] * b[b_node] + mu * (c[a] * c[b_node] + d[a] * d[b_node]));
+                    double k01 = dW * (lambda * b[a] * c[b_node] + mu * c[a] * b[b_node]);
+                    double k02 = dW * (lambda * b[a] * d[b_node] + mu * d[a] * b[b_node]);
+
+                    double k10 = dW * (lambda * c[a] * b[b_node] + mu * b[a] * c[b_node]);
+                    double k11 = dW * ((lambda + 2.0 * mu) * c[a] * c[b_node] + mu * (b[a] * b[b_node] + d[a] * d[b_node]));
+                    double k12 = dW * (lambda * c[a] * d[b_node] + mu * d[a] * c[b_node]);
+
+                    double k20 = dW * (lambda * d[a] * b[b_node] + mu * b[a] * d[b_node]);
+                    double k21 = dW * (lambda * d[a] * c[b_node] + mu * c[a] * d[b_node]);
+                    double k22 = dW * ((lambda + 2.0 * mu) * d[a] * d[b_node] + mu * (b[a] * b[b_node] + c[a] * c[b_node]));
+
+                    K_map[3 * na + 0][3 * nb + 0] += k00;
+                    K_map[3 * na + 0][3 * nb + 1] += k01;
+                    K_map[3 * na + 0][3 * nb + 2] += k02;
+
+                    K_map[3 * na + 1][3 * nb + 0] += k10;
+                    K_map[3 * na + 1][3 * nb + 1] += k11;
+                    K_map[3 * na + 1][3 * nb + 2] += k12;
+
+                    K_map[3 * na + 2][3 * nb + 0] += k20;
+                    K_map[3 * na + 2][3 * nb + 1] += k21;
+                    K_map[3 * na + 2][3 * nb + 2] += k22;
+                }
+            }
+        }
+        el.volumeM3 = elemVol;
+    }
+
+    std::vector<std::vector<std::pair<int, double>>> K_rows(numDOFs);
+    for (size_t i = 0; i < numDOFs; ++i) {
+        K_rows[i].reserve(K_map[i].size());
+        for (const auto& kv : K_map[i]) {
+            if (std::abs(kv.second) > 1e-18) {
+                K_rows[i].emplace_back(kv.first, kv.second);
+            }
+        }
+    }
+
+    std::vector<double> F(numDOFs, 0.0);
+    ApplyBoundaryConditions(F, K_rows);
+
+    std::vector<double> invDiag(numDOFs, 1.0);
+    for (size_t i = 0; i < numDOFs; ++i) {
+        double diag = 1.0;
+        for (const auto& entry : K_rows[i]) {
+            if (entry.first == static_cast<int>(i)) {
+                diag = entry.second;
+                break;
+            }
+        }
+        if (std::abs(diag) > 1e-12) invDiag[i] = 1.0 / diag;
+    }
+
+    const int maxIterations = static_cast<int>(std::max(800UL, numDOFs * 3));
+    std::vector<double> U = SolvePCGInternal(K_rows, F, invDiag, maxIterations, 1e-7);
+
+    double maxDispM = 0.0;
+    for (size_t i = 0; i < numNodes; ++i) {
+        nodes_[i].uX = U[3 * i + 0];
+        nodes_[i].uY = U[3 * i + 1];
+        nodes_[i].uZ = U[3 * i + 2];
+        double d = std::sqrt(nodes_[i].uX * nodes_[i].uX +
+                             nodes_[i].uY * nodes_[i].uY +
+                             nodes_[i].uZ * nodes_[i].uZ);
+        if (d > maxDispM) maxDispM = d;
+    }
+
+    std::vector<double> nodeStressSum(numNodes, 0.0);
+    std::vector<double> nodeVolSum(numNodes, 0.0);
+    double maxStressPa = 0.0;
+    double minStressPa = 1e20;
+
+    for (auto& el : tet10Elements_) {
+        double coords[10][3];
+        for (int i = 0; i < 10; ++i) {
+            coords[i][0] = nodes_[el.nodes[i]].x;
+            coords[i][1] = nodes_[el.nodes[i]].y;
+            coords[i][2] = nodes_[el.nodes[i]].z;
+        }
+
+        double elStressSum = 0.0;
+        int validGP = 0;
+
+        for (int p = 0; p < 4; ++p) {
+            const auto& gp = gaussPoints[p];
+            double J[3][3] = {0.0};
+            for (int j = 0; j < 3; ++j) {
+                for (int k = 0; k < 3; ++k) {
+                    double sum = 0.0;
+                    for (int a = 0; a < 10; ++a) sum += gp.dN_dzeta[a][j] * coords[a][k];
+                    J[j][k] = sum;
+                }
+            }
+            double invJ[3][3];
+            double detJ = 0.0;
+            if (!Invert3x3(J, invJ, detJ) || detJ <= 0.0) continue;
+
+            double b[10], c[10], d[10];
+            for (int a = 0; a < 10; ++a) {
+                b[a] = invJ[0][0] * gp.dN_dzeta[a][0] + invJ[0][1] * gp.dN_dzeta[a][1] + invJ[0][2] * gp.dN_dzeta[a][2];
+                c[a] = invJ[1][0] * gp.dN_dzeta[a][0] + invJ[1][1] * gp.dN_dzeta[a][1] + invJ[1][2] * gp.dN_dzeta[a][2];
+                d[a] = invJ[2][0] * gp.dN_dzeta[a][0] + invJ[2][1] * gp.dN_dzeta[a][1] + invJ[2][2] * gp.dN_dzeta[a][2];
+            }
+
+            double epsXX = 0.0, epsYY = 0.0, epsZZ = 0.0;
+            double gamXY = 0.0, gamYZ = 0.0, gamZX = 0.0;
+            for (int a = 0; a < 10; ++a) {
+                const auto& nd = nodes_[el.nodes[a]];
+                epsXX += b[a] * nd.uX;
+                epsYY += c[a] * nd.uY;
+                epsZZ += d[a] * nd.uZ;
+                gamXY += c[a] * nd.uX + b[a] * nd.uY;
+                gamYZ += d[a] * nd.uY + c[a] * nd.uZ;
+                gamZX += d[a] * nd.uX + b[a] * nd.uZ;
+            }
+
+            double sigXX = (lambda + 2.0 * mu) * epsXX + lambda * (epsYY + epsZZ);
+            double sigYY = (lambda + 2.0 * mu) * epsYY + lambda * (epsXX + epsZZ);
+            double sigZZ = (lambda + 2.0 * mu) * epsZZ + lambda * (epsXX + epsYY);
+            double tauXY = mu * gamXY;
+            double tauYZ = mu * gamYZ;
+            double tauZX = mu * gamZX;
+
+            double sxx_syy = sigXX - sigYY;
+            double syy_szz = sigYY - sigZZ;
+            double szz_sxx = sigZZ - sigXX;
+            double vm = std::sqrt(0.5 * (sxx_syy * sxx_syy + syy_szz * syy_szz + szz_sxx * szz_sxx +
+                                         6.0 * (tauXY * tauXY + tauYZ * tauYZ + tauZX * tauZX)));
+            elStressSum += vm;
+            validGP++;
+        }
+
+        double avgVM = (validGP > 0) ? (elStressSum / validGP) : 0.0;
+        el.vonMisesStressPa = avgVM;
+
+        for (int a = 0; a < 10; ++a) {
+            uint32_t nid = el.nodes[a];
+            nodeStressSum[nid] += avgVM * el.volumeM3;
+            nodeVolSum[nid] += el.volumeM3;
+        }
+    }
+
+    for (size_t i = 0; i < numNodes; ++i) {
+        if (nodeVolSum[i] > 1e-18) {
+            nodes_[i].vonMisesStressPa = nodeStressSum[i] / nodeVolSum[i];
+        } else {
+            nodes_[i].vonMisesStressPa = 0.0;
+        }
+        if (nodes_[i].vonMisesStressPa > maxStressPa) maxStressPa = nodes_[i].vonMisesStressPa;
+        if (nodes_[i].vonMisesStressPa < minStressPa) minStressPa = nodes_[i].vonMisesStressPa;
+    }
+
+    if (minStressPa > maxStressPa) minStressPa = 0.0;
+
+    result.success = true;
+    result.nodeCount = static_cast<uint32_t>(numNodes);
+    result.elementCount = static_cast<uint32_t>(tet10Elements_.size());
+    result.maxVonMisesStressMPa = maxStressPa * 1e-6;
+    result.minVonMisesStressMPa = minStressPa * 1e-6;
+    result.maxDisplacementMm = maxDispM * 1e3;
+    result.minSafetyFactor = (maxStressPa > 1e-3) ? (yieldStrengthPa_ / maxStressPa) : 999.0;
+    result.visualMesh = BuildVisualSurfaceMeshTet10(deformationScale, result.minVonMisesStressMPa, result.maxVonMisesStressMPa);
+
+    return result;
+}
+
+SimulationMeshPayload SimulationEngine::BuildVisualSurfaceMeshTet10(double deformationScale,
+                                                                   double minStressMPa,
+                                                                   double maxStressMPa) {
+    SimulationMeshPayload payload;
+
+    struct Face10 {
+        uint32_t c[3];
+        uint32_t m[3];
+    };
+
+    std::unordered_map<TriangleKey, int, TriangleKeyHash> faceCounts;
+    for (const auto& el : tet10Elements_) {
+        uint32_t cFaces[4][3] = {
+            {el.nodes[0], el.nodes[1], el.nodes[2]},
+            {el.nodes[0], el.nodes[3], el.nodes[1]},
+            {el.nodes[1], el.nodes[3], el.nodes[2]},
+            {el.nodes[2], el.nodes[3], el.nodes[0]}
+        };
+        for (int f = 0; f < 4; ++f) {
+            faceCounts[MakeKey(cFaces[f][0], cFaces[f][1], cFaces[f][2])]++;
+        }
+    }
+
+    std::unordered_map<uint32_t, uint32_t> nodeToVisual;
+    auto addVisualVertex = [&](uint32_t nid) -> uint32_t {
+        auto it = nodeToVisual.find(nid);
+        if (it != nodeToVisual.end()) return it->second;
+
+        const auto& n = nodes_[nid];
+        uint32_t vidx = static_cast<uint32_t>(payload.positions.size() / 3);
+
+        double px = (n.x + deformationScale * n.uX) * 1e3;
+        double py = (n.y + deformationScale * n.uY) * 1e3;
+        double pz = (n.z + deformationScale * n.uZ) * 1e3;
+
+        payload.positions.push_back(static_cast<float>(px));
+        payload.positions.push_back(static_cast<float>(py));
+        payload.positions.push_back(static_cast<float>(pz));
+
+        double stressMPa = n.vonMisesStressPa * 1e-6;
+        payload.stressesMPa.push_back(static_cast<float>(stressMPa));
+
+        double dispMm = std::sqrt(n.uX * n.uX + n.uY * n.uY + n.uZ * n.uZ) * 1e3;
+        payload.displacementsMm.push_back(static_cast<float>(dispMm));
+
+        double range = maxStressMPa - minStressMPa;
+        double t = (range > 1e-6) ? ((stressMPa - minStressMPa) / range) : 0.0;
+        float r, g, b;
+        GetStressColor(t, r, g, b);
+        payload.colors.push_back(r);
+        payload.colors.push_back(g);
+        payload.colors.push_back(b);
+
+        nodeToVisual[nid] = vidx;
+        return vidx;
+    };
+
+    for (const auto& el : tet10Elements_) {
+        Face10 f10[4] = {
+            {{el.nodes[0], el.nodes[1], el.nodes[2]}, {el.nodes[4], el.nodes[5], el.nodes[6]}},
+            {{el.nodes[0], el.nodes[3], el.nodes[1]}, {el.nodes[7], el.nodes[8], el.nodes[4]}},
+            {{el.nodes[1], el.nodes[3], el.nodes[2]}, {el.nodes[8], el.nodes[9], el.nodes[5]}},
+            {{el.nodes[2], el.nodes[3], el.nodes[0]}, {el.nodes[9], el.nodes[7], el.nodes[6]}}
+        };
+
+        for (int f = 0; f < 4; ++f) {
+            TriangleKey key = MakeKey(f10[f].c[0], f10[f].c[1], f10[f].c[2]);
+            if (faceCounts[key] == 1) {
+                uint32_t c0 = addVisualVertex(f10[f].c[0]);
+                uint32_t c1 = addVisualVertex(f10[f].c[1]);
+                uint32_t c2 = addVisualVertex(f10[f].c[2]);
+                uint32_t m0 = addVisualVertex(f10[f].m[0]);
+                uint32_t m1 = addVisualVertex(f10[f].m[1]);
+                uint32_t m2 = addVisualVertex(f10[f].m[2]);
+
+                payload.indices.push_back(c0); payload.indices.push_back(m0); payload.indices.push_back(m2);
+                payload.indices.push_back(m0); payload.indices.push_back(c1); payload.indices.push_back(m1);
+                payload.indices.push_back(m2); payload.indices.push_back(m1); payload.indices.push_back(c2);
+                payload.indices.push_back(m0); payload.indices.push_back(m1); payload.indices.push_back(m2);
+            }
+        }
+    }
+    return payload;
+}
+
+ModalAnalysisResult SimulationEngine::SolveModal(int numModes, double deformationScale) {
+    ModalAnalysisResult result;
+    bool useTet10 = !tet10Elements_.empty();
+    if (nodes_.empty() || (!useTet10 && elements_.empty())) {
+        result.success = false;
+        result.errorMessage = "Mesh is empty for modal analysis";
+        return result;
+    }
+
+    size_t numNodes = nodes_.size();
+    size_t numDOFs = numNodes * 3;
+
+    double lambda = (youngModulusPa_ * poissonRatio_) / ((1.0 + poissonRatio_) * (1.0 - 2.0 * poissonRatio_));
+    double mu = youngModulusPa_ / (2.0 * (1.0 + poissonRatio_));
+
+    std::vector<std::unordered_map<int, double>> K_map(numDOFs);
+    std::vector<double> M_diag(numDOFs, 0.0);
+
+    if (useTet10) {
+        const auto gaussPoints = GetTetGaussPoints();
+        for (auto& el : tet10Elements_) {
+            double coords[10][3];
+            for (int i = 0; i < 10; ++i) {
+                coords[i][0] = nodes_[el.nodes[i]].x;
+                coords[i][1] = nodes_[el.nodes[i]].y;
+                coords[i][2] = nodes_[el.nodes[i]].z;
+            }
+
+            double elemVol = 0.0;
+            for (int p = 0; p < 4; ++p) {
+                const auto& gp = gaussPoints[p];
+                double J[3][3] = {0.0};
+                for (int j = 0; j < 3; ++j) {
+                    for (int k = 0; k < 3; ++k) {
+                        double sum = 0.0;
+                        for (int a = 0; a < 10; ++a) sum += gp.dN_dzeta[a][j] * coords[a][k];
+                        J[j][k] = sum;
+                    }
+                }
+                double invJ[3][3];
+                double detJ = 0.0;
+                if (!Invert3x3(J, invJ, detJ) || detJ <= 0.0) continue;
+
+                double dW = detJ * (1.0 / 24.0);
+                elemVol += dW;
+
+                double b[10], c[10], d[10];
+                for (int a = 0; a < 10; ++a) {
+                    b[a] = invJ[0][0] * gp.dN_dzeta[a][0] + invJ[0][1] * gp.dN_dzeta[a][1] + invJ[0][2] * gp.dN_dzeta[a][2];
+                    c[a] = invJ[1][0] * gp.dN_dzeta[a][0] + invJ[1][1] * gp.dN_dzeta[a][1] + invJ[1][2] * gp.dN_dzeta[a][2];
+                    d[a] = invJ[2][0] * gp.dN_dzeta[a][0] + invJ[2][1] * gp.dN_dzeta[a][1] + invJ[2][2] * gp.dN_dzeta[a][2];
+                }
+
+                for (int a = 0; a < 10; ++a) {
+                    uint32_t na = el.nodes[a];
+                    for (int b_node = 0; b_node < 10; ++b_node) {
+                        uint32_t nb = el.nodes[b_node];
+
+                        double k00 = dW * ((lambda + 2.0 * mu) * b[a] * b[b_node] + mu * (c[a] * c[b_node] + d[a] * d[b_node]));
+                        double k01 = dW * (lambda * b[a] * c[b_node] + mu * c[a] * b[b_node]);
+                        double k02 = dW * (lambda * b[a] * d[b_node] + mu * d[a] * b[b_node]);
+
+                        double k10 = dW * (lambda * c[a] * b[b_node] + mu * b[a] * c[b_node]);
+                        double k11 = dW * ((lambda + 2.0 * mu) * c[a] * c[b_node] + mu * (b[a] * b[b_node] + d[a] * d[b_node]));
+                        double k12 = dW * (lambda * c[a] * d[b_node] + mu * d[a] * c[b_node]);
+
+                        double k20 = dW * (lambda * d[a] * b[b_node] + mu * b[a] * d[b_node]);
+                        double k21 = dW * (lambda * d[a] * c[b_node] + mu * c[a] * d[b_node]);
+                        double k22 = dW * ((lambda + 2.0 * mu) * d[a] * d[b_node] + mu * (b[a] * b[b_node] + c[a] * c[b_node]));
+
+                        K_map[3 * na + 0][3 * nb + 0] += k00;
+                        K_map[3 * na + 0][3 * nb + 1] += k01;
+                        K_map[3 * na + 0][3 * nb + 2] += k02;
+
+                        K_map[3 * na + 1][3 * nb + 0] += k10;
+                        K_map[3 * na + 1][3 * nb + 1] += k11;
+                        K_map[3 * na + 1][3 * nb + 2] += k12;
+
+                        K_map[3 * na + 2][3 * nb + 0] += k20;
+                        K_map[3 * na + 2][3 * nb + 1] += k21;
+                        K_map[3 * na + 2][3 * nb + 2] += k22;
+                    }
+                }
+            }
+            el.volumeM3 = elemVol;
+            double elemMass = densityKgM3_ * elemVol;
+            for (int a = 0; a < 4; ++a) {
+                uint32_t na = el.nodes[a];
+                double mNode = elemMass * (3.0 / 140.0);
+                M_diag[3 * na + 0] += mNode;
+                M_diag[3 * na + 1] += mNode;
+                M_diag[3 * na + 2] += mNode;
+            }
+            for (int a = 4; a < 10; ++a) {
+                uint32_t na = el.nodes[a];
+                double mNode = elemMass * (16.0 / 105.0);
+                M_diag[3 * na + 0] += mNode;
+                M_diag[3 * na + 1] += mNode;
+                M_diag[3 * na + 2] += mNode;
+            }
+        }
+    } else {
+        for (auto& el : elements_) {
+            const auto& n0 = nodes_[el.nodes[0]];
+            const auto& n1 = nodes_[el.nodes[1]];
+            const auto& n2 = nodes_[el.nodes[2]];
+            const auto& n3 = nodes_[el.nodes[3]];
+
+            double M[16] = {
+                1.0, n0.x, n0.y, n0.z,
+                1.0, n1.x, n1.y, n1.z,
+                1.0, n2.x, n2.y, n2.z,
+                1.0, n3.x, n3.y, n3.z
+            };
+            double v1x = n1.x - n0.x, v1y = n1.y - n0.y, v1z = n1.z - n0.z;
+            double v2x = n2.x - n0.x, v2y = n2.y - n0.y, v2z = n2.z - n0.z;
+            double v3x = n3.x - n0.x, v3y = n3.y - n0.y, v3z = n3.z - n0.z;
+            double det = v1x * (v2y * v3z - v2z * v3y) -
+                         v1y * (v2x * v3z - v2z * v3x) +
+                         v1z * (v2x * v3y - v2y * v3x);
+            if (det < 0.0) {
+                std::swap(el.nodes[1], el.nodes[2]);
+                det = -det;
+            }
+            double vol = det / 6.0;
+            if (vol < 1e-18) continue;
+            el.volumeM3 = vol;
+
+            double invM[16];
+            if (!Invert4x4(M, invM)) continue;
+            double b[4], c[4], d[4];
+            for (int i = 0; i < 4; ++i) {
+                b[i] = invM[1 * 4 + i];
+                c[i] = invM[2 * 4 + i];
+                d[i] = invM[3 * 4 + i];
+            }
+
+            for (int i = 0; i < 4; ++i) {
+                uint32_t ni = el.nodes[i];
+                for (int j = 0; j < 4; ++j) {
+                    uint32_t nj = el.nodes[j];
+                    double k00 = vol * ((lambda + 2.0 * mu) * b[i] * b[j] + mu * (c[i] * c[j] + d[i] * d[j]));
+                    double k01 = vol * (lambda * b[i] * c[j] + mu * c[i] * b[j]);
+                    double k02 = vol * (lambda * b[i] * d[j] + mu * d[i] * b[j]);
+                    double k10 = vol * (lambda * c[i] * b[j] + mu * b[i] * c[j]);
+                    double k11 = vol * ((lambda + 2.0 * mu) * c[i] * c[j] + mu * (b[i] * b[j] + d[i] * d[j]));
+                    double k12 = vol * (lambda * c[i] * d[j] + mu * d[i] * c[j]);
+                    double k20 = vol * (lambda * d[i] * b[j] + mu * b[i] * d[j]);
+                    double k21 = vol * (lambda * d[i] * c[j] + mu * c[i] * d[j]);
+                    double k22 = vol * ((lambda + 2.0 * mu) * d[i] * d[j] + mu * (b[i] * b[j] + c[i] * c[j]));
+
+                    K_map[3 * ni + 0][3 * nj + 0] += k00;
+                    K_map[3 * ni + 0][3 * nj + 1] += k01;
+                    K_map[3 * ni + 0][3 * nj + 2] += k02;
+
+                    K_map[3 * ni + 1][3 * nj + 0] += k10;
+                    K_map[3 * ni + 1][3 * nj + 1] += k11;
+                    K_map[3 * ni + 1][3 * nj + 2] += k12;
+
+                    K_map[3 * ni + 2][3 * nj + 0] += k20;
+                    K_map[3 * ni + 2][3 * nj + 1] += k21;
+                    K_map[3 * ni + 2][3 * nj + 2] += k22;
+                }
+            }
+
+            double elemMass = densityKgM3_ * vol;
+            for (int i = 0; i < 4; ++i) {
+                uint32_t ni = el.nodes[i];
+                double mNode = 0.25 * elemMass;
+                M_diag[3 * ni + 0] += mNode;
+                M_diag[3 * ni + 1] += mNode;
+                M_diag[3 * ni + 2] += mNode;
+            }
+        }
+    }
+
+    std::vector<std::vector<std::pair<int, double>>> K_rows(numDOFs);
+    for (size_t i = 0; i < numDOFs; ++i) {
+        K_rows[i].reserve(K_map[i].size());
+        for (const auto& kv : K_map[i]) {
+            if (std::abs(kv.second) > 1e-18) {
+                K_rows[i].emplace_back(kv.first, kv.second);
+            }
+        }
+    }
+
+    std::vector<bool> isFixedDof(numDOFs, false);
+    for (const auto& bc : constraints_) {
+        for (auto& n : nodes_) {
+            double xm = n.x * 1e3;
+            double ym = n.y * 1e3;
+            double zm = n.z * 1e3;
+            if (xm >= bc.minX - 1e-6 && xm <= bc.maxX + 1e-6 &&
+                ym >= bc.minY - 1e-6 && ym <= bc.maxY + 1e-6 &&
+                zm >= bc.minZ - 1e-6 && zm <= bc.maxZ + 1e-6) {
+                if (bc.type == ConstraintType::FIXED || bc.type == ConstraintType::PIN) {
+                    isFixedDof[3 * n.id + 0] = true;
+                    isFixedDof[3 * n.id + 1] = true;
+                    isFixedDof[3 * n.id + 2] = true;
+                }
+            }
+        }
+    }
+
+    for (size_t d = 0; d < numDOFs; ++d) {
+        if (isFixedDof[d]) {
+            K_rows[d].clear();
+            K_rows[d].emplace_back(static_cast<int>(d), 1.0);
+            M_diag[d] = 0.0;
+        }
+    }
+
+    for (size_t row = 0; row < numDOFs; ++row) {
+        if (isFixedDof[row]) continue;
+        for (auto& entry : K_rows[row]) {
+            if (entry.first != static_cast<int>(row) && isFixedDof[entry.first]) {
+                entry.second = 0.0;
+            }
+        }
+    }
+
+    std::vector<double> invDiag(numDOFs, 1.0);
+    for (size_t i = 0; i < numDOFs; ++i) {
+        double diag = 1.0;
+        for (const auto& entry : K_rows[i]) {
+            if (entry.first == static_cast<int>(i)) {
+                diag = entry.second;
+                break;
+            }
+        }
+        if (std::abs(diag) > 1e-12) invDiag[i] = 1.0 / diag;
+    }
+
+    int actualModes = std::max(1, std::min(numModes, 6));
+    std::vector<std::vector<double>> modeVectors;
+
+    for (int k = 0; k < actualModes; ++k) {
+        std::vector<double> v(numDOFs, 0.0);
+        for (size_t i = 0; i < numNodes; ++i) {
+            double xi = nodes_[i].x;
+            double phase = (k + 1) * M_PI * (xi * 5.0 + 0.1);
+            v[3 * i + 0] = 0.02 * std::cos(phase);
+            v[3 * i + 1] = ((k % 2) == 0) ? std::sin(phase) : 0.05 * std::cos(phase);
+            v[3 * i + 2] = ((k % 2) == 1) ? std::sin(phase) : 0.05 * std::cos(phase);
+        }
+
+        for (size_t d = 0; d < numDOFs; ++d) {
+            if (isFixedDof[d]) v[d] = 0.0;
+        }
+
+        for (int prev = 0; prev < k; ++prev) {
+            double dot = 0.0;
+            for (size_t d = 0; d < numDOFs; ++d) dot += v[d] * M_diag[d] * modeVectors[prev][d];
+            for (size_t d = 0; d < numDOFs; ++d) v[d] -= dot * modeVectors[prev][d];
+        }
+
+        double vMv = 0.0;
+        for (size_t d = 0; d < numDOFs; ++d) vMv += v[d] * M_diag[d] * v[d];
+        if (vMv > 1e-18) {
+            double s = 1.0 / std::sqrt(vMv);
+            for (size_t d = 0; d < numDOFs; ++d) v[d] *= s;
+        }
+
+        double lambdaEig = 0.0;
+        for (int iter = 0; iter < 45; ++iter) {
+            std::vector<double> b(numDOFs, 0.0);
+            for (size_t d = 0; d < numDOFs; ++d) {
+                if (!isFixedDof[d]) b[d] = M_diag[d] * v[d];
+            }
+
+            std::vector<double> w = SolvePCGInternal(K_rows, b, invDiag, 600, 1e-7);
+
+            for (size_t d = 0; d < numDOFs; ++d) {
+                if (isFixedDof[d]) w[d] = 0.0;
+            }
+
+            for (int prev = 0; prev < k; ++prev) {
+                double dot = 0.0;
+                for (size_t d = 0; d < numDOFs; ++d) dot += w[d] * M_diag[d] * modeVectors[prev][d];
+                for (size_t d = 0; d < numDOFs; ++d) w[d] -= dot * modeVectors[prev][d];
+            }
+
+            double wMv = 0.0;
+            double wMw = 0.0;
+            for (size_t d = 0; d < numDOFs; ++d) {
+                wMv += w[d] * M_diag[d] * v[d];
+                wMw += w[d] * M_diag[d] * w[d];
+            }
+
+            if (wMw < 1e-25 || wMv < 1e-25) break;
+
+            double lambdaNew = wMv / wMw;
+            double invNorm = 1.0 / std::sqrt(wMw);
+            for (size_t d = 0; d < numDOFs; ++d) v[d] = w[d] * invNorm;
+
+            if (iter > 2 && std::abs(lambdaNew - lambdaEig) / std::max(1.0, lambdaNew) < 1e-5) {
+                lambdaEig = lambdaNew;
+                break;
+            }
+            lambdaEig = lambdaNew;
+        }
+
+        if (lambdaEig <= 0.0) continue;
+
+        modeVectors.push_back(v);
+
+        double omega = std::sqrt(lambdaEig);
+        double freqHz = omega / (2.0 * M_PI);
+
+        double maxD = 0.0;
+        for (size_t i = 0; i < numNodes; ++i) {
+            double d = std::sqrt(v[3 * i + 0] * v[3 * i + 0] +
+                                 v[3 * i + 1] * v[3 * i + 1] +
+                                 v[3 * i + 2] * v[3 * i + 2]);
+            if (d > maxD) maxD = d;
+        }
+        if (maxD < 1e-12) maxD = 1.0;
+
+        ModeShape mode;
+        mode.modeNumber = static_cast<uint32_t>(k + 1);
+        mode.frequencyHz = freqHz;
+        mode.angularFreqRadS = omega;
+
+        for (size_t i = 0; i < numNodes; ++i) {
+            nodes_[i].uX = v[3 * i + 0] / maxD;
+            nodes_[i].uY = v[3 * i + 1] / maxD;
+            nodes_[i].uZ = v[3 * i + 2] / maxD;
+            double dMm = std::sqrt(nodes_[i].uX * nodes_[i].uX +
+                                   nodes_[i].uY * nodes_[i].uY +
+                                   nodes_[i].uZ * nodes_[i].uZ) * 1e3;
+            mode.displacementsMm.push_back(static_cast<float>(dMm));
+            nodes_[i].vonMisesStressPa = (dMm / 1e3) * 1e8;
+        }
+
+        if (useTet10) {
+            mode.visualMesh = BuildVisualSurfaceMeshTet10(deformationScale, 0.0, 100.0);
+        } else {
+            mode.visualMesh = BuildVisualSurfaceMesh(deformationScale, 0.0, 100.0);
+        }
+
+        result.modes.push_back(mode);
+    }
+
+    result.success = !result.modes.empty();
+    result.nodeCount = static_cast<uint32_t>(numNodes);
+    result.elementCount = static_cast<uint32_t>(useTet10 ? tet10Elements_.size() : elements_.size());
+    return result;
+}
+
+SimulationResult SimulationEngine::SolveCantileverBeamTet10(double lengthMm, double widthMm, double heightMm,
+                                                            double pointLoadForceN,
+                                                            const Material& material,
+                                                            double deformationScale,
+                                                            int nx, int ny, int nz) {
+    SimulationEngine sim;
+    sim.SetMaterial(material);
+    sim.GenerateBeamMeshTet10(lengthMm, widthMm, heightMm, nx, ny, nz);
+
+    BoundaryConstraint fixedBC;
+    fixedBC.type = ConstraintType::FIXED;
+    fixedBC.minX = -1.0;
+    fixedBC.maxX = 0.01;
+    fixedBC.minY = -1e9;
+    fixedBC.maxY = 1e9;
+    fixedBC.minZ = -1e9;
+    fixedBC.maxZ = 1e9;
+    sim.AddConstraint(fixedBC);
+
+    StructuralLoad tipLoad;
+    tipLoad.type = LoadType::TOTAL_FORCE;
+    tipLoad.forceX = 0.0;
+    tipLoad.forceY = 0.0;
+    tipLoad.forceZ = -pointLoadForceN;
+    tipLoad.minX = lengthMm - 0.01;
+    tipLoad.maxX = lengthMm + 1.0;
+    tipLoad.minY = -1e9;
+    tipLoad.maxY = 1e9;
+    tipLoad.minZ = -1e9;
+    tipLoad.maxZ = 1e9;
+    sim.AddLoad(tipLoad);
+
+    return sim.SolveTet10(deformationScale);
+}
+
+ModalAnalysisResult SimulationEngine::SolveCantileverModal(double lengthMm, double widthMm, double heightMm,
+                                                          const Material& material,
+                                                          int numModes,
+                                                          double deformationScale,
+                                                          int nx, int ny, int nz) {
+    SimulationEngine sim;
+    sim.SetMaterial(material);
+    sim.GenerateBeamMeshTet10(lengthMm, widthMm, heightMm, nx, ny, nz);
+
+    BoundaryConstraint fixedBC;
+    fixedBC.type = ConstraintType::FIXED;
+    fixedBC.minX = -1.0;
+    fixedBC.maxX = 0.01;
+    fixedBC.minY = -1e9;
+    fixedBC.maxY = 1e9;
+    fixedBC.minZ = -1e9;
+    fixedBC.maxZ = 1e9;
+    sim.AddConstraint(fixedBC);
+
+    return sim.SolveModal(numModes, deformationScale);
 }
 
 } // namespace androcad

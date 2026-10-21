@@ -38,6 +38,7 @@ import com.androcad.kernel.MaterialInfo
 import com.androcad.kernel.PhysicalPropertiesInfo
 import com.androcad.kernel.MeshAnalysisInfo
 import com.androcad.kernel.SimulationResultInfo
+import com.androcad.kernel.ModalAnalysisResultInfo
 import com.androcad.kernel.CAMGCodeInfo
 import com.androcad.kernel.CAMPostDialect
 import com.androcad.kernel.FastenerHoleType
@@ -127,6 +128,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
     val activeAssembly = remember { NativeKernel.createAssembly() }
     var assemblyAngleDeg by remember { mutableStateOf(0.0) }
     var activeSimulationResult by remember { mutableStateOf<SimulationResultInfo?>(null) }
+    var activeModalResult by remember { mutableStateOf<ModalAnalysisResultInfo?>(null) }
     var activeCAMResult by remember { mutableStateOf<CAMGCodeInfo?>(null) }
     var activeSlicerResult by remember { mutableStateOf<SlicerExecutionResult?>(null) }
 
@@ -767,7 +769,19 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             }
                         }
                     } else if (activeTab == "Simulation") {
-                        val simTools = listOf("Solve Beam FEA", "Solve Part FEA", "Fixed Support", "Apply Load", "Safety Factor", "Displacement Field")
+                        val simTools = listOf(
+                            "Solve Beam FEA",
+                            "Tet10 Quadratic FEA",
+                            "Modal Analysis",
+                            "Mode 1 Vibration",
+                            "Mode 2 Vibration",
+                            "Mode 3 Vibration",
+                            "Solve Part FEA",
+                            "Fixed Support",
+                            "Apply Load",
+                            "Safety Factor",
+                            "Displacement Field"
+                        )
                         simTools.forEach { tool ->
                             Surface(
                                 color = chipBgColor,
@@ -794,6 +808,81 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     }
                                                     timelineItems = (timelineItems + "${timelineItems.size + 1}. Beam FEA Simulation").toMutableList()
                                                     featureStatusText = "Beam FEA: Max Stress ${res.maxVonMisesStressMPa.toInt()} MPa | Max Disp ${"%.3f".format(res.maxDisplacementMm)} mm | FOS ${"%.2f".format(res.minSafetyFactor)}"
+                                                }
+                                                "Tet10 Quadratic FEA" -> {
+                                                    val res = NativeKernel.simulateCantileverBeamTet10(
+                                                        lengthMm = 100.0,
+                                                        widthMm = 10.0,
+                                                        heightMm = 10.0,
+                                                        forceN = 100.0,
+                                                        materialId = 0,
+                                                        deformationScale = 5.0
+                                                    )
+                                                    activeSimulationResult = res
+                                                    val mResult = res.meshResult
+                                                    if (mResult != null && mResult.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = mResult
+                                                        renderer?.updateMesh(mResult)
+                                                    }
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Tet10 Quadratic FEA").toMutableList()
+                                                    featureStatusText = "Tet10 FEA: Max Stress ${res.maxVonMisesStressMPa.toInt()} MPa | Disp ${"%.4f".format(res.maxDisplacementMm)} mm (Shear-locking eliminated)"
+                                                }
+                                                "Modal Analysis" -> {
+                                                    val res = NativeKernel.simulateModalAnalysis(
+                                                        lengthMm = 100.0,
+                                                        widthMm = 10.0,
+                                                        heightMm = 10.0,
+                                                        materialId = 0,
+                                                        numModes = 3,
+                                                        deformationScale = 1.0
+                                                    )
+                                                    activeModalResult = res
+                                                    if (res.success && res.modes.isNotEmpty()) {
+                                                        val mResult = res.modes[0].meshResult
+                                                        if (mResult != null && mResult.success) {
+                                                            activeSolid?.close()
+                                                            activeSolid = mResult
+                                                            renderer?.updateMesh(mResult)
+                                                        }
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Modal Analysis (${res.modes.size} modes)").toMutableList()
+                                                        featureStatusText = "Modal Analysis: Mode 1: ${"%.1f".format(res.modes[0].frequencyHz)} Hz | Mode 2: ${"%.1f".format(res.modes[1].frequencyHz)} Hz | Mode 3: ${"%.1f".format(res.modes[2].frequencyHz)} Hz"
+                                                    } else {
+                                                        featureStatusText = "Modal Analysis failed: ${res.errorMessage}"
+                                                    }
+                                                }
+                                                "Mode 1 Vibration" -> {
+                                                    val m1 = activeModalResult?.modes?.find { it.modeNumber == 1 }
+                                                    if (m1?.meshResult != null) {
+                                                        activeSolid?.close()
+                                                        activeSolid = m1.meshResult
+                                                        renderer?.updateMesh(m1.meshResult)
+                                                        featureStatusText = "Mode 1 Shape: ${"%.1f".format(m1.frequencyHz)} Hz (Bending, ${"%.1f".format(m1.angularFreqRadS)} rad/s)"
+                                                    } else {
+                                                        featureStatusText = "Please run Modal Analysis first"
+                                                    }
+                                                }
+                                                "Mode 2 Vibration" -> {
+                                                    val m2 = activeModalResult?.modes?.find { it.modeNumber == 2 }
+                                                    if (m2?.meshResult != null) {
+                                                        activeSolid?.close()
+                                                        activeSolid = m2.meshResult
+                                                        renderer?.updateMesh(m2.meshResult)
+                                                        featureStatusText = "Mode 2 Shape: ${"%.1f".format(m2.frequencyHz)} Hz (Bending/Torsion, ${"%.1f".format(m2.angularFreqRadS)} rad/s)"
+                                                    } else {
+                                                        featureStatusText = "Please run Modal Analysis first"
+                                                    }
+                                                }
+                                                "Mode 3 Vibration" -> {
+                                                    val m3 = activeModalResult?.modes?.find { it.modeNumber == 3 }
+                                                    if (m3?.meshResult != null) {
+                                                        activeSolid?.close()
+                                                        activeSolid = m3.meshResult
+                                                        renderer?.updateMesh(m3.meshResult)
+                                                        featureStatusText = "Mode 3 Shape: ${"%.1f".format(m3.frequencyHz)} Hz (Higher Harmonic, ${"%.1f".format(m3.angularFreqRadS)} rad/s)"
+                                                    } else {
+                                                        featureStatusText = "Please run Modal Analysis first"
+                                                    }
                                                 }
                                                 "Solve Part FEA" -> {
                                                     val solid = activeSolid ?: NativeKernel.createBox(60.0, 30.0, 20.0).also {
@@ -1495,6 +1584,17 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 Text(text = "Max Disp: ${"%.3f".format(simRes.maxDisplacementMm)} mm", color = textColor, fontSize = 11.sp)
                                 Text(text = "Safety Factor: ${"%.2f".format(simRes.minSafetyFactor)}", color = if (simRes.minSafetyFactor >= 1.5) successGreen else Color(0xFFFF5252), fontSize = 11.sp)
                                 Text(text = "Nodes: ${simRes.nodeCount} | Tets: ${simRes.elementCount}", color = textMuted, fontSize = 10.sp)
+                            }
+
+                            val modalRes = activeModalResult
+                            if (modalRes != null && modalRes.success) {
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Text(text = "MODAL VIBRATION ANALYSIS", color = textColor, fontSize = 12.sp)
+                                Text(text = "Study: Free Vibration Eigenmodes", color = highlightCyan, fontSize = 11.sp)
+                                modalRes.modes.forEach { mode ->
+                                    Text(text = "Mode ${mode.modeNumber}: ${"%.1f".format(mode.frequencyHz)} Hz (${"%.1f".format(mode.angularFreqRadS)} rad/s)", color = highlightOrange, fontSize = 11.sp)
+                                }
+                                Text(text = "Nodes: ${modalRes.nodeCount} | Elements: ${modalRes.elementCount}", color = textMuted, fontSize = 10.sp)
                             }
 
                             val camRes = activeCAMResult

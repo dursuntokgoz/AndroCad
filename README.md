@@ -68,6 +68,13 @@ AndroCAD is built with a **tablet-first** engineering workflow following modern 
 
 *Advanced manufacturing suite: 3D sculpted toolpaths (3D Adaptive Clearing with constant tool engagement angle, 3D Scallop constant cusp height finishing, and 3D Parallel raster surfacing) alongside native FDM 3D printer slicing directly on Android devices. Features configurable layer height (0.10–0.40mm), wall perimeters, infill patterns (Rectilinear and Honeycomb hexagonal lattice), filament volume/mass calculations, and RepRap/Marlin standard G-code generation with nozzle and bed thermal management.*
 
+### High-Precision FEA (Tet10) & Modal Vibration Analysis (Tablet & Mobile Phone)
+| Landscape Tablet Workstation UI | Portrait Mobile Phone UI |
+| :---: | :---: |
+| ![AndroCAD Tablet Tet10 FEA & Modal Vibration UI](docs/images/androcad_tablet_modal_ui.png) | ![AndroCAD Mobile Phone Tet10 FEA & Modal Vibration UI](docs/images/androcad_phone_modal_ui.png) |
+
+*Advanced structural simulation: 10-node quadratic tetrahedral elements (Tet10 with 4 corner vertices and 6 midside nodes) eliminating shear locking in thin bending plates and beams, evaluated with 4-point Keast/Hammer Gauss quadrature. Includes a dynamic Free Vibration and Modal Natural Frequency eigenvalue solver ($(\mathbf{K} - \omega^2 \mathbf{M})\mathbf{\phi} = 0$) using PCG-accelerated inverse power iteration with Hinton-Rock-Zienkiewicz (HRZ) diagonal mass lumping, extracting fundamental bending, torsional, and harmonic resonance frequencies alongside real-time animated mode shape deformation meshes.*
+
 ---
 
 ## Key Features & Architecture

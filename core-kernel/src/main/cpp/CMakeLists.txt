@@ -611,4 +611,46 @@ else()
     )
 
     add_test(NAME CAM3DSlicerTest COMMAND androcad_cam_3d_slicer_test)
+
+    add_executable(androcad_fea_tet10_modal_test
+        src/AndroCadKernel.cpp
+        src/GCS.cpp
+        src/Sketcher.cpp
+        src/FeatureOps.cpp
+        src/SurfaceOps.cpp
+        src/AssemblyManager.cpp
+        src/SheetMetalEngine.cpp
+        src/DrawingEngine.cpp
+        src/MaterialEngine.cpp
+        src/MeshEngine.cpp
+        src/SimulationEngine.cpp
+        src/CAMEngine.cpp
+        src/PatternEngine.cpp
+        src/FastenerEngine.cpp
+        src/ExpressionParser.cpp
+        src/TNPResolver.cpp
+        src/TimelineDAG.cpp
+        src/ProjectIO.cpp
+        tests/test_fea_tet10_modal.cpp
+    )
+
+    target_link_libraries(androcad_fea_tet10_modal_test PRIVATE
+        TKernel
+        TKMath
+        TKG2d
+        TKG3d
+        TKGeomBase
+        TKGeomAlgo
+        TKBRep
+        TKTopAlgo
+        TKPrim
+        TKBO
+        TKBool
+        TKFillet
+        TKOffset
+        TKMesh
+        ${HOST_DATA_EXCHANGE_LIBS}
+    )
+
+    add_test(NAME FEATet10ModalTest COMMAND androcad_fea_tet10_modal_test)
 endif()
