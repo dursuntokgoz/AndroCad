@@ -12,6 +12,7 @@
 #include "SheetMetalEngine.h"
 #include "DrawingEngine.h"
 #include "MaterialEngine.h"
+#include "MeshEngine.h"
 
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <TopoDS_Shape.hxx>
@@ -1323,6 +1324,114 @@ Java_com_androcad_kernel_NativeKernel_nativeGetMaterialList(
            << "}";
     }
     ss << "]";
+    return env->NewStringUTF(ss.str().c_str());
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeMeshSmooth(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong solidHandle,
+        jint iterations,
+        jdouble lambda) {
+    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto newSession = std::make_unique<NativeMeshSession>();
+    if (!session || session->shape.IsNull()) {
+        newSession->payload.success = false;
+        newSession->payload.errorMessage = "Invalid input mesh handle";
+        return reinterpret_cast<jlong>(newSession.release());
+    }
+
+    try {
+        androcad::RawMeshData raw = androcad::MeshEngine::ExtractFromShape(session->shape);
+        androcad::RawMeshData smoothed = androcad::MeshEngine::SmoothMesh(raw, iterations, static_cast<float>(lambda));
+        newSession->payload = androcad::MeshEngine::ToMeshPayload(smoothed);
+        newSession->shape = androcad::MeshEngine::ConvertMeshToSolid(smoothed);
+    } catch (const std::exception& e) {
+        newSession->payload.success = false;
+        newSession->payload.errorMessage = e.what();
+    }
+
+    return reinterpret_cast<jlong>(newSession.release());
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeMeshRepair(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong solidHandle,
+        jdouble weldTolerance) {
+    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto newSession = std::make_unique<NativeMeshSession>();
+    if (!session || session->shape.IsNull()) {
+        newSession->payload.success = false;
+        newSession->payload.errorMessage = "Invalid input mesh handle";
+        return reinterpret_cast<jlong>(newSession.release());
+    }
+
+    try {
+        androcad::RawMeshData raw = androcad::MeshEngine::ExtractFromShape(session->shape);
+        androcad::RawMeshData repaired = androcad::MeshEngine::RepairMesh(raw, weldTolerance);
+        newSession->payload = androcad::MeshEngine::ToMeshPayload(repaired);
+        newSession->shape = androcad::MeshEngine::ConvertMeshToSolid(repaired);
+    } catch (const std::exception& e) {
+        newSession->payload.success = false;
+        newSession->payload.errorMessage = e.what();
+    }
+
+    return reinterpret_cast<jlong>(newSession.release());
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeMeshToSolid(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong solidHandle,
+        jdouble tolerance) {
+    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto newSession = std::make_unique<NativeMeshSession>();
+    if (!session || session->shape.IsNull()) {
+        newSession->payload.success = false;
+        newSession->payload.errorMessage = "Invalid input mesh handle";
+        return reinterpret_cast<jlong>(newSession.release());
+    }
+
+    try {
+        androcad::RawMeshData raw = androcad::MeshEngine::ExtractFromShape(session->shape);
+        newSession->shape = androcad::MeshEngine::ConvertMeshToSolid(raw, tolerance);
+        newSession->payload = androcad::FeatureOps::ShapeToMeshPayload(newSession->shape);
+    } catch (const std::exception& e) {
+        newSession->payload.success = false;
+        newSession->payload.errorMessage = e.what();
+    }
+
+    return reinterpret_cast<jlong>(newSession.release());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeMeshAnalyze(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong solidHandle) {
+    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    if (!session || session->shape.IsNull()) {
+        return env->NewStringUTF("{\"success\":false,\"errorMessage\":\"Invalid solid handle\"}");
+    }
+
+    androcad::RawMeshData raw = androcad::MeshEngine::ExtractFromShape(session->shape);
+    androcad::MeshStats stats = androcad::MeshEngine::AnalyzeMesh(raw);
+
+    std::ostringstream ss;
+    ss << "{\"success\":true"
+       << ",\"vertexCount\":" << stats.vertexCount
+       << ",\"triangleCount\":" << stats.triangleCount
+       << ",\"edgeCount\":" << stats.edgeCount
+       << ",\"surfaceArea\":" << stats.surfaceArea
+       << ",\"enclosedVolume\":" << stats.enclosedVolume
+       << ",\"isClosedManifold\":" << (stats.isClosedManifold ? "true" : "false")
+       << ",\"eulerCharacteristic\":" << stats.eulerCharacteristic
+       << "}";
+
     return env->NewStringUTF(ss.str().c_str());
 }
 

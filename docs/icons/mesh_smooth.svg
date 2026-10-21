@@ -1,0 +1,10 @@
+<!-- Copyright (c) 2026 dursuntokgoz. All rights reserved. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Jagged Facet Polyline Background -->
+  <polyline points="6,34 16,14 26,30 36,18 42,26" stroke="#72767D" stroke-width="1.5" stroke-dasharray="2 2" />
+  <!-- Smooth Curved Spline Foreground -->
+  <path d="M 6,34 C 14,16 20,26 26,26 C 32,26 36,20 42,26" stroke="#00A4E4" stroke-width="2.5" />
+  <circle cx="16" cy="14" r="2" stroke="#FF9800" fill="#FF9800" />
+  <circle cx="26" cy="30" r="2" stroke="#FF9800" fill="#FF9800" />
+  <circle cx="36" cy="18" r="2" stroke="#FF9800" fill="#FF9800" />
+</svg>

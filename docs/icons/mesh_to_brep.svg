@@ -1,0 +1,13 @@
+<!-- Copyright (c) 2026 dursuntokgoz. All rights reserved. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Left: Triangle Mesh Facets -->
+  <polygon points="6,28 14,14 22,28" stroke="#72767D" fill="#72767D" fill-opacity="0.2" />
+  <polygon points="6,28 22,28 14,40" stroke="#72767D" fill="#72767D" fill-opacity="0.3" />
+  <line x1="6" y1="28" x2="22" y2="28" stroke="#72767D" stroke-width="1.5" />
+  <!-- Conversion Transition Arrow -->
+  <path d="M 23,24 L 29,24 M 27,21 L 30,24 L 27,27" stroke="#4CAF50" stroke-width="2" />
+  <!-- Right: Clean Solid B-Rep Cube -->
+  <polygon points="32,18 40,12 44,16 36,22" stroke="#007ACC" fill="#007ACC" fill-opacity="0.3" />
+  <polygon points="32,18 36,22 36,36 32,32" stroke="#007ACC" fill="#1E2124" />
+  <polygon points="36,22 44,16 44,30 36,36" stroke="#007ACC" fill="#2F3136" />
+</svg>

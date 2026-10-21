@@ -444,6 +444,22 @@ data class PhysicalPropertiesInfo(
     val errorMessage: String = ""
 )
 
+// -------------------------------------------------------------------------
+// Milestone 13: Mesh Workspace & Scan-to-CAD Reverse Engineering
+// -------------------------------------------------------------------------
+
+data class MeshAnalysisInfo(
+    val success: Boolean,
+    val vertexCount: Long,
+    val triangleCount: Long,
+    val edgeCount: Long,
+    val surfaceArea: Double,
+    val enclosedVolume: Double,
+    val isClosedManifold: Boolean,
+    val eulerCharacteristic: Int,
+    val errorMessage: String = ""
+)
+
 /**
  * High-performance JNI bridge to the OpenCASCADE native CAD kernel.
  */
@@ -1175,6 +1191,64 @@ object NativeKernel {
         }
     }
 
+    /**
+     * Milestone 13: Smooths mesh using volume-preserving Laplacian diffusion filter.
+     */
+    fun smoothMesh(solid: BoxMeshResult, iterations: Int = 3, lambda: Double = 0.5): BoxMeshResult {
+        if (solid.nativeHandle == 0L || !solid.success) return solid
+        val handle = nativeMeshSmooth(solid.nativeHandle, iterations, lambda)
+        return buildMeshResult(handle)
+    }
+
+    /**
+     * Milestone 13: Repairs mesh by welding co-located vertices and removing degenerate triangles.
+     */
+    fun repairMesh(solid: BoxMeshResult, weldTolerance: Double = 1e-4): BoxMeshResult {
+        if (solid.nativeHandle == 0L || !solid.success) return solid
+        val handle = nativeMeshRepair(solid.nativeHandle, weldTolerance)
+        return buildMeshResult(handle)
+    }
+
+    /**
+     * Milestone 13: Converts triangle mesh into a watertight OCCT B-Rep solid body.
+     */
+    fun convertMeshToSolid(solid: BoxMeshResult, tolerance: Double = 1e-2): BoxMeshResult {
+        if (solid.nativeHandle == 0L || !solid.success) return solid
+        val handle = nativeMeshToSolid(solid.nativeHandle, tolerance)
+        return buildMeshResult(handle)
+    }
+
+    /**
+     * Milestone 13: Analyzes mesh topology, manifoldness, and Euler characteristic.
+     */
+    fun analyzeMesh(solid: BoxMeshResult): MeshAnalysisInfo {
+        if (solid.nativeHandle == 0L || !solid.success) {
+            return MeshAnalysisInfo(false, 0, 0, 0, 0.0, 0.0, false, 0, "Invalid solid")
+        }
+        val json = nativeMeshAnalyze(solid.nativeHandle)
+        return parseMeshAnalysisJson(json)
+    }
+
+    private fun parseMeshAnalysisJson(json: String): MeshAnalysisInfo {
+        return try {
+            val isSuccess = json.contains("\"success\":true")
+            val extractNum = { key: String -> "\"$key\":([0-9.-]+)".toRegex().find(json)?.groupValues?.get(1)?.toDoubleOrNull() ?: 0.0 }
+            MeshAnalysisInfo(
+                success = isSuccess,
+                vertexCount = extractNum("vertexCount").toLong(),
+                triangleCount = extractNum("triangleCount").toLong(),
+                edgeCount = extractNum("edgeCount").toLong(),
+                surfaceArea = extractNum("surfaceArea"),
+                enclosedVolume = extractNum("enclosedVolume"),
+                isClosedManifold = json.contains("\"isClosedManifold\":true"),
+                eulerCharacteristic = extractNum("eulerCharacteristic").toInt(),
+                errorMessage = ""
+            )
+        } catch (e: Exception) {
+            MeshAnalysisInfo(false, 0, 0, 0, 0.0, 0.0, false, 0, e.message ?: "JSON parse error")
+        }
+    }
+
     internal external fun nativeCreateBox(
         dx: Double,
         dy: Double,
@@ -1365,4 +1439,10 @@ object NativeKernel {
     ): String
 
     internal external fun nativeGetMaterialList(): String
+
+    // Milestone 13 JNI Declarations (Mesh Workspace)
+    internal external fun nativeMeshSmooth(solidHandle: Long, iterations: Int, lambda: Double): Long
+    internal external fun nativeMeshRepair(solidHandle: Long, weldTolerance: Double): Long
+    internal external fun nativeMeshToSolid(solidHandle: Long, tolerance: Double): Long
+    internal external fun nativeMeshAnalyze(solidHandle: Long): String
 }
