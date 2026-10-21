@@ -2,7 +2,7 @@
 #include "PatternEngine.h"
 
 #include <BRepBuilderAPI_Transform.hxx>
-#include <BRepBuilderAPI_MakeCompound.hxx>
+#include <BRep_Builder.hxx>
 #include <BRepAlgoAPI_Fuse.hxx>
 #include <BRepOffsetAPI_DraftAngle.hxx>
 #include <TopExp_Explorer.hxx>
@@ -88,11 +88,13 @@ PatternResult PatternEngine::RectangularPattern(
             }
             result.shape = merged;
         } else {
-            BRepBuilderAPI_MakeCompound compoundMaker;
+            BRep_Builder builder;
+            TopoDS_Compound compound;
+            builder.MakeCompound(compound);
             for (const auto& inst : instances) {
-                compoundMaker.Add(inst);
+                builder.Add(compound, inst);
             }
-            result.shape = compoundMaker.Shape();
+            result.shape = compound;
         }
 
         result.success = true;
@@ -152,11 +154,13 @@ PatternResult PatternEngine::CircularPattern(
             }
             result.shape = merged;
         } else {
-            BRepBuilderAPI_MakeCompound compoundMaker;
+            BRep_Builder builder;
+            TopoDS_Compound compound;
+            builder.MakeCompound(compound);
             for (const auto& inst : instances) {
-                compoundMaker.Add(inst);
+                builder.Add(compound, inst);
             }
-            result.shape = compoundMaker.Shape();
+            result.shape = compound;
         }
 
         result.success = true;
@@ -200,16 +204,20 @@ PatternResult PatternEngine::Mirror(
                 if (fuser.IsDone()) {
                     result.shape = fuser.Shape();
                 } else {
-                    BRepBuilderAPI_MakeCompound comp;
-                    comp.Add(baseShape);
-                    comp.Add(mirrored);
-                    result.shape = comp.Shape();
+                    BRep_Builder builder;
+                    TopoDS_Compound comp;
+                    builder.MakeCompound(comp);
+                    builder.Add(comp, baseShape);
+                    builder.Add(comp, mirrored);
+                    result.shape = comp;
                 }
             } else {
-                BRepBuilderAPI_MakeCompound comp;
-                comp.Add(baseShape);
-                comp.Add(mirrored);
-                result.shape = comp.Shape();
+                BRep_Builder builder;
+                TopoDS_Compound comp;
+                builder.MakeCompound(comp);
+                builder.Add(comp, baseShape);
+                builder.Add(comp, mirrored);
+                result.shape = comp;
             }
             result.instanceCount = 2;
         }
