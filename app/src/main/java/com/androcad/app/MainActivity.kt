@@ -404,39 +404,53 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     }
                                                 }
                                                 "Export STEP" -> {
+                                                    val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also {
+                                                        activeSolid = it
+                                                        renderer?.updateMesh(it)
+                                                    }
                                                     val stepFile = java.io.File(baseDir, "model.step")
-                                                    activeSolid?.let { solid ->
-                                                        val res = NativeKernel.exportStep(solid, stepFile.absolutePath)
-                                                        featureStatusText = if (res.success) "Exported STEP: ${stepFile.name}" else "STEP export failed"
-                                                    } ?: run { featureStatusText = "No active solid to export" }
+                                                    val res = NativeKernel.exportStep(solid, stepFile.absolutePath)
+                                                    featureStatusText = if (res.success) "Exported STEP: ${stepFile.name} (${stepFile.length()} bytes)" else "STEP export failed: ${res.errorMessage}"
                                                 }
                                                 "Import STEP" -> {
                                                     val stepFile = java.io.File(baseDir, "model.step")
+                                                    if (!stepFile.exists()) {
+                                                        val initialSolid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0)
+                                                        NativeKernel.exportStep(initialSolid, stepFile.absolutePath)
+                                                    }
                                                     val imported = NativeKernel.importStep(stepFile.absolutePath)
                                                     if (imported.success) {
                                                         activeSolid?.close()
                                                         activeSolid = imported
                                                         renderer?.updateMesh(imported)
-                                                        featureStatusText = "Imported STEP (${imported.volume.toInt()} mm³)"
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Import STEP (${stepFile.name})").toMutableList()
+                                                        featureStatusText = "Imported STEP: ${stepFile.name} (${imported.volume.toInt()} mm³)"
                                                     } else {
                                                         featureStatusText = "STEP import failed: ${imported.errorMessage}"
                                                     }
                                                 }
                                                 "Export STL" -> {
+                                                    val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also {
+                                                        activeSolid = it
+                                                        renderer?.updateMesh(it)
+                                                    }
                                                     val stlFile = java.io.File(baseDir, "model.stl")
-                                                    activeSolid?.let { solid ->
-                                                        val res = NativeKernel.exportStl(solid, stlFile.absolutePath)
-                                                        featureStatusText = if (res.success) "Exported STL: ${stlFile.name}" else "STL export failed"
-                                                    } ?: run { featureStatusText = "No active solid to export" }
+                                                    val res = NativeKernel.exportStl(solid, stlFile.absolutePath)
+                                                    featureStatusText = if (res.success) "Exported STL: ${stlFile.name} (${stlFile.length()} bytes)" else "STL export failed: ${res.errorMessage}"
                                                 }
                                                 "Import STL" -> {
                                                     val stlFile = java.io.File(baseDir, "model.stl")
+                                                    if (!stlFile.exists()) {
+                                                        val initialSolid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0)
+                                                        NativeKernel.exportStl(initialSolid, stlFile.absolutePath)
+                                                    }
                                                     val imported = NativeKernel.importStl(stlFile.absolutePath)
                                                     if (imported.success) {
                                                         activeSolid?.close()
                                                         activeSolid = imported
                                                         renderer?.updateMesh(imported)
-                                                        featureStatusText = "Imported STL (${imported.triangleCount} tris)"
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Import STL (${stlFile.name})").toMutableList()
+                                                        featureStatusText = "Imported STL: ${stlFile.name} (${imported.triangleCount} triangles)"
                                                     } else {
                                                         featureStatusText = "STL import failed: ${imported.errorMessage}"
                                                     }

@@ -67,6 +67,15 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
     private var edgeVbo = 0
     private var edgeVertexCount = 0
 
+    // Floor Tiles & Coordinate Grid (Zemin Karoları)
+    private var gridProgram = 0
+    private var floorProgram = 0
+    private var gridVao = 0
+    private var gridVbo = 0
+    private var gridVertexCount = 0
+    private var floorVao = 0
+    private var floorVbo = 0
+
     // Off-screen Picking FBO
     private var pickingFbo = 0
     private var pickingTexture = 0
@@ -205,6 +214,58 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
         }
     """.trimIndent()
 
+    // Floor Tiles & Coordinate Grid Shaders
+    private val gridVertexShader = """
+        #version 300 es
+        layout (location = 0) in vec3 aPosition;
+        layout (location = 1) in vec4 aColor;
+        uniform mat4 uMVPMatrix;
+        out vec4 vColor;
+        void main() {
+            gl_Position = uMVPMatrix * vec4(aPosition, 1.0);
+            vColor = aColor;
+        }
+    """.trimIndent()
+
+    private val gridFragmentShader = """
+        #version 300 es
+        precision mediump float;
+        in vec4 vColor;
+        out vec4 fragColor;
+        void main() {
+            fragColor = vColor;
+        }
+    """.trimIndent()
+
+    private val floorVertexShader = """
+        #version 300 es
+        layout (location = 0) in vec3 aPosition;
+        uniform mat4 uMVPMatrix;
+        out vec2 vWorldPos;
+        void main() {
+            gl_Position = uMVPMatrix * vec4(aPosition, 1.0);
+            vWorldPos = aPosition.xz;
+        }
+    """.trimIndent()
+
+    private val floorFragmentShader = """
+        #version 300 es
+        precision mediump float;
+        in vec2 vWorldPos;
+        out vec4 fragColor;
+        void main() {
+            // 25mm checkered ground floor tiles (zemin karoları)
+            vec2 tileCoord = floor(vWorldPos / 25.0);
+            float pattern = mod(tileCoord.x + tileCoord.y, 2.0);
+            vec3 colorA = vec3(0.20, 0.22, 0.25);
+            vec3 colorB = vec3(0.14, 0.16, 0.18);
+            vec3 baseTile = mix(colorA, colorB, pattern);
+            float dist = length(vWorldPos);
+            float alpha = clamp(1.0 - (dist / 280.0), 0.0, 0.85);
+            fragColor = vec4(baseTile, alpha);
+        }
+    """.trimIndent()
+
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
         GLES30.glClearColor(0.16f, 0.18f, 0.20f, 1.0f) // Fusion 360-style viewport dark gray
         GLES30.glEnable(GLES30.GL_DEPTH_TEST)
@@ -213,9 +274,104 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
         edgeProgram = createProgram(edgeVertexShader, edgeFragmentShader)
         pickingFaceProgram = createProgram(faceVertexShader, pickingFaceFragShader)
         pickingEdgeProgram = createProgram(edgeVertexShader, pickingEdgeFragShader)
+        gridProgram = createProgram(gridVertexShader, gridFragmentShader)
+        floorProgram = createProgram(floorVertexShader, floorFragmentShader)
 
+        setupGridBuffers()
         setupMeshBuffers()
         zoomToFit()
+    }
+
+    private fun setupGridBuffers() {
+        val extent = 250.0f
+        val step = 10.0f
+        val lines = mutableListOf<Float>()
+
+        fun addV(x: Float, y: Float, z: Float, r: Float, g: Float, b: Float, a: Float) {
+            lines.add(x); lines.add(y); lines.add(z)
+            lines.add(r); lines.add(g); lines.add(b); lines.add(a)
+        }
+
+        var x = -extent
+        while (x <= extent + 0.1f) {
+            val isZAxis = abs(x) < 0.1f
+            val isMajor = abs(x % 50.0f) < 0.1f
+            val (r, g, b, a) = when {
+                isZAxis -> floatArrayOf(0.25f, 0.55f, 0.95f, 0.95f) // Blue Z-axis
+                isMajor -> floatArrayOf(0.40f, 0.44f, 0.50f, 0.70f)
+                else -> floatArrayOf(0.26f, 0.29f, 0.34f, 0.40f)
+            }
+            addV(x, 0.001f, -extent, r, g, b, a)
+            addV(x, 0.001f, extent, r, g, b, a)
+            x += step
+        }
+
+        var z = -extent
+        while (z <= extent + 0.1f) {
+            val isXAxis = abs(z) < 0.1f
+            val isMajor = abs(z % 50.0f) < 0.1f
+            val (r, g, b, a) = when {
+                isXAxis -> floatArrayOf(0.88f, 0.22f, 0.22f, 0.95f) // Red X-axis
+                isMajor -> floatArrayOf(0.40f, 0.44f, 0.50f, 0.70f)
+                else -> floatArrayOf(0.26f, 0.29f, 0.34f, 0.40f)
+            }
+            addV(-extent, 0.001f, z, r, g, b, a)
+            addV(extent, 0.001f, z, r, g, b, a)
+            z += step
+        }
+
+        gridVertexCount = lines.size / 7
+        val gridBuffer = ByteBuffer.allocateDirect(lines.size * 4)
+            .order(ByteOrder.nativeOrder())
+            .asFloatBuffer()
+        for (f in lines) gridBuffer.put(f)
+        gridBuffer.position(0)
+
+        val vaos = IntArray(1)
+        val vbos = IntArray(1)
+        GLES30.glGenVertexArrays(1, vaos, 0)
+        GLES30.glGenBuffers(1, vbos, 0)
+        gridVao = vaos[0]
+        gridVbo = vbos[0]
+
+        GLES30.glBindVertexArray(gridVao)
+        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, gridVbo)
+        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, lines.size * 4, gridBuffer, GLES30.GL_STATIC_DRAW)
+        GLES30.glEnableVertexAttribArray(0)
+        GLES30.glVertexAttribPointer(0, 3, GLES30.GL_FLOAT, false, 7 * 4, 0)
+        GLES30.glEnableVertexAttribArray(1)
+        GLES30.glVertexAttribPointer(1, 4, GLES30.GL_FLOAT, false, 7 * 4, 3 * 4)
+        GLES30.glBindVertexArray(0)
+
+        // Floor Quad (6 vertices covering [-extent, extent] in X and Z)
+        val floorVertices = floatArrayOf(
+            -extent, 0.0f, -extent,
+             extent, 0.0f, -extent,
+             extent, 0.0f,  extent,
+
+            -extent, 0.0f, -extent,
+             extent, 0.0f,  extent,
+            -extent, 0.0f,  extent
+        )
+        val floorBuffer = ByteBuffer.allocateDirect(floorVertices.size * 4)
+            .order(ByteOrder.nativeOrder())
+            .asFloatBuffer()
+        floorBuffer.put(floorVertices)
+        floorBuffer.position(0)
+
+        val fVaos = IntArray(1)
+        val fVbos = IntArray(1)
+        GLES30.glGenVertexArrays(1, fVaos, 0)
+        GLES30.glGenBuffers(1, fVbos, 0)
+        floorVao = fVaos[0]
+        floorVbo = fVbos[0]
+
+        GLES30.glBindVertexArray(floorVao)
+        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, floorVbo)
+        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, floorVertices.size * 4, floorBuffer, GLES30.GL_STATIC_DRAW)
+        GLES30.glEnableVertexAttribArray(0)
+        GLES30.glVertexAttribPointer(0, 3, GLES30.GL_FLOAT, false, 3 * 4, 0)
+        GLES30.glBindVertexArray(0)
     }
 
     fun updateMesh(newMesh: BoxMeshResult?) {
@@ -378,6 +534,44 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
         GLES30.glBindFramebuffer(GLES30.GL_FRAMEBUFFER, 0)
         GLES30.glViewport(0, 0, viewportWidth, viewportHeight)
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT or GLES30.GL_DEPTH_BUFFER_BIT)
+
+        // Draw CAD Floor Tiles & Coordinate Grid (Zemin Karoları ve Izgara)
+        if (floorVao != 0 || gridVao != 0) {
+            val gridMVP = FloatArray(16)
+            val gridModel = FloatArray(16)
+            Matrix.setIdentityM(gridModel, 0)
+            val groundY = meshResult?.let {
+                val bbox = it.boundingBox
+                - (bbox.maxY - bbox.minY) * 0.5f
+            } ?: 0.0f
+            Matrix.translateM(gridModel, 0, 0.0f, groundY, 0.0f)
+            Matrix.multiplyMM(gridMVP, 0, viewMatrix, 0, gridModel, 0)
+            Matrix.multiplyMM(gridMVP, 0, projectionMatrix, 0, gridMVP, 0)
+
+            GLES30.glEnable(GLES30.GL_BLEND)
+            GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE_MINUS_SRC_ALPHA)
+
+            // 1. Checkered Ground Floor Tiles
+            if (floorVao != 0) {
+                GLES30.glUseProgram(floorProgram)
+                GLES30.glUniformMatrix4fv(GLES30.glGetUniformLocation(floorProgram, "uMVPMatrix"), 1, false, gridMVP, 0)
+                GLES30.glBindVertexArray(floorVao)
+                GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, 6)
+                GLES30.glBindVertexArray(0)
+            }
+
+            // 2. Coordinate Grid Lines & Red X / Blue Z Axes
+            if (gridVao != 0 && gridVertexCount > 0) {
+                GLES30.glUseProgram(gridProgram)
+                GLES30.glUniformMatrix4fv(GLES30.glGetUniformLocation(gridProgram, "uMVPMatrix"), 1, false, gridMVP, 0)
+                GLES30.glLineWidth(1.8f)
+                GLES30.glBindVertexArray(gridVao)
+                GLES30.glDrawArrays(GLES30.GL_LINES, 0, gridVertexCount)
+                GLES30.glBindVertexArray(0)
+            }
+
+            GLES30.glDisable(GLES30.GL_BLEND)
+        }
 
         // Draw solid faces if Shaded or Shaded+Edges
         if (displayMode != DisplayMode.WIREFRAME && faceVao != 0 && triangleIndexCount > 0) {
