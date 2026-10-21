@@ -1646,7 +1646,7 @@ Java_com_androcad_kernel_NativeKernel_nativeRectangularPattern(
     if (res.success && !res.shape.IsNull()) {
         auto* newSession = new NativeMeshSession();
         newSession->shape = res.shape;
-        newSession->payload = androcad::AndroCadKernel::TessellateShape(res.shape, 0.1, 0.5);
+        newSession->payload = androcad::FeatureOps::ShapeToMeshPayload(res.shape, 0.1, 0.5);
         newHandle = reinterpret_cast<jlong>(newSession);
     }
 
@@ -1684,7 +1684,7 @@ Java_com_androcad_kernel_NativeKernel_nativeCircularPattern(
     if (res.success && !res.shape.IsNull()) {
         auto* newSession = new NativeMeshSession();
         newSession->shape = res.shape;
-        newSession->payload = androcad::AndroCadKernel::TessellateShape(res.shape, 0.1, 0.5);
+        newSession->payload = androcad::FeatureOps::ShapeToMeshPayload(res.shape, 0.1, 0.5);
         newHandle = reinterpret_cast<jlong>(newSession);
     }
 
@@ -1722,7 +1722,7 @@ Java_com_androcad_kernel_NativeKernel_nativeMirror(
     if (res.success && !res.shape.IsNull()) {
         auto* newSession = new NativeMeshSession();
         newSession->shape = res.shape;
-        newSession->payload = androcad::AndroCadKernel::TessellateShape(res.shape, 0.1, 0.5);
+        newSession->payload = androcad::FeatureOps::ShapeToMeshPayload(res.shape, 0.1, 0.5);
         newHandle = reinterpret_cast<jlong>(newSession);
     }
 
@@ -1770,7 +1770,7 @@ Java_com_androcad_kernel_NativeKernel_nativeApplyDraft(
     if (res.success && !res.shape.IsNull()) {
         auto* newSession = new NativeMeshSession();
         newSession->shape = res.shape;
-        newSession->payload = androcad::AndroCadKernel::TessellateShape(res.shape, 0.1, 0.5);
+        newSession->payload = androcad::FeatureOps::ShapeToMeshPayload(res.shape, 0.1, 0.5);
         newHandle = reinterpret_cast<jlong>(newSession);
     }
 
