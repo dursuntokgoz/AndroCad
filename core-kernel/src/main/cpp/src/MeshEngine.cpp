@@ -12,6 +12,7 @@
 #include <TopoDS.hxx>
 #include <TopoDS_Face.hxx>
 #include <TopoDS_Shell.hxx>
+#include <TopoDS_Solid.hxx>
 #include <BRep_Tool.hxx>
 #include <Poly_Triangulation.hxx>
 #include <gp_Pnt.hxx>
@@ -339,7 +340,7 @@ TopoDS_Shape MeshEngine::ConvertMeshToSolid(const RawMeshData& mesh, double tole
         try {
             BRepBuilderAPI_MakeSolid solidMaker(TopoDS::Shell(sewedShape));
             if (solidMaker.IsDone()) {
-                return solidMaker.Solid();
+                return solidMaker.Shape();
             }
         } catch (...) {}
     }
