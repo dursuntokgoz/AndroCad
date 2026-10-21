@@ -248,8 +248,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - **Screenshots:** Landscape Tablet UI screenshot (`docs/images/androcad_tablet_threads_ui.png`) + Portrait Mobile Phone UI screenshot (`docs/images/androcad_phone_threads_ui.png`) embedded in `README.md`.
   - **Release:** Beta APK `v0.17.0-beta`.
 * **Acceptance Tests:** 5-test CTest suite validating ISO thread profiles, counterbore hole geometry, sketch projection associativity, and spline continuity.
-* **Status:** Planned
-* **Finish Date:** -
+* **Status:** Done
+* **Finish Date:** 2026-10-21
 
 ---
 

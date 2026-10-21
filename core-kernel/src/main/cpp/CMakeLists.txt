@@ -42,6 +42,7 @@ if(ANDROID)
         src/SimulationEngine.cpp
         src/CAMEngine.cpp
         src/PatternEngine.cpp
+        src/FastenerEngine.cpp
         src/ExpressionParser.cpp
         src/TNPResolver.cpp
         src/TimelineDAG.cpp
@@ -495,6 +496,7 @@ else()
         src/SimulationEngine.cpp
         src/CAMEngine.cpp
         src/PatternEngine.cpp
+        src/FastenerEngine.cpp
         src/ExpressionParser.cpp
         src/TNPResolver.cpp
         src/TimelineDAG.cpp
@@ -521,4 +523,46 @@ else()
     )
 
     add_test(NAME PatternEngineTest COMMAND androcad_pattern_engine_test)
+
+    add_executable(androcad_fastener_engine_test
+        src/AndroCadKernel.cpp
+        src/GCS.cpp
+        src/Sketcher.cpp
+        src/FeatureOps.cpp
+        src/SurfaceOps.cpp
+        src/AssemblyManager.cpp
+        src/SheetMetalEngine.cpp
+        src/DrawingEngine.cpp
+        src/MaterialEngine.cpp
+        src/MeshEngine.cpp
+        src/SimulationEngine.cpp
+        src/CAMEngine.cpp
+        src/PatternEngine.cpp
+        src/FastenerEngine.cpp
+        src/ExpressionParser.cpp
+        src/TNPResolver.cpp
+        src/TimelineDAG.cpp
+        src/ProjectIO.cpp
+        tests/test_fastener_engine.cpp
+    )
+
+    target_link_libraries(androcad_fastener_engine_test PRIVATE
+        TKernel
+        TKMath
+        TKG2d
+        TKG3d
+        TKGeomBase
+        TKGeomAlgo
+        TKBRep
+        TKTopAlgo
+        TKPrim
+        TKBO
+        TKBool
+        TKFillet
+        TKOffset
+        TKMesh
+        ${HOST_DATA_EXCHANGE_LIBS}
+    )
+
+    add_test(NAME FastenerEngineTest COMMAND androcad_fastener_engine_test)
 endif()

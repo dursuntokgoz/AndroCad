@@ -515,6 +515,64 @@ data class PatternResultInfo(
     val errorMessage: String = ""
 )
 
+// -------------------------------------------------------------------------
+// Milestone 17: Threads, Fasteners & Associative Sketch Projection
+// -------------------------------------------------------------------------
+
+enum class FastenerHoleType(val id: Int) {
+    SIMPLE(0),
+    COUNTERBORE(1),
+    COUNTERSINK(2),
+    TAPPED(3)
+}
+
+data class StandardHoleInfo(
+    val success: Boolean,
+    val volumeMm3: Double,
+    val meshResult: BoxMeshResult? = null,
+    val errorMessage: String = ""
+)
+
+data class ThreadedBoltInfo(
+    val success: Boolean,
+    val toothCount: Int,
+    val pitchMm: Double,
+    val outerDiameterMm: Double,
+    val volumeMm3: Double,
+    val meshResult: BoxMeshResult? = null,
+    val errorMessage: String = ""
+)
+
+data class ProjectedSegment2D(
+    val startU: Double, val startV: Double,
+    val endU: Double, val endV: Double,
+    val isArc: Boolean,
+    val centerU: Double, val centerV: Double,
+    val radius: Double
+)
+
+data class EdgeProjectionInfo(
+    val success: Boolean,
+    val edgeCount: Int,
+    val segments: List<ProjectedSegment2D> = emptyList(),
+    val errorMessage: String = ""
+)
+
+data class SplinePoint2DData(
+    val u: Double,
+    val v: Double
+)
+
+data class BSplineCurveInfo(
+    val success: Boolean,
+    val degree: Int,
+    val knotCount: Int,
+    val poleCount: Int,
+    val lengthMm: Double,
+    val samples: List<SplinePoint2DData> = emptyList(),
+    val errorMessage: String = ""
+)
+
 /**
  * High-performance JNI bridge to the OpenCASCADE native CAD kernel.
  */
@@ -1492,6 +1550,130 @@ object NativeKernel {
         }
     }
 
+    /**
+     * Milestone 17: Standard Fastener Hole Wizard (Counterbore, Countersink, Clearance, Tapped).
+     */
+    fun createStandardHole(
+        solid: BoxMeshResult,
+        px: Double = 0.0, py: Double = 0.0, pz: Double = 0.0,
+        dx: Double = 0.0, dy: Double = 0.0, dz: Double = -1.0,
+        standardName: String = "M6",
+        holeType: FastenerHoleType = FastenerHoleType.COUNTERBORE,
+        depthMm: Double = 20.0
+    ): StandardHoleInfo {
+        val json = nativeCreateStandardHole(solid.nativeHandle, px, py, pz, dx, dy, dz, standardName, holeType.id, depthMm)
+        return try {
+            val isSuccess = json.contains("\"success\":true")
+            val extractNum = { key: String -> "\"$key\":([0-9.-]+)".toRegex().find(json)?.groupValues?.get(1)?.toDoubleOrNull() ?: 0.0 }
+            val meshHandle = "\"meshHandle\":([0-9.-]+)".toRegex().find(json)?.groupValues?.get(1)?.toLongOrNull() ?: 0L
+            val meshResult = if (meshHandle != 0L) buildMeshResult(meshHandle) else null
+            StandardHoleInfo(
+                success = isSuccess,
+                volumeMm3 = extractNum("volumeMm3"),
+                meshResult = meshResult,
+                errorMessage = ""
+            )
+        } catch (e: Exception) {
+            StandardHoleInfo(false, 0.0, null, e.message ?: "JSON parse error")
+        }
+    }
+
+    /**
+     * Milestone 17: Modeled 3D Metric Helical Threaded Bolt / Stud.
+     */
+    fun createThreadedBolt(
+        standardName: String = "M8",
+        shaftLengthMm: Double = 30.0,
+        threadLengthMm: Double = 20.0,
+        hexHead: Boolean = true
+    ): ThreadedBoltInfo {
+        val json = nativeCreateThreadedBolt(standardName, shaftLengthMm, threadLengthMm, hexHead)
+        return try {
+            val isSuccess = json.contains("\"success\":true")
+            val extractNum = { key: String -> "\"$key\":([0-9.-]+)".toRegex().find(json)?.groupValues?.get(1)?.toDoubleOrNull() ?: 0.0 }
+            val meshHandle = "\"meshHandle\":([0-9.-]+)".toRegex().find(json)?.groupValues?.get(1)?.toLongOrNull() ?: 0L
+            val meshResult = if (meshHandle != 0L) buildMeshResult(meshHandle) else null
+            ThreadedBoltInfo(
+                success = isSuccess,
+                toothCount = extractNum("toothCount").toInt(),
+                pitchMm = extractNum("pitchMm"),
+                outerDiameterMm = extractNum("outerDiameterMm"),
+                volumeMm3 = extractNum("volumeMm3"),
+                meshResult = meshResult,
+                errorMessage = ""
+            )
+        } catch (e: Exception) {
+            ThreadedBoltInfo(false, 0, 0.0, 0.0, 0.0, null, e.message ?: "JSON parse error")
+        }
+    }
+
+    /**
+     * Milestone 17: Associative 3D edge projection onto 2D sketch plane.
+     */
+    fun projectEdges(
+        solid: BoxMeshResult,
+        ox: Double = 0.0, oy: Double = 0.0, oz: Double = 0.0,
+        nx: Double = 0.0, ny: Double = 0.0, nz: Double = 1.0
+    ): EdgeProjectionInfo {
+        val json = nativeProjectEdges(solid.nativeHandle, ox, oy, oz, nx, ny, nz)
+        return try {
+            val isSuccess = json.contains("\"success\":true")
+            val edgeCount = "\"edgeCount\":([0-9]+)".toRegex().find(json)?.groupValues?.get(1)?.toIntOrNull() ?: 0
+            val segList = mutableListOf<ProjectedSegment2D>()
+            val segMatches = "\\{\"startU\":([0-9.-]+),\"startV\":([0-9.-]+),\"endU\":([0-9.-]+),\"endV\":([0-9.-]+),\"isArc\":(true|false),\"centerU\":([0-9.-]+),\"centerV\":([0-9.-]+),\"radius\":([0-9.-]+)\\}".toRegex().findAll(json)
+            for (m in segMatches) {
+                segList.add(ProjectedSegment2D(
+                    startU = m.groupValues[1].toDoubleOrNull() ?: 0.0,
+                    startV = m.groupValues[2].toDoubleOrNull() ?: 0.0,
+                    endU = m.groupValues[3].toDoubleOrNull() ?: 0.0,
+                    endV = m.groupValues[4].toDoubleOrNull() ?: 0.0,
+                    isArc = m.groupValues[5] == "true",
+                    centerU = m.groupValues[6].toDoubleOrNull() ?: 0.0,
+                    centerV = m.groupValues[7].toDoubleOrNull() ?: 0.0,
+                    radius = m.groupValues[8].toDoubleOrNull() ?: 0.0
+                ))
+            }
+            EdgeProjectionInfo(isSuccess, edgeCount, segList, "")
+        } catch (e: Exception) {
+            EdgeProjectionInfo(false, 0, emptyList(), e.message ?: "JSON parse error")
+        }
+    }
+
+    /**
+     * Milestone 17: Cubic B-Spline interpolation with C2 continuity.
+     */
+    fun generateBSpline(
+        controlPoints: List<SplinePoint2DData>,
+        sampleCount: Int = 50
+    ): BSplineCurveInfo {
+        val uCoords = controlPoints.map { it.u }.toDoubleArray()
+        val vCoords = controlPoints.map { it.v }.toDoubleArray()
+        val json = nativeGenerateBSpline(uCoords, vCoords, sampleCount)
+        return try {
+            val isSuccess = json.contains("\"success\":true")
+            val extractNum = { key: String -> "\"$key\":([0-9.-]+)".toRegex().find(json)?.groupValues?.get(1)?.toDoubleOrNull() ?: 0.0 }
+            val samples = mutableListOf<SplinePoint2DData>()
+            val sampleMatches = "\\{\"u\":([0-9.-]+),\"v\":([0-9.-]+)\\}".toRegex().findAll(json)
+            for (m in sampleMatches) {
+                samples.add(SplinePoint2DData(
+                    u = m.groupValues[1].toDoubleOrNull() ?: 0.0,
+                    v = m.groupValues[2].toDoubleOrNull() ?: 0.0
+                ))
+            }
+            BSplineCurveInfo(
+                success = isSuccess,
+                degree = extractNum("degree").toInt(),
+                knotCount = extractNum("knotCount").toInt(),
+                poleCount = extractNum("poleCount").toInt(),
+                lengthMm = extractNum("lengthMm"),
+                samples = samples,
+                errorMessage = ""
+            )
+        } catch (e: Exception) {
+            BSplineCurveInfo(false, 3, 0, 0, 0.0, emptyList(), e.message ?: "JSON parse error")
+        }
+    }
+
     internal external fun nativeCreateBox(
         dx: Double,
         dy: Double,
@@ -1738,5 +1920,34 @@ object NativeKernel {
         dirX: Double, dirY: Double, dirZ: Double,
         draftAngleDeg: Double,
         targetFaceIds: IntArray
+    ): String
+
+    // Milestone 17 JNI Declarations (Fasteners, Threads, Edge Projection, BSpline)
+    internal external fun nativeCreateStandardHole(
+        solidHandle: Long,
+        px: Double, py: Double, pz: Double,
+        dx: Double, dy: Double, dz: Double,
+        standardName: String,
+        holeTypeId: Int,
+        depthMm: Double
+    ): String
+
+    internal external fun nativeCreateThreadedBolt(
+        standardName: String,
+        shaftLengthMm: Double,
+        threadLengthMm: Double,
+        hexHead: Boolean
+    ): String
+
+    internal external fun nativeProjectEdges(
+        solidHandle: Long,
+        ox: Double, oy: Double, oz: Double,
+        nx: Double, ny: Double, nz: Double
+    ): String
+
+    internal external fun nativeGenerateBSpline(
+        uCoords: DoubleArray,
+        vCoords: DoubleArray,
+        sampleCount: Int
     ): String
 }
