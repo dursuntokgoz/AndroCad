@@ -1,0 +1,88 @@
+{
+  "metadata": {
+    "format_version": 1,
+    "app_name": "AndroCAD",
+    "app_version": "2026.1.0",
+    "units": "MM",
+    "schema": "AP242"
+  },
+  "parameters": {
+    "plate_len": "100.0",
+    "plate_width": "80.0",
+    "plate_thk": "8.0",
+    "hole_rad": "4.0"
+  },
+  "rollback_index": -1,
+  "nodes": [
+    {
+      "id": 1,
+      "name": "PlateBase",
+      "type": "Box",
+      "expressions": {
+        "dx": "plate_len",
+        "dy": "plate_width",
+        "dz": "plate_thk"
+      }
+    },
+    {
+      "id": 2,
+      "name": "Perforation_1",
+      "type": "Hole",
+      "expressions": {
+        "px": "25.0",
+        "py": "25.0",
+        "pz": "plate_thk",
+        "dx": "0.0",
+        "dy": "0.0",
+        "dz": "-1.0",
+        "radius": "hole_rad",
+        "depth": "12.0"
+      }
+    },
+    {
+      "id": 3,
+      "name": "Perforation_2",
+      "type": "Hole",
+      "expressions": {
+        "px": "75.0",
+        "py": "25.0",
+        "pz": "plate_thk",
+        "dx": "0.0",
+        "dy": "0.0",
+        "dz": "-1.0",
+        "radius": "hole_rad",
+        "depth": "12.0"
+      }
+    },
+    {
+      "id": 4,
+      "name": "Perforation_3",
+      "type": "Hole",
+      "expressions": {
+        "px": "25.0",
+        "py": "55.0",
+        "pz": "plate_thk",
+        "dx": "0.0",
+        "dy": "0.0",
+        "dz": "-1.0",
+        "radius": "hole_rad",
+        "depth": "12.0"
+      }
+    },
+    {
+      "id": 5,
+      "name": "Perforation_4",
+      "type": "Hole",
+      "expressions": {
+        "px": "75.0",
+        "py": "55.0",
+        "pz": "plate_thk",
+        "dx": "0.0",
+        "dy": "0.0",
+        "dz": "-1.0",
+        "radius": "hole_rad",
+        "depth": "12.0"
+      }
+    }
+  ]
+}

@@ -208,6 +208,126 @@ void TestCorruptAndSafetyChecks() {
     std::cout << "  [PASS] All robustness and error guards verified without crashes!" << std::endl;
 }
 
+void TestSampleDesignsHostRebuild() {
+    std::cout << "[AndroCAD Test] Running Sample Designs Host Rebuild & Parameter Mutation..." << std::endl;
+
+    // 1. L-Bracket
+    {
+        TimelineDAG dag;
+        dag.SetParameter("base_len", "80.0");
+        dag.SetParameter("width", "40.0");
+        dag.SetParameter("base_thk", "12.0");
+        dag.SetParameter("hole_rad", "5.0");
+
+        dag.AddBoxNode("BaseLimb", "base_len", "width", "base_thk");
+        TopologicalReference dummyRef;
+        dag.AddHoleNode("MountHole1", dummyRef, "20.0", "20.0", "base_thk", "0.0", "0.0", "-1.0", "hole_rad", "15.0");
+        dag.AddHoleNode("MountHole2", dummyRef, "60.0", "20.0", "base_thk", "0.0", "0.0", "-1.0", "hole_rad", "15.0");
+
+        assert(dag.Rebuild());
+        double vol = ProjectIO::ComputeVolume(dag.GetActiveShape());
+        std::cout << "  L-Bracket Initial Volume: " << vol << " mm³ (Expected: ~36515 mm³)" << std::endl;
+        assert(std::abs(vol - 36515.04) < 100.0);
+
+        // Mutate parameter
+        dag.SetParameter("base_len", "100.0");
+        assert(dag.Rebuild());
+        double mutatedVol = ProjectIO::ComputeVolume(dag.GetActiveShape());
+        std::cout << "  L-Bracket Mutated Volume (base_len=100): " << mutatedVol << " mm³ (Expected: ~46115 mm³)" << std::endl;
+        assert(std::abs(mutatedVol - 46115.04) < 100.0);
+
+        // Save and Load roundtrip
+        std::string tmpPath = "tmp_l_bracket.androcad";
+        assert(ProjectIO::SaveProject(dag, tmpPath).success);
+        TimelineDAG loaded;
+        assert(ProjectIO::LoadProject(loaded, tmpPath).success);
+        assert(loaded.Rebuild());
+        double roundtripVol = ProjectIO::ComputeVolume(loaded.GetActiveShape());
+        assert(std::abs(roundtripVol - mutatedVol) < 1.0);
+        std::remove(tmpPath.c_str());
+    }
+
+    // 2. Flanged Bushing
+    {
+        TimelineDAG dag;
+        dag.SetParameter("flange_dx", "60.0");
+        dag.SetParameter("flange_dy", "60.0");
+        dag.SetParameter("flange_thk", "10.0");
+        dag.SetParameter("bore_radius", "12.0");
+
+        dag.AddBoxNode("FlangeBody", "flange_dx", "flange_dy", "flange_thk");
+        TopologicalReference dummyRef;
+        dag.AddHoleNode("CentralShaftBore", dummyRef, "30.0", "30.0", "flange_thk", "0.0", "0.0", "-1.0", "bore_radius", "15.0");
+
+        assert(dag.Rebuild());
+        double vol = ProjectIO::ComputeVolume(dag.GetActiveShape());
+        std::cout << "  Flanged Bushing Initial Volume: " << vol << " mm³ (Expected: ~31476 mm³)" << std::endl;
+        assert(std::abs(vol - 31476.11) < 100.0);
+
+        // Mutate parameter
+        dag.SetParameter("bore_radius", "10.0");
+        assert(dag.Rebuild());
+        double mutatedVol = ProjectIO::ComputeVolume(dag.GetActiveShape());
+        std::cout << "  Flanged Bushing Mutated Volume (bore_radius=10): " << mutatedVol << " mm³ (Expected: ~32858 mm³)" << std::endl;
+        assert(std::abs(mutatedVol - 32858.41) < 100.0);
+    }
+
+    // 3. Phone Stand
+    {
+        TimelineDAG dag;
+        dag.SetParameter("stand_len", "70.0");
+        dag.SetParameter("stand_width", "50.0");
+        dag.SetParameter("stand_height", "25.0");
+        dag.SetParameter("cable_slot_rad", "6.0");
+
+        dag.AddBoxNode("StandBaseBlock", "stand_len", "stand_width", "stand_height");
+        TopologicalReference dummyRef;
+        dag.AddHoleNode("CablePassSlot", dummyRef, "35.0", "25.0", "stand_height", "0.0", "0.0", "-1.0", "cable_slot_rad", "30.0");
+
+        assert(dag.Rebuild());
+        double vol = ProjectIO::ComputeVolume(dag.GetActiveShape());
+        std::cout << "  Phone Stand Initial Volume: " << vol << " mm³ (Expected: ~84672 mm³)" << std::endl;
+        assert(std::abs(vol - 84672.57) < 100.0);
+
+        // Mutate parameter
+        dag.SetParameter("stand_height", "30.0");
+        assert(dag.Rebuild());
+        double mutatedVol = ProjectIO::ComputeVolume(dag.GetActiveShape());
+        std::cout << "  Phone Stand Mutated Volume (stand_height=30): " << mutatedVol << " mm³ (Expected: ~101607 mm³)" << std::endl;
+        assert(std::abs(mutatedVol - 101607.08) < 100.0);
+    }
+
+    // 4. Perforated Plate
+    {
+        TimelineDAG dag;
+        dag.SetParameter("plate_len", "100.0");
+        dag.SetParameter("plate_width", "80.0");
+        dag.SetParameter("plate_thk", "8.0");
+        dag.SetParameter("hole_rad", "4.0");
+
+        dag.AddBoxNode("PlateBase", "plate_len", "plate_width", "plate_thk");
+        TopologicalReference dummyRef;
+        dag.AddHoleNode("Perforation_1", dummyRef, "25.0", "25.0", "plate_thk", "0.0", "0.0", "-1.0", "hole_rad", "12.0");
+        dag.AddHoleNode("Perforation_2", dummyRef, "75.0", "25.0", "plate_thk", "0.0", "0.0", "-1.0", "hole_rad", "12.0");
+        dag.AddHoleNode("Perforation_3", dummyRef, "25.0", "55.0", "plate_thk", "0.0", "0.0", "-1.0", "hole_rad", "12.0");
+        dag.AddHoleNode("Perforation_4", dummyRef, "75.0", "55.0", "plate_thk", "0.0", "0.0", "-1.0", "hole_rad", "12.0");
+
+        assert(dag.Rebuild());
+        double vol = ProjectIO::ComputeVolume(dag.GetActiveShape());
+        std::cout << "  Perforated Plate Initial Volume: " << vol << " mm³ (Expected: ~62391 mm³)" << std::endl;
+        assert(std::abs(vol - 62391.50) < 100.0);
+
+        // Mutate parameter
+        dag.SetParameter("plate_thk", "10.0");
+        assert(dag.Rebuild());
+        double mutatedVol = ProjectIO::ComputeVolume(dag.GetActiveShape());
+        std::cout << "  Perforated Plate Mutated Volume (plate_thk=10): " << mutatedVol << " mm³ (Expected: ~77989 mm³)" << std::endl;
+        assert(std::abs(mutatedVol - 77989.38) < 100.0);
+    }
+
+    std::cout << "  [PASS] All 4 original sample designs rebuild and parameter recomputations passed!" << std::endl;
+}
+
 int main() {
     std::cout << "==========================================================" << std::endl;
     std::cout << " AndroCAD Milestone 6: Versioned Project I/O & Data Exchange " << std::endl;
@@ -217,6 +337,7 @@ int main() {
     TestSTLExportImportRoundtrip();
     TestProjectJsonSerializationRoundtrip();
     TestCorruptAndSafetyChecks();
+    TestSampleDesignsHostRebuild();
 
     std::cout << "\n[PASS] All Milestone 6 Data Exchange & Project I/O Tests Passed Successfully!" << std::endl;
     return 0;
