@@ -35,6 +35,10 @@ AndroCAD is built with a **tablet-first** engineering workflow following modern 
 ![AndroCAD Tablet Mesh Workspace UI](docs/images/androcad_tablet_mesh_ui.png)
 *Mesh workspace: Triangle mesh manipulation, topology analysis (Euler characteristic $\chi = 2$, boundary loops, manifold checks), vertex welding repair, volume-preserving Laplacian smoothing filter, and direct conversion of high-density 3D scans into watertight parametric B-Rep solids.*
 
+### Linear Static Stress Simulation & FEA Heatmap
+![AndroCAD Tablet FEA Simulation UI](docs/images/androcad_tablet_simulation_ui.png)
+*Simulation workspace: Embedded 3D linear elastic finite element analysis (FEA), tetrahedral volume discretization, fixed and roller boundary constraints, structural force and pressure loads, Preconditioned Conjugate Gradient (PCG) solver, Von Mises stress heatmap (Turbo rainbow colormap), Factor of Safety (FOS) evaluation, and real-time exaggerated deformation visualization.*
+
 ---
 
 ## Key Features & Architecture
