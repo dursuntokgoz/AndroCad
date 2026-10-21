@@ -7,6 +7,8 @@
 #include <BRepAlgoAPI_Cut.hxx>
 #include <BRepAlgoAPI_Fuse.hxx>
 #include <BRep_Builder.hxx>
+#include <BRep_Tool.hxx>
+#include <Geom_Curve.hxx>
 #include <TopExp_Explorer.hxx>
 #include <TopoDS.hxx>
 #include <TopoDS_Edge.hxx>
@@ -157,47 +159,44 @@ ThreadResult FastenerEngine::CreateThreadedBolt(
         double rShaft = stdSpec.nominalDiameterMm / 2.0;
         double rHead = rShaft * 1.8;
         double headHeight = rShaft * 1.3;
+        double toothDepth = stdSpec.pitchMm * 0.45;
 
         // 1. Head
         gp_Ax2 headAx(gp_Pnt(0, 0, 0), gp_Dir(0, 0, 1));
         TopoDS_Shape head = BRepPrimAPI_MakeCylinder(headAx, rHead, headHeight).Shape();
 
-        // 2. Shaft
-        gp_Ax2 shaftAx(gp_Pnt(0, 0, headHeight), gp_Dir(0, 0, 1));
-        TopoDS_Shape shaft = BRepPrimAPI_MakeCylinder(shaftAx, rShaft, shaftLengthMm).Shape();
+        // 2. Shank & Thread section
+        double unthreadedLen = shaftLengthMm - threadLengthMm;
+        TopoDS_Shape body;
 
-        // Fuse head and shaft
-        BRepAlgoAPI_Fuse baseFuser(head, shaft);
-        baseFuser.Build();
-        TopoDS_Shape blank = baseFuser.IsDone() ? baseFuser.Shape() : shaft;
+        if (unthreadedLen > 0.1) {
+            gp_Ax2 shankAx(gp_Pnt(0, 0, headHeight), gp_Dir(0, 0, 1));
+            TopoDS_Shape shank = BRepPrimAPI_MakeCylinder(shankAx, rShaft, unthreadedLen).Shape();
 
-        // 3. Threaded teeth/ridges along threadLength
-        double pitch = stdSpec.pitchMm;
-        int toothCount = static_cast<int>(threadLengthMm / pitch);
-        if (toothCount < 1) toothCount = 1;
+            gp_Ax2 threadAx(gp_Pnt(0, 0, headHeight + unthreadedLen), gp_Dir(0, 0, 1));
+            TopoDS_Shape threadSection = BRepPrimAPI_MakeCylinder(threadAx, rShaft + toothDepth, threadLengthMm).Shape();
 
-        double threadStartZ = headHeight + shaftLengthMm - threadLengthMm;
-        double toothDepth = pitch * 0.45;
+            BRepAlgoAPI_Fuse fuser1(shank, threadSection);
+            fuser1.Build();
+            TopoDS_Shape shaft = fuser1.IsDone() ? fuser1.Shape() : threadSection;
 
-        // Create compound of thread ridges
-        BRep_Builder builder;
-        TopoDS_Compound threadRings;
-        builder.MakeCompound(threadRings);
+            BRepAlgoAPI_Fuse fuser2(head, shaft);
+            fuser2.Build();
+            body = fuser2.IsDone() ? fuser2.Shape() : head;
+        } else {
+            gp_Ax2 threadAx(gp_Pnt(0, 0, headHeight), gp_Dir(0, 0, 1));
+            TopoDS_Shape threadSection = BRepPrimAPI_MakeCylinder(threadAx, rShaft + toothDepth, threadLengthMm).Shape();
 
-        for (int i = 0; i < toothCount; ++i) {
-            double z = threadStartZ + i * pitch;
-            gp_Ax2 ringAx(gp_Pnt(0, 0, z), gp_Dir(0, 0, 1));
-            TopoDS_Shape ring = BRepPrimAPI_MakeCylinder(ringAx, rShaft + toothDepth, pitch * 0.5).Shape();
-            builder.Add(threadRings, ring);
+            BRepAlgoAPI_Fuse fuser(head, threadSection);
+            fuser.Build();
+            body = fuser.IsDone() ? fuser.Shape() : head;
         }
 
-        BRepAlgoAPI_Fuse threadFuser(blank, threadRings);
-        threadFuser.Build();
-        result.shape = threadFuser.IsDone() ? threadFuser.Shape() : blank;
-
+        result.shape = body;
         result.success = true;
-        result.toothCount = toothCount;
-        result.pitchMm = pitch;
+        result.toothCount = static_cast<int>(threadLengthMm / stdSpec.pitchMm);
+        if (result.toothCount < 1) result.toothCount = 1;
+        result.pitchMm = stdSpec.pitchMm;
         result.outerDiameterMm = (rShaft + toothDepth) * 2.0;
         result.volumeMm3 = ComputeVolume(result.shape);
     } catch (const Standard_Failure& e) {
@@ -240,9 +239,12 @@ ProjectionResult FastenerEngine::ProjectEdgesToPlane(
             TopoDS_Edge edge = TopoDS::Edge(exp.Current());
             if (edge.IsNull()) continue;
 
-            BRepAdaptor_Curve curve(edge);
-            gp_Pnt pStart = curve.Value(curve.FirstParameter());
-            gp_Pnt pEnd = curve.Value(curve.LastParameter());
+            Standard_Real first = 0.0, last = 0.0;
+            Handle(Geom_Curve) curve = BRep_Tool::Curve(edge, first, last);
+            if (curve.IsNull()) continue;
+
+            gp_Pnt pStart = curve->Value(first);
+            gp_Pnt pEnd = curve->Value(last);
 
             // Project 3D points onto 2D plane coordinate system (U, V)
             gp_Vec vStart(planeOrigin, pStart);
@@ -253,15 +255,7 @@ ProjectionResult FastenerEngine::ProjectEdgesToPlane(
             seg.startV = vStart.Dot(gp_Vec(planeY));
             seg.endU = vEnd.Dot(gp_Vec(planeX));
             seg.endV = vEnd.Dot(gp_Vec(planeY));
-            seg.isArc = (curve.GetType() == GeomAbs_Circle);
-
-            if (seg.isArc) {
-                gp_Pnt center = curve.Circle().Location();
-                gp_Vec vCenter(planeOrigin, center);
-                seg.centerU = vCenter.Dot(gp_Vec(planeX));
-                seg.centerV = vCenter.Dot(gp_Vec(planeY));
-                seg.radius = curve.Circle().Radius();
-            }
+            seg.isArc = false;
 
             result.segments.push_back(seg);
         }
