@@ -727,10 +727,11 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                         deformationScale = 5.0
                                                     )
                                                     activeSimulationResult = res
-                                                    if (res.meshResult != null && res.meshResult.success) {
+                                                    val mResult = res.meshResult
+                                                    if (mResult != null && mResult.success) {
                                                         activeSolid?.close()
-                                                        activeSolid = res.meshResult
-                                                        renderer?.updateMesh(res.meshResult)
+                                                        activeSolid = mResult
+                                                        renderer?.updateMesh(mResult)
                                                     }
                                                     timelineItems = (timelineItems + "${timelineItems.size + 1}. Beam FEA Simulation").toMutableList()
                                                     featureStatusText = "Beam FEA: Max Stress ${res.maxVonMisesStressMPa.toInt()} MPa | Max Disp ${"%.3f".format(res.maxDisplacementMm)} mm | FOS ${"%.2f".format(res.minSafetyFactor)}"
@@ -748,10 +749,11 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                         deformationScale = 5.0
                                                     )
                                                     activeSimulationResult = res
-                                                    if (res.meshResult != null && res.meshResult.success) {
+                                                    val mResult = res.meshResult
+                                                    if (mResult != null && mResult.success) {
                                                         activeSolid?.close()
-                                                        activeSolid = res.meshResult
-                                                        renderer?.updateMesh(res.meshResult)
+                                                        activeSolid = mResult
+                                                        renderer?.updateMesh(mResult)
                                                     }
                                                     timelineItems = (timelineItems + "${timelineItems.size + 1}. Part FEA Simulation").toMutableList()
                                                     featureStatusText = "Part FEA: Max Stress ${res.maxVonMisesStressMPa.toInt()} MPa | FOS ${"%.2f".format(res.minSafetyFactor)}"
@@ -1169,15 +1171,16 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             Text(text = "• length = width * 2 (200.0 mm)", color = textMuted, fontSize = 11.sp)
                             Text(text = "• height = 25.0 mm", color = textMuted, fontSize = 11.sp)
 
-                            if (activeSimulationResult != null && activeSimulationResult!!.success) {
+                            val simRes = activeSimulationResult
+                            if (simRes != null && simRes.success) {
                                 Spacer(modifier = Modifier.height(8.dp))
                                 Text(text = "FEA SIMULATION RESULTS", color = textColor, fontSize = 12.sp)
                                 Text(text = "Study: Linear Static Stress", color = highlightCyan, fontSize = 11.sp)
-                                Text(text = "Max Stress: ${activeSimulationResult!!.maxVonMisesStressMPa.toInt()} MPa", color = Color(0xFFFF5252), fontSize = 11.sp)
-                                Text(text = "Min Stress: ${activeSimulationResult!!.minVonMisesStressMPa.toInt()} MPa", color = Color(0xFF448AFF), fontSize = 11.sp)
-                                Text(text = "Max Disp: ${"%.3f".format(activeSimulationResult!!.maxDisplacementMm)} mm", color = textColor, fontSize = 11.sp)
-                                Text(text = "Safety Factor: ${"%.2f".format(activeSimulationResult!!.minSafetyFactor)}", color = if (activeSimulationResult!!.minSafetyFactor >= 1.5) successGreen else Color(0xFFFF5252), fontSize = 11.sp)
-                                Text(text = "Nodes: ${activeSimulationResult!!.nodeCount} | Tets: ${activeSimulationResult!!.elementCount}", color = textMuted, fontSize = 10.sp)
+                                Text(text = "Max Stress: ${simRes.maxVonMisesStressMPa.toInt()} MPa", color = Color(0xFFFF5252), fontSize = 11.sp)
+                                Text(text = "Min Stress: ${simRes.minVonMisesStressMPa.toInt()} MPa", color = Color(0xFF448AFF), fontSize = 11.sp)
+                                Text(text = "Max Disp: ${"%.3f".format(simRes.maxDisplacementMm)} mm", color = textColor, fontSize = 11.sp)
+                                Text(text = "Safety Factor: ${"%.2f".format(simRes.minSafetyFactor)}", color = if (simRes.minSafetyFactor >= 1.5) successGreen else Color(0xFFFF5252), fontSize = 11.sp)
+                                Text(text = "Nodes: ${simRes.nodeCount} | Tets: ${simRes.elementCount}", color = textMuted, fontSize = 10.sp)
                             }
 
                             Spacer(modifier = Modifier.height(10.dp))
