@@ -16,6 +16,10 @@ This document tracks development milestones, architectural decisions, and open r
    * *Selection:* Application Kotlin/Compose code is proprietary (All Rights Reserved). OCCT and PlaneGCS are built strictly as dynamically linked `.so` libraries. Relinking instructions and build scripts are published. *Flagged: Needs legal review before commercial release.*
 5. **Compiler Flags Strategy**
    * *Selection:* Rather than blanket `-Oz` (which degrades numerical performance in heavy math loops), compute-heavy toolkits (`TKBO`, `TKBool`, `TKFillet`, `TKMesh`, `TKGeomAlgo`) are compiled with `-O2 -flto`, while foundational and data exchange toolkits use `-Oz` for size reduction.
+6. **Storage Access Framework (SAF) vs. Broad Storage Permissions**
+   * *Selection:* AndroCAD strictly adheres to modern Android privacy best practices by rejecting broad file permissions (`READ_EXTERNAL_STORAGE`, `WRITE_EXTERNAL_STORAGE`, and `MANAGE_EXTERNAL_STORAGE`). No storage permissions are requested at application startup. Instead, the application exclusively employs Android's Storage Access Framework (`ActivityResultContracts.OpenDocument` and `ActivityResultContracts.CreateDocument`) on-demand when the user initiates an Import or Export action.
+   * *Content URI Bridge:* Native C++ Open CASCADE (OCCT) file I/O routines cannot directly access Android `content://` URIs. On import, the content stream is copied safely into application cache (`context.cacheDir`), passed to the native kernel as a valid POSIX path, and cleaned up after mesh ingestion. On export, the native kernel exports to a temporary cache file, which is streamed directly into the SAF document output stream.
+   * *Empty State:* First-time users are greeted with a clear, welcoming empty-state screen offering direct access to the Onboarding Tutorial, Sample CAD Designs gallery, and file import, ensuring immediate engagement without scary permission dialogs.
 
 ---
 

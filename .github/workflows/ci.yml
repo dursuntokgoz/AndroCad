@@ -3,8 +3,7 @@ name: ci
 on:
   push:
     branches:
-      - main
-      - 'milestone-*'
+      - '**'
   pull_request:
     branches:
       - main
@@ -110,6 +109,23 @@ jobs:
       - name: Run Unit Tests and Assemble Debug APK
         run: |
           gradle testDebugUnitTest assembleDebug --stacktrace -POCCT_INSTALL_DIR=$(pwd)/occt-install-android-arm64-v8a
+
+      - name: Verify No Broad Storage Permissions in Manifest
+        run: |
+          echo "Auditing manifests for broad storage permissions..."
+          PROHIBITED=("READ_EXTERNAL_STORAGE" "WRITE_EXTERNAL_STORAGE" "MANAGE_EXTERNAL_STORAGE")
+          VIOLATION=0
+          for perm in "${PROHIBITED[@]}"; do
+            if grep -rq "$perm" app/build/intermediates/merged_manifest/ app/src/main/AndroidManifest.xml 2>/dev/null; then
+              echo "ERROR: Prohibited storage permission found: $perm"
+              VIOLATION=1
+            fi
+          done
+          if [ $VIOLATION -ne 0 ]; then
+            echo "FAILED: Broad storage permissions violate AndroCAD privacy architecture."
+            exit 1
+          fi
+          echo "PASSED: Merged manifest contains zero broad storage permissions."
 
       - name: Measure and Report Binary Sizes
         run: |
