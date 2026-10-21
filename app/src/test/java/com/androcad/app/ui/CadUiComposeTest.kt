@@ -4,7 +4,10 @@ package com.androcad.app.ui
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.androcad.app.AndroCadApp
+import com.androcad.app.tutorial.TutorialManager
 import com.androcad.kernel.NativeKernel
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,6 +20,16 @@ class CadUiComposeTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
+
+    @Before
+    fun setUp() {
+        TutorialManager.disableForTesting(true)
+    }
+
+    @After
+    fun tearDown() {
+        TutorialManager.disableForTesting(false)
+    }
 
     private fun setContentForTest() {
         val fallbackBox = NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
@@ -95,5 +108,12 @@ class CadUiComposeTest {
         composeTestRule.onNodeWithTag("nav_pan").assertIsDisplayed().performClick()
         composeTestRule.onNodeWithTag("nav_fit").assertIsDisplayed().performClick()
         composeTestRule.onNodeWithTag("nav_display_mode").assertIsDisplayed().performClick()
+    }
+
+    @Test
+    fun testTopBarTutorialAndSamplesButtons() {
+        setContentForTest()
+        composeTestRule.onNodeWithTag("btn_restart_tutorial").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("btn_open_samples").assertIsDisplayed()
     }
 }

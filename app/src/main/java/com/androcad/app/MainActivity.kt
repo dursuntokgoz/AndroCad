@@ -37,6 +37,9 @@ import com.androcad.app.model.BrowserState
 import com.androcad.app.model.CadBodyItem
 import com.androcad.app.model.CadSketchItem
 import com.androcad.app.ui.CadBrowserView
+import com.androcad.app.tutorial.TutorialManager
+import com.androcad.app.tutorial.TutorialOverlayView
+import kotlinx.coroutines.launch
 import com.androcad.app.renderer.DisplayMode
 import com.androcad.app.renderer.NamedView
 import com.androcad.kernel.BoxMeshResult
@@ -156,7 +159,16 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
     var phoneActiveSheet by remember { mutableStateOf<String?>(null) }
     var showEmptyState by remember { mutableStateOf(false) }
     var showTutorial by remember { mutableStateOf(false) }
+    var tutorialStepIndex by remember { mutableStateOf(0) }
     var showSamplesGallery by remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(Unit) {
+        if (!TutorialManager.isCompleted(context)) {
+            showTutorial = true
+            tutorialStepIndex = 0
+        }
+    }
 
     val browserState = remember {
         mutableStateOf(
@@ -363,6 +375,43 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     }
 
                     Spacer(modifier = Modifier.weight(1f))
+
+                    // Restart Tutorial Button
+                    Surface(
+                        color = chipBgColor,
+                        shape = RoundedCornerShape(4.dp),
+                        modifier = Modifier.testTag("btn_restart_tutorial").clickable {
+                            tutorialStepIndex = 0
+                            showTutorial = true
+                        }
+                    ) {
+                        Text(
+                            text = "🎓 TUTORIAL",
+                            color = textColor,
+                            fontSize = 11.sp,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(6.dp))
+
+                    // Open Samples Gallery Button
+                    Surface(
+                        color = chipBgColor,
+                        shape = RoundedCornerShape(4.dp),
+                        modifier = Modifier.testTag("btn_open_samples").clickable {
+                            showSamplesGallery = true
+                        }
+                    ) {
+                        Text(
+                            text = "📁 SAMPLES",
+                            color = textColor,
+                            fontSize = 11.sp,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(6.dp))
 
                     // Dark / Light Theme Toggle Button
                     Surface(
@@ -2336,6 +2385,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     isDarkTheme = isDarkTheme,
                     onStartTutorial = {
                         showEmptyState = false
+                        tutorialStepIndex = 0
                         showTutorial = true
                     },
                     onOpenSamples = {
@@ -2351,6 +2401,43 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     },
                     onNewPart = {
                         showEmptyState = false
+                    },
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+
+            if (showTutorial && tutorialStepIndex in TutorialManager.STEPS.indices) {
+                val currentStep = TutorialManager.STEPS[tutorialStepIndex]
+                TutorialOverlayView(
+                    stepIndex = tutorialStepIndex,
+                    totalSteps = TutorialManager.STEPS.size,
+                    step = currentStep,
+                    isDarkTheme = isDarkTheme,
+                    onNext = {
+                        if (tutorialStepIndex < TutorialManager.STEPS.size - 1) {
+                            tutorialStepIndex++
+                            val targetTab = TutorialManager.STEPS[tutorialStepIndex].targetTab
+                            if (targetTab != null) activeTab = targetTab
+                        }
+                    },
+                    onPrev = {
+                        if (tutorialStepIndex > 0) {
+                            tutorialStepIndex--
+                            val targetTab = TutorialManager.STEPS[tutorialStepIndex].targetTab
+                            if (targetTab != null) activeTab = targetTab
+                        }
+                    },
+                    onSkip = {
+                        showTutorial = false
+                        coroutineScope.launch {
+                            TutorialManager.setCompleted(context, true)
+                        }
+                    },
+                    onFinish = {
+                        showTutorial = false
+                        coroutineScope.launch {
+                            TutorialManager.setCompleted(context, true)
+                        }
                     },
                     modifier = Modifier.fillMaxSize()
                 )
