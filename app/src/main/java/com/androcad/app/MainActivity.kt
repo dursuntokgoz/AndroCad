@@ -1120,10 +1120,11 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                 }
                                                 "Mode 1 Vibration" -> {
                                                     val m1 = activeModalResult?.modes?.find { it.modeNumber == 1 }
-                                                    if (m1?.meshResult != null) {
+                                                    val m1Mesh = m1?.meshResult
+                                                    if (m1Mesh != null) {
                                                         activeSolid?.close()
-                                                        activeSolid = m1.meshResult
-                                                        renderer?.updateMesh(m1.meshResult)
+                                                        activeSolid = m1Mesh
+                                                        renderer?.updateMesh(m1Mesh)
                                                         featureStatusText = "Mode 1 Shape: ${"%.1f".format(m1.frequencyHz)} Hz (Bending, ${"%.1f".format(m1.angularFreqRadS)} rad/s)"
                                                     } else {
                                                         featureStatusText = "Please run Modal Analysis first"
@@ -1131,10 +1132,11 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                 }
                                                 "Mode 2 Vibration" -> {
                                                     val m2 = activeModalResult?.modes?.find { it.modeNumber == 2 }
-                                                    if (m2?.meshResult != null) {
+                                                    val m2Mesh = m2?.meshResult
+                                                    if (m2Mesh != null) {
                                                         activeSolid?.close()
-                                                        activeSolid = m2.meshResult
-                                                        renderer?.updateMesh(m2.meshResult)
+                                                        activeSolid = m2Mesh
+                                                        renderer?.updateMesh(m2Mesh)
                                                         featureStatusText = "Mode 2 Shape: ${"%.1f".format(m2.frequencyHz)} Hz (Bending/Torsion, ${"%.1f".format(m2.angularFreqRadS)} rad/s)"
                                                     } else {
                                                         featureStatusText = "Please run Modal Analysis first"
@@ -1142,10 +1144,11 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                 }
                                                 "Mode 3 Vibration" -> {
                                                     val m3 = activeModalResult?.modes?.find { it.modeNumber == 3 }
-                                                    if (m3?.meshResult != null) {
+                                                    val m3Mesh = m3?.meshResult
+                                                    if (m3Mesh != null) {
                                                         activeSolid?.close()
-                                                        activeSolid = m3.meshResult
-                                                        renderer?.updateMesh(m3.meshResult)
+                                                        activeSolid = m3Mesh
+                                                        renderer?.updateMesh(m3Mesh)
                                                         featureStatusText = "Mode 3 Shape: ${"%.1f".format(m3.frequencyHz)} Hz (Higher Harmonic, ${"%.1f".format(m3.angularFreqRadS)} rad/s)"
                                                     } else {
                                                         featureStatusText = "Please run Modal Analysis first"
@@ -1541,7 +1544,8 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                             fuseInstances = false
                                                         )
                                                     } catch (t: Throwable) { null }
-                                                    val mResult = if (res?.meshResult != null && res.meshResult.success) res.meshResult else NativeKernel.createFallbackBox(90.0, 50.0, 20.0)
+                                                    val resMesh = res?.meshResult
+                                                    val mResult = if (resMesh != null && resMesh.success) resMesh else NativeKernel.createFallbackBox(90.0, 50.0, 20.0)
                                                     activeSolid?.close()
                                                     activeSolid = mResult
                                                     renderer?.updateMesh(mResult)
@@ -1561,7 +1565,8 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                             fuseInstances = false
                                                         )
                                                     } catch (t: Throwable) { null }
-                                                    val mResult = if (res?.meshResult != null && res.meshResult.success) res.meshResult else NativeKernel.createFallbackBox(60.0, 60.0, 20.0)
+                                                    val resMesh = res?.meshResult
+                                                    val mResult = if (resMesh != null && resMesh.success) resMesh else NativeKernel.createFallbackBox(60.0, 60.0, 20.0)
                                                     activeSolid?.close()
                                                     activeSolid = mResult
                                                     renderer?.updateMesh(mResult)
@@ -1581,7 +1586,8 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                             fuseInstances = false
                                                         )
                                                     } catch (t: Throwable) { null }
-                                                    val mResult = if (res?.meshResult != null && res.meshResult.success) res.meshResult else NativeKernel.createFallbackBox(70.0, 20.0, 15.0)
+                                                    val resMesh = res?.meshResult
+                                                    val mResult = if (resMesh != null && resMesh.success) resMesh else NativeKernel.createFallbackBox(70.0, 20.0, 15.0)
                                                     activeSolid?.close()
                                                     activeSolid = mResult
                                                     renderer?.updateMesh(mResult)
@@ -1601,7 +1607,8 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                             targetFaceIds = intArrayOf(targetFace)
                                                         )
                                                     } catch (t: Throwable) { null }
-                                                    val mResult = if (res?.meshResult != null && res.meshResult.success) res.meshResult else NativeKernel.createFallbackBox(30.0, 30.0, 40.0)
+                                                    val resMesh = res?.meshResult
+                                                    val mResult = if (resMesh != null && resMesh.success) resMesh else NativeKernel.createFallbackBox(30.0, 30.0, 40.0)
                                                     activeSolid?.close()
                                                     activeSolid = mResult
                                                     renderer?.updateMesh(mResult)
@@ -1622,7 +1629,8 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                             depthMm = 20.0
                                                         )
                                                     } catch (t: Throwable) { null }
-                                                    val mResult = if (res?.meshResult != null && res.meshResult.success) res.meshResult else NativeKernel.createFallbackBox(50.0, 50.0, 20.0)
+                                                    val resMesh = res?.meshResult
+                                                    val mResult = if (resMesh != null && resMesh.success) resMesh else NativeKernel.createFallbackBox(50.0, 50.0, 20.0)
                                                     activeSolid?.close()
                                                     activeSolid = mResult
                                                     renderer?.updateMesh(mResult)
@@ -1638,7 +1646,8 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                             hexHead = true
                                                         )
                                                     } catch (t: Throwable) { null }
-                                                    val mResult = if (res?.meshResult != null && res.meshResult.success) res.meshResult else NativeKernel.createFallbackBox(16.0, 16.0, 30.0)
+                                                    val resMesh = res?.meshResult
+                                                    val mResult = if (resMesh != null && resMesh.success) resMesh else NativeKernel.createFallbackBox(16.0, 16.0, 30.0)
                                                     activeSolid?.close()
                                                     activeSolid = mResult
                                                     renderer?.updateMesh(mResult)
