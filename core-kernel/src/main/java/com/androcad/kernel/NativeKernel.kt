@@ -476,6 +476,33 @@ data class SimulationResultInfo(
     val errorMessage: String = ""
 )
 
+// -------------------------------------------------------------------------
+// Milestone 15: Subtractive CAM & G-Code Post-Processing
+// -------------------------------------------------------------------------
+
+enum class CAMPostDialect(val id: Int) {
+    ISO_GRBL(0),
+    HAAS_CNC(1),
+    FANUC_CNC(2)
+}
+
+data class CAMGCodeInfo(
+    val success: Boolean,
+    val lineCount: Int,
+    val cuttingTimeSec: Double,
+    val rapidTimeSec: Double,
+    val totalLengthMm: Double,
+    val materialVolumeRemovedCm3: Double,
+    val minX: Double,
+    val maxX: Double,
+    val minY: Double,
+    val maxY: Double,
+    val minZ: Double,
+    val maxZ: Double,
+    val gcode: String = "",
+    val errorMessage: String = ""
+)
+
 /**
  * High-performance JNI bridge to the OpenCASCADE native CAD kernel.
  */
@@ -1319,6 +1346,56 @@ object NativeKernel {
         }
     }
 
+    /**
+     * Milestone 15: Generates complete CNC subtractive manufacturing toolpaths and G-Code.
+     */
+    fun generateGCode(
+        lengthMm: Double = 100.0,
+        widthMm: Double = 50.0,
+        heightMm: Double = 20.0,
+        pocketDepthMm: Double = 10.0,
+        dialect: CAMPostDialect = CAMPostDialect.ISO_GRBL
+    ): CAMGCodeInfo {
+        val json = nativeCAMGenerateGCode(lengthMm, widthMm, heightMm, pocketDepthMm, dialect.id)
+        return parseCAMJson(json)
+    }
+
+    fun getCAMVisualLines(
+        lengthMm: Double = 100.0,
+        widthMm: Double = 50.0,
+        heightMm: Double = 20.0,
+        pocketDepthMm: Double = 10.0
+    ): FloatArray {
+        return nativeCAMGetVisualLines(lengthMm, widthMm, heightMm, pocketDepthMm)
+    }
+
+    private fun parseCAMJson(json: String): CAMGCodeInfo {
+        return try {
+            val isSuccess = json.contains("\"success\":true")
+            val extractNum = { key: String -> "\"$key\":([0-9.-]+)".toRegex().find(json)?.groupValues?.get(1)?.toDoubleOrNull() ?: 0.0 }
+            val gcodeMatch = "\"gcode\":\"(.*?)\",\"errorMessage\"".toRegex(RegexOption.DOT_MATCHES_ALL).find(json)
+            val gcodeClean = gcodeMatch?.groupValues?.get(1)?.replace("\\n", "\n")?.replace("\\\"", "\"") ?: ""
+            CAMGCodeInfo(
+                success = isSuccess,
+                lineCount = extractNum("lineCount").toInt(),
+                cuttingTimeSec = extractNum("cuttingTimeSec"),
+                rapidTimeSec = extractNum("rapidTimeSec"),
+                totalLengthMm = extractNum("totalLengthMm"),
+                materialVolumeRemovedCm3 = extractNum("materialVolumeRemovedCm3"),
+                minX = extractNum("minX"),
+                maxX = extractNum("maxX"),
+                minY = extractNum("minY"),
+                maxY = extractNum("maxY"),
+                minZ = extractNum("minZ"),
+                maxZ = extractNum("maxZ"),
+                gcode = gcodeClean,
+                errorMessage = ""
+            )
+        } catch (e: Exception) {
+            CAMGCodeInfo(false, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "", e.message ?: "JSON parse error")
+        }
+    }
+
     internal external fun nativeCreateBox(
         dx: Double,
         dy: Double,
@@ -1526,4 +1603,13 @@ object NativeKernel {
         solidHandle: Long, targetElementSizeMm: Double,
         forceN: Double, materialId: Int, deformationScale: Double
     ): String
+
+    // Milestone 15 JNI Declarations (CAM & G-Code Post-Processor)
+    internal external fun nativeCAMGenerateGCode(
+        lengthMm: Double, widthMm: Double, heightMm: Double, pocketDepthMm: Double, dialectId: Int
+    ): String
+
+    internal external fun nativeCAMGetVisualLines(
+        lengthMm: Double, widthMm: Double, heightMm: Double, pocketDepthMm: Double
+    ): FloatArray
 }

@@ -25,7 +25,7 @@
 | :--- | :--- | :--- | :--- |
 | **Lucide Icons** | Application UI, tree, file operations | `ISC` | [Lucide](https://lucide.dev/) (Copyright (c) Lucide Contributors) |
 | **Material Symbols** | Standard dialogs, system controls | `Apache-2.0` | [Google Material Symbols](https://fonts.google.com/icons) |
-| **Custom CAD Icons** | CAD features (Extrude, Revolve, Fillet, Loft, Sweep, Assembly, Joints, Flange, Flat Pattern, Relief, Drawing Views, Section Cut, Dimensions, Materials, Mass Properties, Center of Gravity, Mesh Repair, Mesh to Solid, Mesh Smooth, FEA Solve, FEA Constraints, Structural Loads, Safety Factor, ViewCube, etc.) | `All Rights Reserved` (Proprietary) | 100% original custom SVG drawings created specifically for AndroCAD. No proprietary CAD vendor icons used. |
+| **Custom CAD Icons** | CAD features (Extrude, Revolve, Fillet, Loft, Sweep, Assembly, Joints, Flange, Flat Pattern, Relief, Drawing Views, Section Cut, Dimensions, Materials, Mass Properties, Center of Gravity, Mesh Repair, Mesh to Solid, Mesh Smooth, FEA Solve, FEA Constraints, Structural Loads, Safety Factor, CAM Facing, CAM Pocketing, CAM Contour, CAM Drilling, G-Code Post, ViewCube, etc.) | `All Rights Reserved` (Proprietary) | 100% original custom SVG drawings created specifically for AndroCAD. No proprietary CAD vendor icons used. |
 
 ---
 

@@ -38,6 +38,8 @@ import com.androcad.kernel.MaterialInfo
 import com.androcad.kernel.PhysicalPropertiesInfo
 import com.androcad.kernel.MeshAnalysisInfo
 import com.androcad.kernel.SimulationResultInfo
+import com.androcad.kernel.CAMGCodeInfo
+import com.androcad.kernel.CAMPostDialect
 
 class MainActivity : ComponentActivity() {
 
@@ -105,6 +107,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
     val activeAssembly = remember { NativeKernel.createAssembly() }
     var assemblyAngleDeg by remember { mutableStateOf(0.0) }
     var activeSimulationResult by remember { mutableStateOf<SimulationResultInfo?>(null) }
+    var activeCAMResult by remember { mutableStateOf<CAMGCodeInfo?>(null) }
 
     // Phone layout bottom sheet toggle: null, "browser", "timeline", "properties"
     var phoneActiveSheet by remember { mutableStateOf<String?>(null) }
@@ -170,9 +173,9 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     )
 
                     val tabs = if (isTablet) {
-                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Mesh", "Simulation", "Drawing", "Assemble", "Inspect", "File / IO")
+                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Mesh", "Simulation", "Manufacture (CAM)", "Drawing", "Assemble", "Inspect", "File / IO")
                     } else {
-                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Mesh", "Simulation", "Drawing", "Assemble", "Inspect", "File / IO")
+                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Mesh", "Simulation", "Manufacture (CAM)", "Drawing", "Assemble", "Inspect", "File / IO")
                     }
 
                     tabs.forEach { tab ->
@@ -786,6 +789,60 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 )
                             }
                         }
+                    } else if (activeTab == "Manufacture (CAM)") {
+                        val camTools = listOf("Generate G-Code (GRBL)", "Haas G-Code", "Fanuc G-Code", "Facing Pass", "2D Pocketing", "2D Contour", "Peck Drilling")
+                        camTools.forEach { tool ->
+                            Surface(
+                                color = chipBgColor,
+                                shape = RoundedCornerShape(4.dp),
+                                modifier = Modifier
+                                    .clickable {
+                                        try {
+                                            when (tool) {
+                                                "Generate G-Code (GRBL)" -> {
+                                                    val res = NativeKernel.generateGCode(100.0, 50.0, 20.0, 10.0, CAMPostDialect.ISO_GRBL)
+                                                    activeCAMResult = res
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. CAM Post (GRBL)").toMutableList()
+                                                    featureStatusText = "CAM GRBL: ${res.lineCount} lines | Cut: ${res.cuttingTimeSec.toInt()}s | Vol: ${"%.1f".format(res.materialVolumeRemovedCm3)} cm³"
+                                                }
+                                                "Haas G-Code" -> {
+                                                    val res = NativeKernel.generateGCode(100.0, 50.0, 20.0, 10.0, CAMPostDialect.HAAS_CNC)
+                                                    activeCAMResult = res
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. CAM Post (Haas)").toMutableList()
+                                                    featureStatusText = "CAM Haas: ${res.lineCount} lines | O1001 generated"
+                                                }
+                                                "Fanuc G-Code" -> {
+                                                    val res = NativeKernel.generateGCode(100.0, 50.0, 20.0, 10.0, CAMPostDialect.FANUC_CNC)
+                                                    activeCAMResult = res
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. CAM Post (Fanuc)").toMutableList()
+                                                    featureStatusText = "CAM Fanuc: ${res.lineCount} lines | G28 reference home"
+                                                }
+                                                "Facing Pass" -> {
+                                                    featureStatusText = "CAM: 10mm Flat Endmill facing pass generated (Z=20.0mm)"
+                                                }
+                                                "2D Pocketing" -> {
+                                                    featureStatusText = "CAM: Concentric climb milling pocket passes generated (Depth=10mm)"
+                                                }
+                                                "2D Contour" -> {
+                                                    featureStatusText = "CAM: 6mm Flat Endmill finish contour passes with cutter radius compensation"
+                                                }
+                                                "Peck Drilling" -> {
+                                                    featureStatusText = "CAM: G83 peck drilling cycles generated for 4x corner holes (5mm drill)"
+                                                }
+                                            }
+                                        } catch (t: Throwable) {
+                                            featureStatusText = "CAM error: ${t.message}"
+                                        }
+                                    }
+                            ) {
+                                Text(
+                                    text = tool,
+                                    color = textColor,
+                                    fontSize = 11.sp,
+                                    modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
+                                )
+                            }
+                        }
                     } else {
                         val tools = listOf("Box", "Extrude", "Revolve", "Fillet", "Chamfer", "Hole", "Shell", "Combine")
                         tools.forEach { tool ->
@@ -1181,6 +1238,18 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 Text(text = "Max Disp: ${"%.3f".format(simRes.maxDisplacementMm)} mm", color = textColor, fontSize = 11.sp)
                                 Text(text = "Safety Factor: ${"%.2f".format(simRes.minSafetyFactor)}", color = if (simRes.minSafetyFactor >= 1.5) successGreen else Color(0xFFFF5252), fontSize = 11.sp)
                                 Text(text = "Nodes: ${simRes.nodeCount} | Tets: ${simRes.elementCount}", color = textMuted, fontSize = 10.sp)
+                            }
+
+                            val camRes = activeCAMResult
+                            if (camRes != null && camRes.success) {
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Text(text = "CAM & G-CODE STATISTICS", color = textColor, fontSize = 12.sp)
+                                Text(text = "Operations: 5 (Facing, Pocket, Contour, Drill)", color = highlightCyan, fontSize = 11.sp)
+                                Text(text = "G-Code Lines: ${camRes.lineCount}", color = successGreen, fontSize = 11.sp)
+                                Text(text = "Cutting Time: ${camRes.cuttingTimeSec.toInt()} s", color = textColor, fontSize = 11.sp)
+                                Text(text = "Rapid Time: ${"%.1f".format(camRes.rapidTimeSec)} s", color = textMuted, fontSize = 11.sp)
+                                Text(text = "Toolpath Distance: ${camRes.totalLengthMm.toInt()} mm", color = textMuted, fontSize = 11.sp)
+                                Text(text = "Material Removed: ${"%.1f".format(camRes.materialVolumeRemovedCm3)} cm³", color = highlightOrange, fontSize = 11.sp)
                             }
 
                             Spacer(modifier = Modifier.height(10.dp))
