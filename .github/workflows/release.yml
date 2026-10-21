@@ -35,6 +35,8 @@ jobs:
         with:
           path: occt-install-android-arm64-v8a
           key: occt-android-arm64-v8a-V7_8_0-ndk26.3-api24-flags-O2-v2-${{ hashFiles('scripts/build_occt_android.sh') }}
+          restore-keys: |
+            occt-android-arm64-v8a-V7_8_0-ndk26.3-api24-flags-O2-v2-
 
       - name: Build OCCT on Cache Miss
         if: steps.cache-occt.outputs.cache-hit != 'true'

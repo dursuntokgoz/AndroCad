@@ -965,13 +965,6 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 )
                             }
                         }
-                                    text = tool,
-                                    color = textColor,
-                                    fontSize = 11.sp,
-                                    modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
-                                )
-                            }
-                        }
                     } else {
                         val tools = listOf("Box", "Extrude", "Revolve", "Fillet", "Chamfer", "Hole", "Shell", "Combine", "Rect Pattern", "Circular Pattern", "Mirror", "Draft Angle", "ISO Hole (M6 CB)", "Threaded Bolt (M8)")
                         tools.forEach { tool ->
