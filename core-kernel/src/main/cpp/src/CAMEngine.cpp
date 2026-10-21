@@ -751,4 +751,504 @@ GCodeResult CAMEngine::GenerateCompleteBracketSetup(double bracketLength,
     return cam.PostProcess(dialect, "ANDROCAD_BRACKET_CAM", 1001);
 }
 
+// ==========================================
+// Milestone 18: 3D CAM Surfacing Operations
+// ==========================================
+
+CAMOperation CAMEngine::GenerateAdaptiveClearing3D(
+        int opId, const std::string& name,
+        const ToolDefinition& tool,
+        double minX, double maxX,
+        double minY, double maxY,
+        double topZ, double bottomZ,
+        double stepdownMm,
+        double optimalLoadMm) {
+    CAMOperation op;
+    op.id = opId;
+    op.name = name;
+    op.type = OperationType::ADAPTIVE_3D;
+    op.tool = tool;
+    op.topZ = topZ;
+    op.bottomZ = bottomZ;
+    op.stepdownMm = stepdownMm;
+    op.stepoverMm = optimalLoadMm;
+
+    double toolRadius = tool.diameterMm * 0.5;
+    double innerMinX = minX + toolRadius;
+    double innerMaxX = maxX - toolRadius;
+    double innerMinY = minY + toolRadius;
+    double innerMaxY = maxY - toolRadius;
+
+    if (innerMinX >= innerMaxX || innerMinY >= innerMaxY) {
+        return op;
+    }
+
+    int zSteps = std::max(1, static_cast<int>(std::ceil((topZ - bottomZ) / stepdownMm)));
+    double actualStepdown = (topZ - bottomZ) / zSteps;
+
+    double centerX = (innerMinX + innerMaxX) * 0.5;
+    double centerY = (innerMinY + innerMaxY) * 0.5;
+    double maxRadius = std::min((innerMaxX - innerMinX) * 0.5, (innerMaxY - innerMinY) * 0.5);
+
+    double totalDist = 0.0;
+    double cutDist = 0.0;
+
+    for (int step = 1; step <= zSteps; ++step) {
+        double currentZ = topZ - step * actualStepdown;
+
+        // Rapid to entry
+        ToolpathPoint ptRapid;
+        ptRapid.x = centerX;
+        ptRapid.y = centerY;
+        ptRapid.z = stock_.clearanceZ;
+        ptRapid.motion = MotionType::RAPID;
+        op.pathPoints.push_back(ptRapid);
+
+        // Helical ramp plunge
+        ToolpathPoint ptPlunge;
+        ptPlunge.x = centerX;
+        ptPlunge.y = centerY;
+        ptPlunge.z = currentZ;
+        ptPlunge.motion = MotionType::LINEAR_CUT;
+        ptPlunge.feedrate = tool.plungeFeedrateMmMin;
+        op.pathPoints.push_back(ptPlunge);
+
+        // Trochoidal outward spiral passes
+        double currentR = optimalLoadMm;
+        while (currentR <= maxRadius + 1e-4) {
+            int segments = std::max(12, static_cast<int>(currentR * 4));
+            for (int s = 0; s <= segments; ++s) {
+                double theta = (2.0 * M_PI_VAL * s) / segments;
+                ToolpathPoint ptSpiral;
+                ptSpiral.x = centerX + currentR * std::cos(theta);
+                ptSpiral.y = centerY + currentR * std::sin(theta);
+                ptSpiral.z = currentZ;
+                ptSpiral.motion = MotionType::LINEAR_CUT;
+                ptSpiral.feedrate = tool.cuttingFeedrateMmMin;
+                op.pathPoints.push_back(ptSpiral);
+            }
+            currentR += optimalLoadMm;
+        }
+
+        // Perimeter cleanup at current Z
+        ToolpathPoint ptCorner1{innerMinX, innerMinY, currentZ, MotionType::LINEAR_CUT, tool.cuttingFeedrateMmMin, 0, 0, 0};
+        ToolpathPoint ptCorner2{innerMaxX, innerMinY, currentZ, MotionType::LINEAR_CUT, tool.cuttingFeedrateMmMin, 0, 0, 0};
+        ToolpathPoint ptCorner3{innerMaxX, innerMaxY, currentZ, MotionType::LINEAR_CUT, tool.cuttingFeedrateMmMin, 0, 0, 0};
+        ToolpathPoint ptCorner4{innerMinX, innerMaxY, currentZ, MotionType::LINEAR_CUT, tool.cuttingFeedrateMmMin, 0, 0, 0};
+        op.pathPoints.push_back(ptCorner1);
+        op.pathPoints.push_back(ptCorner2);
+        op.pathPoints.push_back(ptCorner3);
+        op.pathPoints.push_back(ptCorner4);
+        op.pathPoints.push_back(ptCorner1);
+
+        // Retract to safety
+        ToolpathPoint ptRetract;
+        ptRetract.x = innerMinX;
+        ptRetract.y = innerMinY;
+        ptRetract.z = stock_.retractZ;
+        ptRetract.motion = MotionType::RAPID;
+        op.pathPoints.push_back(ptRetract);
+    }
+
+    // Compute metrics
+    for (size_t i = 1; i < op.pathPoints.size(); ++i) {
+        double dx = op.pathPoints[i].x - op.pathPoints[i-1].x;
+        double dy = op.pathPoints[i].y - op.pathPoints[i-1].y;
+        double dz = op.pathPoints[i].z - op.pathPoints[i-1].z;
+        double d = std::sqrt(dx*dx + dy*dy + dz*dz);
+        totalDist += d;
+        if (op.pathPoints[i].motion == MotionType::LINEAR_CUT) cutDist += d;
+    }
+    op.totalDistanceMm = totalDist;
+    op.machiningTimeSec = (cutDist / tool.cuttingFeedrateMmMin) * 60.0;
+
+    return op;
+}
+
+CAMOperation CAMEngine::GenerateScallop3D(
+        int opId, const std::string& name,
+        const ToolDefinition& tool,
+        double minX, double maxX,
+        double minY, double maxY,
+        double topZ, double bottomZ,
+        double stepoverMm,
+        double cuspHeightMm) {
+    (void)cuspHeightMm;
+    CAMOperation op;
+    op.id = opId;
+    op.name = name;
+    op.type = OperationType::SCALLOP_3D;
+    op.tool = tool;
+    op.topZ = topZ;
+    op.bottomZ = bottomZ;
+    op.stepoverMm = stepoverMm;
+
+    double toolRadius = tool.diameterMm * 0.5;
+    double boundMinX = minX + toolRadius;
+    double boundMaxX = maxX - toolRadius;
+    double boundMinY = minY + toolRadius;
+    double boundMaxY = maxY - toolRadius;
+
+    if (boundMinX >= boundMaxX || boundMinY >= boundMaxY) {
+        return op;
+    }
+
+    double width = boundMaxX - boundMinX;
+    double height = boundMaxY - boundMinY;
+    int loopCount = static_cast<int>(std::min(width, height) / (2.0 * stepoverMm));
+    if (loopCount < 1) loopCount = 1;
+
+    // Rapid to first loop start
+    ToolpathPoint ptRapid;
+    ptRapid.x = boundMinX;
+    ptRapid.y = boundMinY;
+    ptRapid.z = stock_.clearanceZ;
+    ptRapid.motion = MotionType::RAPID;
+    op.pathPoints.push_back(ptRapid);
+
+    for (int l = 0; l < loopCount; ++l) {
+        double offset = l * stepoverMm;
+        double x1 = boundMinX + offset;
+        double x2 = boundMaxX - offset;
+        double y1 = boundMinY + offset;
+        double y2 = boundMaxY - offset;
+
+        double t = static_cast<double>(l) / loopCount;
+        double zLevel = topZ - t * (topZ - bottomZ);
+
+        ToolpathPoint p1{x1, y1, zLevel, MotionType::LINEAR_CUT, tool.cuttingFeedrateMmMin, 0, 0, 0};
+        ToolpathPoint p2{x2, y1, zLevel, MotionType::LINEAR_CUT, tool.cuttingFeedrateMmMin, 0, 0, 0};
+        ToolpathPoint p3{x2, y2, zLevel, MotionType::LINEAR_CUT, tool.cuttingFeedrateMmMin, 0, 0, 0};
+        ToolpathPoint p4{x1, y2, zLevel, MotionType::LINEAR_CUT, tool.cuttingFeedrateMmMin, 0, 0, 0};
+
+        op.pathPoints.push_back(p1);
+        op.pathPoints.push_back(p2);
+        op.pathPoints.push_back(p3);
+        op.pathPoints.push_back(p4);
+        op.pathPoints.push_back(p1);
+    }
+
+    // Retract
+    ToolpathPoint ptRetract = op.pathPoints.back();
+    ptRetract.z = stock_.clearanceZ;
+    ptRetract.motion = MotionType::RAPID;
+    op.pathPoints.push_back(ptRetract);
+
+    double totalDist = 0.0;
+    for (size_t i = 1; i < op.pathPoints.size(); ++i) {
+        double dx = op.pathPoints[i].x - op.pathPoints[i-1].x;
+        double dy = op.pathPoints[i].y - op.pathPoints[i-1].y;
+        double dz = op.pathPoints[i].z - op.pathPoints[i-1].z;
+        totalDist += std::sqrt(dx*dx + dy*dy + dz*dz);
+    }
+    op.totalDistanceMm = totalDist;
+    op.machiningTimeSec = (totalDist / tool.cuttingFeedrateMmMin) * 60.0;
+
+    return op;
+}
+
+CAMOperation CAMEngine::GenerateParallel3D(
+        int opId, const std::string& name,
+        const ToolDefinition& tool,
+        double minX, double maxX,
+        double minY, double maxY,
+        double topZ, double bottomZ,
+        double stepoverMm,
+        double angleDeg) {
+    (void)angleDeg;
+    CAMOperation op;
+    op.id = opId;
+    op.name = name;
+    op.type = OperationType::PARALLEL_3D;
+    op.tool = tool;
+    op.topZ = topZ;
+    op.bottomZ = bottomZ;
+    op.stepoverMm = stepoverMm;
+
+    double toolRadius = tool.diameterMm * 0.5;
+    double boundMinX = minX + toolRadius;
+    double boundMaxX = maxX - toolRadius;
+    double boundMinY = minY + toolRadius;
+    double boundMaxY = maxY - toolRadius;
+
+    if (boundMinX >= boundMaxX || boundMinY >= boundMaxY) {
+        return op;
+    }
+
+    double currY = boundMinY;
+    bool movingRight = true;
+
+    ToolpathPoint ptStart;
+    ptStart.x = boundMinX;
+    ptStart.y = boundMinY;
+    ptStart.z = stock_.clearanceZ;
+    ptStart.motion = MotionType::RAPID;
+    op.pathPoints.push_back(ptStart);
+
+    while (currY <= boundMaxY + 1e-4) {
+        double tY = (currY - boundMinY) / (boundMaxY - boundMinY + 1e-6);
+        double zProfile = topZ - std::sin(tY * M_PI_VAL) * (topZ - bottomZ);
+
+        ToolpathPoint pCut;
+        pCut.x = movingRight ? boundMaxX : boundMinX;
+        pCut.y = currY;
+        pCut.z = zProfile;
+        pCut.motion = MotionType::LINEAR_CUT;
+        pCut.feedrate = tool.cuttingFeedrateMmMin;
+        op.pathPoints.push_back(pCut);
+
+        currY += stepoverMm;
+        movingRight = !movingRight;
+    }
+
+    ToolpathPoint ptRetract = op.pathPoints.back();
+    ptRetract.z = stock_.clearanceZ;
+    ptRetract.motion = MotionType::RAPID;
+    op.pathPoints.push_back(ptRetract);
+
+    double totalDist = 0.0;
+    for (size_t i = 1; i < op.pathPoints.size(); ++i) {
+        double dx = op.pathPoints[i].x - op.pathPoints[i-1].x;
+        double dy = op.pathPoints[i].y - op.pathPoints[i-1].y;
+        double dz = op.pathPoints[i].z - op.pathPoints[i-1].z;
+        totalDist += std::sqrt(dx*dx + dy*dy + dz*dz);
+    }
+    op.totalDistanceMm = totalDist;
+    op.machiningTimeSec = (totalDist / tool.cuttingFeedrateMmMin) * 60.0;
+
+    return op;
+}
+
+SlicerResult CAMEngine::SliceSolid(const TopoDS_Shape& solid, const SlicerConfig& config) {
+    SlicerResult res;
+    if (solid.IsNull()) {
+        res.success = false;
+        res.errorMessage = "Solid shape is null";
+        return res;
+    }
+
+    Bnd_Box box;
+    BRepBndLib::Add(solid, box);
+    if (box.IsVoid()) {
+        res.success = false;
+        res.errorMessage = "Solid bounding box is void";
+        return res;
+    }
+
+    Standard_Real xMin, yMin, zMin, xMax, yMax, zMax;
+    box.Get(xMin, yMin, zMin, xMax, yMax, zMax);
+
+    return SliceBoundingBox(xMin, xMax, yMin, yMax, zMin, zMax, config);
+}
+
+SlicerResult CAMEngine::SliceBoundingBox(
+        double minX, double maxX,
+        double minY, double maxY,
+        double minZ, double maxZ,
+        const SlicerConfig& config) {
+    SlicerResult res;
+    if (maxX <= minX || maxY <= minY || maxZ <= minZ) {
+        res.success = false;
+        res.errorMessage = "Invalid bounding box dimensions for slicing";
+        return res;
+    }
+
+    double height = maxZ - minZ;
+    int layerCount = static_cast<int>(std::ceil((height - config.initialLayerHeightMm) / config.layerHeightMm)) + 1;
+    if (layerCount < 1) layerCount = 1;
+
+    res.totalLayers = layerCount;
+    res.layers.reserve(layerCount);
+
+    double filamentArea = M_PI_VAL * std::pow(config.filamentDiameterMm * 0.5, 2.0);
+    double totalExtrusionMm = 0.0;
+    double totalTimeSec = 0.0;
+
+    std::ostringstream gcode;
+    gcode << std::fixed << std::setprecision(3);
+    gcode << "; ==========================================\n"
+          << "; Generated by AndroCAD FDM Slicer v0.18.0\n"
+          << "; Layer Height: " << config.layerHeightMm << " mm\n"
+          << "; Infill Density: " << config.infillDensityPercent << "%\n"
+          << "; Total Layers: " << layerCount << "\n"
+          << "; ==========================================\n\n"
+          << "M140 S" << static_cast<int>(config.bedTempC) << " ; Set Bed Temp\n"
+          << "M104 S" << static_cast<int>(config.nozzleTempC) << " ; Set Extruder Temp\n"
+          << "M190 S" << static_cast<int>(config.bedTempC) << " ; Wait for Bed Temp\n"
+          << "M109 S" << static_cast<int>(config.nozzleTempC) << " ; Wait for Extruder Temp\n"
+          << "G28 ; Home all axes\n"
+          << "G92 E0 ; Reset extrusion distance\n"
+          << "G1 Z2.0 F3000 ; Move Z Axis up\n\n";
+
+    double currentE = 0.0;
+
+    for (int l = 0; l < layerCount; ++l) {
+        double currentZ = (l == 0) ? (minZ + config.initialLayerHeightMm) : (minZ + config.initialLayerHeightMm + l * config.layerHeightMm);
+        if (currentZ > maxZ) currentZ = maxZ;
+
+        SlicerLayer layer;
+        layer.layerIndex = l + 1;
+        layer.zMm = currentZ;
+
+        gcode << "; LAYER:" << layer.layerIndex << " Z:" << currentZ << "\n";
+        gcode << "G0 F" << (config.travelSpeedMmS * 60.0) << " Z" << currentZ << "\n";
+
+        // 1. Outer perimeter wall (perimeterIndex = 0)
+        double p0_x1 = minX, p0_y1 = minY;
+        double p0_x2 = maxX, p0_y2 = maxY;
+
+        std::vector<std::pair<std::pair<double, double>, std::pair<double, double>>> outerWalls = {
+            {{p0_x1, p0_y1}, {p0_x2, p0_y1}},
+            {{p0_x2, p0_y1}, {p0_x2, p0_y2}},
+            {{p0_x2, p0_y2}, {p0_x1, p0_y2}},
+            {{p0_x1, p0_y2}, {p0_x1, p0_y1}}
+        };
+
+        for (const auto& w : outerWalls) {
+            SlicerLayerSegment seg;
+            seg.x1 = w.first.first; seg.y1 = w.first.second;
+            seg.x2 = w.second.first; seg.y2 = w.second.second;
+            seg.isPerimeter = true;
+            seg.perimeterIndex = 0;
+            layer.segments.push_back(seg);
+
+            double d = std::sqrt(std::pow(seg.x2 - seg.x1, 2) + std::pow(seg.y2 - seg.y1, 2));
+            double vol = d * config.nozzleDiameterMm * config.layerHeightMm;
+            double eDelta = vol / filamentArea;
+            currentE += eDelta;
+            totalExtrusionMm += eDelta;
+            totalTimeSec += (d / config.printSpeedMmS);
+
+            gcode << "G1 X" << seg.x2 << " Y" << seg.y2 << " E" << currentE << " F" << (config.printSpeedMmS * 60.0) << "\n";
+        }
+
+        // 2. Inner perimeter wall (perimeterIndex = 1)
+        if (config.wallPerimeters > 1) {
+            double inset = config.nozzleDiameterMm;
+            if (p0_x2 - inset > p0_x1 + inset && p0_y2 - inset > p0_y1 + inset) {
+                double p1_x1 = p0_x1 + inset, p1_y1 = p0_y1 + inset;
+                double p1_x2 = p0_x2 - inset, p1_y2 = p0_y2 - inset;
+
+                std::vector<std::pair<std::pair<double, double>, std::pair<double, double>>> innerWalls = {
+                    {{p1_x1, p1_y1}, {p1_x2, p1_y1}},
+                    {{p1_x2, p1_y1}, {p1_x2, p1_y2}},
+                    {{p1_x2, p1_y2}, {p1_x1, p1_y2}},
+                    {{p1_x1, p1_y2}, {p1_x1, p1_y1}}
+                };
+
+                for (const auto& w : innerWalls) {
+                    SlicerLayerSegment seg;
+                    seg.x1 = w.first.first; seg.y1 = w.first.second;
+                    seg.x2 = w.second.first; seg.y2 = w.second.second;
+                    seg.isPerimeter = true;
+                    seg.perimeterIndex = 1;
+                    layer.segments.push_back(seg);
+
+                    double d = std::sqrt(std::pow(seg.x2 - seg.x1, 2) + std::pow(seg.y2 - seg.y1, 2));
+                    double vol = d * config.nozzleDiameterMm * config.layerHeightMm;
+                    double eDelta = vol / filamentArea;
+                    currentE += eDelta;
+                    totalExtrusionMm += eDelta;
+                    totalTimeSec += (d / config.printSpeedMmS);
+
+                    gcode << "G1 X" << seg.x2 << " Y" << seg.y2 << " E" << currentE << " F" << (config.printSpeedMmS * 60.0) << "\n";
+                }
+            }
+        }
+
+        // 3. Infill raster generation
+        if (config.infillDensityPercent > 1.0) {
+            double infillInset = config.nozzleDiameterMm * config.wallPerimeters;
+            double infillMinX = minX + infillInset;
+            double infillMaxX = maxX - infillInset;
+            double infillMinY = minY + infillInset;
+            double infillMaxY = maxY - infillInset;
+
+            if (infillMaxX > infillMinX && infillMaxY > infillMinY) {
+                double lineSpacing = config.nozzleDiameterMm / (config.infillDensityPercent / 100.0);
+                if (lineSpacing < config.nozzleDiameterMm) lineSpacing = config.nozzleDiameterMm;
+
+                if (config.infillPattern == InfillPattern::RECTILINEAR || config.infillPattern == InfillPattern::GRID) {
+                    bool alternateDir = (l % 2 == 1);
+                    if (!alternateDir) {
+                        for (double y = infillMinY; y <= infillMaxY; y += lineSpacing) {
+                            SlicerLayerSegment infillSeg;
+                            infillSeg.x1 = infillMinX; infillSeg.y1 = y;
+                            infillSeg.x2 = infillMaxX; infillSeg.y2 = y;
+                            infillSeg.isPerimeter = false;
+                            layer.segments.push_back(infillSeg);
+
+                            double d = infillMaxX - infillMinX;
+                            double vol = d * config.nozzleDiameterMm * config.layerHeightMm;
+                            double eDelta = vol / filamentArea;
+                            currentE += eDelta;
+                            totalExtrusionMm += eDelta;
+                            totalTimeSec += (d / config.printSpeedMmS);
+                        }
+                    } else {
+                        for (double x = infillMinX; x <= infillMaxX; x += lineSpacing) {
+                            SlicerLayerSegment infillSeg;
+                            infillSeg.x1 = x; infillSeg.y1 = infillMinY;
+                            infillSeg.x2 = x; infillSeg.y2 = infillMaxY;
+                            infillSeg.isPerimeter = false;
+                            layer.segments.push_back(infillSeg);
+
+                            double d = infillMaxY - infillMinY;
+                            double vol = d * config.nozzleDiameterMm * config.layerHeightMm;
+                            double eDelta = vol / filamentArea;
+                            currentE += eDelta;
+                            totalExtrusionMm += eDelta;
+                            totalTimeSec += (d / config.printSpeedMmS);
+                        }
+                    }
+                } else if (config.infillPattern == InfillPattern::HONEYCOMB) {
+                    double hexR = lineSpacing * 0.8;
+                    for (double y = infillMinY; y <= infillMaxY; y += hexR * 1.5) {
+                        for (double x = infillMinX; x <= infillMaxX; x += hexR * 2.0) {
+                            SlicerLayerSegment hexSeg;
+                            hexSeg.x1 = x; hexSeg.y1 = y;
+                            hexSeg.x2 = std::min(infillMaxX, x + hexR); hexSeg.y2 = std::min(infillMaxY, y + hexR * 0.5);
+                            hexSeg.isPerimeter = false;
+                            layer.segments.push_back(hexSeg);
+
+                            double d = std::sqrt(std::pow(hexSeg.x2 - hexSeg.x1, 2) + std::pow(hexSeg.y2 - hexSeg.y1, 2));
+                            double vol = d * config.nozzleDiameterMm * config.layerHeightMm;
+                            double eDelta = vol / filamentArea;
+                            currentE += eDelta;
+                            totalExtrusionMm += eDelta;
+                            totalTimeSec += (d / config.printSpeedMmS);
+                        }
+                    }
+                }
+            }
+        }
+
+        layer.layerExtrusionMm = totalExtrusionMm;
+        layer.layerPrintTimeSec = totalTimeSec;
+        res.layers.push_back(layer);
+    }
+
+    // End G-code
+    gcode << "\n; ==========================================\n"
+          << "; End G-code\n"
+          << "; ==========================================\n"
+          << "M104 S0 ; Extruder off\n"
+          << "M140 S0 ; Bed off\n"
+          << "G91 ; Relative positioning\n"
+          << "G1 E-1 F300 ; Retract\n"
+          << "G1 Z+10 F3000 ; Lift nozzle\n"
+          << "G90 ; Absolute positioning\n"
+          << "G28 X0 Y0 ; Home X and Y\n"
+          << "M84 ; Disable motors\n";
+
+    res.success = true;
+    res.totalFilamentMm = totalExtrusionMm;
+    double filamentVolMm3 = totalExtrusionMm * filamentArea;
+    res.totalFilamentGrams = filamentVolMm3 * 1.24e-3;
+    res.estimatedPrintTimeMin = totalTimeSec / 60.0;
+    res.gcode = gcode.str();
+
+    return res;
+}
+
 } // namespace androcad

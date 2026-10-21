@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- AndroCAD Original Icon: 3D Adaptive Clearing Toolpath -->
+  <rect width="48" height="48" rx="8" fill="#1E232A"/>
+  <path d="M12 36 L12 24 A12 12 0 0 1 36 24 L36 36 Z" fill="none" stroke="#4A5568" stroke-width="2"/>
+  <path d="M24 24 m-4 0 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0" fill="none" stroke="#00E5FF" stroke-width="2"/>
+  <path d="M24 24 m-8 0 a8 8 0 1 0 16 0 a8 8 0 1 0 -16 0" fill="none" stroke="#00B0FF" stroke-width="1.8" stroke-dasharray="2 2"/>
+  <path d="M24 24 m-12 0 a12 12 0 1 0 24 0 a12 12 0 1 0 -24 0" fill="none" stroke="#2979FF" stroke-width="1.5"/>
+  <circle cx="24" cy="24" r="2.5" fill="#FF9100"/>
+</svg>

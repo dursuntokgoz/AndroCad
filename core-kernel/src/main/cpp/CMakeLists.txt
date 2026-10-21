@@ -54,6 +54,10 @@ if(ANDROID)
         -O2 -flto -ffunction-sections -fdata-sections -fvisibility=hidden
     )
 
+    target_link_options(androcad_kernel PRIVATE
+        "-Wl,-z,max-page-size=16384"
+    )
+
     target_link_libraries(androcad_kernel PRIVATE
         TKernel
         TKMath
@@ -565,4 +569,46 @@ else()
     )
 
     add_test(NAME FastenerEngineTest COMMAND androcad_fastener_engine_test)
+
+    add_executable(androcad_cam_3d_slicer_test
+        src/AndroCadKernel.cpp
+        src/GCS.cpp
+        src/Sketcher.cpp
+        src/FeatureOps.cpp
+        src/SurfaceOps.cpp
+        src/AssemblyManager.cpp
+        src/SheetMetalEngine.cpp
+        src/DrawingEngine.cpp
+        src/MaterialEngine.cpp
+        src/MeshEngine.cpp
+        src/SimulationEngine.cpp
+        src/CAMEngine.cpp
+        src/PatternEngine.cpp
+        src/FastenerEngine.cpp
+        src/ExpressionParser.cpp
+        src/TNPResolver.cpp
+        src/TimelineDAG.cpp
+        src/ProjectIO.cpp
+        tests/test_cam_3d_slicer.cpp
+    )
+
+    target_link_libraries(androcad_cam_3d_slicer_test PRIVATE
+        TKernel
+        TKMath
+        TKG2d
+        TKG3d
+        TKGeomBase
+        TKGeomAlgo
+        TKBRep
+        TKTopAlgo
+        TKPrim
+        TKBO
+        TKBool
+        TKFillet
+        TKOffset
+        TKMesh
+        ${HOST_DATA_EXCHANGE_LIBS}
+    )
+
+    add_test(NAME CAM3DSlicerTest COMMAND androcad_cam_3d_slicer_test)
 endif()

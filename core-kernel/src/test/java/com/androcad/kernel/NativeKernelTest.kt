@@ -459,4 +459,60 @@ class NativeKernelTest {
         assertEquals(5, bsplineInfo.poleCount)
         assertEquals(62.4, bsplineInfo.lengthMm, 1e-4)
     }
+
+    @Test
+    fun testCAM3DSurfacingAndSlicerDataContracts() {
+        val adaptiveOp = CAMSurfacingOpInfo(
+            success = true,
+            opId = 101,
+            name = "Adaptive Roughing 3D",
+            pointCount = 142,
+            totalDistanceMm = 450.2,
+            machiningTimeSec = 22.5
+        )
+        assertTrue(adaptiveOp.success)
+        assertEquals(101, adaptiveOp.opId)
+        assertEquals("Adaptive Roughing 3D", adaptiveOp.name)
+        assertEquals(142, adaptiveOp.pointCount)
+        assertEquals(450.2, adaptiveOp.totalDistanceMm, 1e-4)
+
+        val scallopOp = CAMSurfacingOpInfo(
+            success = true,
+            opId = 102,
+            name = "Scallop 3D Finish",
+            pointCount = 88,
+            totalDistanceMm = 195.0,
+            machiningTimeSec = 9.75
+        )
+        assertTrue(scallopOp.success)
+        assertEquals(102, scallopOp.opId)
+
+        val slicerSettings = SlicerSettings(
+            layerHeightMm = 0.2,
+            nozzleDiameterMm = 0.4,
+            infillDensityPercent = 30.0,
+            infillPattern = SlicerInfillPattern.HONEYCOMB,
+            printSpeedMmS = 55.0,
+            nozzleTempC = 215.0,
+            bedTempC = 65.0
+        )
+        assertEquals(0.2, slicerSettings.layerHeightMm, 1e-4)
+        assertEquals(SlicerInfillPattern.HONEYCOMB, slicerSettings.infillPattern)
+        assertEquals(215.0, slicerSettings.nozzleTempC, 1e-4)
+
+        val slicerResult = SlicerExecutionResult(
+            success = true,
+            totalLayers = 50,
+            totalFilamentMm = 3450.0,
+            totalFilamentGrams = 10.35,
+            estimatedPrintTimeMin = 42.0,
+            gcodeSize = 125000
+        )
+        assertTrue(slicerResult.success)
+        assertEquals(50, slicerResult.totalLayers)
+        assertEquals(3450.0, slicerResult.totalFilamentMm, 1e-4)
+        assertEquals(10.35, slicerResult.totalFilamentGrams, 1e-4)
+        assertEquals(42.0, slicerResult.estimatedPrintTimeMin, 1e-4)
+        assertEquals(125000, slicerResult.gcodeSize)
+    }
 }

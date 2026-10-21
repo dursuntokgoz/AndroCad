@@ -573,11 +573,52 @@ data class BSplineCurveInfo(
     val errorMessage: String = ""
 )
 
+// Milestone 18: 3D CAM Surfacing & Additive Slicing Data Classes
+data class CAMSurfacingOpInfo(
+    val success: Boolean,
+    val opId: Int,
+    val name: String,
+    val pointCount: Int,
+    val totalDistanceMm: Double,
+    val machiningTimeSec: Double,
+    val errorMessage: String = ""
+)
+
+enum class SlicerInfillPattern {
+    RECTILINEAR,
+    HONEYCOMB,
+    GRID,
+    CONCENTRIC
+}
+
+data class SlicerSettings(
+    val layerHeightMm: Double = 0.2,
+    val nozzleDiameterMm: Double = 0.4,
+    val infillDensityPercent: Double = 20.0,
+    val infillPattern: SlicerInfillPattern = SlicerInfillPattern.RECTILINEAR,
+    val printSpeedMmS: Double = 60.0,
+    val nozzleTempC: Double = 205.0,
+    val bedTempC: Double = 60.0
+)
+
+data class SlicerExecutionResult(
+    val success: Boolean,
+    val totalLayers: Int,
+    val totalFilamentMm: Double,
+    val totalFilamentGrams: Double,
+    val estimatedPrintTimeMin: Double,
+    val gcodeSize: Int,
+    val errorMessage: String = ""
+)
+
 /**
  * High-performance JNI bridge to the OpenCASCADE native CAD kernel.
  */
 object NativeKernel {
-    private var isLoaded = false
+    var isLoaded = false
+        private set
+    var loadError: String? = null
+        private set
 
     init {
         loadLibraries()
@@ -587,7 +628,14 @@ object NativeKernel {
     fun loadLibraries() {
         if (!isLoaded) {
             try {
-                // Load foundation and modeling toolkits in dependency order
+                // 0. Preload c++_shared if present
+                try {
+                    System.loadLibrary("c++_shared")
+                } catch (e: UnsatisfiedLinkError) {
+                    // Preloaded in Android namespace
+                }
+
+                // Load foundation, modeling, and data exchange toolkits in exact dependency order
                 val toolkits = listOf(
                     "TKernel",
                     "TKMath",
@@ -603,27 +651,52 @@ object NativeKernel {
                     "TKFillet",
                     "TKOffset",
                     "TKMesh",
+                    "TKShHealing",
+                    "TKCDF",
+                    "TKLCAF",
+                    "TKCAF",
+                    "TKXCAF",
+                    "TKService",
                     "TKXSBase",
-                    "TKDESTEP",
+                    "TKDE",
                     "TKDESTL",
+                    "TKDESTEP",
                     "androcad_kernel"
                 )
                 for (tk in toolkits) {
                     try {
                         System.loadLibrary(tk)
                     } catch (e: UnsatisfiedLinkError) {
-                        // Some toolkits may be statically linked into androcad_kernel or preloaded
+                        if (tk == "androcad_kernel") {
+                            loadError = "Failed to load androcad_kernel: ${e.message}"
+                            throw e
+                        }
                     }
                 }
                 isLoaded = true
             } catch (t: Throwable) {
-                // Handled gracefully in mock / host JVM test environments
+                loadError = t.message ?: "Failed to load native libraries"
             }
         }
     }
 
     internal fun buildMeshResult(handle: Long): BoxMeshResult {
-        val success = nativeIsSuccess(handle)
+        if (handle == 0L || !isLoaded) {
+            return BoxMeshResult(
+                success = false,
+                volume = 0.0,
+                faceCount = 0,
+                edgeCount = 0,
+                triangleCount = 0,
+                vertexBuffer = null,
+                indexBuffer = null,
+                edgeVertexBuffer = null,
+                boundingBox = BoundingBox(0f, 0f, 0f, 0f, 0f, 0f),
+                errorMessage = loadError ?: "Native kernel not loaded",
+                nativeHandle = 0L
+            )
+        }
+        val success = try { nativeIsSuccess(handle) } catch (t: Throwable) { false }
         return if (success) {
             val boundsArray = FloatArray(6)
             nativeGetBoundingBox(handle, boundsArray)
@@ -1107,7 +1180,11 @@ object NativeKernel {
      * Milestone 9: Creates an assembly session for multi-component kinematic modeling.
      */
     fun createAssembly(): AssemblySession {
-        val handle = nativeCreateAssembly()
+        val handle = try {
+            if (isLoaded) nativeCreateAssembly() else 0L
+        } catch (t: Throwable) {
+            0L
+        }
         return AssemblySession(handle)
     }
 
@@ -1674,6 +1751,103 @@ object NativeKernel {
         }
     }
 
+    /**
+     * Milestone 18: 3D Adaptive Clearing Surfacing Toolpath.
+     */
+    fun generateAdaptive3D(
+        opId: Int,
+        name: String,
+        minX: Double, maxX: Double,
+        minY: Double, maxY: Double,
+        topZ: Double, bottomZ: Double,
+        stepdownMm: Double = 2.5,
+        optimalLoadMm: Double = 1.5
+    ): CAMSurfacingOpInfo {
+        val json = nativeGenerateAdaptive3D(opId, name, minX, maxX, minY, maxY, topZ, bottomZ, stepdownMm, optimalLoadMm)
+        return try {
+            val isSuccess = json.contains("\"success\":true")
+            val extractNum = { key: String -> "\"$key\":([0-9.-]+)".toRegex().find(json)?.groupValues?.get(1)?.toDoubleOrNull() ?: 0.0 }
+            val extractInt = { key: String -> "\"$key\":([0-9]+)".toRegex().find(json)?.groupValues?.get(1)?.toIntOrNull() ?: 0 }
+            CAMSurfacingOpInfo(
+                success = isSuccess,
+                opId = extractInt("opId"),
+                name = name,
+                pointCount = extractInt("pointCount"),
+                totalDistanceMm = extractNum("totalDistanceMm"),
+                machiningTimeSec = extractNum("machiningTimeSec")
+            )
+        } catch (e: Exception) {
+            CAMSurfacingOpInfo(false, opId, name, 0, 0.0, 0.0, e.message ?: "JSON parse error")
+        }
+    }
+
+    /**
+     * Milestone 18: 3D Constant Scallop Finishing Toolpath.
+     */
+    fun generateScallop3D(
+        opId: Int,
+        name: String,
+        minX: Double, maxX: Double,
+        minY: Double, maxY: Double,
+        topZ: Double, bottomZ: Double,
+        stepoverMm: Double = 1.0,
+        cuspHeightMm: Double = 0.05
+    ): CAMSurfacingOpInfo {
+        val json = nativeGenerateScallop3D(opId, name, minX, maxX, minY, maxY, topZ, bottomZ, stepoverMm, cuspHeightMm)
+        return try {
+            val isSuccess = json.contains("\"success\":true")
+            val extractNum = { key: String -> "\"$key\":([0-9.-]+)".toRegex().find(json)?.groupValues?.get(1)?.toDoubleOrNull() ?: 0.0 }
+            val extractInt = { key: String -> "\"$key\":([0-9]+)".toRegex().find(json)?.groupValues?.get(1)?.toIntOrNull() ?: 0 }
+            CAMSurfacingOpInfo(
+                success = isSuccess,
+                opId = extractInt("opId"),
+                name = name,
+                pointCount = extractInt("pointCount"),
+                totalDistanceMm = extractNum("totalDistanceMm"),
+                machiningTimeSec = extractNum("machiningTimeSec")
+            )
+        } catch (e: Exception) {
+            CAMSurfacingOpInfo(false, opId, name, 0, 0.0, 0.0, e.message ?: "JSON parse error")
+        }
+    }
+
+    /**
+     * Milestone 18: Additive FDM Slicing and G-Code Generator.
+     */
+    fun sliceSolid(
+        minX: Double, maxX: Double,
+        minY: Double, maxY: Double,
+        minZ: Double, maxZ: Double,
+        settings: SlicerSettings = SlicerSettings()
+    ): SlicerExecutionResult {
+        val patternCode = when (settings.infillPattern) {
+            SlicerInfillPattern.HONEYCOMB -> 1
+            SlicerInfillPattern.GRID -> 2
+            else -> 0
+        }
+        val json = nativeSliceSolid(
+            minX, maxX, minY, maxY, minZ, maxZ,
+            settings.layerHeightMm, settings.nozzleDiameterMm,
+            settings.infillDensityPercent, patternCode,
+            settings.printSpeedMmS, settings.nozzleTempC, settings.bedTempC
+        )
+        return try {
+            val isSuccess = json.contains("\"success\":true")
+            val extractNum = { key: String -> "\"$key\":([0-9.-]+)".toRegex().find(json)?.groupValues?.get(1)?.toDoubleOrNull() ?: 0.0 }
+            val extractInt = { key: String -> "\"$key\":([0-9]+)".toRegex().find(json)?.groupValues?.get(1)?.toIntOrNull() ?: 0 }
+            SlicerExecutionResult(
+                success = isSuccess,
+                totalLayers = extractInt("totalLayers"),
+                totalFilamentMm = extractNum("totalFilamentMm"),
+                totalFilamentGrams = extractNum("totalFilamentGrams"),
+                estimatedPrintTimeMin = extractNum("estimatedPrintTimeMin"),
+                gcodeSize = extractInt("gcodeSize")
+            )
+        } catch (e: Exception) {
+            SlicerExecutionResult(false, 0, 0.0, 0.0, 0.0, 0, e.message ?: "JSON parse error")
+        }
+    }
+
     internal external fun nativeCreateBox(
         dx: Double,
         dy: Double,
@@ -1949,5 +2123,39 @@ object NativeKernel {
         uCoords: DoubleArray,
         vCoords: DoubleArray,
         sampleCount: Int
+    ): String
+
+    // Milestone 18 JNI Declarations (3D CAM & Additive Slicing)
+    internal external fun nativeGenerateAdaptive3D(
+        opId: Int,
+        opName: String,
+        minX: Double, maxX: Double,
+        minY: Double, maxY: Double,
+        topZ: Double, bottomZ: Double,
+        stepdownMm: Double,
+        optimalLoadMm: Double
+    ): String
+
+    internal external fun nativeGenerateScallop3D(
+        opId: Int,
+        opName: String,
+        minX: Double, maxX: Double,
+        minY: Double, maxY: Double,
+        topZ: Double, bottomZ: Double,
+        stepoverMm: Double,
+        cuspHeightMm: Double
+    ): String
+
+    internal external fun nativeSliceSolid(
+        minX: Double, maxX: Double,
+        minY: Double, maxY: Double,
+        minZ: Double, maxZ: Double,
+        layerHeightMm: Double,
+        nozzleDiameterMm: Double,
+        infillDensityPercent: Double,
+        infillPatternCode: Int,
+        printSpeedMmS: Double,
+        nozzleTempC: Double,
+        bedTempC: Double
     ): String
 }
