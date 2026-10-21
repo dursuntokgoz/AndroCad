@@ -615,7 +615,10 @@ data class SlicerExecutionResult(
  * High-performance JNI bridge to the OpenCASCADE native CAD kernel.
  */
 object NativeKernel {
-    private var isLoaded = false
+    var isLoaded = false
+        private set
+    var loadError: String? = null
+        private set
 
     init {
         loadLibraries()
@@ -625,7 +628,14 @@ object NativeKernel {
     fun loadLibraries() {
         if (!isLoaded) {
             try {
-                // Load foundation and modeling toolkits in dependency order
+                // 0. Preload c++_shared if present
+                try {
+                    System.loadLibrary("c++_shared")
+                } catch (e: UnsatisfiedLinkError) {
+                    // Preloaded in Android namespace
+                }
+
+                // Load foundation, modeling, and data exchange toolkits in exact dependency order
                 val toolkits = listOf(
                     "TKernel",
                     "TKMath",
@@ -641,27 +651,52 @@ object NativeKernel {
                     "TKFillet",
                     "TKOffset",
                     "TKMesh",
+                    "TKShHealing",
+                    "TKCDF",
+                    "TKLCAF",
+                    "TKCAF",
+                    "TKXCAF",
+                    "TKService",
                     "TKXSBase",
-                    "TKDESTEP",
+                    "TKDE",
                     "TKDESTL",
+                    "TKDESTEP",
                     "androcad_kernel"
                 )
                 for (tk in toolkits) {
                     try {
                         System.loadLibrary(tk)
                     } catch (e: UnsatisfiedLinkError) {
-                        // Some toolkits may be statically linked into androcad_kernel or preloaded
+                        if (tk == "androcad_kernel") {
+                            loadError = "Failed to load androcad_kernel: ${e.message}"
+                            throw e
+                        }
                     }
                 }
                 isLoaded = true
             } catch (t: Throwable) {
-                // Handled gracefully in mock / host JVM test environments
+                loadError = t.message ?: "Failed to load native libraries"
             }
         }
     }
 
     internal fun buildMeshResult(handle: Long): BoxMeshResult {
-        val success = nativeIsSuccess(handle)
+        if (handle == 0L || !isLoaded) {
+            return BoxMeshResult(
+                success = false,
+                volume = 0.0,
+                faceCount = 0,
+                edgeCount = 0,
+                triangleCount = 0,
+                vertexBuffer = null,
+                indexBuffer = null,
+                edgeVertexBuffer = null,
+                boundingBox = BoundingBox(0f, 0f, 0f, 0f, 0f, 0f),
+                errorMessage = loadError ?: "Native kernel not loaded",
+                nativeHandle = 0L
+            )
+        }
+        val success = try { nativeIsSuccess(handle) } catch (t: Throwable) { false }
         return if (success) {
             val boundsArray = FloatArray(6)
             nativeGetBoundingBox(handle, boundsArray)
@@ -1145,7 +1180,11 @@ object NativeKernel {
      * Milestone 9: Creates an assembly session for multi-component kinematic modeling.
      */
     fun createAssembly(): AssemblySession {
-        val handle = nativeCreateAssembly()
+        val handle = try {
+            if (isLoaded) nativeCreateAssembly() else 0L
+        } catch (t: Throwable) {
+            0L
+        }
         return AssemblySession(handle)
     }
 

@@ -97,6 +97,7 @@ jobs:
           fi
           echo "Copying OCCT .so files from ${LIB_SRC} to jniLibs/arm64-v8a/"
           cp "${LIB_SRC}"/*.so core-kernel/src/main/jniLibs/arm64-v8a/
+          find "${ANDROID_NDK_HOME}" -name "libc++_shared.so" -path "*/aarch64*/*" -exec cp {} core-kernel/src/main/jniLibs/arm64-v8a/ \;
           ls -lh core-kernel/src/main/jniLibs/arm64-v8a/
 
       - name: Setup Gradle

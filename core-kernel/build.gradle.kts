@@ -22,7 +22,7 @@ android {
             cmake {
                 cppFlags("-std=c++17 -O2 -flto -fvisibility=hidden")
                 val occtRoot = project.findProperty("OCCT_INSTALL_DIR") ?: "${rootDir}/occt-install-android-arm64-v8a"
-                arguments("-DOCCT_INSTALL_DIR=${occtRoot}")
+                arguments("-DOCCT_INSTALL_DIR=${occtRoot}", "-DANDROID_STL=c++_shared")
             }
         }
     }
@@ -52,7 +52,8 @@ android {
 
     packaging {
         jniLibs {
-            pickFirsts += listOf("**/libc++_shared.so")
+            pickFirsts += listOf("**/libc++_shared.so", "**/*.so")
+            useLegacyPackaging = true
         }
     }
 }

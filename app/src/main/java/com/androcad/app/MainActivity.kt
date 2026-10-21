@@ -54,10 +54,25 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Prevent silent crash by logging uncaught exceptions
+        val defaultHandler = Thread.getDefaultUncaughtExceptionHandler()
+        Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
+            android.util.Log.e("AndroCAD", "FATAL EXCEPTION on thread ${thread.name}", throwable)
+            defaultHandler?.uncaughtException(thread, throwable)
+        }
+
+        // Preload native libraries safely
+        try {
+            NativeKernel.loadLibraries()
+        } catch (t: Throwable) {
+            android.util.Log.e("AndroCAD", "Failed during NativeKernel.loadLibraries", t)
+        }
+
         // Initialize analytical solid box (100 x 50 x 20 mm) via OCCT kernel
         try {
             meshResult = NativeKernel.createBox(100.0, 50.0, 20.0, 0.1, 0.5)
         } catch (t: Throwable) {
+            android.util.Log.e("AndroCAD", "createBox initialization fallback", t)
             meshResult = null
         }
 
@@ -165,6 +180,21 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
         val isTablet = maxWidth >= 600.dp
 
         Column(modifier = Modifier.fillMaxSize()) {
+            if (!NativeKernel.isLoaded) {
+                Surface(
+                    color = Color(0xFFD32F2F),
+                    modifier = Modifier.fillMaxWidth().padding(4.dp),
+                    shape = RoundedCornerShape(4.dp)
+                ) {
+                    Text(
+                        text = "Native Kernel Notice: ${NativeKernel.loadError ?: "Running in safe mode"}",
+                        color = Color.White,
+                        fontSize = 11.sp,
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                    )
+                }
+            }
+
             // 1. Top Workspace Tabs & Toolbar
             Column(modifier = Modifier.fillMaxWidth().background(topToolbarColor)) {
                 Row(
@@ -1236,19 +1266,26 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                 Box(modifier = Modifier.weight(1f).fillMaxHeight()) {
                     AndroidView(
                         factory = { ctx ->
-                            GLSurfaceView(ctx).apply {
-                                setEGLContextClientVersion(3)
-                                if (renderer != null) {
-                                    setRenderer(renderer)
+                            try {
+                                GLSurfaceView(ctx).apply {
+                                    setEGLContextClientVersion(3)
+                                    setEGLConfigChooser(8, 8, 8, 8, 16, 0)
+                                    setPreserveEGLContextOnPause(true)
+                                    if (renderer != null) {
+                                        setRenderer(renderer)
+                                    }
+                                    renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
+                                    setupCadTouchListener(
+                                        this,
+                                        renderer,
+                                        activeToolProvider = { navTool },
+                                        onUndo = { handleUndo() },
+                                        onRedo = { handleRedo() }
+                                    )
                                 }
-                                renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
-                                setupCadTouchListener(
-                                    this,
-                                    renderer,
-                                    activeToolProvider = { navTool },
-                                    onUndo = { handleUndo() },
-                                    onRedo = { handleRedo() }
-                                )
+                            } catch (t: Throwable) {
+                                android.util.Log.e("AndroCAD", "GLSurfaceView initialization fallback", t)
+                                android.view.View(ctx)
                             }
                         },
                         modifier = Modifier.fillMaxSize()

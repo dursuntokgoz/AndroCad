@@ -54,6 +54,7 @@ jobs:
             LIB_SRC="occt-install-android-arm64-v8a/android/clang/lib"
           fi
           cp "${LIB_SRC}"/*.so core-kernel/src/main/jniLibs/arm64-v8a/
+          find "${ANDROID_NDK_HOME}" -name "libc++_shared.so" -path "*/aarch64*/*" -exec cp {} core-kernel/src/main/jniLibs/arm64-v8a/ \;
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3.4.2

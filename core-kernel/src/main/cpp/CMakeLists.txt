@@ -54,6 +54,10 @@ if(ANDROID)
         -O2 -flto -ffunction-sections -fdata-sections -fvisibility=hidden
     )
 
+    target_link_options(androcad_kernel PRIVATE
+        "-Wl,-z,max-page-size=16384"
+    )
+
     target_link_libraries(androcad_kernel PRIVATE
         TKernel
         TKMath

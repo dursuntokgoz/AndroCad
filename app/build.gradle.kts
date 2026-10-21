@@ -54,7 +54,8 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
         jniLibs {
-            pickFirsts += listOf("**/libc++_shared.so")
+            pickFirsts += listOf("**/libc++_shared.so", "**/*.so")
+            useLegacyPackaging = true
         }
     }
 }
