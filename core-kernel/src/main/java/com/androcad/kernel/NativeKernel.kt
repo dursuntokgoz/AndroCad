@@ -503,6 +503,18 @@ data class CAMGCodeInfo(
     val errorMessage: String = ""
 )
 
+// -------------------------------------------------------------------------
+// Milestone 16: Patterns, Symmetry & Feature Replicators
+// -------------------------------------------------------------------------
+
+data class PatternResultInfo(
+    val success: Boolean,
+    val instanceCount: Int,
+    val totalVolumeMm3: Double,
+    val meshResult: BoxMeshResult? = null,
+    val errorMessage: String = ""
+)
+
 /**
  * High-performance JNI bridge to the OpenCASCADE native CAD kernel.
  */
@@ -1396,6 +1408,90 @@ object NativeKernel {
         }
     }
 
+    /**
+     * Milestone 16: Rectangular (linear grid) feature/solid pattern.
+     */
+    fun rectangularPattern(
+        solid: BoxMeshResult,
+        countU: Int,
+        spacingU: Double,
+        dirUX: Double = 1.0, dirUY: Double = 0.0, dirUZ: Double = 0.0,
+        countV: Int = 1,
+        spacingV: Double = 0.0,
+        dirVX: Double = 0.0, dirVY: Double = 1.0, dirVZ: Double = 0.0,
+        fuseInstances: Boolean = false
+    ): PatternResultInfo {
+        val json = nativeRectangularPattern(
+            solid.nativeHandle, countU, spacingU, dirUX, dirUY, dirUZ,
+            countV, spacingV, dirVX, dirVY, dirVZ, fuseInstances
+        )
+        return parsePatternJson(json)
+    }
+
+    /**
+     * Milestone 16: Circular (polar rotation) feature/solid pattern.
+     */
+    fun circularPattern(
+        solid: BoxMeshResult,
+        ox: Double = 0.0, oy: Double = 0.0, oz: Double = 0.0,
+        dx: Double = 0.0, dy: Double = 0.0, dz: Double = 1.0,
+        count: Int = 6,
+        totalAngleDeg: Double = 360.0,
+        fuseInstances: Boolean = false
+    ): PatternResultInfo {
+        val json = nativeCircularPattern(
+            solid.nativeHandle, ox, oy, oz, dx, dy, dz, count, totalAngleDeg, fuseInstances
+        )
+        return parsePatternJson(json)
+    }
+
+    /**
+     * Milestone 16: Mirror symmetry across a datum plane.
+     */
+    fun mirror(
+        solid: BoxMeshResult,
+        ox: Double = 0.0, oy: Double = 0.0, oz: Double = 0.0,
+        nx: Double = 1.0, ny: Double = 0.0, nz: Double = 0.0,
+        keepOriginal: Boolean = true,
+        fuseInstances: Boolean = false
+    ): PatternResultInfo {
+        val json = nativeMirror(
+            solid.nativeHandle, ox, oy, oz, nx, ny, nz, keepOriginal, fuseInstances
+        )
+        return parsePatternJson(json)
+    }
+
+    /**
+     * Milestone 16: Draft angle taper on faces for injection molding / casting.
+     */
+    fun applyDraft(
+        solid: BoxMeshResult,
+        dirX: Double = 0.0, dirY: Double = 0.0, dirZ: Double = 1.0,
+        draftAngleDeg: Double = 3.0,
+        targetFaceIds: IntArray = intArrayOf(1)
+    ): PatternResultInfo {
+        val json = nativeApplyDraft(solid.nativeHandle, dirX, dirY, dirZ, draftAngleDeg, targetFaceIds)
+        return parsePatternJson(json)
+    }
+
+    private fun parsePatternJson(json: String): PatternResultInfo {
+        return try {
+            val isSuccess = json.contains("\"success\":true")
+            val extractNum = { key: String -> "\"$key\":([0-9.-]+)".toRegex().find(json)?.groupValues?.get(1)?.toDoubleOrNull() ?: 0.0 }
+            val meshHandle = "\"meshHandle\":([0-9.-]+)".toRegex().find(json)?.groupValues?.get(1)?.toLongOrNull() ?: 0L
+            val meshResult = if (meshHandle != 0L) buildMeshResult(meshHandle) else null
+            PatternResultInfo(
+                success = isSuccess,
+                instanceCount = extractNum("instanceCount").toInt(),
+                totalVolumeMm3 = extractNum("totalVolumeMm3"),
+                meshResult = meshResult,
+                errorMessage = ""
+            )
+        } catch (e: Exception) {
+            PatternResultInfo(false, 0, 0.0, null, e.message ?: "JSON parse error")
+        }
+    }
+
     internal external fun nativeCreateBox(
         dx: Double,
         dy: Double,
@@ -1612,4 +1708,35 @@ object NativeKernel {
     internal external fun nativeCAMGetVisualLines(
         lengthMm: Double, widthMm: Double, heightMm: Double, pocketDepthMm: Double
     ): FloatArray
+
+    // Milestone 16 JNI Declarations (Patterns, Symmetry & Draft)
+    internal external fun nativeRectangularPattern(
+        solidHandle: Long,
+        countU: Int, spacingU: Double, dirUX: Double, dirUY: Double, dirUZ: Double,
+        countV: Int, spacingV: Double, dirVX: Double, dirVY: Double, dirVZ: Double,
+        fuseInstances: Boolean
+    ): String
+
+    internal external fun nativeCircularPattern(
+        solidHandle: Long,
+        ox: Double, oy: Double, oz: Double,
+        dx: Double, dy: Double, dz: Double,
+        count: Int, totalAngleDeg: Double,
+        fuseInstances: Boolean
+    ): String
+
+    internal external fun nativeMirror(
+        solidHandle: Long,
+        ox: Double, oy: Double, oz: Double,
+        nx: Double, ny: Double, nz: Double,
+        keepOriginal: Boolean,
+        fuseInstances: Boolean
+    ): String
+
+    internal external fun nativeApplyDraft(
+        solidHandle: Long,
+        dirX: Double, dirY: Double, dirZ: Double,
+        draftAngleDeg: Double,
+        targetFaceIds: IntArray
+    ): String
 }

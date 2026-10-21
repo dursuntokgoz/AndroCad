@@ -15,6 +15,7 @@
 #include "MeshEngine.h"
 #include "SimulationEngine.h"
 #include "CAMEngine.h"
+#include "PatternEngine.h"
 
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <TopoDS_Shape.hxx>
@@ -1619,6 +1620,170 @@ Java_com_androcad_kernel_NativeKernel_nativeCAMGetVisualLines(
         env->SetFloatArrayRegion(outArr, 0, static_cast<jsize>(lines.size()), lines.data());
     }
     return outArr;
+}
+
+// Milestone 16: Patterns, Symmetry & Draft Operations
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeRectangularPattern(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong solidHandle,
+        jint countU, jdouble spacingU, jdouble dirUX, jdouble dirUY, jdouble dirUZ,
+        jint countV, jdouble spacingV, jdouble dirVX, jdouble dirVY, jdouble dirVZ,
+        jboolean fuseInstances) {
+    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    TopoDS_Shape baseShape = (session && !session->shape.IsNull()) ?
+        session->shape : BRepPrimAPI_MakeBox(10.0, 10.0, 10.0).Shape();
+
+    gp_Vec dirU(dirUX, dirUY, dirUZ);
+    gp_Vec dirV(dirVX, dirVY, dirVZ);
+
+    androcad::PatternResult res = androcad::PatternEngine::RectangularPattern(
+        baseShape, countU, spacingU, dirU, countV, spacingV, dirV, fuseInstances
+    );
+
+    jlong newHandle = 0;
+    if (res.success && !res.shape.IsNull()) {
+        auto* newSession = new NativeMeshSession();
+        newSession->shape = res.shape;
+        newSession->payload = androcad::AndroCadKernel::TessellateShape(res.shape, 0.1, 0.5);
+        newHandle = reinterpret_cast<jlong>(newSession);
+    }
+
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(4);
+    ss << "{\"success\":" << (res.success ? "true" : "false")
+       << ",\"instanceCount\":" << res.instanceCount
+       << ",\"totalVolumeMm3\":" << res.totalVolumeMm3
+       << ",\"meshHandle\":" << newHandle
+       << ",\"errorMessage\":\"" << res.errorMessage << "\""
+       << "}";
+
+    return env->NewStringUTF(ss.str().c_str());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeCircularPattern(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong solidHandle,
+        jdouble ox, jdouble oy, jdouble oz,
+        jdouble dx, jdouble dy, jdouble dz,
+        jint count, jdouble totalAngleDeg,
+        jboolean fuseInstances) {
+    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    TopoDS_Shape baseShape = (session && !session->shape.IsNull()) ?
+        session->shape : BRepPrimAPI_MakeBox(10.0, 10.0, 10.0).Shape();
+
+    gp_Ax1 axis(gp_Pnt(ox, oy, oz), gp_Dir(dx, dy, dz));
+    androcad::PatternResult res = androcad::PatternEngine::CircularPattern(
+        baseShape, axis, count, totalAngleDeg, fuseInstances
+    );
+
+    jlong newHandle = 0;
+    if (res.success && !res.shape.IsNull()) {
+        auto* newSession = new NativeMeshSession();
+        newSession->shape = res.shape;
+        newSession->payload = androcad::AndroCadKernel::TessellateShape(res.shape, 0.1, 0.5);
+        newHandle = reinterpret_cast<jlong>(newSession);
+    }
+
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(4);
+    ss << "{\"success\":" << (res.success ? "true" : "false")
+       << ",\"instanceCount\":" << res.instanceCount
+       << ",\"totalVolumeMm3\":" << res.totalVolumeMm3
+       << ",\"meshHandle\":" << newHandle
+       << ",\"errorMessage\":\"" << res.errorMessage << "\""
+       << "}";
+
+    return env->NewStringUTF(ss.str().c_str());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeMirror(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong solidHandle,
+        jdouble ox, jdouble oy, jdouble oz,
+        jdouble nx, jdouble ny, jdouble nz,
+        jboolean keepOriginal,
+        jboolean fuseInstances) {
+    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    TopoDS_Shape baseShape = (session && !session->shape.IsNull()) ?
+        session->shape : BRepPrimAPI_MakeBox(10.0, 10.0, 10.0).Shape();
+
+    gp_Ax2 mirrorPlane(gp_Pnt(ox, oy, oz), gp_Dir(nx, ny, nz));
+    androcad::PatternResult res = androcad::PatternEngine::Mirror(
+        baseShape, mirrorPlane, keepOriginal, fuseInstances
+    );
+
+    jlong newHandle = 0;
+    if (res.success && !res.shape.IsNull()) {
+        auto* newSession = new NativeMeshSession();
+        newSession->shape = res.shape;
+        newSession->payload = androcad::AndroCadKernel::TessellateShape(res.shape, 0.1, 0.5);
+        newHandle = reinterpret_cast<jlong>(newSession);
+    }
+
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(4);
+    ss << "{\"success\":" << (res.success ? "true" : "false")
+       << ",\"instanceCount\":" << res.instanceCount
+       << ",\"totalVolumeMm3\":" << res.totalVolumeMm3
+       << ",\"meshHandle\":" << newHandle
+       << ",\"errorMessage\":\"" << res.errorMessage << "\""
+       << "}";
+
+    return env->NewStringUTF(ss.str().c_str());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeApplyDraft(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong solidHandle,
+        jdouble dirX, jdouble dirY, jdouble dirZ,
+        jdouble draftAngleDeg,
+        jintArray faceIds) {
+    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    TopoDS_Shape baseShape = (session && !session->shape.IsNull()) ?
+        session->shape : BRepPrimAPI_MakeBox(20.0, 20.0, 30.0).Shape();
+
+    std::vector<int> targetFaces;
+    if (faceIds != nullptr) {
+        jsize len = env->GetArrayLength(faceIds);
+        jint* elems = env->GetIntArrayElements(faceIds, nullptr);
+        for (jsize i = 0; i < len; ++i) {
+            targetFaces.push_back(elems[i]);
+        }
+        env->ReleaseIntArrayElements(faceIds, elems, JNI_ABORT);
+    }
+    if (targetFaces.empty()) targetFaces.push_back(1);
+
+    gp_Dir pullDir(dirX, dirY, dirZ);
+    androcad::PatternResult res = androcad::PatternEngine::ApplyDraft(
+        baseShape, pullDir, draftAngleDeg, targetFaces
+    );
+
+    jlong newHandle = 0;
+    if (res.success && !res.shape.IsNull()) {
+        auto* newSession = new NativeMeshSession();
+        newSession->shape = res.shape;
+        newSession->payload = androcad::AndroCadKernel::TessellateShape(res.shape, 0.1, 0.5);
+        newHandle = reinterpret_cast<jlong>(newSession);
+    }
+
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(4);
+    ss << "{\"success\":" << (res.success ? "true" : "false")
+       << ",\"instanceCount\":" << res.instanceCount
+       << ",\"totalVolumeMm3\":" << res.totalVolumeMm3
+       << ",\"meshHandle\":" << newHandle
+       << ",\"errorMessage\":\"" << res.errorMessage << "\""
+       << "}";
+
+    return env->NewStringUTF(ss.str().c_str());
 }
 
 } // extern "C"

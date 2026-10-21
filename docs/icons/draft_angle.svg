@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M4 20h16l-3-14H7L4 20z" fill="#007ACC" fill-opacity="0.15" stroke="#007ACC" stroke-width="1.8"/>
+  <line x1="7" y1="6" x2="7" y2="20" stroke="#FF9800" stroke-dasharray="2 2"/>
+  <path d="M7 11a5 5 0 0 0-1.8 4" stroke="#4CAF50"/>
+  <text x="8" y="14" font-size="6" fill="#4CAF50" font-family="sans-serif">θ</text>
+</svg>

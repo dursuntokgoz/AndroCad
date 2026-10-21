@@ -362,4 +362,47 @@ class NativeKernelTest {
         assertEquals(CAMPostDialect.HAAS_CNC.id, 1)
         assertEquals(CAMPostDialect.FANUC_CNC.id, 2)
     }
+
+    @Test
+    fun testPatternDataContracts() {
+        val patternInfo = PatternResultInfo(
+            success = true,
+            instanceCount = 12,
+            totalVolumeMm3 = 12000.0,
+            meshResult = null,
+            errorMessage = ""
+        )
+        assertTrue(patternInfo.success)
+        assertEquals(12, patternInfo.instanceCount)
+        assertEquals(12000.0, patternInfo.totalVolumeMm3, 1e-4)
+        assertEquals("", patternInfo.errorMessage)
+
+        val circularInfo = PatternResultInfo(
+            success = true,
+            instanceCount = 6,
+            totalVolumeMm3 = 7068.58,
+            meshResult = null
+        )
+        assertTrue(circularInfo.success)
+        assertEquals(6, circularInfo.instanceCount)
+        assertEquals(7068.58, circularInfo.totalVolumeMm3, 1e-2)
+
+        val mirrorInfo = PatternResultInfo(
+            success = true,
+            instanceCount = 2,
+            totalVolumeMm3 = 6000.0,
+            meshResult = null
+        )
+        assertTrue(mirrorInfo.success)
+        assertEquals(2, mirrorInfo.instanceCount)
+
+        val draftInfo = PatternResultInfo(
+            success = true,
+            instanceCount = 1,
+            totalVolumeMm3 = 11850.0,
+            meshResult = null
+        )
+        assertTrue(draftInfo.success)
+        assertEquals(1, draftInfo.instanceCount)
+    }
 }

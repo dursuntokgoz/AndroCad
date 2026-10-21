@@ -844,7 +844,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             }
                         }
                     } else {
-                        val tools = listOf("Box", "Extrude", "Revolve", "Fillet", "Chamfer", "Hole", "Shell", "Combine")
+                        val tools = listOf("Box", "Extrude", "Revolve", "Fillet", "Chamfer", "Hole", "Shell", "Combine", "Rect Pattern", "Circular Pattern", "Mirror", "Draft Angle")
                         tools.forEach { tool ->
                             Surface(
                                 color = chipBgColor,
@@ -949,6 +949,93 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                             timelineItems = (timelineItems + "${timelineItems.size + 1}. Combine (Join)").toMutableList()
                                                             featureStatusText = "Combine Join executed"
                                                         }
+                                                    }
+                                                }
+                                                "Rect Pattern" -> {
+                                                    val base = activeSolid ?: NativeKernel.createBox(20.0, 20.0, 20.0).also {
+                                                        activeSolid = it
+                                                    }
+                                                    val res = NativeKernel.rectangularPattern(
+                                                        solid = base,
+                                                        countU = 3, spacingU = 30.0, dirUX = 1.0, dirUY = 0.0, dirUZ = 0.0,
+                                                        countV = 2, spacingV = 25.0, dirVX = 0.0, dirVY = 1.0, dirVZ = 0.0,
+                                                        fuseInstances = false
+                                                    )
+                                                    val mResult = res.meshResult
+                                                    if (mResult != null && mResult.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = mResult
+                                                        renderer?.updateMesh(mResult)
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Rect Pattern (3x2)").toMutableList()
+                                                        featureStatusText = "Rect Pattern: ${res.instanceCount} instances (Vol: ${res.totalVolumeMm3.toInt()} mm³)"
+                                                    } else {
+                                                        featureStatusText = "Rect Pattern failed: ${res.errorMessage}"
+                                                    }
+                                                }
+                                                "Circular Pattern" -> {
+                                                    val base = activeSolid ?: NativeKernel.createBox(15.0, 15.0, 20.0).also {
+                                                        activeSolid = it
+                                                    }
+                                                    val res = NativeKernel.circularPattern(
+                                                        solid = base,
+                                                        ox = 0.0, oy = 0.0, oz = 0.0,
+                                                        dx = 0.0, dy = 0.0, dz = 1.0,
+                                                        count = 6, totalAngleDeg = 360.0,
+                                                        fuseInstances = false
+                                                    )
+                                                    val mResult = res.meshResult
+                                                    if (mResult != null && mResult.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = mResult
+                                                        renderer?.updateMesh(mResult)
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Circular Pattern (6x 360°)").toMutableList()
+                                                        featureStatusText = "Circular Pattern: 6 instances polar array"
+                                                    } else {
+                                                        featureStatusText = "Circular Pattern failed: ${res.errorMessage}"
+                                                    }
+                                                }
+                                                "Mirror" -> {
+                                                    val base = activeSolid ?: NativeKernel.createBox(30.0, 20.0, 15.0).also {
+                                                        activeSolid = it
+                                                    }
+                                                    val res = NativeKernel.mirror(
+                                                        solid = base,
+                                                        ox = 0.0, oy = 0.0, oz = 0.0,
+                                                        nx = 1.0, ny = 0.0, nz = 0.0,
+                                                        keepOriginal = true,
+                                                        fuseInstances = false
+                                                    )
+                                                    val mResult = res.meshResult
+                                                    if (mResult != null && mResult.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = mResult
+                                                        renderer?.updateMesh(mResult)
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Mirror (YZ Plane)").toMutableList()
+                                                        featureStatusText = "Mirror: Symmetric pair across datum plane"
+                                                    } else {
+                                                        featureStatusText = "Mirror failed: ${res.errorMessage}"
+                                                    }
+                                                }
+                                                "Draft Angle" -> {
+                                                    val base = activeSolid ?: NativeKernel.createBox(30.0, 30.0, 40.0).also {
+                                                        activeSolid = it
+                                                    }
+                                                    val targetFace = if (selectedType == "Face") selectedId else 1
+                                                    val res = NativeKernel.applyDraft(
+                                                        solid = base,
+                                                        dirX = 0.0, dirY = 0.0, dirZ = 1.0,
+                                                        draftAngleDeg = 3.0,
+                                                        targetFaceIds = intArrayOf(targetFace)
+                                                    )
+                                                    val mResult = res.meshResult
+                                                    if (mResult != null && mResult.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = mResult
+                                                        renderer?.updateMesh(mResult)
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Draft (3° on Face #$targetFace)").toMutableList()
+                                                        featureStatusText = "Draft: 3° mold taper applied on Face #$targetFace"
+                                                    } else {
+                                                        featureStatusText = "Draft failed: ${res.errorMessage}"
                                                     }
                                                 }
                                             }
