@@ -40,6 +40,7 @@ if(ANDROID)
         src/MaterialEngine.cpp
         src/MeshEngine.cpp
         src/SimulationEngine.cpp
+        src/CAMEngine.cpp
         src/ExpressionParser.cpp
         src/TNPResolver.cpp
         src/TimelineDAG.cpp
@@ -371,6 +372,7 @@ else()
         src/MaterialEngine.cpp
         src/MeshEngine.cpp
         src/SimulationEngine.cpp
+        src/CAMEngine.cpp
         src/ExpressionParser.cpp
         src/TNPResolver.cpp
         src/TimelineDAG.cpp
@@ -410,6 +412,7 @@ else()
         src/MaterialEngine.cpp
         src/MeshEngine.cpp
         src/SimulationEngine.cpp
+        src/CAMEngine.cpp
         src/ExpressionParser.cpp
         src/TNPResolver.cpp
         src/TimelineDAG.cpp
@@ -436,4 +439,44 @@ else()
     )
 
     add_test(NAME SimulationEngineTest COMMAND androcad_simulation_engine_test)
+
+    add_executable(androcad_cam_engine_test
+        src/AndroCadKernel.cpp
+        src/GCS.cpp
+        src/Sketcher.cpp
+        src/FeatureOps.cpp
+        src/SurfaceOps.cpp
+        src/AssemblyManager.cpp
+        src/SheetMetalEngine.cpp
+        src/DrawingEngine.cpp
+        src/MaterialEngine.cpp
+        src/MeshEngine.cpp
+        src/SimulationEngine.cpp
+        src/CAMEngine.cpp
+        src/ExpressionParser.cpp
+        src/TNPResolver.cpp
+        src/TimelineDAG.cpp
+        src/ProjectIO.cpp
+        tests/test_cam_engine.cpp
+    )
+
+    target_link_libraries(androcad_cam_engine_test PRIVATE
+        TKernel
+        TKMath
+        TKG2d
+        TKG3d
+        TKGeomBase
+        TKGeomAlgo
+        TKBRep
+        TKTopAlgo
+        TKPrim
+        TKBO
+        TKBool
+        TKFillet
+        TKOffset
+        TKMesh
+        ${HOST_DATA_EXCHANGE_LIBS}
+    )
+
+    add_test(NAME CAMEngineTest COMMAND androcad_cam_engine_test)
 endif()

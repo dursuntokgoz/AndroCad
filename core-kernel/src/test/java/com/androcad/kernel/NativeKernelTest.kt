@@ -332,4 +332,34 @@ class NativeKernelTest {
         assertFalse(simResInvalid.success)
         assertEquals("Invalid solid", simResInvalid.errorMessage)
     }
+
+    @Test
+    fun testCAMGCodeContracts() {
+        val camInfo = CAMGCodeInfo(
+            success = true,
+            lineCount = 142,
+            cuttingTimeSec = 45.2,
+            rapidTimeSec = 3.8,
+            totalLengthMm = 650.0,
+            materialVolumeRemovedCm3 = 35.0,
+            minX = -5.0,
+            maxX = 105.0,
+            minY = -5.0,
+            maxY = 55.0,
+            minZ = -2.0,
+            maxZ = 31.0,
+            gcode = "G21\nG90\nG00 Z31.000\nM30\n"
+        )
+        assertTrue(camInfo.success)
+        assertEquals(142, camInfo.lineCount)
+        assertEquals(45.2, camInfo.cuttingTimeSec, 1e-4)
+        assertEquals(3.8, camInfo.rapidTimeSec, 1e-4)
+        assertEquals(650.0, camInfo.totalLengthMm, 1e-4)
+        assertEquals(35.0, camInfo.materialVolumeRemovedCm3, 1e-4)
+        assertTrue(camInfo.gcode.contains("G21"))
+        assertTrue(camInfo.gcode.contains("M30"))
+        assertEquals(CAMPostDialect.ISO_GRBL.id, 0)
+        assertEquals(CAMPostDialect.HAAS_CNC.id, 1)
+        assertEquals(CAMPostDialect.FANUC_CNC.id, 2)
+    }
 }

@@ -14,6 +14,7 @@
 #include "MaterialEngine.h"
 #include "MeshEngine.h"
 #include "SimulationEngine.h"
+#include "CAMEngine.h"
 
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <TopoDS_Shape.hxx>
@@ -1557,6 +1558,67 @@ Java_com_androcad_kernel_NativeKernel_nativeSimulateSolid(
        << "}";
 
     return env->NewStringUTF(ss.str().c_str());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeCAMGenerateGCode(
+        JNIEnv* env,
+        jobject /* this */,
+        jdouble lengthMm,
+        jdouble widthMm,
+        jdouble heightMm,
+        jdouble pocketDepthMm,
+        jint dialectId) {
+    androcad::PostProcessorDialect dialect = androcad::PostProcessorDialect::ISO_GRBL;
+    if (dialectId == 1) dialect = androcad::PostProcessorDialect::HAAS_CNC;
+    else if (dialectId == 2) dialect = androcad::PostProcessorDialect::FANUC_CNC;
+
+    androcad::GCodeResult res = androcad::CAMEngine::GenerateCompleteBracketSetup(
+        lengthMm, widthMm, heightMm, pocketDepthMm, dialect);
+
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(3);
+    ss << "{\"success\":" << (res.success ? "true" : "false")
+       << ",\"lineCount\":" << res.lineCount
+       << ",\"cuttingTimeSec\":" << res.totalCuttingTimeSec
+       << ",\"rapidTimeSec\":" << res.totalRapidTimeSec
+       << ",\"totalLengthMm\":" << res.totalLengthMm
+       << ",\"materialVolumeRemovedCm3\":" << res.materialVolumeRemovedCm3
+       << ",\"minX\":" << res.minX << ",\"maxX\":" << res.maxX
+       << ",\"minY\":" << res.minY << ",\"maxY\":" << res.maxY
+       << ",\"minZ\":" << res.minZ << ",\"maxZ\":" << res.maxZ
+       << ",\"gcode\":\"";
+
+    for (char c : res.gcode) {
+        if (c == '\n') ss << "\\n";
+        else if (c == '\"') ss << "\\\"";
+        else if (c == '\\') ss << "\\\\";
+        else if (c == '\r') continue;
+        else ss << c;
+    }
+
+    ss << "\",\"errorMessage\":\"" << res.errorMessage << "\"}";
+
+    return env->NewStringUTF(ss.str().c_str());
+}
+
+JNIEXPORT jfloatArray JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeCAMGetVisualLines(
+        JNIEnv* env,
+        jobject /* this */,
+        jdouble lengthMm,
+        jdouble widthMm,
+        jdouble heightMm,
+        jdouble pocketDepthMm) {
+    androcad::GCodeResult res = androcad::CAMEngine::GenerateCompleteBracketSetup(
+        lengthMm, widthMm, heightMm, pocketDepthMm, androcad::PostProcessorDialect::ISO_GRBL);
+
+    const auto& lines = res.visualPath.lineVertices;
+    jfloatArray outArr = env->NewFloatArray(static_cast<jsize>(lines.size()));
+    if (!lines.empty()) {
+        env->SetFloatArrayRegion(outArr, 0, static_cast<jsize>(lines.size()), lines.data());
+    }
+    return outArr;
 }
 
 } // extern "C"

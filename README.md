@@ -39,6 +39,10 @@ AndroCAD is built with a **tablet-first** engineering workflow following modern 
 ![AndroCAD Tablet FEA Simulation UI](docs/images/androcad_tablet_simulation_ui.png)
 *Simulation workspace: Embedded 3D linear elastic finite element analysis (FEA), tetrahedral volume discretization, fixed and roller boundary constraints, structural force and pressure loads, Preconditioned Conjugate Gradient (PCG) solver, Von Mises stress heatmap (Turbo rainbow colormap), Factor of Safety (FOS) evaluation, and real-time exaggerated deformation visualization.*
 
+### Subtractive CAM & G-Code Post-Processing
+![AndroCAD Tablet CAM & G-Code UI](docs/images/androcad_tablet_cam_ui.png)
+*Manufacture (CAM) workspace: 2.5D and 3-axis CNC subtractive machining, stock and WCS setup (G54), tool library management, facing, 2D concentric pocket clearing, 2D contour perimeter finishing with cutter radius compensation, canned deep-hole peck drilling cycles (G83), 3D toolpath wireframe visualization, and multi-dialect G-Code post-processing (ISO/GRBL, Haas CNC, Fanuc).*
+
 ---
 
 ## Key Features & Architecture

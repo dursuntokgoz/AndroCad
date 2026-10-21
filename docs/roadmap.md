@@ -209,13 +209,13 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
 ---
 
 ### Milestone 15: Subtractive CAM & G-Code Post-Processing
-* **Goal:** 2.5D and 3D CNC machining toolpath generation and machine code export (Fusion 360 Manufacture workspace parity).
+* **Goal:** 2.5D and 3-axis CNC machining toolpath generation and machine code export (Fusion 360 Manufacture workspace parity).
 * **Deliverables:**
-  - Stock setup and WCS coordinate origin definition.
-  - Toolpath operations: Facing, 2D Adaptive Clearing, 2D Pocket, 2D Contour, Drill cycles.
-  - Tool library (Flat endmills, Ballnose, Chamfer mills).
-  - Material removal simulation and standard ISO G-Code / GRBL post-processor.
-  - **Release:** Production Release `v2.0.0`.
-* **Acceptance Tests:** Pocketed mechanical bracket generates collision-free 3-axis G-Code toolpath verified against theoretical volume removal.
-* **Status:** Planned
-* **Finish Date:** -
+  - Stock setup and WCS coordinate origin definition (G54, bounding envelope, clearance plane).
+  - Toolpath operations: Facing, 2D Pocket, 2D Contour, Canned Peck Drilling (G83).
+  - Tool library (Flat endmills, Ballnose, Chamfer mills, Twist drills with feeds & speeds).
+  - Multi-dialect post-processor (ISO/GRBL, Haas CNC, Fanuc 0i/31i), material volume removed, cycle time estimation, and visual toolpath lines.
+  - **Release:** Beta APK `v0.15.0-beta`.
+* **Acceptance Tests:** Pocketed mechanical bracket generates collision-free 3-axis G-Code toolpath verified against theoretical volume removal and machine bounds.
+* **Status:** Done
+* **Finish Date:** 2026-10-21
