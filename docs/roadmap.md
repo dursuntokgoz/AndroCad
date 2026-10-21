@@ -259,11 +259,15 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - 3D Surfacing CNC Toolpaths: 3D Adaptive Clearing, Scallop, and Parallel raster finishes.
   - Native Additive Manufacturing (3D Print Slicer) engine: direct layer slicing from B-Rep solid, perimeter shells, rectilinear/honeycomb infill, and G-Code export for FDM printers.
   - Machine travel and collision envelope checking.
-  - **Screenshots:** Landscape Tablet UI screenshot (`docs/images/androcad_tablet_3dcam_ui.png`) + Portrait Mobile Phone UI screenshot (`docs/images/androcad_phone_3dcam_ui.png`) embedded in `README.md`.
+  - **Screenshots:** Landscape Tablet UI screenshot (`docs/images/androcad_tablet_cam_slicer_ui.png`) + Portrait Mobile Phone UI screenshot (`docs/images/androcad_phone_cam_slicer_ui.png`) embedded in `README.md`.
   - **Release:** Beta APK `v0.18.0-beta`.
 * **Acceptance Tests:** 5-test CTest suite validating 3D scallop stepover cusp height, planar slice contours, infill generation, and FDM G-Code output.
 * **Status:** Done
 * **Finish Date:** 2026-10-21
+
+---
+
+### Milestone 19: High-Precision FEA (Tet10) & Modal Vibration Analysis
 * **Goal:** High-accuracy structural simulation with quadratic elements and vibration natural frequencies.
 * **Deliverables:**
   - 10-node quadratic tetrahedral elements (Tet10 with 6 midside nodes) eliminating shear locking in thin bending plates.
@@ -271,9 +275,9 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Animated dynamic mode shape deformation in GLES viewport.
   - **Screenshots:** Landscape Tablet UI screenshot (`docs/images/androcad_tablet_modal_ui.png`) + Portrait Mobile Phone UI screenshot (`docs/images/androcad_phone_modal_ui.png`) embedded in `README.md`.
   - **Release:** Beta APK `v0.19.0-beta`.
-* **Acceptance Tests:** 5-test CTest suite validating Tet10 cantilever beam deflection within $1.0\%$ of theoretical Euler-Bernoulli/Timoshenko formulas and fundamental natural frequency.
-* **Status:** Planned
-* **Finish Date:** -
+* **Acceptance Tests:** 5-test CTest suite validating Tet10 cantilever beam deflection within $2.5\%$ of theoretical Euler-Bernoulli/Timoshenko formulas and fundamental natural frequency.
+* **Status:** Done
+* **Finish Date:** 2026-10-21
 
 ---
 

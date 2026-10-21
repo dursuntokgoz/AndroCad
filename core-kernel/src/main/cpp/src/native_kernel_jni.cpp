@@ -1563,6 +1563,111 @@ Java_com_androcad_kernel_NativeKernel_nativeSimulateSolid(
 }
 
 JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeSimulateCantileverTet10(
+        JNIEnv* env,
+        jobject /* this */,
+        jdouble lengthMm,
+        jdouble widthMm,
+        jdouble heightMm,
+        jdouble forceN,
+        jint materialId,
+        jdouble deformationScale) {
+    androcad::Material mat = androcad::MaterialEngine::GetMaterial(materialId);
+    androcad::SimulationResult res = androcad::SimulationEngine::SolveCantileverBeamTet10(
+        lengthMm, widthMm, heightMm, forceN, mat, deformationScale);
+
+    auto session = std::make_unique<NativeMeshSession>();
+    session->payload.success = res.success;
+    session->payload.errorMessage = res.errorMessage;
+
+    if (res.success) {
+        size_t vertCount = res.visualMesh.positions.size() / 3;
+        session->payload.vertices.resize(vertCount);
+        for (size_t i = 0; i < vertCount; ++i) {
+            session->payload.vertices[i].x = res.visualMesh.positions[i * 3 + 0];
+            session->payload.vertices[i].y = res.visualMesh.positions[i * 3 + 1];
+            session->payload.vertices[i].z = res.visualMesh.positions[i * 3 + 2];
+            session->payload.vertices[i].nx = res.visualMesh.colors[i * 3 + 0];
+            session->payload.vertices[i].ny = res.visualMesh.colors[i * 3 + 1];
+            session->payload.vertices[i].nz = res.visualMesh.colors[i * 3 + 2];
+            session->payload.vertices[i].faceId = static_cast<uint32_t>(res.visualMesh.stressesMPa[i]);
+        }
+        session->payload.indices = res.visualMesh.indices;
+    }
+
+    jlong handle = reinterpret_cast<jlong>(session.release());
+
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(4);
+    ss << "{\"success\":" << (res.success ? "true" : "false")
+       << ",\"nodeCount\":" << res.nodeCount
+       << ",\"elementCount\":" << res.elementCount
+       << ",\"maxVonMisesStressMPa\":" << res.maxVonMisesStressMPa
+       << ",\"minVonMisesStressMPa\":" << res.minVonMisesStressMPa
+       << ",\"maxDisplacementMm\":" << res.maxDisplacementMm
+       << ",\"minSafetyFactor\":" << res.minSafetyFactor
+       << ",\"meshHandle\":" << handle
+       << ",\"errorMessage\":\"" << res.errorMessage << "\""
+       << "}";
+
+    return env->NewStringUTF(ss.str().c_str());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeSimulateModal(
+        JNIEnv* env,
+        jobject /* this */,
+        jdouble lengthMm,
+        jdouble widthMm,
+        jdouble heightMm,
+        jint materialId,
+        jint numModes,
+        jdouble deformationScale) {
+    androcad::Material mat = androcad::MaterialEngine::GetMaterial(materialId);
+    androcad::ModalAnalysisResult res = androcad::SimulationEngine::SolveCantileverModal(
+        lengthMm, widthMm, heightMm, mat, numModes, deformationScale);
+
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(4);
+    ss << "{\"success\":" << (res.success ? "true" : "false")
+       << ",\"nodeCount\":" << res.nodeCount
+       << ",\"elementCount\":" << res.elementCount
+       << ",\"errorMessage\":\"" << res.errorMessage << "\""
+       << ",\"modes\":[";
+
+    for (size_t m = 0; m < res.modes.size(); ++m) {
+        const auto& mode = res.modes[m];
+        auto session = std::make_unique<NativeMeshSession>();
+        session->payload.success = true;
+
+        size_t vertCount = mode.visualMesh.positions.size() / 3;
+        session->payload.vertices.resize(vertCount);
+        for (size_t i = 0; i < vertCount; ++i) {
+            session->payload.vertices[i].x = mode.visualMesh.positions[i * 3 + 0];
+            session->payload.vertices[i].y = mode.visualMesh.positions[i * 3 + 1];
+            session->payload.vertices[i].z = mode.visualMesh.positions[i * 3 + 2];
+            session->payload.vertices[i].nx = mode.visualMesh.colors[i * 3 + 0];
+            session->payload.vertices[i].ny = mode.visualMesh.colors[i * 3 + 1];
+            session->payload.vertices[i].nz = mode.visualMesh.colors[i * 3 + 2];
+            session->payload.vertices[i].faceId = static_cast<uint32_t>(mode.visualMesh.stressesMPa[i]);
+        }
+        session->payload.indices = mode.visualMesh.indices;
+
+        jlong handle = reinterpret_cast<jlong>(session.release());
+
+        if (m > 0) ss << ",";
+        ss << "{\"modeNumber\":" << mode.modeNumber
+           << ",\"frequencyHz\":" << mode.frequencyHz
+           << ",\"angularFreqRadS\":" << mode.angularFreqRadS
+           << ",\"meshHandle\":" << handle
+           << "}";
+    }
+    ss << "]}";
+
+    return env->NewStringUTF(ss.str().c_str());
+}
+
+JNIEXPORT jstring JNICALL
 Java_com_androcad_kernel_NativeKernel_nativeCAMGenerateGCode(
         JNIEnv* env,
         jobject /* this */,

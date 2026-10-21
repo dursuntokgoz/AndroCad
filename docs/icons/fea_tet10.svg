@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none">
+  <!-- Tetrahedron wireframe edges -->
+  <path d="M12 2L3 18h18L12 2z" stroke="#00ADB5" stroke-width="1.6" stroke-linejoin="round"/>
+  <path d="M12 2v10m-9 6l9-6 9 6" stroke="#00ADB5" stroke-width="1.4" stroke-dasharray="2,2"/>
+  <!-- 4 Corner Vertices (Red) -->
+  <circle cx="12" cy="2" r="1.5" fill="#FF5252"/>
+  <circle cx="3" cy="18" r="1.5" fill="#FF5252"/>
+  <circle cx="21" cy="18" r="1.5" fill="#FF5252"/>
+  <circle cx="12" cy="12" r="1.5" fill="#FF5252"/>
+  <!-- 6 Midside Nodes (Yellow/Orange) -->
+  <circle cx="7.5" cy="10" r="1.2" fill="#FFA726"/>
+  <circle cx="16.5" cy="10" r="1.2" fill="#FFA726"/>
+  <circle cx="12" cy="18" r="1.2" fill="#FFA726"/>
+  <circle cx="12" cy="7" r="1.2" fill="#FFA726"/>
+  <circle cx="7.5" cy="15" r="1.2" fill="#FFA726"/>
+  <circle cx="16.5" cy="15" r="1.2" fill="#FFA726"/>
+</svg>

@@ -476,6 +476,21 @@ data class SimulationResultInfo(
     val errorMessage: String = ""
 )
 
+data class ModeShapeInfo(
+    val modeNumber: Int,
+    val frequencyHz: Double,
+    val angularFreqRadS: Double,
+    val meshResult: BoxMeshResult? = null
+)
+
+data class ModalAnalysisResultInfo(
+    val success: Boolean,
+    val nodeCount: Long,
+    val elementCount: Long,
+    val modes: List<ModeShapeInfo>,
+    val errorMessage: String = ""
+)
+
 // -------------------------------------------------------------------------
 // Milestone 15: Subtractive CAM & G-Code Post-Processing
 // -------------------------------------------------------------------------
@@ -1494,6 +1509,61 @@ object NativeKernel {
     }
 
     /**
+     * Milestone 19: High-Precision FEA with 10-node quadratic tetrahedral elements (Tet10).
+     * Eliminates shear locking in thin bending plates and beams.
+     */
+    fun simulateCantileverBeamTet10(
+        lengthMm: Double = 100.0,
+        widthMm: Double = 10.0,
+        heightMm: Double = 10.0,
+        forceN: Double = 100.0,
+        materialId: Int = 0,
+        deformationScale: Double = 1.0
+    ): SimulationResultInfo {
+        val json = nativeSimulateCantileverTet10(lengthMm, widthMm, heightMm, forceN, materialId, deformationScale)
+        return parseSimulationJson(json)
+    }
+
+    /**
+     * Milestone 19: Dynamic Free Vibration & Modal Natural Frequency Analysis.
+     * Computes resonant eigenfrequencies and deformed mode shape visual meshes.
+     */
+    fun simulateModalAnalysis(
+        lengthMm: Double = 100.0,
+        widthMm: Double = 10.0,
+        heightMm: Double = 10.0,
+        materialId: Int = 0,
+        numModes: Int = 3,
+        deformationScale: Double = 1.0
+    ): ModalAnalysisResultInfo {
+        val json = nativeSimulateModal(lengthMm, widthMm, heightMm, materialId, numModes, deformationScale)
+        return parseModalJson(json)
+    }
+
+    private fun parseModalJson(json: String): ModalAnalysisResultInfo {
+        return try {
+            val isSuccess = json.contains("\"success\":true")
+            val extractNum = { key: String -> "\"$key\":([0-9.-]+)".toRegex().find(json)?.groupValues?.get(1)?.toDoubleOrNull() ?: 0.0 }
+            val nodeCount = extractNum("nodeCount").toLong()
+            val elementCount = extractNum("elementCount").toLong()
+
+            val modes = mutableListOf<ModeShapeInfo>()
+            val modeRegex = "\\{\"modeNumber\":(\\d+),\"frequencyHz\":([0-9.-]+),\"angularFreqRadS\":([0-9.-]+),\"meshHandle\":(\\d+)\\}".toRegex()
+            for (match in modeRegex.findAll(json)) {
+                val num = match.groupValues[1].toIntOrNull() ?: 1
+                val freq = match.groupValues[2].toDoubleOrNull() ?: 0.0
+                val omega = match.groupValues[3].toDoubleOrNull() ?: 0.0
+                val handle = match.groupValues[4].toLongOrNull() ?: 0L
+                val mesh = if (handle != 0L) buildMeshResult(handle) else null
+                modes.add(ModeShapeInfo(num, freq, omega, mesh))
+            }
+            ModalAnalysisResultInfo(isSuccess, nodeCount, elementCount, modes)
+        } catch (e: Exception) {
+            ModalAnalysisResultInfo(false, 0, 0, emptyList(), e.message ?: "Modal JSON parse error")
+        }
+    }
+
+    /**
      * Milestone 15: Generates complete CNC subtractive manufacturing toolpaths and G-Code.
      */
     fun generateGCode(
@@ -2157,5 +2227,16 @@ object NativeKernel {
         printSpeedMmS: Double,
         nozzleTempC: Double,
         bedTempC: Double
+    ): String
+
+    // Milestone 19 JNI Declarations (High-Precision Tet10 FEA & Modal Vibration)
+    internal external fun nativeSimulateCantileverTet10(
+        lengthMm: Double, widthMm: Double, heightMm: Double,
+        forceN: Double, materialId: Int, deformationScale: Double
+    ): String
+
+    internal external fun nativeSimulateModal(
+        lengthMm: Double, widthMm: Double, heightMm: Double,
+        materialId: Int, numModes: Int, deformationScale: Double
     ): String
 }

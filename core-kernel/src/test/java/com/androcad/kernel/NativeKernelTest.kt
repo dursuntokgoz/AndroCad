@@ -515,4 +515,45 @@ class NativeKernelTest {
         assertEquals(42.0, slicerResult.estimatedPrintTimeMin, 1e-4)
         assertEquals(125000, slicerResult.gcodeSize)
     }
+
+    @Test
+    fun testTet10AndModalDataContracts() {
+        // Milestone 19: Tet10 High-Precision FEA contract
+        val tet10Result = SimulationResultInfo(
+            success = true,
+            nodeCount = 425,
+            elementCount = 200,
+            maxVonMisesStressMPa = 145.2,
+            minVonMisesStressMPa = 1.8,
+            maxDisplacementMm = 0.201,
+            minSafetyFactor = 1.72,
+            meshResult = null
+        )
+        assertTrue(tet10Result.success)
+        assertEquals(425L, tet10Result.nodeCount)
+        assertEquals(200L, tet10Result.elementCount)
+        assertEquals(145.2, tet10Result.maxVonMisesStressMPa, 1e-4)
+        assertEquals(0.201, tet10Result.maxDisplacementMm, 1e-4)
+        assertEquals(1.72, tet10Result.minSafetyFactor, 1e-4)
+
+        // Milestone 19: Modal Analysis contract
+        val m1 = ModeShapeInfo(1, 815.4, 5123.4, null)
+        val m2 = ModeShapeInfo(2, 5110.2, 32109.1, null)
+        val m3 = ModeShapeInfo(3, 14320.0, 89975.2, null)
+
+        val modalResult = ModalAnalysisResultInfo(
+            success = true,
+            nodeCount = 425,
+            elementCount = 200,
+            modes = listOf(m1, m2, m3)
+        )
+
+        assertTrue(modalResult.success)
+        assertEquals(3, modalResult.modes.size)
+        assertEquals(1, modalResult.modes[0].modeNumber)
+        assertEquals(815.4, modalResult.modes[0].frequencyHz, 1e-4)
+        assertEquals(5110.2, modalResult.modes[1].frequencyHz, 1e-4)
+        assertTrue(modalResult.modes[1].frequencyHz > modalResult.modes[0].frequencyHz)
+        assertTrue(modalResult.modes[2].frequencyHz > modalResult.modes[1].frequencyHz)
+    }
 }
