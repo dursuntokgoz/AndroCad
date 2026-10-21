@@ -66,7 +66,10 @@ enum class OperationType {
     POCKET_2D,
     CONTOUR_2D,
     ADAPTIVE_CLEARING,
-    DRILLING
+    DRILLING,
+    ADAPTIVE_3D,
+    SCALLOP_3D,
+    PARALLEL_3D
 };
 
 struct CAMOperation {
@@ -108,6 +111,59 @@ struct GCodeResult {
     double minY{0.0}, maxY{0.0};
     double minZ{0.0}, maxZ{0.0};
     CAMVisualPath visualPath;
+    std::string errorMessage;
+};
+
+// ==========================================
+// Milestone 18: Additive 3D Print Slicer
+// ==========================================
+
+enum class InfillPattern {
+    RECTILINEAR,
+    HONEYCOMB,
+    GRID,
+    CONCENTRIC
+};
+
+struct SlicerLayerSegment {
+    double x1{0.0}, y1{0.0};
+    double x2{0.0}, y2{0.0};
+    bool isPerimeter{true};
+    int perimeterIndex{0}; // 0 = outer wall, 1 = inner wall
+};
+
+struct SlicerLayer {
+    int layerIndex{0};
+    double zMm{0.0};
+    std::vector<SlicerLayerSegment> segments;
+    double layerExtrusionMm{0.0};
+    double layerPrintTimeSec{0.0};
+};
+
+struct SlicerConfig {
+    double layerHeightMm{0.2};
+    double initialLayerHeightMm{0.3};
+    double nozzleDiameterMm{0.4};
+    double filamentDiameterMm{1.75};
+    double printSpeedMmS{60.0};
+    double travelSpeedMmS{150.0};
+    double bedTempC{60.0};
+    double nozzleTempC{205.0};
+    double infillDensityPercent{20.0};
+    InfillPattern infillPattern{InfillPattern::RECTILINEAR};
+    int wallPerimeters{2};
+    bool generateSupport{false};
+    double supportOverhangDeg{45.0};
+};
+
+struct SlicerResult {
+    bool success{false};
+    int totalLayers{0};
+    double totalFilamentMm{0.0};
+    double totalFilamentGrams{0.0};
+    double estimatedPrintTimeMin{0.0};
+    std::string gcode;
+    std::vector<SlicerLayer> layers;
     std::string errorMessage;
 };
 
@@ -155,6 +211,46 @@ public:
                                         const std::vector<std::pair<double, double>>& holeLocations,
                                         double topZ, double holeDepthMm,
                                         double peckIncrementMm = 3.0);
+
+    // ==========================================
+    // Milestone 18: 3D CAM Surfacing Operations
+    // ==========================================
+
+    CAMOperation GenerateAdaptiveClearing3D(int opId, const std::string& name,
+                                            const ToolDefinition& tool,
+                                            double minX, double maxX,
+                                            double minY, double maxY,
+                                            double topZ, double bottomZ,
+                                            double stepdownMm = 2.5,
+                                            double optimalLoadMm = 1.5);
+
+    CAMOperation GenerateScallop3D(int opId, const std::string& name,
+                                   const ToolDefinition& tool,
+                                   double minX, double maxX,
+                                   double minY, double maxY,
+                                   double topZ, double bottomZ,
+                                   double stepoverMm = 1.0,
+                                   double cuspHeightMm = 0.05);
+
+    CAMOperation GenerateParallel3D(int opId, const std::string& name,
+                                    const ToolDefinition& tool,
+                                    double minX, double maxX,
+                                    double minY, double maxY,
+                                    double topZ, double bottomZ,
+                                    double stepoverMm = 1.5,
+                                    double angleDeg = 0.0);
+
+    // ==========================================
+    // Milestone 18: Additive 3D Print Slicing
+    // ==========================================
+
+    static SlicerResult SliceSolid(const TopoDS_Shape& solid,
+                                   const SlicerConfig& config = SlicerConfig{});
+
+    static SlicerResult SliceBoundingBox(double minX, double maxX,
+                                         double minY, double maxY,
+                                         double minZ, double maxZ,
+                                         const SlicerConfig& config = SlicerConfig{});
 
     // Add operation to the manufacturing setup
     void AddOperation(const CAMOperation& op);

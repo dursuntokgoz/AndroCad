@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- AndroCAD Original Icon: Additive FDM 3D Print Slicer -->
+  <rect width="48" height="48" rx="8" fill="#1E232A"/>
+  <!-- Extruder Nozzle -->
+  <path d="M20 8 L28 8 L28 14 L26 18 L22 18 L20 14 Z" fill="#90A4AE" stroke="#CFD8DC" stroke-width="1.2"/>
+  <rect x="23" y="18" width="2" height="4" fill="#FFB300"/>
+  <!-- Sliced Layer Stacks -->
+  <line x1="12" y1="26" x2="36" y2="26" stroke="#00E5FF" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="10" y1="31" x2="38" y2="31" stroke="#00B0FF" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="8" y1="36" x2="40" y2="36" stroke="#2979FF" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Heated Bed Surface -->
+  <line x1="6" y1="41" x2="42" y2="41" stroke="#78909C" stroke-width="3" stroke-linecap="round"/>
+</svg>

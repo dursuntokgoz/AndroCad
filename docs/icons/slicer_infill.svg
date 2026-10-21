@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- AndroCAD Original Icon: Honeycomb Infill Pattern -->
+  <rect width="48" height="48" rx="8" fill="#1E232A"/>
+  <!-- Hexagon 1 -->
+  <polygon points="24,10 32,15 32,25 24,30 16,25 16,15" fill="none" stroke="#FFB300" stroke-width="2"/>
+  <!-- Hexagon 2 -->
+  <polygon points="12,24 20,29 20,39 12,44 4,39 4,29" fill="none" stroke="#00E5FF" stroke-width="1.8"/>
+  <!-- Hexagon 3 -->
+  <polygon points="36,24 44,29 44,39 36,44 28,39 28,29" fill="none" stroke="#00E5FF" stroke-width="1.8"/>
+  <circle cx="24" cy="20" r="2" fill="#76FF03"/>
+</svg>

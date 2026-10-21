@@ -61,6 +61,13 @@ AndroCAD is built with a **tablet-first** engineering workflow following modern 
 
 *Mechanical standard engineering workspace: Standard Hole Wizard per ISO 273/262 (Counterbore, Countersink, Clearance, Tapped holes M3–M12), modeled 3D physical helical thread tooth geometry for fasteners and bolts, associative 3D edge projection onto 2D sketch planes, and $C^2$ continuous cubic B-Spline curve generation with tangency handles.*
 
+### 3D CAM Surfacing & Additive 3D Print Slicing (Tablet & Mobile Phone)
+| Landscape Tablet Workstation UI | Portrait Mobile Phone UI |
+| :---: | :---: |
+| ![AndroCAD Tablet 3D CAM & Slicer UI](docs/images/androcad_tablet_cam_slicer_ui.png) | ![AndroCAD Mobile Phone 3D CAM & Slicer UI](docs/images/androcad_phone_cam_slicer_ui.png) |
+
+*Advanced manufacturing suite: 3D sculpted toolpaths (3D Adaptive Clearing with constant tool engagement angle, 3D Scallop constant cusp height finishing, and 3D Parallel raster surfacing) alongside native FDM 3D printer slicing directly on Android devices. Features configurable layer height (0.10–0.40mm), wall perimeters, infill patterns (Rectilinear and Honeycomb hexagonal lattice), filament volume/mass calculations, and RepRap/Marlin standard G-code generation with nozzle and bed thermal management.*
+
 ---
 
 ## Key Features & Architecture

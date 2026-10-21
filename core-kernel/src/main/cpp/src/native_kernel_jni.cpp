@@ -1945,4 +1945,116 @@ Java_com_androcad_kernel_NativeKernel_nativeGenerateBSpline(
     return env->NewStringUTF(ss.str().c_str());
 }
 
+// ==========================================
+// Milestone 18: 3D CAM Surfacing & Additive Slicing
+// ==========================================
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeGenerateAdaptive3D(
+        JNIEnv* env,
+        jobject /* this */,
+        jint opId,
+        jstring opName,
+        jdouble minX, jdouble maxX,
+        jdouble minY, jdouble maxY,
+        jdouble topZ, jdouble bottomZ,
+        jdouble stepdownMm,
+        jdouble optimalLoadMm) {
+    const char* nameChars = env->GetStringUTFChars(opName, nullptr);
+    std::string nameStr(nameChars ? nameChars : "Adaptive 3D");
+    if (nameChars) env->ReleaseStringUTFChars(opName, nameChars);
+
+    androcad::CAMEngine cam;
+    androcad::ToolDefinition tool = cam.GetTool(1); // 10mm endmill
+    androcad::CAMOperation op = cam.GenerateAdaptiveClearing3D(
+        opId, nameStr, tool, minX, maxX, minY, maxY, topZ, bottomZ, stepdownMm, optimalLoadMm);
+
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(3);
+    ss << "{\"success\":true"
+       << ",\"opId\":" << op.id
+       << ",\"name\":\"" << op.name << "\""
+       << ",\"pointCount\":" << op.pathPoints.size()
+       << ",\"totalDistanceMm\":" << op.totalDistanceMm
+       << ",\"machiningTimeSec\":" << op.machiningTimeSec
+       << "}";
+
+    return env->NewStringUTF(ss.str().c_str());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeGenerateScallop3D(
+        JNIEnv* env,
+        jobject /* this */,
+        jint opId,
+        jstring opName,
+        jdouble minX, jdouble maxX,
+        jdouble minY, jdouble maxY,
+        jdouble topZ, jdouble bottomZ,
+        jdouble stepoverMm,
+        jdouble cuspHeightMm) {
+    const char* nameChars = env->GetStringUTFChars(opName, nullptr);
+    std::string nameStr(nameChars ? nameChars : "Scallop 3D");
+    if (nameChars) env->ReleaseStringUTFChars(opName, nameChars);
+
+    androcad::CAMEngine cam;
+    androcad::ToolDefinition tool = cam.GetTool(2); // 6mm ball endmill
+    androcad::CAMOperation op = cam.GenerateScallop3D(
+        opId, nameStr, tool, minX, maxX, minY, maxY, topZ, bottomZ, stepoverMm, cuspHeightMm);
+
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(3);
+    ss << "{\"success\":true"
+       << ",\"opId\":" << op.id
+       << ",\"name\":\"" << op.name << "\""
+       << ",\"pointCount\":" << op.pathPoints.size()
+       << ",\"totalDistanceMm\":" << op.totalDistanceMm
+       << ",\"machiningTimeSec\":" << op.machiningTimeSec
+       << "}";
+
+    return env->NewStringUTF(ss.str().c_str());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeSliceSolid(
+        JNIEnv* env,
+        jobject /* this */,
+        jdouble minX, jdouble maxX,
+        jdouble minY, jdouble maxY,
+        jdouble minZ, jdouble maxZ,
+        jdouble layerHeightMm,
+        jdouble nozzleDiameterMm,
+        jdouble infillDensityPercent,
+        jint infillPatternCode,
+        jdouble printSpeedMmS,
+        jdouble nozzleTempC,
+        jdouble bedTempC) {
+    androcad::SlicerConfig config;
+    config.layerHeightMm = layerHeightMm;
+    config.initialLayerHeightMm = layerHeightMm;
+    config.nozzleDiameterMm = nozzleDiameterMm;
+    config.infillDensityPercent = infillDensityPercent;
+    config.printSpeedMmS = printSpeedMmS;
+    config.nozzleTempC = nozzleTempC;
+    config.bedTempC = bedTempC;
+    if (infillPatternCode == 1) config.infillPattern = androcad::InfillPattern::HONEYCOMB;
+    else if (infillPatternCode == 2) config.infillPattern = androcad::InfillPattern::GRID;
+    else config.infillPattern = androcad::InfillPattern::RECTILINEAR;
+
+    androcad::SlicerResult res = androcad::CAMEngine::SliceBoundingBox(
+        minX, maxX, minY, maxY, minZ, maxZ, config);
+
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(3);
+    ss << "{\"success\":" << (res.success ? "true" : "false")
+       << ",\"totalLayers\":" << res.totalLayers
+       << ",\"totalFilamentMm\":" << res.totalFilamentMm
+       << ",\"totalFilamentGrams\":" << res.totalFilamentGrams
+       << ",\"estimatedPrintTimeMin\":" << res.estimatedPrintTimeMin
+       << ",\"gcodeSize\":" << res.gcode.size()
+       << ",\"errorMessage\":\"" << res.errorMessage << "\"}";
+
+    return env->NewStringUTF(ss.str().c_str());
+}
+
 } // extern "C"

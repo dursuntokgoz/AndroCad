@@ -42,6 +42,9 @@ import com.androcad.kernel.CAMGCodeInfo
 import com.androcad.kernel.CAMPostDialect
 import com.androcad.kernel.FastenerHoleType
 import com.androcad.kernel.SplinePoint2DData
+import com.androcad.kernel.SlicerExecutionResult
+import com.androcad.kernel.SlicerSettings
+import com.androcad.kernel.SlicerInfillPattern
 
 class MainActivity : ComponentActivity() {
 
@@ -110,6 +113,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
     var assemblyAngleDeg by remember { mutableStateOf(0.0) }
     var activeSimulationResult by remember { mutableStateOf<SimulationResultInfo?>(null) }
     var activeCAMResult by remember { mutableStateOf<CAMGCodeInfo?>(null) }
+    var activeSlicerResult by remember { mutableStateOf<SlicerExecutionResult?>(null) }
 
     // Phone layout bottom sheet toggle: null, "browser", "timeline", "properties"
     var phoneActiveSheet by remember { mutableStateOf<String?>(null) }
@@ -175,9 +179,9 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     )
 
                     val tabs = if (isTablet) {
-                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Mesh", "Simulation", "Manufacture (CAM)", "Drawing", "Assemble", "Inspect", "File / IO")
+                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Mesh", "Simulation", "Manufacture (CAM)", "Additive (3D Print)", "Drawing", "Assemble", "Inspect", "File / IO")
                     } else {
-                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Mesh", "Simulation", "Manufacture (CAM)", "Drawing", "Assemble", "Inspect", "File / IO")
+                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Mesh", "Simulation", "Manufacture (CAM)", "Additive (3D Print)", "Drawing", "Assemble", "Inspect", "File / IO")
                     }
 
                     tabs.forEach { tab ->
@@ -812,7 +816,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             }
                         }
                     } else if (activeTab == "Manufacture (CAM)") {
-                        val camTools = listOf("Generate G-Code (GRBL)", "Haas G-Code", "Fanuc G-Code", "Facing Pass", "2D Pocketing", "2D Contour", "Peck Drilling")
+                        val camTools = listOf("Generate G-Code (GRBL)", "Haas G-Code", "Fanuc G-Code", "3D Adaptive Clearing", "3D Scallop Finishing", "Facing Pass", "2D Pocketing", "2D Contour", "Peck Drilling")
                         camTools.forEach { tool ->
                             Surface(
                                 color = chipBgColor,
@@ -839,6 +843,16 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     timelineItems = (timelineItems + "${timelineItems.size + 1}. CAM Post (Fanuc)").toMutableList()
                                                     featureStatusText = "CAM Fanuc: ${res.lineCount} lines | G28 reference home"
                                                 }
+                                                "3D Adaptive Clearing" -> {
+                                                    val op = NativeKernel.generateAdaptive3D(101, "3D Adaptive Roughing", 0.0, 100.0, 0.0, 50.0, 20.0, 10.0, 2.5, 1.5)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. 3D Adaptive CAM").toMutableList()
+                                                    featureStatusText = "3D Adaptive: ${op.pointCount} pts | Distance: ${op.totalDistanceMm.toInt()}mm | Time: ${op.machiningTimeSec.toInt()}s"
+                                                }
+                                                "3D Scallop Finishing" -> {
+                                                    val op = NativeKernel.generateScallop3D(102, "3D Scallop Finish", 0.0, 100.0, 0.0, 50.0, 20.0, 15.0, 1.0, 0.05)
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. 3D Scallop Finish").toMutableList()
+                                                    featureStatusText = "3D Scallop: ${op.pointCount} pts | Distance: ${op.totalDistanceMm.toInt()}mm | Time: ${op.machiningTimeSec.toInt()}s"
+                                                }
                                                 "Facing Pass" -> {
                                                     featureStatusText = "CAM: 10mm Flat Endmill facing pass generated (Z=20.0mm)"
                                                 }
@@ -858,6 +872,69 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                     }
                             ) {
                                 Text(
+                                    text = tool,
+                                    color = textColor,
+                                    fontSize = 11.sp,
+                                    modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
+                                )
+                            }
+                        }
+                    } else if (activeTab == "Additive (3D Print)") {
+                        val slicerTools = listOf("Slice Solid (0.2mm)", "Honeycomb Infill (30%)", "Grid Infill (20%)", "Export G-Code")
+                        slicerTools.forEach { tool ->
+                            Surface(
+                                color = chipBgColor,
+                                shape = RoundedCornerShape(4.dp),
+                                modifier = Modifier
+                                    .clickable {
+                                        try {
+                                            when (tool) {
+                                                "Slice Solid (0.2mm)" -> {
+                                                    val sRes = NativeKernel.sliceSolid(
+                                                        0.0, 100.0, 0.0, 50.0, 0.0, 20.0,
+                                                        SlicerSettings(layerHeightMm = 0.2, infillDensityPercent = 20.0, infillPattern = SlicerInfillPattern.RECTILINEAR)
+                                                    )
+                                                    activeSlicerResult = sRes
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. FDM Slicer (0.2mm)").toMutableList()
+                                                    featureStatusText = "Slicer: ${sRes.totalLayers} layers | Filament: ${sRes.totalFilamentMm.toInt()}mm (${"%.1f".format(sRes.totalFilamentGrams)}g) | Est: ${sRes.estimatedPrintTimeMin.toInt()}min"
+                                                }
+                                                "Honeycomb Infill (30%)" -> {
+                                                    val sRes = NativeKernel.sliceSolid(
+                                                        0.0, 100.0, 0.0, 50.0, 0.0, 20.0,
+                                                        SlicerSettings(layerHeightMm = 0.2, infillDensityPercent = 30.0, infillPattern = SlicerInfillPattern.HONEYCOMB)
+                                                    )
+                                                    activeSlicerResult = sRes
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Honeycomb Slicer").toMutableList()
+                                                    featureStatusText = "Honeycomb Infill: ${sRes.totalLayers} layers | Filament: ${"%.1f".format(sRes.totalFilamentGrams)}g | Est: ${sRes.estimatedPrintTimeMin.toInt()}min"
+                                                }
+                                                "Grid Infill (20%)" -> {
+                                                    val sRes = NativeKernel.sliceSolid(
+                                                        0.0, 100.0, 0.0, 50.0, 0.0, 20.0,
+                                                        SlicerSettings(layerHeightMm = 0.25, infillDensityPercent = 20.0, infillPattern = SlicerInfillPattern.GRID)
+                                                    )
+                                                    activeSlicerResult = sRes
+                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Grid Slicer").toMutableList()
+                                                    featureStatusText = "Grid Slicer: ${sRes.totalLayers} layers | Filament: ${"%.1f".format(sRes.totalFilamentGrams)}g"
+                                                }
+                                                "Export G-Code" -> {
+                                                    val sRes = activeSlicerResult ?: NativeKernel.sliceSolid(0.0, 100.0, 0.0, 50.0, 0.0, 20.0)
+                                                    activeSlicerResult = sRes
+                                                    featureStatusText = "FDM G-Code Exported: ${sRes.gcodeSize} bytes | ${sRes.totalLayers} layers"
+                                                }
+                                            }
+                                        } catch (t: Throwable) {
+                                            featureStatusText = "Slicer error: ${t.message}"
+                                        }
+                                    }
+                            ) {
+                                Text(
+                                    text = tool,
+                                    color = textColor,
+                                    fontSize = 11.sp,
+                                    modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
+                                )
+                            }
+                        }
                                     text = tool,
                                     color = textColor,
                                     fontSize = 11.sp,
@@ -1400,6 +1477,16 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 Text(text = "Rapid Time: ${"%.1f".format(camRes.rapidTimeSec)} s", color = textMuted, fontSize = 11.sp)
                                 Text(text = "Toolpath Distance: ${camRes.totalLengthMm.toInt()} mm", color = textMuted, fontSize = 11.sp)
                                 Text(text = "Material Removed: ${"%.1f".format(camRes.materialVolumeRemovedCm3)} cm³", color = highlightOrange, fontSize = 11.sp)
+                            }
+
+                            val slicerRes = activeSlicerResult
+                            if (slicerRes != null && slicerRes.success) {
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Text(text = "FDM 3D PRINT SLICER", color = textColor, fontSize = 12.sp)
+                                Text(text = "Total Layers: ${slicerRes.totalLayers} (0.20mm)", color = highlightCyan, fontSize = 11.sp)
+                                Text(text = "Filament Used: ${slicerRes.totalFilamentMm.toInt()} mm (${"%.1f".format(slicerRes.totalFilamentGrams)} g)", color = successGreen, fontSize = 11.sp)
+                                Text(text = "Est. Print Time: ${slicerRes.estimatedPrintTimeMin.toInt()} min", color = highlightOrange, fontSize = 11.sp)
+                                Text(text = "G-Code Export: ${slicerRes.gcodeSize / 1024} KB", color = textMuted, fontSize = 10.sp)
                             }
 
                             Spacer(modifier = Modifier.height(10.dp))
