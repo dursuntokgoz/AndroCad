@@ -1,0 +1,68 @@
+name: ui-tests
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ui-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  compose-ui-matrix:
+    name: Compose UI Tests (${{ matrix.profile.name }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        profile:
+          - name: 'phone-portrait'
+            width_dp: 393
+            height_dp: 852
+            orientation: 'portrait'
+          - name: 'tablet-landscape'
+            width_dp: 1280
+            height_dp: 800
+            orientation: 'landscape'
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4.1.7
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4.2.1
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3.4.2
+        with:
+          gradle-version: '8.7'
+
+      - name: Run Compose UI Test Matrix on JVM
+        env:
+          TEST_DEVICE_PROFILE: ${{ matrix.profile.name }}
+          TEST_DEVICE_ORIENTATION: ${{ matrix.profile.orientation }}
+          TEST_WIDTH_DP: ${{ matrix.profile.width_dp }}
+          TEST_HEIGHT_DP: ${{ matrix.profile.height_dp }}
+        run: |
+          echo "Running Compose UI tests for profile: ${{ matrix.profile.name }} (${{ matrix.profile.orientation }})"
+          gradle :app:testDebugUnitTest --tests "com.androcad.app.ui.*" --stacktrace || gradle :app:testDebugUnitTest --stacktrace
+
+      - name: Upload UI Test Reports
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@v4.3.4
+        with:
+          name: ui-test-reports-${{ matrix.profile.name }}
+          path: app/build/reports/tests/testDebugUnitTest/
+          retention-days: 3
