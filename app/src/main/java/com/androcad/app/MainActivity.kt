@@ -46,6 +46,11 @@ import com.androcad.kernel.SplinePoint2DData
 import com.androcad.kernel.SlicerExecutionResult
 import com.androcad.kernel.SlicerSettings
 import com.androcad.kernel.SlicerInfillPattern
+import com.androcad.kernel.GDTType
+import com.androcad.kernel.GDTCondition
+import com.androcad.kernel.BOMItemData
+import com.androcad.kernel.DrawingSheetSummary
+import com.androcad.kernel.DrawingDocumentData
 
 class MainActivity : ComponentActivity() {
 
