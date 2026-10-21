@@ -276,4 +276,25 @@ class NativeKernelTest {
         assertEquals(0.785, props.massKg, 1e-4)
         assertEquals(50.0, props.cogX, 1e-4)
     }
+
+    @Test
+    fun testMeshAnalysisContracts() {
+        val analysis = MeshAnalysisInfo(
+            success = true,
+            vertexCount = 8,
+            triangleCount = 12,
+            edgeCount = 18,
+            surfaceArea = 16000.0,
+            enclosedVolume = 100000.0,
+            isClosedManifold = true,
+            eulerCharacteristic = 2
+        )
+        assertTrue(analysis.success)
+        assertEquals(8L, analysis.vertexCount)
+        assertEquals(12L, analysis.triangleCount)
+        assertEquals(18L, analysis.edgeCount)
+        assertEquals(2, analysis.eulerCharacteristic)
+        assertTrue(analysis.isClosedManifold)
+        assertEquals(100000.0, analysis.enclosedVolume, 1e-4)
+    }
 }

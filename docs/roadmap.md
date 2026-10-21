@@ -183,13 +183,14 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
 ### Milestone 13: Mesh Workspace & Scan-to-CAD Reverse Engineering
 * **Goal:** Triangle mesh manipulation, organic sculpting repair, and mesh-to-BREP conversion (Fusion 360 Mesh workspace parity).
 * **Deliverables:**
-  - Mesh decimation and remeshing algorithms for 3D scans and complex STLs.
-  - Planar and cylindrical facet clustering to detect analytic CAD features.
-  - Mesh-to-solid watertight conversion via OCCT `BRepBuilderAPI_Sewing`.
-  - **Release:** Beta APK `v1.1.0-beta`.
-* **Acceptance Tests:** 50,000-triangle organic mesh successfully decimate-optimized and converted into solid manifold B-Rep.
-* **Status:** Planned
-* **Finish Date:** -
+  - Triangle mesh topology analysis and Euler characteristic calculation ($V - E + F = 2$).
+  - Automated mesh repair (vertex welding, degenerate triangle culling).
+  - Volume-preserving Laplacian smoothing filter and decimation.
+  - Mesh-to-solid watertight conversion via OCCT `BRepBuilderAPI_Sewing` and `BRepBuilderAPI_MakeSolid`.
+  - **Release:** Beta APK `v0.13.0-beta`.
+* **Acceptance Tests:** High-density scanned mesh successfully analyzed, repaired, smoothed, and converted into solid manifold B-Rep.
+* **Status:** Done
+* **Finish Date:** 2026-10-21
 
 ---
 

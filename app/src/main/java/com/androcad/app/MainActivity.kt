@@ -36,6 +36,7 @@ import com.androcad.kernel.SheetMetalRule
 import com.androcad.kernel.SheetMetalFlatPattern
 import com.androcad.kernel.MaterialInfo
 import com.androcad.kernel.PhysicalPropertiesInfo
+import com.androcad.kernel.MeshAnalysisInfo
 
 class MainActivity : ComponentActivity() {
 
@@ -167,9 +168,9 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     )
 
                     val tabs = if (isTablet) {
-                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Drawing", "Assemble", "Inspect", "File / IO")
+                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Mesh", "Drawing", "Assemble", "Inspect", "File / IO")
                     } else {
-                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Drawing", "Assemble", "Inspect", "File / IO")
+                        listOf("Solid", "Sketch", "Surface", "Sheet Metal", "Mesh", "Drawing", "Assemble", "Inspect", "File / IO")
                     }
 
                     tabs.forEach { tab ->
@@ -631,6 +632,68 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                             }
                                         } catch (t: Throwable) {
                                             featureStatusText = "Inspect failed: ${t.message}"
+                                        }
+                                    }
+                            ) {
+                                Text(
+                                    text = tool,
+                                    color = textColor,
+                                    fontSize = 11.sp,
+                                    modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp)
+                                )
+                            }
+                        }
+                    } else if (activeTab == "Mesh") {
+                        val meshTools = listOf("Analyze Mesh", "Repair Mesh", "Smooth Mesh", "Mesh to Solid")
+                        meshTools.forEach { tool ->
+                            Surface(
+                                color = chipBgColor,
+                                shape = RoundedCornerShape(4.dp),
+                                modifier = Modifier
+                                    .clickable {
+                                        try {
+                                            val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also {
+                                                activeSolid = it
+                                                renderer?.updateMesh(it)
+                                            }
+                                            when (tool) {
+                                                "Analyze Mesh" -> {
+                                                    val info = NativeKernel.analyzeMesh(solid)
+                                                    featureStatusText = "Mesh: ${info.vertexCount} verts, ${info.triangleCount} tris | Euler: ${info.eulerCharacteristic} | Manifold: ${info.isClosedManifold}"
+                                                }
+                                                "Repair Mesh" -> {
+                                                    val repaired = NativeKernel.repairMesh(solid, 1e-4)
+                                                    if (repaired.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = repaired
+                                                        renderer?.updateMesh(repaired)
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Repair Mesh").toMutableList()
+                                                        featureStatusText = "Mesh repaired: Welded duplicates, ${repaired.triangleCount} triangles"
+                                                    }
+                                                }
+                                                "Smooth Mesh" -> {
+                                                    val smoothed = NativeKernel.smoothMesh(solid, 3, 0.4)
+                                                    if (smoothed.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = smoothed
+                                                        renderer?.updateMesh(smoothed)
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Smooth Mesh (Laplacian)").toMutableList()
+                                                        featureStatusText = "Laplacian smoothing applied (3 iterations)"
+                                                    }
+                                                }
+                                                "Mesh to Solid" -> {
+                                                    val converted = NativeKernel.convertMeshToSolid(solid, 1e-2)
+                                                    if (converted.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = converted
+                                                        renderer?.updateMesh(converted)
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Convert to B-Rep Solid").toMutableList()
+                                                        featureStatusText = "Mesh converted to B-Rep solid (Volume: ${converted.volume.toInt()} mm³)"
+                                                    }
+                                                }
+                                            }
+                                        } catch (t: Throwable) {
+                                            featureStatusText = "Mesh op failed: ${t.message}"
                                         }
                                     }
                             ) {

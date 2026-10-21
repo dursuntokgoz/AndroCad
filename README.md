@@ -31,6 +31,10 @@ AndroCAD is built with a **tablet-first** engineering workflow following modern 
 ![AndroCAD Tablet Materials & Physical Properties UI](docs/images/androcad_tablet_materials_ui.png)
 *Inspect & Render workspace: Engineering materials physics library (Steel, 6061-T6 Aluminum, Brass, Titanium, Plastics, Wood) with exact analytical volume, surface area, mass, 3D Center-of-Gravity (CoG) coordinate tripod badge, mass moments of inertia ($I_{xx}, I_{yy}, I_{zz}$), and photorealistic PBR metallic-roughness rendering.*
 
+### Mesh Workspace & Scan-to-CAD Reverse Engineering
+![AndroCAD Tablet Mesh Workspace UI](docs/images/androcad_tablet_mesh_ui.png)
+*Mesh workspace: Triangle mesh manipulation, topology analysis (Euler characteristic $\chi = 2$, boundary loops, manifold checks), vertex welding repair, volume-preserving Laplacian smoothing filter, and direct conversion of high-density 3D scans into watertight parametric B-Rep solids.*
+
 ---
 
 ## Key Features & Architecture
@@ -76,3 +80,4 @@ AndroCAD is built with a **tablet-first** engineering workflow following modern 
 * [Milestone 10 Report: Sheet Metal Engine, K-Factor Bends & Flat Pattern Unfolding](docs/reports/milestone-10.md)
 * [Milestone 11 Report: 2D Engineering Drawings, Orthographic Views & Dimension Drafting](docs/reports/milestone-11.md)
 * [Milestone 12 Report: Engineering Materials, Mass Physical Properties & PBR Visualization](docs/reports/milestone-12.md)
+* [Milestone 13 Report: Mesh Workspace & Scan-to-CAD Reverse Engineering](docs/reports/milestone-13.md)
