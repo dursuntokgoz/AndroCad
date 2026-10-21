@@ -47,6 +47,13 @@ AndroCAD is built with a **tablet-first** engineering workflow following modern 
 ![AndroCAD Tablet CAM & G-Code UI](docs/images/androcad_tablet_cam_ui.png)
 *Manufacture (CAM) workspace: 2.5D and 3-axis CNC subtractive machining, stock and WCS setup (G54), tool library management, facing, 2D concentric pocket clearing, 2D contour perimeter finishing with cutter radius compensation, canned deep-hole peck drilling cycles (G83), 3D toolpath wireframe visualization, and multi-dialect G-Code post-processing (ISO/GRBL, Haas CNC, Fanuc).*
 
+### Patterns, Symmetry & Feature Replicators (Tablet & Mobile Phone)
+| Landscape Tablet Workstation UI | Portrait Mobile Phone UI |
+| :---: | :---: |
+| ![AndroCAD Tablet Patterns UI](docs/images/androcad_tablet_patterns_ui.png) | ![AndroCAD Mobile Phone Patterns UI](docs/images/androcad_phone_patterns_ui.png) |
+
+*Solid modeling expansion: 2D Rectangular linear pattern grid arrays ($U \times V$), polar Circular arrays with angular range distribution, planar Mirror symmetry across datum planes (`gp_Trsf::SetMirror`), and Draft Angle injection mold tapers. Features both tablet multi-pane workstation layout and adaptive mobile phone drawer interface.*
+
 ---
 
 ## Key Features & Architecture
@@ -93,3 +100,6 @@ AndroCAD is built with a **tablet-first** engineering workflow following modern 
 * [Milestone 11 Report: 2D Engineering Drawings, Orthographic Views & Dimension Drafting](docs/reports/milestone-11.md)
 * [Milestone 12 Report: Engineering Materials, Mass Physical Properties & PBR Visualization](docs/reports/milestone-12.md)
 * [Milestone 13 Report: Mesh Workspace & Scan-to-CAD Reverse Engineering](docs/reports/milestone-13.md)
+* [Milestone 14 Report: Linear Static Stress Simulation & FEA Heatmap](docs/reports/milestone-14.md)
+* [Milestone 15 Report: Subtractive CAM & G-Code Post-Processing](docs/reports/milestone-15.md)
+* [Milestone 16 Report: Patterns, Symmetry & Feature Replicators](docs/reports/milestone-16.md)
