@@ -1,0 +1,43 @@
+{
+  "metadata": {
+    "format_version": 1,
+    "app_name": "AndroCAD",
+    "app_version": "2026.1.0",
+    "units": "MM",
+    "schema": "AP242"
+  },
+  "parameters": {
+    "stand_len": "70.0",
+    "stand_width": "50.0",
+    "stand_height": "25.0",
+    "cable_slot_rad": "6.0"
+  },
+  "rollback_index": -1,
+  "nodes": [
+    {
+      "id": 1,
+      "name": "StandBaseBlock",
+      "type": "Box",
+      "expressions": {
+        "dx": "stand_len",
+        "dy": "stand_width",
+        "dz": "stand_height"
+      }
+    },
+    {
+      "id": 2,
+      "name": "CablePassSlot",
+      "type": "Hole",
+      "expressions": {
+        "px": "35.0",
+        "py": "25.0",
+        "pz": "stand_height",
+        "dx": "0.0",
+        "dy": "0.0",
+        "dz": "-1.0",
+        "radius": "cable_slot_rad",
+        "depth": "30.0"
+      }
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "metadata": {
+    "format_version": 1,
+    "app_name": "AndroCAD",
+    "app_version": "2026.1.0",
+    "units": "MM",
+    "schema": "AP242"
+  },
+  "parameters": {
+    "base_len": "80.0",
+    "width": "40.0",
+    "base_thk": "12.0",
+    "hole_rad": "5.0"
+  },
+  "rollback_index": -1,
+  "nodes": [
+    {
+      "id": 1,
+      "name": "BaseLimb",
+      "type": "Box",
+      "expressions": {
+        "dx": "base_len",
+        "dy": "width",
+        "dz": "base_thk"
+      }
+    },
+    {
+      "id": 2,
+      "name": "MountHole1",
+      "type": "Hole",
+      "expressions": {
+        "px": "20.0",
+        "py": "20.0",
+        "pz": "base_thk",
+        "dx": "0.0",
+        "dy": "0.0",
+        "dz": "-1.0",
+        "radius": "hole_rad",
+        "depth": "15.0"
+      }
+    },
+    {
+      "id": 3,
+      "name": "MountHole2",
+      "type": "Hole",
+      "expressions": {
+        "px": "60.0",
+        "py": "20.0",
+        "pz": "base_thk",
+        "dx": "0.0",
+        "dy": "0.0",
+        "dz": "-1.0",
+        "radius": "hole_rad",
+        "depth": "15.0"
+      }
+    }
+  ]
+}

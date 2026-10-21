@@ -1,0 +1,43 @@
+{
+  "metadata": {
+    "format_version": 1,
+    "app_name": "AndroCAD",
+    "app_version": "2026.1.0",
+    "units": "MM",
+    "schema": "AP242"
+  },
+  "parameters": {
+    "flange_dx": "60.0",
+    "flange_dy": "60.0",
+    "flange_thk": "10.0",
+    "bore_radius": "12.0"
+  },
+  "rollback_index": -1,
+  "nodes": [
+    {
+      "id": 1,
+      "name": "FlangeBody",
+      "type": "Box",
+      "expressions": {
+        "dx": "flange_dx",
+        "dy": "flange_dy",
+        "dz": "flange_thk"
+      }
+    },
+    {
+      "id": 2,
+      "name": "CentralShaftBore",
+      "type": "Hole",
+      "expressions": {
+        "px": "30.0",
+        "py": "30.0",
+        "pz": "flange_thk",
+        "dx": "0.0",
+        "dy": "0.0",
+        "dz": "-1.0",
+        "radius": "bore_radius",
+        "depth": "15.0"
+      }
+    }
+  ]
+}

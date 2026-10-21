@@ -39,6 +39,8 @@ import com.androcad.app.model.CadSketchItem
 import com.androcad.app.ui.CadBrowserView
 import com.androcad.app.tutorial.TutorialManager
 import com.androcad.app.tutorial.TutorialOverlayView
+import com.androcad.app.samples.SamplesManager
+import com.androcad.app.ui.SamplesGalleryDialog
 import kotlinx.coroutines.launch
 import com.androcad.app.renderer.DisplayMode
 import com.androcad.app.renderer.NamedView
@@ -2438,6 +2440,30 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                         coroutineScope.launch {
                             TutorialManager.setCompleted(context, true)
                         }
+                    },
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+
+            if (showSamplesGallery) {
+                SamplesGalleryDialog(
+                    isDarkTheme = isDarkTheme,
+                    onSelectSample = { sample ->
+                        val result = SamplesManager.loadSample(context, sample, activeTimeline)
+                        if (result.success) {
+                            activeSolid?.close()
+                            activeSolid = result
+                            renderer?.updateMesh(result)
+                            timelineItems = listOf("1. ${sample.nameEn} (DAG)")
+                            featureStatusText = "Loaded sample: ${sample.nameEn} (~${result.volume.toInt()} mm³)"
+                        } else {
+                            featureStatusText = "Failed to load sample: ${result.errorMessage}"
+                        }
+                        showSamplesGallery = false
+                        showEmptyState = false
+                    },
+                    onDismiss = {
+                        showSamplesGallery = false
                     },
                     modifier = Modifier.fillMaxSize()
                 )
