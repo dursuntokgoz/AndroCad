@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Background rounded gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#242730" />
+      <stop offset="100%" stop-color="#14161C" />
+    </linearGradient>
+
+    <!-- Cube face gradients -->
+    <linearGradient id="topFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00A4E4" />
+      <stop offset="100%" stop-color="#007ACC" />
+    </linearGradient>
+    <linearGradient id="leftFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#005A9E" />
+      <stop offset="100%" stop-color="#003D6B" />
+    </linearGradient>
+    <linearGradient id="rightFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0072BA" />
+      <stop offset="100%" stop-color="#004C82" />
+    </linearGradient>
+    
+    <!-- Accent Orange Glow -->
+    <linearGradient id="orangeAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFA726" />
+      <stop offset="100%" stop-color="#FB8C00" />
+    </linearGradient>
+  </defs>
+
+  <!-- App Icon Base Squircle -->
+  <rect x="16" y="16" width="480" height="480" rx="108" fill="url(#bgGrad)" stroke="#383D4A" stroke-width="4" />
+
+  <!-- Subtle CAD Grid Pattern in Background -->
+  <path d="M64 160h384M64 256h384M64 352h384M160 64v384M256 64v384M352 64v384" stroke="#2C3240" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.6" />
+
+  <!-- Isometric 3D Solid CAD Cube (Center: 256, 256) -->
+  <!-- Top Face -->
+  <polygon points="256 120 376 186 256 252 136 186" fill="url(#topFace)" stroke="#70D8FF" stroke-width="2.5" />
+
+  <!-- Left Face -->
+  <polygon points="136 186 256 252 256 392 136 326" fill="url(#leftFace)" stroke="#00A4E4" stroke-width="2.5" />
+
+  <!-- Right Face -->
+  <polygon points="256 252 376 186 376 326 256 392" fill="url(#rightFace)" stroke="#38B6FF" stroke-width="2.5" />
+
+  <!-- Internal Parametric Hole / Feature Cutout on Top Face -->
+  <polygon points="256 160 316 193 256 226 196 193" fill="#14161C" fill-opacity="0.75" stroke="#FFA726" stroke-width="2" />
+  <line x1="256" y1="226" x2="256" y2="296" stroke="#FFA726" stroke-width="1.5" stroke-dasharray="3 3" />
+
+  <!-- Coordinate Origin Tripad (WCS G54) at Bottom-Left Origin -->
+  <!-- Z axis (Blue, vertical) -->
+  <line x1="136" y1="326" x2="136" y2="266" stroke="#448AFF" stroke-width="4" stroke-linecap="round" />
+  <polygon points="136 258 131 270 141 270" fill="#448AFF" />
+  <!-- X axis (Red, along left isometric axis) -->
+  <line x1="136" y1="326" x2="84" y2="354" stroke="#FF5252" stroke-width="4" stroke-linecap="round" />
+  <polygon points="76 358 84 348 90 358" fill="#FF5252" />
+  <!-- Y axis (Green, along right isometric axis) -->
+  <line x1="136" y1="326" x2="188" y2="354" stroke="#69F0AE" stroke-width="4" stroke-linecap="round" />
+  <polygon points="196 358 184 358 190 348" fill="#69F0AE" />
+
+  <!-- Dimension Callout Line on Top Edge -->
+  <line x1="256" y1="104" x2="376" y2="170" stroke="#FFA726" stroke-width="2" stroke-dasharray="4 2" />
+  <circle cx="256" cy="104" r="3" fill="#FFA726" />
+  <circle cx="376" cy="170" r="3" fill="#FFA726" />
+
+  <!-- AndroCAD App Brand Text Pill -->
+  <rect x="156" y="420" width="200" height="40" rx="20" fill="#181B22" stroke="#007ACC" stroke-width="2" />
+  <text x="256" y="446" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-weight="bold" font-size="20" text-anchor="middle" letter-spacing="2">ANDROCAD</text>
+</svg>

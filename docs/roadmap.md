@@ -219,3 +219,77 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
 * **Acceptance Tests:** Pocketed mechanical bracket generates collision-free 3-axis G-Code toolpath verified against theoretical volume removal and machine bounds.
 * **Status:** Done
 * **Finish Date:** 2026-10-21
+
+---
+
+### Milestone 16: Patterns, Symmetry & Feature Replicators (Solid Expansion)
+* **Goal:** High-performance solid feature and body replication for complex geometric arrays.
+* **Deliverables:**
+  - Rectangular Pattern (2D linear grid array in two directions with spacing & instance count).
+  - Circular Pattern (polar rotational array around datum axes with angle range & count).
+  - Pattern on Path (distribution along 3D wires/splines).
+  - Mirror Feature & Body across datum planes (`gp_Trsf::SetMirror`).
+  - Draft Angle on faces (`BRepOffsetAPI_DraftAngle`) for injection molding.
+  - **Screenshots:** Landscape Tablet UI screenshot (`docs/images/androcad_tablet_patterns_ui.png`) + Portrait Mobile Phone UI screenshot (`docs/images/androcad_phone_patterns_ui.png`) embedded in `README.md`.
+  - **Release:** Beta APK `v0.16.0-beta`.
+* **Acceptance Tests:** 5-test CTest suite validating linear grid generation, polar replication, mirror symmetry, draft taper angle, and memory footprint.
+* **Status:** Planned
+* **Finish Date:** -
+
+---
+
+### Milestone 17: Threads, Fasteners & Associative Sketch Projection
+* **Goal:** Mechanical standard fasteners, physical/cosmetic threads, and 3D B-Rep edge projection.
+* **Deliverables:**
+  - Standard Fastener Hole Wizard (Counterbore, Countersink, Clearance, Tapped holes per ISO 273/262).
+  - Modeled 3D Helical Threads & Cosmetic Thread standards (ISO Metric M2–M30, UNC, UNF).
+  - Associative Sketch Projection (`Project / Include` from 3D solid edges to active sketch plane).
+  - Cubic B-Spline curve drawing and manipulation with tangency handles in PlaneGCS sketcher.
+  - **Screenshots:** Landscape Tablet UI screenshot (`docs/images/androcad_tablet_threads_ui.png`) + Portrait Mobile Phone UI screenshot (`docs/images/androcad_phone_threads_ui.png`) embedded in `README.md`.
+  - **Release:** Beta APK `v0.17.0-beta`.
+* **Acceptance Tests:** 5-test CTest suite validating ISO thread profiles, counterbore hole geometry, sketch projection associativity, and spline continuity.
+* **Status:** Planned
+* **Finish Date:** -
+
+---
+
+### Milestone 18: 3D CAM Surfacing & Additive 3D Print Slicing
+* **Goal:** 3D sculpted mold/die toolpaths and native FDM 3D printer slicing on mobile hardware.
+* **Deliverables:**
+  - 3D Surfacing CNC Toolpaths: 3D Adaptive Clearing, Scallop, and Parallel raster finishes.
+  - Native Additive Manufacturing (3D Print Slicer) engine: direct layer slicing from B-Rep solid, perimeter shells, rectilinear/honeycomb infill, and G-Code export for FDM printers.
+  - Machine travel and collision envelope checking.
+  - **Screenshots:** Landscape Tablet UI screenshot (`docs/images/androcad_tablet_3dcam_ui.png`) + Portrait Mobile Phone UI screenshot (`docs/images/androcad_phone_3dcam_ui.png`) embedded in `README.md`.
+  - **Release:** Beta APK `v0.18.0-beta`.
+* **Acceptance Tests:** 5-test CTest suite validating 3D scallop stepover cusp height, planar slice contours, infill generation, and FDM G-Code output.
+* **Status:** Planned
+* **Finish Date:** -
+
+---
+
+### Milestone 19: High-Precision FEA (Tet10 Elements) & Modal Vibration Analysis
+* **Goal:** High-accuracy structural simulation with quadratic elements and vibration natural frequencies.
+* **Deliverables:**
+  - 10-node quadratic tetrahedral elements (Tet10 with 6 midside nodes) eliminating shear locking in thin bending plates.
+  - Modal Frequency & Eigenvalue solver (natural frequencies $\omega_n$ and vibration mode shapes).
+  - Animated dynamic mode shape deformation in GLES viewport.
+  - **Screenshots:** Landscape Tablet UI screenshot (`docs/images/androcad_tablet_modal_ui.png`) + Portrait Mobile Phone UI screenshot (`docs/images/androcad_phone_modal_ui.png`) embedded in `README.md`.
+  - **Release:** Beta APK `v0.19.0-beta`.
+* **Acceptance Tests:** 5-test CTest suite validating Tet10 cantilever beam deflection within $1.0\%$ of theoretical Euler-Bernoulli/Timoshenko formulas and fundamental natural frequency.
+* **Status:** Planned
+* **Finish Date:** -
+
+---
+
+### Milestone 20: GD&T, Bill of Materials (BOM) & Multi-Sheet Drafting
+* **Goal:** Complete industrial manufacturing documentation, tolerancing, and assembly drawings.
+* **Deliverables:**
+  - Geometric Dimensioning & Tolerancing (GD&T) feature control frames (position, flatness, perpendicularity, runout).
+  - Automated Assembly Bill of Materials (BOM) table generation and leader callout balloons.
+  - Detail enlarged views and auxiliary oblique projection views.
+  - Multi-sheet vector PDF and DXF export.
+  - **Screenshots:** Landscape Tablet UI screenshot (`docs/images/androcad_tablet_bom_ui.png`) + Portrait Mobile Phone UI screenshot (`docs/images/androcad_phone_bom_ui.png`) embedded in `README.md`.
+  - **Release:** Production Candidate `v1.0.0`.
+* **Acceptance Tests:** 5-test CTest suite validating GD&T syntax, BOM hierarchy extraction, multi-sheet vector PDF generation, and balloon coordinate mapping.
+* **Status:** Planned
+* **Finish Date:** -

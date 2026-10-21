@@ -1,5 +1,9 @@
 # AndroCAD
 
+<p align="center">
+  <img src="docs/images/androcad_app_icon.png" width="128" height="128" alt="AndroCAD Official App Icon" />
+</p>
+
 [![CI](https://github.com/dursuntokgoz/AndroCad/actions/workflows/ci.yml/badge.svg)](https://github.com/dursuntokgoz/AndroCad/actions/workflows/ci.yml)
 [![OCCT Build](https://github.com/dursuntokgoz/AndroCad/actions/workflows/occt-build.yml/badge.svg)](https://github.com/dursuntokgoz/AndroCad/actions/workflows/occt-build.yml)
 
