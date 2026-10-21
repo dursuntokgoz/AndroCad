@@ -405,4 +405,58 @@ class NativeKernelTest {
         assertTrue(draftInfo.success)
         assertEquals(1, draftInfo.instanceCount)
     }
+
+    @Test
+    fun testFastenerAndThreadDataContracts() {
+        val holeInfo = StandardHoleInfo(
+            success = true,
+            volumeMm3 = 48950.0,
+            meshResult = null
+        )
+        assertTrue(holeInfo.success)
+        assertEquals(48950.0, holeInfo.volumeMm3, 1e-4)
+        assertEquals(FastenerHoleType.SIMPLE.id, 0)
+        assertEquals(FastenerHoleType.COUNTERBORE.id, 1)
+        assertEquals(FastenerHoleType.COUNTERSINK.id, 2)
+        assertEquals(FastenerHoleType.TAPPED.id, 3)
+
+        val boltInfo = ThreadedBoltInfo(
+            success = true,
+            toothCount = 16,
+            pitchMm = 1.25,
+            outerDiameterMm = 8.56,
+            volumeMm3 = 2140.0,
+            meshResult = null
+        )
+        assertTrue(boltInfo.success)
+        assertEquals(16, boltInfo.toothCount)
+        assertEquals(1.25, boltInfo.pitchMm, 1e-4)
+        assertEquals(8.56, boltInfo.outerDiameterMm, 1e-2)
+
+        val projInfo = EdgeProjectionInfo(
+            success = true,
+            edgeCount = 12,
+            segments = listOf(
+                ProjectedSegment2D(0.0, 0.0, 30.0, 0.0, false, 0.0, 0.0, 0.0)
+            )
+        )
+        assertTrue(projInfo.success)
+        assertEquals(12, projInfo.edgeCount)
+        assertEquals(1, projInfo.segments.size)
+        assertEquals(30.0, projInfo.segments[0].endU, 1e-4)
+
+        val bsplineInfo = BSplineCurveInfo(
+            success = true,
+            degree = 3,
+            knotCount = 9,
+            poleCount = 5,
+            lengthMm = 62.4,
+            samples = listOf(SplinePoint2DData(0.0, 0.0), SplinePoint2DData(50.0, 0.0))
+        )
+        assertTrue(bsplineInfo.success)
+        assertEquals(3, bsplineInfo.degree)
+        assertEquals(9, bsplineInfo.knotCount)
+        assertEquals(5, bsplineInfo.poleCount)
+        assertEquals(62.4, bsplineInfo.lengthMm, 1e-4)
+    }
 }

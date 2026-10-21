@@ -16,6 +16,7 @@
 #include "SimulationEngine.h"
 #include "CAMEngine.h"
 #include "PatternEngine.h"
+#include "FastenerEngine.h"
 
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <TopoDS_Shape.hxx>
@@ -1783,6 +1784,164 @@ Java_com_androcad_kernel_NativeKernel_nativeApplyDraft(
        << ",\"errorMessage\":\"" << res.errorMessage << "\""
        << "}";
 
+    return env->NewStringUTF(ss.str().c_str());
+}
+
+// Milestone 17: Threads, Fasteners & Associative Sketch Projection
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeCreateStandardHole(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong solidHandle,
+        jdouble px, jdouble py, jdouble pz,
+        jdouble dx, jdouble dy, jdouble dz,
+        jstring standardStr,
+        jint holeTypeId,
+        jdouble depthMm) {
+    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    TopoDS_Shape baseShape = (session && !session->shape.IsNull()) ?
+        session->shape : BRepPrimAPI_MakeBox(50.0, 50.0, 20.0).Shape();
+
+    const char* stdChars = env->GetStringUTFChars(standardStr, nullptr);
+    std::string standardName = stdChars ? stdChars : "M6";
+    if (stdChars) env->ReleaseStringUTFChars(standardStr, stdChars);
+
+    androcad::HoleType type = static_cast<androcad::HoleType>(holeTypeId);
+    gp_Pnt pos(px, py, pz);
+    gp_Dir dir(dx, dy, dz);
+
+    androcad::HoleResult res = androcad::FastenerEngine::CreateStandardHole(
+        baseShape, pos, dir, standardName, type, depthMm
+    );
+
+    jlong newHandle = 0;
+    if (res.success && !res.shape.IsNull()) {
+        auto* newSession = new NativeMeshSession();
+        newSession->shape = res.shape;
+        newSession->payload = androcad::FeatureOps::ShapeToMeshPayload(res.shape, 0.1, 0.5);
+        newHandle = reinterpret_cast<jlong>(newSession);
+    }
+
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(4);
+    ss << "{\"success\":" << (res.success ? "true" : "false")
+       << ",\"volumeMm3\":" << res.volumeMm3
+       << ",\"meshHandle\":" << newHandle
+       << ",\"errorMessage\":\"" << res.errorMessage << "\""
+       << "}";
+
+    return env->NewStringUTF(ss.str().c_str());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeCreateThreadedBolt(
+        JNIEnv* env,
+        jobject /* this */,
+        jstring standardStr,
+        jdouble shaftLengthMm,
+        jdouble threadLengthMm,
+        jboolean hexHead) {
+    const char* stdChars = env->GetStringUTFChars(standardStr, nullptr);
+    std::string standardName = stdChars ? stdChars : "M8";
+    if (stdChars) env->ReleaseStringUTFChars(standardStr, stdChars);
+
+    androcad::ThreadResult res = androcad::FastenerEngine::CreateThreadedBolt(
+        standardName, shaftLengthMm, threadLengthMm, hexHead
+    );
+
+    jlong newHandle = 0;
+    if (res.success && !res.shape.IsNull()) {
+        auto* newSession = new NativeMeshSession();
+        newSession->shape = res.shape;
+        newSession->payload = androcad::FeatureOps::ShapeToMeshPayload(res.shape, 0.1, 0.5);
+        newHandle = reinterpret_cast<jlong>(newSession);
+    }
+
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(4);
+    ss << "{\"success\":" << (res.success ? "true" : "false")
+       << ",\"toothCount\":" << res.toothCount
+       << ",\"pitchMm\":" << res.pitchMm
+       << ",\"outerDiameterMm\":" << res.outerDiameterMm
+       << ",\"volumeMm3\":" << res.volumeMm3
+       << ",\"meshHandle\":" << newHandle
+       << ",\"errorMessage\":\"" << res.errorMessage << "\""
+       << "}";
+
+    return env->NewStringUTF(ss.str().c_str());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeProjectEdges(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong solidHandle,
+        jdouble ox, jdouble oy, jdouble oz,
+        jdouble nx, jdouble ny, jdouble nz) {
+    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    TopoDS_Shape baseShape = (session && !session->shape.IsNull()) ?
+        session->shape : BRepPrimAPI_MakeBox(30.0, 20.0, 10.0).Shape();
+
+    gp_Pln sketchPlane(gp_Pnt(ox, oy, oz), gp_Dir(nx, ny, nz));
+    androcad::ProjectionResult res = androcad::FastenerEngine::ProjectEdgesToPlane(baseShape, sketchPlane);
+
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(4);
+    ss << "{\"success\":" << (res.success ? "true" : "false")
+       << ",\"edgeCount\":" << res.edgeCount
+       << ",\"segments\":[";
+
+    for (size_t i = 0; i < res.segments.size(); ++i) {
+        const auto& seg = res.segments[i];
+        if (i > 0) ss << ",";
+        ss << "{\"startU\":" << seg.startU << ",\"startV\":" << seg.startV
+           << ",\"endU\":" << seg.endU << ",\"endV\":" << seg.endV
+           << ",\"isArc\":" << (seg.isArc ? "true" : "false")
+           << ",\"centerU\":" << seg.centerU << ",\"centerV\":" << seg.centerV
+           << ",\"radius\":" << seg.radius << "}";
+    }
+
+    ss << "],\"errorMessage\":\"" << res.errorMessage << "\"}";
+    return env->NewStringUTF(ss.str().c_str());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeGenerateBSpline(
+        JNIEnv* env,
+        jobject /* this */,
+        jdoubleArray uCoords,
+        jdoubleArray vCoords,
+        jint sampleCount) {
+    jsize len = env->GetArrayLength(uCoords);
+    jdouble* uElems = env->GetDoubleArrayElements(uCoords, nullptr);
+    jdouble* vElems = env->GetDoubleArrayElements(vCoords, nullptr);
+
+    std::vector<androcad::SplinePoint2D> pts;
+    pts.reserve(len);
+    for (jsize i = 0; i < len; ++i) {
+        pts.push_back({uElems[i], vElems[i]});
+    }
+
+    env->ReleaseDoubleArrayElements(uCoords, uElems, JNI_ABORT);
+    env->ReleaseDoubleArrayElements(vCoords, vElems, JNI_ABORT);
+
+    androcad::BSplineResult res = androcad::FastenerEngine::GenerateCubicBSpline(pts, sampleCount);
+
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(4);
+    ss << "{\"success\":" << (res.success ? "true" : "false")
+       << ",\"degree\":" << res.degree
+       << ",\"knotCount\":" << res.knotCount
+       << ",\"poleCount\":" << res.poleCount
+       << ",\"lengthMm\":" << res.lengthMm
+       << ",\"samples\":[";
+
+    for (size_t i = 0; i < res.sampledPoints.size(); ++i) {
+        if (i > 0) ss << ",";
+        ss << "{\"u\":" << res.sampledPoints[i].u << ",\"v\":" << res.sampledPoints[i].v << "}";
+    }
+
+    ss << "],\"errorMessage\":\"" << res.errorMessage << "\"}";
     return env->NewStringUTF(ss.str().c_str());
 }
 

@@ -40,6 +40,8 @@ import com.androcad.kernel.MeshAnalysisInfo
 import com.androcad.kernel.SimulationResultInfo
 import com.androcad.kernel.CAMGCodeInfo
 import com.androcad.kernel.CAMPostDialect
+import com.androcad.kernel.FastenerHoleType
+import com.androcad.kernel.SplinePoint2DData
 
 class MainActivity : ComponentActivity() {
 
@@ -221,12 +223,32 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     if (activeTab == "Sketch") {
-                        val sketchTools = listOf("Rectangle", "Line", "Circle", "Dimension", "Constraints")
+                        val sketchTools = listOf("Rectangle", "Line", "Circle", "B-Spline", "Project Edge", "Dimension", "Constraints")
                         sketchTools.forEach { tool ->
                             Surface(
                                 color = if (activeSketchTool == tool) accentBlue else chipBgColor,
                                 shape = RoundedCornerShape(4.dp),
-                                modifier = Modifier.clickable { activeSketchTool = tool }
+                                modifier = Modifier.clickable {
+                                    activeSketchTool = tool
+                                    if (tool == "Project Edge") {
+                                        activeSolid?.let { solid ->
+                                            val proj = NativeKernel.projectEdges(solid)
+                                            sketchStatusText = "Projected ${proj.edgeCount} associative edges from 3D solid"
+                                        } ?: run {
+                                            sketchStatusText = "No 3D solid to project from"
+                                        }
+                                    } else if (tool == "B-Spline") {
+                                        val ctrlPts = listOf(
+                                            SplinePoint2DData(0.0, 0.0),
+                                            SplinePoint2DData(20.0, 30.0),
+                                            SplinePoint2DData(60.0, 10.0),
+                                            SplinePoint2DData(90.0, 40.0),
+                                            SplinePoint2DData(120.0, 0.0)
+                                        )
+                                        val spline = NativeKernel.generateBSpline(ctrlPts, 50)
+                                        sketchStatusText = "Cubic B-Spline: ${spline.poleCount} poles, length ${spline.lengthMm.toInt()} mm (C²)"
+                                    }
+                                }
                             ) {
                                 Text(
                                     text = tool,
@@ -844,7 +866,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             }
                         }
                     } else {
-                        val tools = listOf("Box", "Extrude", "Revolve", "Fillet", "Chamfer", "Hole", "Shell", "Combine", "Rect Pattern", "Circular Pattern", "Mirror", "Draft Angle")
+                        val tools = listOf("Box", "Extrude", "Revolve", "Fillet", "Chamfer", "Hole", "Shell", "Combine", "Rect Pattern", "Circular Pattern", "Mirror", "Draft Angle", "ISO Hole (M6 CB)", "Threaded Bolt (M8)")
                         tools.forEach { tool ->
                             Surface(
                                 color = chipBgColor,
@@ -1036,6 +1058,47 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                         featureStatusText = "Draft: 3° mold taper applied on Face #$targetFace"
                                                     } else {
                                                         featureStatusText = "Draft failed: ${res.errorMessage}"
+                                                    }
+                                                }
+                                                "ISO Hole (M6 CB)" -> {
+                                                    val base = activeSolid ?: NativeKernel.createBox(50.0, 50.0, 20.0).also {
+                                                        activeSolid = it
+                                                    }
+                                                    val res = NativeKernel.createStandardHole(
+                                                        solid = base,
+                                                        px = 25.0, py = 25.0, pz = 20.0,
+                                                        dx = 0.0, dy = 0.0, dz = -1.0,
+                                                        standardName = "M6",
+                                                        holeType = FastenerHoleType.COUNTERBORE,
+                                                        depthMm = 20.0
+                                                    )
+                                                    val mResult = res.meshResult
+                                                    if (mResult != null && mResult.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = mResult
+                                                        renderer?.updateMesh(mResult)
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. M6 Counterbore Hole").toMutableList()
+                                                        featureStatusText = "ISO 273: M6 Counterbore Hole cut (Vol: ${res.volumeMm3.toInt()} mm³)"
+                                                    } else {
+                                                        featureStatusText = "Hole cut failed: ${res.errorMessage}"
+                                                    }
+                                                }
+                                                "Threaded Bolt (M8)" -> {
+                                                    val res = NativeKernel.createThreadedBolt(
+                                                        standardName = "M8",
+                                                        shaftLengthMm = 30.0,
+                                                        threadLengthMm = 20.0,
+                                                        hexHead = true
+                                                    )
+                                                    val mResult = res.meshResult
+                                                    if (mResult != null && mResult.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = mResult
+                                                        renderer?.updateMesh(mResult)
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. ISO M8x30 Bolt").toMutableList()
+                                                        featureStatusText = "ISO 262: M8x30 Bolt created (${res.toothCount} threads, pitch ${res.pitchMm}mm)"
+                                                    } else {
+                                                        featureStatusText = "Bolt creation failed: ${res.errorMessage}"
                                                     }
                                                 }
                                             }

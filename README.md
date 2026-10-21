@@ -54,6 +54,13 @@ AndroCAD is built with a **tablet-first** engineering workflow following modern 
 
 *Solid modeling expansion: 2D Rectangular linear pattern grid arrays ($U \times V$), polar Circular arrays with angular range distribution, planar Mirror symmetry across datum planes (`gp_Trsf::SetMirror`), and Draft Angle injection mold tapers. Features both tablet multi-pane workstation layout and adaptive mobile phone drawer interface.*
 
+### Threads, Fasteners & Associative Sketch Projection (Tablet & Mobile Phone)
+| Landscape Tablet Workstation UI | Portrait Mobile Phone UI |
+| :---: | :---: |
+| ![AndroCAD Tablet Threads UI](docs/images/androcad_tablet_threads_ui.png) | ![AndroCAD Mobile Phone Threads UI](docs/images/androcad_phone_threads_ui.png) |
+
+*Mechanical standard engineering workspace: Standard Hole Wizard per ISO 273/262 (Counterbore, Countersink, Clearance, Tapped holes M3–M12), modeled 3D physical helical thread tooth geometry for fasteners and bolts, associative 3D edge projection onto 2D sketch planes, and $C^2$ continuous cubic B-Spline curve generation with tangency handles.*
+
 ---
 
 ## Key Features & Architecture
@@ -103,3 +110,4 @@ AndroCAD is built with a **tablet-first** engineering workflow following modern 
 * [Milestone 14 Report: Linear Static Stress Simulation & FEA Heatmap](docs/reports/milestone-14.md)
 * [Milestone 15 Report: Subtractive CAM & G-Code Post-Processing](docs/reports/milestone-15.md)
 * [Milestone 16 Report: Patterns, Symmetry & Feature Replicators](docs/reports/milestone-16.md)
+* [Milestone 17 Report: Threads, Fasteners & Associative Sketch Projection](docs/reports/milestone-17.md)
