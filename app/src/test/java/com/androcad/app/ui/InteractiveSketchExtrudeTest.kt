@@ -164,19 +164,19 @@ class InteractiveSketchExtrudeTest {
         composeTestRule.onNodeWithTag("tab_Solid").performClick()
 
         // Fillet
-        composeTestRule.onNodeWithTag("tool_Fillet").performClick()
+        composeTestRule.onNodeWithTag("tool_Fillet").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("fillet_inspector_card").assertIsDisplayed()
         composeTestRule.onNodeWithTag("btn_fillet_ok").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("fillet_inspector_card").assertDoesNotExist()
 
         // Chamfer
-        composeTestRule.onNodeWithTag("tool_Chamfer").performClick()
+        composeTestRule.onNodeWithTag("tool_Chamfer").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("chamfer_inspector_card").assertIsDisplayed()
         composeTestRule.onNodeWithTag("btn_chamfer_ok").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("chamfer_inspector_card").assertDoesNotExist()
 
         // Hole
-        composeTestRule.onNodeWithTag("tool_Hole").performClick()
+        composeTestRule.onNodeWithTag("tool_Hole").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("hole_inspector_card").assertIsDisplayed()
         composeTestRule.onNodeWithTag("btn_hole_ok").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("hole_inspector_card").assertDoesNotExist()
@@ -189,17 +189,17 @@ class InteractiveSketchExtrudeTest {
         composeTestRule.onNodeWithTag("tab_Solid").performClick()
 
         // Chamfer with Cancel
-        composeTestRule.onNodeWithTag("tool_Chamfer").performClick()
+        composeTestRule.onNodeWithTag("tool_Chamfer").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("chamfer_inspector_card").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("slider_chamfer_distance").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("btn_chamfer_cancel").performClick()
+        composeTestRule.onNodeWithTag("slider_chamfer_distance").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithTag("btn_chamfer_cancel").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("chamfer_inspector_card").assertDoesNotExist()
 
         // Fillet with Cancel
-        composeTestRule.onNodeWithTag("tool_Fillet").performClick()
+        composeTestRule.onNodeWithTag("tool_Fillet").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("fillet_inspector_card").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("slider_fillet_radius").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("btn_fillet_cancel").performClick()
+        composeTestRule.onNodeWithTag("slider_fillet_radius").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithTag("btn_fillet_cancel").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("fillet_inspector_card").assertDoesNotExist()
     }
 
@@ -208,12 +208,12 @@ class InteractiveSketchExtrudeTest {
         setContentForTest()
 
         composeTestRule.onNodeWithTag("tab_Solid").performClick()
-        composeTestRule.onNodeWithTag("tool_Cylinder").performClick()
+        composeTestRule.onNodeWithTag("tool_Cylinder").performScrollTo().performClick()
 
         composeTestRule.onNodeWithTag("cylinder_inspector_card").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("slider_cylinder_radius").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("slider_cylinder_height").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("btn_cylinder_ok").performClick()
+        composeTestRule.onNodeWithTag("slider_cylinder_radius").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithTag("slider_cylinder_height").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithTag("btn_cylinder_ok").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("cylinder_inspector_card").assertDoesNotExist()
     }
 
@@ -222,7 +222,7 @@ class InteractiveSketchExtrudeTest {
         setContentForTest()
 
         composeTestRule.onNodeWithTag("tab_Solid").performClick()
-        composeTestRule.onNodeWithTag("btn_solid_create_sketch").performClick()
+        composeTestRule.onNodeWithTag("btn_solid_create_sketch").performScrollTo().performClick()
 
         // Should switch to Sketch tab with overlay displayed
         composeTestRule.onNodeWithTag("sketch_canvas_overlay").assertIsDisplayed()

@@ -78,11 +78,11 @@ class CadUiComposeTest {
     fun testSolidTools() {
         setContentForTest()
         composeTestRule.onNodeWithTag("tab_Solid").performClick()
-        composeTestRule.onNodeWithTag("tool_Box").assertIsDisplayed().performClick()
-        composeTestRule.onNodeWithTag("tool_Cylinder").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("tool_Fillet").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("tool_Chamfer").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("tool_Hole").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tool_Box").performScrollTo().assertIsDisplayed().performClick()
+        composeTestRule.onNodeWithTag("tool_Cylinder").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tool_Fillet").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tool_Chamfer").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tool_Hole").performScrollTo().assertIsDisplayed()
     }
 
     @Test
