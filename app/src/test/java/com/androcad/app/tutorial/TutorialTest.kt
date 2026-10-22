@@ -67,7 +67,7 @@ class TutorialTest {
 
         // On first run, tutorial overlay should be visible immediately
         composeTestRule.onNodeWithTag("tutorial_overlay").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("tutorial_step_indicator").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tutorial_step_indicator", useUnmergedTree = true).assertIsDisplayed()
         composeTestRule.onNodeWithTag("tutorial_btn_skip").assertIsDisplayed()
         composeTestRule.onNodeWithTag("tutorial_btn_next").assertIsDisplayed()
     }
@@ -91,7 +91,7 @@ class TutorialTest {
         }
 
         composeTestRule.onNodeWithTag("tutorial_overlay").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("tutorial_step_indicator").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tutorial_step_indicator", useUnmergedTree = true).assertIsDisplayed()
         composeTestRule.onNodeWithTag("tutorial_btn_skip").assertIsDisplayed()
         composeTestRule.onNodeWithTag("tutorial_btn_next").assertIsDisplayed()
 
@@ -156,6 +156,6 @@ class TutorialTest {
 
         // Tutorial overlay should now be visible again
         composeTestRule.onNodeWithTag("tutorial_overlay").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("tutorial_step_indicator").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tutorial_step_indicator", useUnmergedTree = true).assertIsDisplayed()
     }
 }

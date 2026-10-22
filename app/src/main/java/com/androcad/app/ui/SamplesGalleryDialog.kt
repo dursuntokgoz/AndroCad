@@ -17,8 +17,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -123,11 +123,11 @@ fun SamplesGalleryDialog(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // Samples list
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    contentPadding = PaddingValues(bottom = 8.dp)
+                Column(
+                    modifier = Modifier.verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    items(SamplesManager.SAMPLES) { sample ->
+                    SamplesManager.SAMPLES.forEach { sample ->
                         val sampleTitle = if (isTurkish) sample.nameTr else sample.nameEn
                         val sampleDesc = if (isTurkish) sample.descriptionTr else sample.descriptionEn
 

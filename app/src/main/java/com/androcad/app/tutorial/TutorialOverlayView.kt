@@ -102,7 +102,8 @@ fun TutorialOverlayView(
                 ) {
                     Surface(
                         color = accentBlue.copy(alpha = 0.15f),
-                        shape = RoundedCornerShape(20.dp)
+                        shape = RoundedCornerShape(20.dp),
+                        modifier = Modifier.testTag("tutorial_step_indicator")
                     ) {
                         Text(
                             text = stepLabel,
@@ -111,7 +112,6 @@ fun TutorialOverlayView(
                             fontSize = 12.sp,
                             modifier = Modifier
                                 .padding(horizontal = 10.dp, vertical = 4.dp)
-                                .testTag("tutorial_step_indicator")
                                 .semantics { contentDescription = stepLabel }
                         )
                     }
