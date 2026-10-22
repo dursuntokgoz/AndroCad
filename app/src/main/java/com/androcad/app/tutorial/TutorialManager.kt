@@ -32,6 +32,14 @@ object TutorialManager {
     @Volatile
     var isTutorialDisabledForTesting: Boolean = false
 
+    @Volatile
+    private var cachedCompleted: Boolean? = null
+
+    fun isTutorialCompletedInitial(): Boolean {
+        if (isTutorialDisabledForTesting) return true
+        return cachedCompleted ?: false
+    }
+
     fun disableForTesting(disabled: Boolean = true) {
         isTutorialDisabledForTesting = disabled
     }
@@ -99,16 +107,20 @@ object TutorialManager {
     suspend fun isCompleted(context: Context): Boolean {
         if (isTutorialDisabledForTesting) return true
         val prefs = context.tutorialDataStore.data.first()
-        return prefs[KEY_TUTORIAL_COMPLETED] ?: false
+        val completed = prefs[KEY_TUTORIAL_COMPLETED] ?: false
+        cachedCompleted = completed
+        return completed
     }
 
     suspend fun setCompleted(context: Context, completed: Boolean = true) {
+        cachedCompleted = completed
         context.tutorialDataStore.edit { preferences ->
             preferences[KEY_TUTORIAL_COMPLETED] = completed
         }
     }
 
     suspend fun resetTutorial(context: Context) {
+        cachedCompleted = false
         context.tutorialDataStore.edit { preferences ->
             preferences[KEY_TUTORIAL_COMPLETED] = false
         }
