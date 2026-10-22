@@ -85,7 +85,7 @@ fun ExtrudeInspectorDialog(
                 )
             }
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(6.dp))
 
             // Profile info
             Row(
@@ -113,7 +113,7 @@ fun ExtrudeInspectorDialog(
                 fontSize = 10.sp
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(6.dp))
 
             // Distance / Depth control
             Row(
@@ -139,7 +139,7 @@ fun ExtrudeInspectorDialog(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 4.dp),
+                    .padding(vertical = 2.dp),
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 listOf(-10f to "-10", -1f to "-1", 1f to "+1", 10f to "+10").forEach { (delta, label) ->

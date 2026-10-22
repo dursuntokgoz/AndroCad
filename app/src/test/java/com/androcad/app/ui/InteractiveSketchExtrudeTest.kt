@@ -117,7 +117,7 @@ class InteractiveSketchExtrudeTest {
         // Verify Extrude Inspector is shown in Solid tab
         composeTestRule.onNodeWithTag("extrude_inspector_card").assertIsDisplayed()
         composeTestRule.onNodeWithTag("text_extrude_depth").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("slider_extrude_depth").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("slider_extrude_depth").performScrollTo().assertIsDisplayed()
         composeTestRule.onNodeWithTag("btn_extrude_ok").performScrollTo().assertIsDisplayed()
 
         // Confirm extrusion
