@@ -328,7 +328,7 @@ enum class AssemblyJointType(val id: Int) {
 
 class AssemblySession(val handle: Long) : Closeable {
     fun addComponent(name: String, solid: BoxMeshResult): Int {
-        if (handle == 0L || solid.nativeHandle <= 1000L || !isLoaded) return -1
+        if (handle == 0L || solid.nativeHandle <= 1000L || !NativeKernel.isLoaded) return -1
         return NativeKernel.nativeAssemblyAddComponent(handle, name, solid.nativeHandle)
     }
 
