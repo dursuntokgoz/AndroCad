@@ -304,7 +304,7 @@ Java_com_androcad_kernel_NativeKernel_nativeCreateSketch(
     auto session = std::make_unique<NativeSketchSession>();
     session->sketcher = std::make_unique<androcad::Sketcher>(plane);
 
-    return g_meshRegistry.Register(std::move(session));
+    return g_sketchRegistry.Register(std::move(session));
 }
 
 JNIEXPORT jint JNICALL
@@ -745,7 +745,7 @@ Java_com_androcad_kernel_NativeKernel_nativeCreateTimeline(
         jobject /* this */) {
     auto session = std::make_unique<NativeTimelineSession>();
     session->timeline = std::make_unique<androcad::TimelineDAG>();
-    return g_meshRegistry.Register(std::move(session));
+    return g_timelineRegistry.Register(std::move(session));
 }
 
 JNIEXPORT jboolean JNICALL
@@ -1220,8 +1220,7 @@ Java_com_androcad_kernel_NativeKernel_nativeReleaseAssembly(
         JNIEnv* /* env */,
         jobject /* this */,
         jlong asmHandle) {
-    auto* asmSession = g_assemblyRegistry.Get(asmHandle);
-    delete asmSession;
+    g_assemblyRegistry.Release(asmHandle);
 }
 
 JNIEXPORT jlong JNICALL
