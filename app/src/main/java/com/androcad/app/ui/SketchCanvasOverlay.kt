@@ -22,7 +22,9 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.androcad.app.model.SketchClosedProfile
@@ -68,6 +70,40 @@ fun SketchCanvasOverlay(
         fun toPxX(mmX: Float): Float = centerX + mmX * canvasScale
         fun toPxY(mmY: Float): Float = centerY - mmY * canvasScale
 
+        val density = LocalDensity.current
+
+        fun findNearbyVertex(xMm: Float, yMm: Float, entities: List<SketchEntity>, toleranceMm: Float = 7.0f): Pair<Float, Float>? {
+            var closestDist = Float.MAX_VALUE
+            var closestVertex: Pair<Float, Float>? = null
+
+            fun checkPt(vx: Float, vy: Float) {
+                val d = hypot(xMm - vx, yMm - vy)
+                if (d <= toleranceMm && d < closestDist) {
+                    closestDist = d
+                    closestVertex = Pair(vx, vy)
+                }
+            }
+
+            for (e in entities) {
+                when (e) {
+                    is SketchEntity.Line -> {
+                        checkPt(e.startX, e.startY)
+                        checkPt(e.endX, e.endY)
+                    }
+                    is SketchEntity.Rectangle -> {
+                        checkPt(e.minX, e.minY)
+                        checkPt(e.minX + e.width, e.minY)
+                        checkPt(e.minX + e.width, e.minY + e.height)
+                        checkPt(e.minX, e.minY + e.height)
+                    }
+                    is SketchEntity.Circle -> {
+                        checkPt(e.centerX, e.centerY)
+                    }
+                }
+            }
+            return closestVertex
+        }
+
         // Interactive Canvas
         Canvas(
             modifier = Modifier
@@ -92,9 +128,20 @@ fun SketchCanvasOverlay(
                                 var eX = toMmX(current.x)
                                 var eY = toMmY(current.y)
 
-                                if (isSnapEnabled) {
+                                val snapStart = if (isSnapEnabled) findNearbyVertex(sX, sY, sketchEntities) else null
+                                if (snapStart != null) {
+                                    sX = snapStart.first
+                                    sY = snapStart.second
+                                } else if (isSnapEnabled) {
                                     sX = SketchMath.snapToGrid(sX, gridSpacingMm)
                                     sY = SketchMath.snapToGrid(sY, gridSpacingMm)
+                                }
+
+                                val snapEnd = if (isSnapEnabled) findNearbyVertex(eX, eY, sketchEntities) else null
+                                if (snapEnd != null) {
+                                    eX = snapEnd.first
+                                    eY = snapEnd.second
+                                } else if (isSnapEnabled) {
                                     eX = SketchMath.snapToGrid(eX, gridSpacingMm)
                                     eY = SketchMath.snapToGrid(eY, gridSpacingMm)
                                 }
@@ -303,9 +350,20 @@ fun SketchCanvasOverlay(
                 var eX = toMmX(current.x)
                 var eY = toMmY(current.y)
 
-                if (isSnapEnabled) {
+                val snapStartHover = if (isSnapEnabled) findNearbyVertex(sX, sY, sketchEntities) else null
+                if (snapStartHover != null) {
+                    sX = snapStartHover.first
+                    sY = snapStartHover.second
+                } else if (isSnapEnabled) {
                     sX = SketchMath.snapToGrid(sX, gridSpacingMm)
                     sY = SketchMath.snapToGrid(sY, gridSpacingMm)
+                }
+
+                val snapEndHover = if (isSnapEnabled) findNearbyVertex(eX, eY, sketchEntities) else null
+                if (snapEndHover != null) {
+                    eX = snapEndHover.first
+                    eY = snapEndHover.second
+                } else if (isSnapEnabled) {
                     eX = SketchMath.snapToGrid(eX, gridSpacingMm)
                     eY = SketchMath.snapToGrid(eY, gridSpacingMm)
                 }
@@ -313,6 +371,11 @@ fun SketchCanvasOverlay(
                 val previewStartPx = Offset(toPxX(sX), toPxY(sY))
                 val previewCurrentPx = Offset(toPxX(eX), toPxY(eY))
                 val dashEffect = PathEffect.dashPathEffect(floatArrayOf(12f, 8f), 0f)
+
+                if (snapEndHover != null) {
+                    drawCircle(Color(0xFFFFB300), radius = 12f, center = previewCurrentPx, style = Stroke(width = 3f))
+                    drawCircle(Color(0xFFFFD54F), radius = 5f, center = previewCurrentPx)
+                }
 
                 when (activeTool) {
                     "Rectangle" -> {
@@ -362,6 +425,51 @@ fun SketchCanvasOverlay(
                             pathEffect = dashEffect
                         )
                     }
+                }
+            }
+        }
+
+        // Live Floating Dimension Callout during Touch Drag
+        if (isDragging && dragStart != null && dragCurrent != null) {
+            val cur = dragCurrent!!
+            val st = dragStart!!
+            val sX = toMmX(st.x)
+            val sY = toMmY(st.y)
+            var eX = toMmX(cur.x)
+            var eY = toMmY(cur.y)
+
+            val snapEnd = if (isSnapEnabled) findNearbyVertex(eX, eY, sketchEntities) else null
+            if (snapEnd != null) {
+                eX = snapEnd.first
+                eY = snapEnd.second
+            } else if (isSnapEnabled) {
+                eX = SketchMath.snapToGrid(eX, gridSpacingMm)
+                eY = SketchMath.snapToGrid(eY, gridSpacingMm)
+            }
+
+            val dimText = when (activeTool) {
+                "Rectangle" -> "${abs(eX - sX).toInt()} × ${abs(eY - sY).toInt()} mm"
+                "Circle" -> "R: ${hypot(eX - sX, eY - sY).toInt()} mm (Ø ${(hypot(eX - sX, eY - sY) * 2).toInt()} mm)"
+                "Line" -> "L: ${hypot(eX - sX, eY - sY).toInt()} mm"
+                else -> ""
+            }
+            if (dimText.isNotEmpty()) {
+                val pillX = (cur.x - 60f).coerceIn(10f, widthPx - 140f)
+                val pillY = (cur.y - 50f).coerceIn(40f, heightPx - 70f)
+                Surface(
+                    color = Color(0xEE1E2228),
+                    shape = RoundedCornerShape(8.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF00E5FF)),
+                    modifier = Modifier
+                        .offset(x = (pillX / density.density).dp, y = (pillY / density.density).dp)
+                ) {
+                    Text(
+                        text = dimText,
+                        color = Color(0xFF00E5FF),
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                    )
                 }
             }
         }
@@ -507,6 +615,32 @@ fun SketchCanvasOverlay(
                         color = Color.White,
                         fontSize = 10.sp,
                         modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
+                    )
+                }
+            }
+        }
+
+        // Primary Direct Extrude Button when Profile is Closed (Fusion 360 Fast-Action)
+        if (currentProfile?.isClosed == true) {
+            Surface(
+                color = Color(0xFF007ACC),
+                shape = RoundedCornerShape(16.dp),
+                border = androidx.compose.foundation.BorderStroke(1.5.dp, Color(0xFF00A4E4)),
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(end = 16.dp, bottom = 48.dp)
+                    .testTag("btn_sketch_extrude_direct")
+                    .clickable { onFinishSketch() }
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Katılaştır (Extrude) ⬆",
+                        color = Color.White,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold
                     )
                 }
             }

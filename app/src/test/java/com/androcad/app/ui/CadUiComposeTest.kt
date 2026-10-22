@@ -79,6 +79,7 @@ class CadUiComposeTest {
         setContentForTest()
         composeTestRule.onNodeWithTag("tab_Solid").performClick()
         composeTestRule.onNodeWithTag("tool_Box").assertIsDisplayed().performClick()
+        composeTestRule.onNodeWithTag("tool_Cylinder").assertIsDisplayed()
         composeTestRule.onNodeWithTag("tool_Fillet").assertIsDisplayed()
         composeTestRule.onNodeWithTag("tool_Chamfer").assertIsDisplayed()
         composeTestRule.onNodeWithTag("tool_Hole").assertIsDisplayed()

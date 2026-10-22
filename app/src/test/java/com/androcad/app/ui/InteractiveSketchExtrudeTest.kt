@@ -202,4 +202,45 @@ class InteractiveSketchExtrudeTest {
         composeTestRule.onNodeWithTag("btn_fillet_cancel").performClick()
         composeTestRule.onNodeWithTag("fillet_inspector_card").assertDoesNotExist()
     }
+
+    @Test
+    fun testSolidTabCylinderInspector() {
+        setContentForTest()
+
+        composeTestRule.onNodeWithTag("tab_Solid").performClick()
+        composeTestRule.onNodeWithTag("tool_Cylinder").performClick()
+
+        composeTestRule.onNodeWithTag("cylinder_inspector_card").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("slider_cylinder_radius").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("slider_cylinder_height").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("btn_cylinder_ok").performClick()
+        composeTestRule.onNodeWithTag("cylinder_inspector_card").assertDoesNotExist()
+    }
+
+    @Test
+    fun testSolidTabCreateSketchButton() {
+        setContentForTest()
+
+        composeTestRule.onNodeWithTag("tab_Solid").performClick()
+        composeTestRule.onNodeWithTag("btn_solid_create_sketch").performClick()
+
+        // Should switch to Sketch tab with overlay displayed
+        composeTestRule.onNodeWithTag("sketch_canvas_overlay").assertIsDisplayed()
+    }
+
+    @Test
+    fun testDirectExtrudeButtonOnClosedProfile() {
+        setContentForTest()
+
+        composeTestRule.onNodeWithTag("tab_Sketch").performClick()
+        composeTestRule.onNodeWithTag("btn_sketch_preset").performClick()
+
+        // Since preset creates a closed profile, direct extrude button should be visible
+        composeTestRule.onNodeWithTag("btn_sketch_extrude_direct").assertIsDisplayed().performClick()
+
+        // Should open Extrude Inspector
+        composeTestRule.onNodeWithTag("extrude_inspector_card").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("btn_extrude_ok").performScrollTo().performClick()
+        composeTestRule.onNodeWithTag("extrude_inspector_card").assertDoesNotExist()
+    }
 }
