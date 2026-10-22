@@ -387,7 +387,7 @@ MeshPayload FeatureOps::MakeChamfer(const TopoDS_Shape& solid,
         if (edgeFaceMap.Contains(edge) && !edgeFaceMap.FindFromKey(edge).IsEmpty()) {
             const TopoDS_Face& face = TopoDS::Face(edgeFaceMap.FindFromKey(edge).First());
             if (!face.IsNull()) {
-                mkChamfer.Add(distance, edge, face);
+                mkChamfer.Add(distance, distance, edge, face);
             } else {
                 mkChamfer.Add(distance, edge);
             }
