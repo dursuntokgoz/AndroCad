@@ -86,4 +86,12 @@ class BrowserState(
             selectedEntityId = null
         }
     }
+
+    fun addBody(body: CadBodyItem) {
+        bodies.add(body)
+    }
+
+    fun addSketch(sketch: CadSketchItem) {
+        sketches.add(sketch)
+    }
 }
