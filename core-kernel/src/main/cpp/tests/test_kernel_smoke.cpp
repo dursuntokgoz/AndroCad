@@ -385,6 +385,26 @@ int main() {
         return 1;
     }
 
+    auto negChamferNull = androcad::FeatureOps::MakeChamfer(TopoDS_Shape(), 2.0, 1, dummyOut);
+    if (negChamferNull.success) {
+        std::cerr << "[FAIL] Expected failure for null shape chamfer!" << std::endl;
+        return 1;
+    }
+
+    auto negChamferDistance = androcad::FeatureOps::MakeChamfer(extrudeSolid, -1.0, 1, dummyOut);
+    if (negChamferDistance.success) {
+        std::cerr << "[FAIL] Expected failure for negative distance chamfer!" << std::endl;
+        return 1;
+    }
+
+    // Out-of-bounds edge IDs should NOT crash and should either fallback safely or return graceful failure
+    TopoDS_Shape outOfBoundsSolid;
+    auto oobChamfer = androcad::FeatureOps::MakeChamfer(extrudeSolid, 2.0, 9999, outOfBoundsSolid);
+    std::cout << "  Out-of-bounds edge chamfer handled safely: success=" << oobChamfer.success << std::endl;
+
+    auto oobFillet = androcad::FeatureOps::MakeFillet(extrudeSolid, 2.0, 9999, outOfBoundsSolid);
+    std::cout << "  Out-of-bounds edge fillet handled safely: success=" << oobFillet.success << std::endl;
+
     std::cout << "[PASS] All AndroCAD Milestone 3 & 4 Tests passed successfully!" << std::endl;
     return 0;
 }

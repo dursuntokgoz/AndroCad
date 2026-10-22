@@ -13,8 +13,11 @@
 #include <TopExp.hxx>
 #include <TopExp_Explorer.hxx>
 #include <TopTools_IndexedMapOfShape.hxx>
+#include <TopTools_IndexedDataMapOfShapeListOfShape.hxx>
 #include <TopTools_ListOfShape.hxx>
 #include <TopoDS.hxx>
+#include <TopoDS_Face.hxx>
+#include <TopoDS_Edge.hxx>
 #include <BRep_Tool.hxx>
 #include <BRepAdaptor_Curve.hxx>
 #include <GCPnts_QuasiUniformDeflection.hxx>
@@ -31,6 +34,7 @@
 #include <gp_Dir.hxx>
 #include <gp_Pnt.hxx>
 #include <Standard_Failure.hxx>
+#include <exception>
 
 #include <cmath>
 #include <iostream>
@@ -199,6 +203,9 @@ MeshPayload FeatureOps::ShapeToMeshPayload(const TopoDS_Shape& shape,
     } catch (const std::exception& e) {
         result.errorMessage = std::string("C++ Exception: ") + e.what();
         result.success = false;
+    } catch (...) {
+        result.errorMessage = "Unknown native error during triangulation.";
+        result.success = false;
     }
 
     return result;
@@ -235,6 +242,12 @@ MeshPayload FeatureOps::MakeExtrude(const TopoDS_Face& profileFace,
     } catch (const Standard_Failure& e) {
         MeshPayload err; err.success = false; err.errorMessage = std::string("Extrude Standard_Failure: ") + e.GetMessageString();
         return err;
+    } catch (const std::exception& e) {
+        MeshPayload err; err.success = false; err.errorMessage = std::string("Extrude std::exception: ") + e.what();
+        return err;
+    } catch (...) {
+        MeshPayload err; err.success = false; err.errorMessage = "Extrude failed with unknown native error.";
+        return err;
     }
 }
 
@@ -264,7 +277,7 @@ MeshPayload FeatureOps::MakeRevolve(const TopoDS_Face& profileFace,
         BRepPrimAPI_MakeRevol revol(profileFace, axis, angleRad);
         revol.Build();
 
-        if (!revol.IsDone()) {
+        if (!revol.IsDone() || revol.Shape().IsNull()) {
             MeshPayload err; err.success = false; err.errorMessage = "BRepPrimAPI_MakeRevol failed to revolve face.";
             return err;
         }
@@ -273,6 +286,12 @@ MeshPayload FeatureOps::MakeRevolve(const TopoDS_Face& profileFace,
         return ShapeToMeshPayload(outSolid, linearDeflection, angularDeflection);
     } catch (const Standard_Failure& e) {
         MeshPayload err; err.success = false; err.errorMessage = std::string("Revolve Standard_Failure: ") + e.GetMessageString();
+        return err;
+    } catch (const std::exception& e) {
+        MeshPayload err; err.success = false; err.errorMessage = std::string("Revolve std::exception: ") + e.what();
+        return err;
+    } catch (...) {
+        MeshPayload err; err.success = false; err.errorMessage = "Revolve failed with unknown native error.";
         return err;
     }
 }
@@ -289,7 +308,6 @@ MeshPayload FeatureOps::MakeFillet(const TopoDS_Shape& solid,
     }
 
     try {
-        BRepFilletAPI_MakeFillet mkFillet(solid);
         TopTools_IndexedMapOfShape edgeMap;
         TopExp::MapShapes(solid, TopAbs_EDGE, edgeMap);
 
@@ -298,17 +316,25 @@ MeshPayload FeatureOps::MakeFillet(const TopoDS_Shape& solid,
             return err;
         }
 
+        BRepFilletAPI_MakeFillet mkFillet(solid);
+
         if (targetEdgeId > 0 && targetEdgeId <= edgeMap.Extent()) {
-            mkFillet.Add(radius, TopoDS::Edge(edgeMap(targetEdgeId)));
+            const TopoDS_Edge& edge = TopoDS::Edge(edgeMap(targetEdgeId));
+            if (!edge.IsNull()) {
+                mkFillet.Add(radius, edge);
+            }
         } else {
             // Apply to all valid edges
             for (int i = 1; i <= edgeMap.Extent(); ++i) {
-                mkFillet.Add(radius, TopoDS::Edge(edgeMap(i)));
+                const TopoDS_Edge& edge = TopoDS::Edge(edgeMap(i));
+                if (!edge.IsNull()) {
+                    mkFillet.Add(radius, edge);
+                }
             }
         }
 
         mkFillet.Build();
-        if (!mkFillet.IsDone()) {
+        if (!mkFillet.IsDone() || mkFillet.Shape().IsNull()) {
             MeshPayload err; err.success = false; err.errorMessage = "BRepFilletAPI_MakeFillet failed to build fillet.";
             return err;
         }
@@ -317,6 +343,12 @@ MeshPayload FeatureOps::MakeFillet(const TopoDS_Shape& solid,
         return ShapeToMeshPayload(outSolid, linearDeflection, angularDeflection);
     } catch (const Standard_Failure& e) {
         MeshPayload err; err.success = false; err.errorMessage = std::string("Fillet Standard_Failure: ") + e.GetMessageString();
+        return err;
+    } catch (const std::exception& e) {
+        MeshPayload err; err.success = false; err.errorMessage = std::string("Fillet std::exception: ") + e.what();
+        return err;
+    } catch (...) {
+        MeshPayload err; err.success = false; err.errorMessage = "Fillet failed with unknown native error.";
         return err;
     }
 }
@@ -333,7 +365,6 @@ MeshPayload FeatureOps::MakeChamfer(const TopoDS_Shape& solid,
     }
 
     try {
-        BRepFilletAPI_MakeChamfer mkChamfer(solid);
         TopTools_IndexedMapOfShape edgeMap;
         TopExp::MapShapes(solid, TopAbs_EDGE, edgeMap);
 
@@ -344,10 +375,28 @@ MeshPayload FeatureOps::MakeChamfer(const TopoDS_Shape& solid,
 
         int edgeIdx = (targetEdgeId > 0 && targetEdgeId <= edgeMap.Extent()) ? targetEdgeId : 1;
         const TopoDS_Edge& edge = TopoDS::Edge(edgeMap(edgeIdx));
-        mkChamfer.Add(distance, edge);
+        if (edge.IsNull()) {
+            MeshPayload err; err.success = false; err.errorMessage = "Selected edge is null.";
+            return err;
+        }
+
+        BRepFilletAPI_MakeChamfer mkChamfer(solid);
+
+        TopTools_IndexedDataMapOfShapeListOfShape edgeFaceMap;
+        TopExp::MapShapesAndAncestors(solid, TopAbs_EDGE, TopAbs_FACE, edgeFaceMap);
+        if (edgeFaceMap.Contains(edge) && !edgeFaceMap.FindFromKey(edge).IsEmpty()) {
+            const TopoDS_Face& face = TopoDS::Face(edgeFaceMap.FindFromKey(edge).First());
+            if (!face.IsNull()) {
+                mkChamfer.Add(distance, edge, face);
+            } else {
+                mkChamfer.Add(distance, edge);
+            }
+        } else {
+            mkChamfer.Add(distance, edge);
+        }
 
         mkChamfer.Build();
-        if (!mkChamfer.IsDone()) {
+        if (!mkChamfer.IsDone() || mkChamfer.Shape().IsNull()) {
             MeshPayload err; err.success = false; err.errorMessage = "BRepFilletAPI_MakeChamfer failed to build chamfer.";
             return err;
         }
@@ -356,6 +405,12 @@ MeshPayload FeatureOps::MakeChamfer(const TopoDS_Shape& solid,
         return ShapeToMeshPayload(outSolid, linearDeflection, angularDeflection);
     } catch (const Standard_Failure& e) {
         MeshPayload err; err.success = false; err.errorMessage = std::string("Chamfer Standard_Failure: ") + e.GetMessageString();
+        return err;
+    } catch (const std::exception& e) {
+        MeshPayload err; err.success = false; err.errorMessage = std::string("Chamfer std::exception: ") + e.what();
+        return err;
+    } catch (...) {
+        MeshPayload err; err.success = false; err.errorMessage = "Chamfer failed with unknown native error.";
         return err;
     }
 }
@@ -379,7 +434,7 @@ MeshPayload FeatureOps::MakeHole(const TopoDS_Shape& solid,
 
         BRepPrimAPI_MakeCylinder cylinder(axis, radius, depth + 0.2);
         cylinder.Build();
-        if (!cylinder.IsDone()) {
+        if (!cylinder.IsDone() || cylinder.Shape().IsNull()) {
             MeshPayload err; err.success = false; err.errorMessage = "Failed to construct tool cylinder for hole.";
             return err;
         }
@@ -388,7 +443,7 @@ MeshPayload FeatureOps::MakeHole(const TopoDS_Shape& solid,
         cutter.SetFuzzyValue(1e-5);
         cutter.Build();
 
-        if (!cutter.IsDone()) {
+        if (!cutter.IsDone() || cutter.Shape().IsNull()) {
             MeshPayload err; err.success = false; err.errorMessage = "Boolean Cut failed for hole operation.";
             return err;
         }
@@ -397,6 +452,12 @@ MeshPayload FeatureOps::MakeHole(const TopoDS_Shape& solid,
         return ShapeToMeshPayload(outSolid, linearDeflection, angularDeflection);
     } catch (const Standard_Failure& e) {
         MeshPayload err; err.success = false; err.errorMessage = std::string("Hole Standard_Failure: ") + e.GetMessageString();
+        return err;
+    } catch (const std::exception& e) {
+        MeshPayload err; err.success = false; err.errorMessage = std::string("Hole std::exception: ") + e.what();
+        return err;
+    } catch (...) {
+        MeshPayload err; err.success = false; err.errorMessage = "Hole failed with unknown native error.";
         return err;
     }
 }
@@ -427,7 +488,7 @@ MeshPayload FeatureOps::MakeShell(const TopoDS_Shape& solid,
         thickSolid.MakeThickSolidByJoin(solid, facesToRemove, -thickness, 1e-3);
         thickSolid.Build();
 
-        if (!thickSolid.IsDone()) {
+        if (!thickSolid.IsDone() || thickSolid.Shape().IsNull()) {
             MeshPayload err; err.success = false; err.errorMessage = "BRepOffsetAPI_MakeThickSolid failed to hollow solid.";
             return err;
         }
@@ -436,6 +497,12 @@ MeshPayload FeatureOps::MakeShell(const TopoDS_Shape& solid,
         return ShapeToMeshPayload(outSolid, linearDeflection, angularDeflection);
     } catch (const Standard_Failure& e) {
         MeshPayload err; err.success = false; err.errorMessage = std::string("Shell Standard_Failure: ") + e.GetMessageString();
+        return err;
+    } catch (const std::exception& e) {
+        MeshPayload err; err.success = false; err.errorMessage = std::string("Shell std::exception: ") + e.what();
+        return err;
+    } catch (...) {
+        MeshPayload err; err.success = false; err.errorMessage = "Shell failed with unknown native error.";
         return err;
     }
 }
@@ -457,7 +524,7 @@ MeshPayload FeatureOps::MakeBoolean(const TopoDS_Shape& solidA,
             BRepAlgoAPI_Fuse bop(solidA, solidB);
             bop.SetFuzzyValue(fuzzyValue);
             bop.Build();
-            if (!bop.IsDone()) {
+            if (!bop.IsDone() || bop.Shape().IsNull()) {
                 MeshPayload err; err.success = false; err.errorMessage = "BRepAlgoAPI_Fuse failed.";
                 return err;
             }
@@ -466,7 +533,7 @@ MeshPayload FeatureOps::MakeBoolean(const TopoDS_Shape& solidA,
             BRepAlgoAPI_Cut bop(solidA, solidB);
             bop.SetFuzzyValue(fuzzyValue);
             bop.Build();
-            if (!bop.IsDone()) {
+            if (!bop.IsDone() || bop.Shape().IsNull()) {
                 MeshPayload err; err.success = false; err.errorMessage = "BRepAlgoAPI_Cut failed.";
                 return err;
             }
@@ -475,7 +542,7 @@ MeshPayload FeatureOps::MakeBoolean(const TopoDS_Shape& solidA,
             BRepAlgoAPI_Common bop(solidA, solidB);
             bop.SetFuzzyValue(fuzzyValue);
             bop.Build();
-            if (!bop.IsDone()) {
+            if (!bop.IsDone() || bop.Shape().IsNull()) {
                 MeshPayload err; err.success = false; err.errorMessage = "BRepAlgoAPI_Common failed.";
                 return err;
             }
@@ -485,6 +552,12 @@ MeshPayload FeatureOps::MakeBoolean(const TopoDS_Shape& solidA,
         return ShapeToMeshPayload(outSolid, linearDeflection, angularDeflection);
     } catch (const Standard_Failure& e) {
         MeshPayload err; err.success = false; err.errorMessage = std::string("Boolean Standard_Failure: ") + e.GetMessageString();
+        return err;
+    } catch (const std::exception& e) {
+        MeshPayload err; err.success = false; err.errorMessage = std::string("Boolean std::exception: ") + e.what();
+        return err;
+    } catch (...) {
+        MeshPayload err; err.success = false; err.errorMessage = "Boolean failed with unknown native error.";
         return err;
     }
 }

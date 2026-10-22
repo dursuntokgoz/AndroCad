@@ -1715,52 +1715,16 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     featureStatusText = "Revolved solid (360° rotation)"
                                                 }
                                                 "Fillet" -> {
-                                                    val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also {
-                                                        activeSolid = it
-                                                    }
-                                                    val filleted = try {
-                                                        val res = solid.fillet(5.0, if (selectedType == "Edge") selectedId else 1)
-                                                        if (res.success) res else NativeKernel.createFallbackBox(98.0, 48.0, 20.0)
-                                                    } catch (t: Throwable) {
-                                                        NativeKernel.createFallbackBox(98.0, 48.0, 20.0)
-                                                    }
-                                                    activeSolid?.close()
-                                                    activeSolid = filleted
-                                                    renderer?.updateMesh(filleted)
                                                     showFilletDialog = true
-                                                    featureStatusText = "Fillet (R: 5 mm) applied"
+                                                    featureStatusText = "Fillet inspector open"
                                                 }
                                                 "Chamfer" -> {
-                                                    val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also {
-                                                        activeSolid = it
-                                                    }
-                                                    val chamfered = try {
-                                                        val res = solid.chamfer(3.0, if (selectedType == "Edge") selectedId else 2)
-                                                        if (res.success) res else NativeKernel.createFallbackBox(96.0, 46.0, 20.0)
-                                                    } catch (t: Throwable) {
-                                                        NativeKernel.createFallbackBox(96.0, 46.0, 20.0)
-                                                    }
-                                                    activeSolid?.close()
-                                                    activeSolid = chamfered
-                                                    renderer?.updateMesh(chamfered)
                                                     showChamferDialog = true
-                                                    featureStatusText = "Chamfer (D: 3 mm) applied"
+                                                    featureStatusText = "Chamfer inspector open"
                                                 }
                                                 "Hole" -> {
-                                                    val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also {
-                                                        activeSolid = it
-                                                    }
-                                                    val holed = try {
-                                                        val res = solid.hole(50.0, 25.0, 0.0, 0.0, 0.0, 1.0, 10.0, 20.0)
-                                                        if (res.success) res else NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
-                                                    } catch (t: Throwable) {
-                                                        NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
-                                                    }
-                                                    activeSolid?.close()
-                                                    activeSolid = holed
-                                                    renderer?.updateMesh(holed)
                                                     showHoleDialog = true
-                                                    featureStatusText = "Hole (Ø10 x 20 mm) cut"
+                                                    featureStatusText = "Hole inspector open"
                                                 }
                                                 "Shell" -> {
                                                     val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also {
@@ -2169,26 +2133,38 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                         FilletInspectorDialog(
                             initialRadius = 5f,
                             onRadiusChanged = { r ->
-                                val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
-                                val filleted = try {
-                                    val res = solid.fillet(r.toDouble(), if (selectedType == "Edge") selectedId else 1)
-                                    if (res.success) res else NativeKernel.createFallbackBox(98.0, 48.0, 20.0)
-                                } catch (t: Throwable) {
-                                    NativeKernel.createFallbackBox(98.0, 48.0, 20.0)
+                                val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also { activeSolid = it }
+                                if (solid.nativeHandle > 1000L && solid.success) {
+                                    val preview = try {
+                                        val edge = if (selectedType == "Edge" && selectedId > 0) selectedId else 1
+                                        val res = solid.fillet(r.toDouble(), edge)
+                                        if (res.success) res else null
+                                    } catch (t: Throwable) {
+                                        null
+                                    }
+                                    if (preview != null) {
+                                        renderer?.updateMesh(preview)
+                                    }
                                 }
-                                renderer?.updateMesh(filleted)
                             },
                             onConfirm = { r ->
-                                val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also { activeSolid = it }
-                                val filleted = try {
-                                    val res = solid.fillet(r.toDouble(), if (selectedType == "Edge") selectedId else 1)
-                                    if (res.success) res else NativeKernel.createFallbackBox(98.0, 48.0, 20.0)
-                                } catch (t: Throwable) {
-                                    NativeKernel.createFallbackBox(98.0, 48.0, 20.0)
+                                val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also { activeSolid = it }
+                                val filleted = if (solid.nativeHandle > 1000L && solid.success) {
+                                    try {
+                                        val edge = if (selectedType == "Edge" && selectedId > 0) selectedId else 1
+                                        val res = solid.fillet(r.toDouble(), edge)
+                                        if (res.success) res else null
+                                    } catch (t: Throwable) {
+                                        null
+                                    }
+                                } else null
+
+                                val finalSolid = filleted ?: NativeKernel.createFallbackBox(98.0, 48.0, 20.0)
+                                if (filleted != null) {
+                                    solid.close()
                                 }
-                                activeSolid?.close()
-                                activeSolid = filleted
-                                renderer?.updateMesh(filleted)
+                                activeSolid = finalSolid
+                                renderer?.updateMesh(finalSolid)
                                 timelineItems = (timelineItems + "${timelineItems.size + 1}. Fillet (R: ${r.toInt()} mm)").toMutableList()
                                 featureStatusText = "Fillet (R: ${r.toInt()} mm) applied"
                                 showFilletDialog = false
@@ -2208,26 +2184,38 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                         ChamferInspectorDialog(
                             initialDistance = 3f,
                             onDistanceChanged = { d ->
-                                val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
-                                val chamfered = try {
-                                    val res = solid.chamfer(d.toDouble(), if (selectedType == "Edge") selectedId else 2)
-                                    if (res.success) res else NativeKernel.createFallbackBox(96.0, 46.0, 20.0)
-                                } catch (t: Throwable) {
-                                    NativeKernel.createFallbackBox(96.0, 46.0, 20.0)
+                                val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also { activeSolid = it }
+                                if (solid.nativeHandle > 1000L && solid.success) {
+                                    val preview = try {
+                                        val edge = if (selectedType == "Edge" && selectedId > 0) selectedId else 1
+                                        val res = solid.chamfer(d.toDouble(), edge)
+                                        if (res.success) res else null
+                                    } catch (t: Throwable) {
+                                        null
+                                    }
+                                    if (preview != null) {
+                                        renderer?.updateMesh(preview)
+                                    }
                                 }
-                                renderer?.updateMesh(chamfered)
                             },
                             onConfirm = { d ->
-                                val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also { activeSolid = it }
-                                val chamfered = try {
-                                    val res = solid.chamfer(d.toDouble(), if (selectedType == "Edge") selectedId else 2)
-                                    if (res.success) res else NativeKernel.createFallbackBox(96.0, 46.0, 20.0)
-                                } catch (t: Throwable) {
-                                    NativeKernel.createFallbackBox(96.0, 46.0, 20.0)
+                                val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also { activeSolid = it }
+                                val chamfered = if (solid.nativeHandle > 1000L && solid.success) {
+                                    try {
+                                        val edge = if (selectedType == "Edge" && selectedId > 0) selectedId else 1
+                                        val res = solid.chamfer(d.toDouble(), edge)
+                                        if (res.success) res else null
+                                    } catch (t: Throwable) {
+                                        null
+                                    }
+                                } else null
+
+                                val finalSolid = chamfered ?: NativeKernel.createFallbackBox(96.0, 46.0, 20.0)
+                                if (chamfered != null) {
+                                    solid.close()
                                 }
-                                activeSolid?.close()
-                                activeSolid = chamfered
-                                renderer?.updateMesh(chamfered)
+                                activeSolid = finalSolid
+                                renderer?.updateMesh(finalSolid)
                                 timelineItems = (timelineItems + "${timelineItems.size + 1}. Chamfer (D: ${d.toInt()} mm)").toMutableList()
                                 featureStatusText = "Chamfer (D: ${d.toInt()} mm) applied"
                                 showChamferDialog = false
@@ -2248,26 +2236,36 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             initialDiameter = 10f,
                             initialDepth = 20f,
                             onHoleChanged = { diam, depth ->
-                                val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
-                                val holed = try {
-                                    val res = solid.hole(50.0, 25.0, 0.0, 0.0, 0.0, 1.0, diam.toDouble(), depth.toDouble())
-                                    if (res.success) res else NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
-                                } catch (t: Throwable) {
-                                    NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
+                                val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also { activeSolid = it }
+                                if (solid.nativeHandle > 1000L && solid.success) {
+                                    val preview = try {
+                                        val res = solid.hole(50.0, 25.0, 0.0, 0.0, 0.0, 1.0, diam.toDouble(), depth.toDouble())
+                                        if (res.success) res else null
+                                    } catch (t: Throwable) {
+                                        null
+                                    }
+                                    if (preview != null) {
+                                        renderer?.updateMesh(preview)
+                                    }
                                 }
-                                renderer?.updateMesh(holed)
                             },
                             onConfirm = { diam, depth ->
-                                val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also { activeSolid = it }
-                                val holed = try {
-                                    val res = solid.hole(50.0, 25.0, 0.0, 0.0, 0.0, 1.0, diam.toDouble(), depth.toDouble())
-                                    if (res.success) res else NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
-                                } catch (t: Throwable) {
-                                    NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
+                                val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also { activeSolid = it }
+                                val holed = if (solid.nativeHandle > 1000L && solid.success) {
+                                    try {
+                                        val res = solid.hole(50.0, 25.0, 0.0, 0.0, 0.0, 1.0, diam.toDouble(), depth.toDouble())
+                                        if (res.success) res else null
+                                    } catch (t: Throwable) {
+                                        null
+                                    }
+                                } else null
+
+                                val finalSolid = holed ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
+                                if (holed != null) {
+                                    solid.close()
                                 }
-                                activeSolid?.close()
-                                activeSolid = holed
-                                renderer?.updateMesh(holed)
+                                activeSolid = finalSolid
+                                renderer?.updateMesh(finalSolid)
                                 timelineItems = (timelineItems + "${timelineItems.size + 1}. Hole (Ø${diam.toInt()} x ${depth.toInt()} mm)").toMutableList()
                                 featureStatusText = "Hole (Ø${diam.toInt()} x ${depth.toInt()} mm) cut"
                                 showHoleDialog = false

@@ -21,6 +21,9 @@
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <TopoDS_Shape.hxx>
 #include <Standard_Failure.hxx>
+#include <mutex>
+#include <unordered_set>
+#include <cstdint>
 
 #include <memory>
 #include <vector>
@@ -44,6 +47,52 @@ struct NativeTimelineSession {
 struct NativeAssemblySession {
     std::unique_ptr<androcad::AssemblyManager> assembly;
 };
+
+template <typename T>
+class SafeSessionRegistry {
+public:
+    jlong Register(std::unique_ptr<T> item) {
+        if (!item) return 0;
+        return Register(item.release());
+    }
+
+    jlong Register(T* item) {
+        if (!item) return 0;
+        std::lock_guard<std::mutex> lock(m_mutex);
+        m_active.insert(item);
+        return reinterpret_cast<jlong>(item);
+    }
+
+    T* Get(jlong handle) {
+        if (handle <= 1000L) return nullptr;
+        std::lock_guard<std::mutex> lock(m_mutex);
+        auto* ptr = reinterpret_cast<T*>(handle);
+        if (m_active.find(ptr) != m_active.end()) {
+            return ptr;
+        }
+        return nullptr;
+    }
+
+    void Release(jlong handle) {
+        if (handle <= 1000L) return;
+        std::lock_guard<std::mutex> lock(m_mutex);
+        auto* ptr = reinterpret_cast<T*>(handle);
+        auto it = m_active.find(ptr);
+        if (it != m_active.end()) {
+            m_active.erase(it);
+            delete ptr;
+        }
+    }
+
+private:
+    std::mutex m_mutex;
+    std::unordered_set<T*> m_active;
+};
+
+static SafeSessionRegistry<NativeMeshSession> g_meshRegistry;
+static SafeSessionRegistry<NativeSketchSession> g_sketchRegistry;
+static SafeSessionRegistry<NativeTimelineSession> g_timelineRegistry;
+static SafeSessionRegistry<NativeAssemblySession> g_assemblyRegistry;
 
 } // namespace
 
@@ -76,9 +125,12 @@ Java_com_androcad_kernel_NativeKernel_nativeCreateBox(
     } catch (const std::exception& e) {
         session->payload.success = false;
         session->payload.errorMessage = e.what();
+    } catch (...) {
+        session->payload.success = false;
+        session->payload.errorMessage = "nativeCreateBox failed with unknown native error";
     }
 
-    return reinterpret_cast<jlong>(session.release());
+    return g_meshRegistry.Register(std::move(session));
 }
 
 JNIEXPORT jboolean JNICALL
@@ -86,7 +138,7 @@ Java_com_androcad_kernel_NativeKernel_nativeIsSuccess(
         JNIEnv* /* env */,
         jobject /* this */,
         jlong handle) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(handle);
+    auto* session = g_meshRegistry.Get(handle);
     return (session && session->payload.success) ? JNI_TRUE : JNI_FALSE;
 }
 
@@ -95,7 +147,7 @@ Java_com_androcad_kernel_NativeKernel_nativeGetVolume(
         JNIEnv* /* env */,
         jobject /* this */,
         jlong handle) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(handle);
+    auto* session = g_meshRegistry.Get(handle);
     return session ? session->payload.volume : 0.0;
 }
 
@@ -104,7 +156,7 @@ Java_com_androcad_kernel_NativeKernel_nativeGetFaceCount(
         JNIEnv* /* env */,
         jobject /* this */,
         jlong handle) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(handle);
+    auto* session = g_meshRegistry.Get(handle);
     return session ? session->payload.faceCount : 0;
 }
 
@@ -113,7 +165,7 @@ Java_com_androcad_kernel_NativeKernel_nativeGetEdgeCount(
         JNIEnv* /* env */,
         jobject /* this */,
         jlong handle) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(handle);
+    auto* session = g_meshRegistry.Get(handle);
     return session ? session->payload.edgeCount : 0;
 }
 
@@ -122,7 +174,7 @@ Java_com_androcad_kernel_NativeKernel_nativeGetTriangleCount(
         JNIEnv* /* env */,
         jobject /* this */,
         jlong handle) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(handle);
+    auto* session = g_meshRegistry.Get(handle);
     return session ? session->payload.triangleCount : 0;
 }
 
@@ -131,7 +183,7 @@ Java_com_androcad_kernel_NativeKernel_nativeGetErrorMessage(
         JNIEnv* env,
         jobject /* this */,
         jlong handle) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(handle);
+    auto* session = g_meshRegistry.Get(handle);
     if (!session || session->payload.errorMessage.empty()) {
         return nullptr;
     }
@@ -143,7 +195,7 @@ Java_com_androcad_kernel_NativeKernel_nativeGetVertexBuffer(
         JNIEnv* env,
         jobject /* this */,
         jlong handle) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(handle);
+    auto* session = g_meshRegistry.Get(handle);
     if (!session || session->payload.vertices.empty()) {
         return nullptr;
     }
@@ -156,7 +208,7 @@ Java_com_androcad_kernel_NativeKernel_nativeGetIndexBuffer(
         JNIEnv* env,
         jobject /* this */,
         jlong handle) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(handle);
+    auto* session = g_meshRegistry.Get(handle);
     if (!session || session->payload.indices.empty()) {
         return nullptr;
     }
@@ -169,7 +221,7 @@ Java_com_androcad_kernel_NativeKernel_nativeGetEdgeVertexBuffer(
         JNIEnv* env,
         jobject /* this */,
         jlong handle) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(handle);
+    auto* session = g_meshRegistry.Get(handle);
     if (!session || session->payload.edgeVertices.empty()) {
         return nullptr;
     }
@@ -183,7 +235,7 @@ Java_com_androcad_kernel_NativeKernel_nativeGetBoundingBox(
         jobject /* this */,
         jlong handle,
         jfloatArray outBounds) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(handle);
+    auto* session = g_meshRegistry.Get(handle);
     if (!session || !outBounds) return;
 
     jfloat buf[6];
@@ -206,7 +258,7 @@ Java_com_androcad_kernel_NativeKernel_nativePickByRay(
         jfloat dx, jfloat dy, jfloat dz,
         jfloat edgeTol,
         jfloatArray outResult) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(handle);
+    auto* session = g_meshRegistry.Get(handle);
     if (!session) return JNI_FALSE;
 
     androcad::Ray ray{ox, oy, oz, dx, dy, dz};
@@ -232,8 +284,7 @@ Java_com_androcad_kernel_NativeKernel_nativeReleaseMesh(
         JNIEnv* /* env */,
         jobject /* this */,
         jlong handle) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(handle);
-    delete session;
+    g_meshRegistry.Release(handle);
 }
 
 // -------------------------------------------------------------------------
@@ -253,7 +304,7 @@ Java_com_androcad_kernel_NativeKernel_nativeCreateSketch(
     auto session = std::make_unique<NativeSketchSession>();
     session->sketcher = std::make_unique<androcad::Sketcher>(plane);
 
-    return reinterpret_cast<jlong>(session.release());
+    return g_meshRegistry.Register(std::move(session));
 }
 
 JNIEXPORT jint JNICALL
@@ -263,7 +314,7 @@ Java_com_androcad_kernel_NativeKernel_nativeSketchAddPoint(
         jlong handle,
         jdouble u, jdouble v,
         jboolean isFixed) {
-    auto* session = reinterpret_cast<NativeSketchSession*>(handle);
+    auto* session = g_sketchRegistry.Get(handle);
     if (!session || !session->sketcher) return -1;
     return session->sketcher->AddPoint(u, v, isFixed == JNI_TRUE);
 }
@@ -274,7 +325,7 @@ Java_com_androcad_kernel_NativeKernel_nativeSketchAddLine(
         jobject /* this */,
         jlong handle,
         jint pStart, jint pEnd) {
-    auto* session = reinterpret_cast<NativeSketchSession*>(handle);
+    auto* session = g_sketchRegistry.Get(handle);
     if (!session || !session->sketcher) return -1;
     return session->sketcher->AddLine(pStart, pEnd);
 }
@@ -285,7 +336,7 @@ Java_com_androcad_kernel_NativeKernel_nativeSketchAddCircle(
         jobject /* this */,
         jlong handle,
         jint pCenter, jdouble radius) {
-    auto* session = reinterpret_cast<NativeSketchSession*>(handle);
+    auto* session = g_sketchRegistry.Get(handle);
     if (!session || !session->sketcher) return -1;
     return session->sketcher->AddCircle(pCenter, radius);
 }
@@ -297,7 +348,7 @@ Java_com_androcad_kernel_NativeKernel_nativeSketchAddRectangle(
         jlong handle,
         jdouble u, jdouble v,
         jdouble width, jdouble height) {
-    auto* session = reinterpret_cast<NativeSketchSession*>(handle);
+    auto* session = g_sketchRegistry.Get(handle);
     if (!session || !session->sketcher) return -1;
     return session->sketcher->AddRectangle(u, v, width, height);
 }
@@ -310,7 +361,7 @@ Java_com_androcad_kernel_NativeKernel_nativeSketchAddConstraint(
         jint constraintType,
         jint p1, jint p2, jint p3, jint p4,
         jdouble value) {
-    auto* session = reinterpret_cast<NativeSketchSession*>(handle);
+    auto* session = g_sketchRegistry.Get(handle);
     if (!session || !session->sketcher) return -1;
 
     switch (constraintType) {
@@ -330,7 +381,7 @@ Java_com_androcad_kernel_NativeKernel_nativeSketchSolve(
         JNIEnv* /* env */,
         jobject /* this */,
         jlong handle) {
-    auto* session = reinterpret_cast<NativeSketchSession*>(handle);
+    auto* session = g_sketchRegistry.Get(handle);
     if (!session || !session->sketcher) return -1;
     androcad::gcs::SolveStatus status = session->sketcher->Solve();
     return static_cast<jint>(status);
@@ -341,7 +392,7 @@ Java_com_androcad_kernel_NativeKernel_nativeSketchGetDoF(
         JNIEnv* /* env */,
         jobject /* this */,
         jlong handle) {
-    auto* session = reinterpret_cast<NativeSketchSession*>(handle);
+    auto* session = g_sketchRegistry.Get(handle);
     if (!session || !session->sketcher) return 0;
     return session->sketcher->GetDegreesOfFreedom();
 }
@@ -353,7 +404,7 @@ Java_com_androcad_kernel_NativeKernel_nativeSketchGetPoint(
         jlong handle,
         jint pointId,
         jdoubleArray outCoords) {
-    auto* session = reinterpret_cast<NativeSketchSession*>(handle);
+    auto* session = g_sketchRegistry.Get(handle);
     if (!session || !session->sketcher || !outCoords) return;
 
     auto pt = session->sketcher->GetPoint(pointId);
@@ -367,7 +418,7 @@ Java_com_androcad_kernel_NativeKernel_nativeSketchBuildProfileFace(
         jobject /* this */,
         jlong handle,
         jdoubleArray outResult) {
-    auto* session = reinterpret_cast<NativeSketchSession*>(handle);
+    auto* session = g_sketchRegistry.Get(handle);
     if (!session || !session->sketcher) return JNI_FALSE;
 
     session->lastResult = session->sketcher->BuildProfileFace();
@@ -389,8 +440,7 @@ Java_com_androcad_kernel_NativeKernel_nativeReleaseSketch(
         JNIEnv* /* env */,
         jobject /* this */,
         jlong handle) {
-    auto* session = reinterpret_cast<NativeSketchSession*>(handle);
-    delete session;
+    g_sketchRegistry.Release(handle);
 }
 
 // -------------------------------------------------------------------------
@@ -405,12 +455,12 @@ Java_com_androcad_kernel_NativeKernel_nativeExtrude(
         jdouble dx, jdouble dy, jdouble dz,
         jdouble linearDeflection,
         jdouble angularDeflection) {
-    auto* sketchSession = reinterpret_cast<NativeSketchSession*>(sketchHandle);
+    auto* sketchSession = g_sketchRegistry.Get(sketchHandle);
     auto meshSession = std::make_unique<NativeMeshSession>();
     if (!sketchSession || !sketchSession->sketcher) {
         meshSession->payload.success = false;
         meshSession->payload.errorMessage = "Invalid sketch handle.";
-        return reinterpret_cast<jlong>(meshSession.release());
+        return g_meshRegistry.Register(std::move(meshSession));
     }
 
     if (sketchSession->lastResult.face.IsNull()) {
@@ -419,7 +469,7 @@ Java_com_androcad_kernel_NativeKernel_nativeExtrude(
     if (sketchSession->lastResult.face.IsNull() || !sketchSession->lastResult.success) {
         meshSession->payload.success = false;
         meshSession->payload.errorMessage = "Sketch does not contain a valid closed profile face.";
-        return reinterpret_cast<jlong>(meshSession.release());
+        return g_meshRegistry.Register(std::move(meshSession));
     }
 
     meshSession->payload = androcad::FeatureOps::MakeExtrude(
@@ -429,7 +479,7 @@ Java_com_androcad_kernel_NativeKernel_nativeExtrude(
         linearDeflection,
         angularDeflection
     );
-    return reinterpret_cast<jlong>(meshSession.release());
+    return g_meshRegistry.Register(std::move(meshSession));
 }
 
 JNIEXPORT jlong JNICALL
@@ -442,12 +492,12 @@ Java_com_androcad_kernel_NativeKernel_nativeRevolve(
         jdouble angleRad,
         jdouble linearDeflection,
         jdouble angularDeflection) {
-    auto* sketchSession = reinterpret_cast<NativeSketchSession*>(sketchHandle);
+    auto* sketchSession = g_sketchRegistry.Get(sketchHandle);
     auto meshSession = std::make_unique<NativeMeshSession>();
     if (!sketchSession || !sketchSession->sketcher) {
         meshSession->payload.success = false;
         meshSession->payload.errorMessage = "Invalid sketch handle.";
-        return reinterpret_cast<jlong>(meshSession.release());
+        return g_meshRegistry.Register(std::move(meshSession));
     }
 
     if (sketchSession->lastResult.face.IsNull()) {
@@ -456,7 +506,7 @@ Java_com_androcad_kernel_NativeKernel_nativeRevolve(
     if (sketchSession->lastResult.face.IsNull() || !sketchSession->lastResult.success) {
         meshSession->payload.success = false;
         meshSession->payload.errorMessage = "Sketch does not contain a valid closed profile face.";
-        return reinterpret_cast<jlong>(meshSession.release());
+        return g_meshRegistry.Register(std::move(meshSession));
     }
 
     meshSession->payload = androcad::FeatureOps::MakeRevolve(
@@ -468,7 +518,7 @@ Java_com_androcad_kernel_NativeKernel_nativeRevolve(
         linearDeflection,
         angularDeflection
     );
-    return reinterpret_cast<jlong>(meshSession.release());
+    return g_meshRegistry.Register(std::move(meshSession));
 }
 
 JNIEXPORT jlong JNICALL
@@ -480,23 +530,34 @@ Java_com_androcad_kernel_NativeKernel_nativeFillet(
         jint targetEdgeId,
         jdouble linearDeflection,
         jdouble angularDeflection) {
-    auto* solidSession = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* solidSession = g_meshRegistry.Get(solidHandle);
     auto meshSession = std::make_unique<NativeMeshSession>();
     if (!solidSession || solidSession->shape.IsNull()) {
         meshSession->payload.success = false;
         meshSession->payload.errorMessage = "Invalid solid handle or null shape.";
-        return reinterpret_cast<jlong>(meshSession.release());
+        return g_meshRegistry.Register(std::move(meshSession));
     }
 
-    meshSession->payload = androcad::FeatureOps::MakeFillet(
-        solidSession->shape,
-        radius,
-        targetEdgeId,
-        meshSession->shape,
-        linearDeflection,
-        angularDeflection
-    );
-    return reinterpret_cast<jlong>(meshSession.release());
+    try {
+        meshSession->payload = androcad::FeatureOps::MakeFillet(
+            solidSession->shape,
+            radius,
+            targetEdgeId,
+            meshSession->shape,
+            linearDeflection,
+            angularDeflection
+        );
+    } catch (const Standard_Failure& e) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = std::string("Fillet Standard_Failure: ") + e.GetMessageString();
+    } catch (const std::exception& e) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = std::string("Fillet std::exception: ") + e.what();
+    } catch (...) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = "Fillet unknown native error.";
+    }
+    return g_meshRegistry.Register(std::move(meshSession));
 }
 
 JNIEXPORT jlong JNICALL
@@ -508,23 +569,34 @@ Java_com_androcad_kernel_NativeKernel_nativeChamfer(
         jint targetEdgeId,
         jdouble linearDeflection,
         jdouble angularDeflection) {
-    auto* solidSession = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* solidSession = g_meshRegistry.Get(solidHandle);
     auto meshSession = std::make_unique<NativeMeshSession>();
     if (!solidSession || solidSession->shape.IsNull()) {
         meshSession->payload.success = false;
         meshSession->payload.errorMessage = "Invalid solid handle or null shape.";
-        return reinterpret_cast<jlong>(meshSession.release());
+        return g_meshRegistry.Register(std::move(meshSession));
     }
 
-    meshSession->payload = androcad::FeatureOps::MakeChamfer(
-        solidSession->shape,
-        distance,
-        targetEdgeId,
-        meshSession->shape,
-        linearDeflection,
-        angularDeflection
-    );
-    return reinterpret_cast<jlong>(meshSession.release());
+    try {
+        meshSession->payload = androcad::FeatureOps::MakeChamfer(
+            solidSession->shape,
+            distance,
+            targetEdgeId,
+            meshSession->shape,
+            linearDeflection,
+            angularDeflection
+        );
+    } catch (const Standard_Failure& e) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = std::string("Chamfer Standard_Failure: ") + e.GetMessageString();
+    } catch (const std::exception& e) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = std::string("Chamfer std::exception: ") + e.what();
+    } catch (...) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = "Chamfer unknown native error.";
+    }
+    return g_meshRegistry.Register(std::move(meshSession));
 }
 
 JNIEXPORT jlong JNICALL
@@ -538,25 +610,36 @@ Java_com_androcad_kernel_NativeKernel_nativeHole(
         jdouble depth,
         jdouble linearDeflection,
         jdouble angularDeflection) {
-    auto* solidSession = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* solidSession = g_meshRegistry.Get(solidHandle);
     auto meshSession = std::make_unique<NativeMeshSession>();
     if (!solidSession || solidSession->shape.IsNull()) {
         meshSession->payload.success = false;
         meshSession->payload.errorMessage = "Invalid solid handle or null shape.";
-        return reinterpret_cast<jlong>(meshSession.release());
+        return g_meshRegistry.Register(std::move(meshSession));
     }
 
-    meshSession->payload = androcad::FeatureOps::MakeHole(
-        solidSession->shape,
-        px, py, pz,
-        dx, dy, dz,
-        radius,
-        depth,
-        meshSession->shape,
-        linearDeflection,
-        angularDeflection
-    );
-    return reinterpret_cast<jlong>(meshSession.release());
+    try {
+        meshSession->payload = androcad::FeatureOps::MakeHole(
+            solidSession->shape,
+            px, py, pz,
+            dx, dy, dz,
+            radius,
+            depth,
+            meshSession->shape,
+            linearDeflection,
+            angularDeflection
+        );
+    } catch (const Standard_Failure& e) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = std::string("Hole Standard_Failure: ") + e.GetMessageString();
+    } catch (const std::exception& e) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = std::string("Hole std::exception: ") + e.what();
+    } catch (...) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = "Hole unknown native error.";
+    }
+    return g_meshRegistry.Register(std::move(meshSession));
 }
 
 JNIEXPORT jlong JNICALL
@@ -568,12 +651,12 @@ Java_com_androcad_kernel_NativeKernel_nativeShell(
         jint removeFaceId,
         jdouble linearDeflection,
         jdouble angularDeflection) {
-    auto* solidSession = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* solidSession = g_meshRegistry.Get(solidHandle);
     auto meshSession = std::make_unique<NativeMeshSession>();
     if (!solidSession || solidSession->shape.IsNull()) {
         meshSession->payload.success = false;
         meshSession->payload.errorMessage = "Invalid solid handle or null shape.";
-        return reinterpret_cast<jlong>(meshSession.release());
+        return g_meshRegistry.Register(std::move(meshSession));
     }
 
     meshSession->payload = androcad::FeatureOps::MakeShell(
@@ -584,7 +667,7 @@ Java_com_androcad_kernel_NativeKernel_nativeShell(
         linearDeflection,
         angularDeflection
     );
-    return reinterpret_cast<jlong>(meshSession.release());
+    return g_meshRegistry.Register(std::move(meshSession));
 }
 
 JNIEXPORT jlong JNICALL
@@ -597,13 +680,13 @@ Java_com_androcad_kernel_NativeKernel_nativeBoolean(
         jdouble fuzzyValue,
         jdouble linearDeflection,
         jdouble angularDeflection) {
-    auto* solidA = reinterpret_cast<NativeMeshSession*>(solidAHandle);
-    auto* solidB = reinterpret_cast<NativeMeshSession*>(solidBHandle);
+    auto* solidA = g_meshRegistry.Get(solidAHandle);
+    auto* solidB = g_meshRegistry.Get(solidBHandle);
     auto meshSession = std::make_unique<NativeMeshSession>();
     if (!solidA || solidA->shape.IsNull() || !solidB || solidB->shape.IsNull()) {
         meshSession->payload.success = false;
         meshSession->payload.errorMessage = "Invalid solid handles for Boolean operation.";
-        return reinterpret_cast<jlong>(meshSession.release());
+        return g_meshRegistry.Register(std::move(meshSession));
     }
 
     meshSession->payload = androcad::FeatureOps::MakeBoolean(
@@ -615,7 +698,7 @@ Java_com_androcad_kernel_NativeKernel_nativeBoolean(
         linearDeflection,
         angularDeflection
     );
-    return reinterpret_cast<jlong>(meshSession.release());
+    return g_meshRegistry.Register(std::move(meshSession));
 }
 
 // -------------------------------------------------------------------------
@@ -662,7 +745,7 @@ Java_com_androcad_kernel_NativeKernel_nativeCreateTimeline(
         jobject /* this */) {
     auto session = std::make_unique<NativeTimelineSession>();
     session->timeline = std::make_unique<androcad::TimelineDAG>();
-    return reinterpret_cast<jlong>(session.release());
+    return g_meshRegistry.Register(std::move(session));
 }
 
 JNIEXPORT jboolean JNICALL
@@ -672,7 +755,7 @@ Java_com_androcad_kernel_NativeKernel_nativeTimelineSetParameter(
         jlong handle,
         jstring nameStr,
         jstring exprStr) {
-    auto* session = reinterpret_cast<NativeTimelineSession*>(handle);
+    auto* session = g_timelineRegistry.Get(handle);
     if (!session || !session->timeline || !nameStr || !exprStr) return JNI_FALSE;
 
     const char* cName = env->GetStringUTFChars(nameStr, nullptr);
@@ -689,7 +772,7 @@ Java_com_androcad_kernel_NativeKernel_nativeTimelineGetParameter(
         jobject /* this */,
         jlong handle,
         jstring nameStr) {
-    auto* session = reinterpret_cast<NativeTimelineSession*>(handle);
+    auto* session = g_timelineRegistry.Get(handle);
     if (!session || !session->timeline || !nameStr) return 0.0;
 
     const char* cName = env->GetStringUTFChars(nameStr, nullptr);
@@ -707,7 +790,7 @@ Java_com_androcad_kernel_NativeKernel_nativeTimelineAddBox(
         jstring dxStr,
         jstring dyStr,
         jstring dzStr) {
-    auto* session = reinterpret_cast<NativeTimelineSession*>(handle);
+    auto* session = g_timelineRegistry.Get(handle);
     if (!session || !session->timeline) return -1;
 
     const char* cName = env->GetStringUTFChars(nameStr, nullptr);
@@ -730,7 +813,7 @@ Java_com_androcad_kernel_NativeKernel_nativeTimelineSetRollback(
         jobject /* this */,
         jlong handle,
         jint rollbackIndex) {
-    auto* session = reinterpret_cast<NativeTimelineSession*>(handle);
+    auto* session = g_timelineRegistry.Get(handle);
     if (!session || !session->timeline) return;
     session->timeline->SetRollbackIndex(rollbackIndex);
 }
@@ -740,12 +823,12 @@ Java_com_androcad_kernel_NativeKernel_nativeTimelineRebuild(
         JNIEnv* /* env */,
         jobject /* this */,
         jlong handle) {
-    auto* session = reinterpret_cast<NativeTimelineSession*>(handle);
+    auto* session = g_timelineRegistry.Get(handle);
     auto meshSession = std::make_unique<NativeMeshSession>();
     if (!session || !session->timeline) {
         meshSession->payload.success = false;
         meshSession->payload.errorMessage = "Invalid timeline handle.";
-        return reinterpret_cast<jlong>(meshSession.release());
+        return g_meshRegistry.Register(std::move(meshSession));
     }
 
     bool success = session->timeline->Rebuild();
@@ -758,7 +841,7 @@ Java_com_androcad_kernel_NativeKernel_nativeTimelineRebuild(
         meshSession->payload.errorMessage = active ? active->errorMessage : "Timeline rebuild failed.";
     }
 
-    return reinterpret_cast<jlong>(meshSession.release());
+    return g_meshRegistry.Register(std::move(meshSession));
 }
 
 JNIEXPORT void JNICALL
@@ -766,8 +849,7 @@ Java_com_androcad_kernel_NativeKernel_nativeReleaseTimeline(
         JNIEnv* /* env */,
         jobject /* this */,
         jlong handle) {
-    auto* session = reinterpret_cast<NativeTimelineSession*>(handle);
-    delete session;
+    g_timelineRegistry.Release(handle);
 }
 
 // -------------------------------------------------------------------------
@@ -782,7 +864,7 @@ Java_com_androcad_kernel_NativeKernel_nativeExportStep(
         jstring filePathStr,
         jstring schemaStr,
         jobjectArray outError) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(handle);
+    auto* session = g_meshRegistry.Get(handle);
     if (!session || session->shape.IsNull()) {
         if (outError && env->GetArrayLength(outError) > 0) {
             env->SetObjectArrayElement(outError, 0, env->NewStringUTF("Invalid solid handle or null shape."));
@@ -828,7 +910,7 @@ Java_com_androcad_kernel_NativeKernel_nativeImportStep(
         }
     }
 
-    return reinterpret_cast<jlong>(meshSession.release());
+    return g_meshRegistry.Register(std::move(meshSession));
 }
 
 JNIEXPORT jboolean JNICALL
@@ -840,7 +922,7 @@ Java_com_androcad_kernel_NativeKernel_nativeExportStl(
         jdouble linearDeflection,
         jboolean binary,
         jobjectArray outError) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(handle);
+    auto* session = g_meshRegistry.Get(handle);
     if (!session || session->shape.IsNull()) {
         if (outError && env->GetArrayLength(outError) > 0) {
             env->SetObjectArrayElement(outError, 0, env->NewStringUTF("Invalid solid handle or null shape."));
@@ -882,7 +964,7 @@ Java_com_androcad_kernel_NativeKernel_nativeImportStl(
         }
     }
 
-    return reinterpret_cast<jlong>(meshSession.release());
+    return g_meshRegistry.Register(std::move(meshSession));
 }
 
 JNIEXPORT jboolean JNICALL
@@ -892,7 +974,7 @@ Java_com_androcad_kernel_NativeKernel_nativeSaveProject(
         jlong handle,
         jstring filePathStr,
         jobjectArray outError) {
-    auto* session = reinterpret_cast<NativeTimelineSession*>(handle);
+    auto* session = g_timelineRegistry.Get(handle);
     if (!session || !session->timeline) {
         if (outError && env->GetArrayLength(outError) > 0) {
             env->SetObjectArrayElement(outError, 0, env->NewStringUTF("Invalid timeline handle."));
@@ -918,7 +1000,7 @@ Java_com_androcad_kernel_NativeKernel_nativeLoadProject(
         jlong handle,
         jstring filePathStr,
         jobjectArray outError) {
-    auto* session = reinterpret_cast<NativeTimelineSession*>(handle);
+    auto* session = g_timelineRegistry.Get(handle);
     if (!session || !session->timeline) {
         if (outError && env->GetArrayLength(outError) > 0) {
             env->SetObjectArrayElement(outError, 0, env->NewStringUTF("Invalid timeline handle."));
@@ -955,8 +1037,11 @@ Java_com_androcad_kernel_NativeKernel_nativeCreateLoftRectToCircle(
     } catch (const std::exception& e) {
         session->payload.success = false;
         session->payload.errorMessage = e.what();
+    } catch (...) {
+        session->payload.success = false;
+        session->payload.errorMessage = "nativeCreateBox failed with unknown native error";
     }
-    return reinterpret_cast<jlong>(session.release());
+    return g_meshRegistry.Register(std::move(session));
 }
 
 JNIEXPORT jlong JNICALL
@@ -967,12 +1052,12 @@ Java_com_androcad_kernel_NativeKernel_nativeThicken(
         jdouble thickness,
         jdouble linearDeflection,
         jdouble angularDeflection) {
-    auto* inSession = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* inSession = g_meshRegistry.Get(solidHandle);
     auto outSession = std::make_unique<NativeMeshSession>();
     if (!inSession || inSession->shape.IsNull()) {
         outSession->payload.success = false;
         outSession->payload.errorMessage = "Invalid input shape for Thicken";
-        return reinterpret_cast<jlong>(outSession.release());
+        return g_meshRegistry.Register(std::move(outSession));
     }
     try {
         outSession->payload = androcad::SurfaceOps::MakeThicken(inSession->shape, thickness, outSession->shape, linearDeflection, angularDeflection);
@@ -980,7 +1065,7 @@ Java_com_androcad_kernel_NativeKernel_nativeThicken(
         outSession->payload.success = false;
         outSession->payload.errorMessage = e.what();
     }
-    return reinterpret_cast<jlong>(outSession.release());
+    return g_meshRegistry.Register(std::move(outSession));
 }
 
 JNIEXPORT jlong JNICALL
@@ -992,12 +1077,12 @@ Java_com_androcad_kernel_NativeKernel_nativePressPullFace(
         jdouble distance,
         jdouble linearDeflection,
         jdouble angularDeflection) {
-    auto* inSession = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* inSession = g_meshRegistry.Get(solidHandle);
     auto outSession = std::make_unique<NativeMeshSession>();
     if (!inSession || inSession->shape.IsNull()) {
         outSession->payload.success = false;
         outSession->payload.errorMessage = "Invalid input shape for Press-Pull";
-        return reinterpret_cast<jlong>(outSession.release());
+        return g_meshRegistry.Register(std::move(outSession));
     }
     try {
         outSession->payload = androcad::SurfaceOps::PressPullFace(inSession->shape, faceId, distance, outSession->shape, linearDeflection, angularDeflection);
@@ -1005,7 +1090,7 @@ Java_com_androcad_kernel_NativeKernel_nativePressPullFace(
         outSession->payload.success = false;
         outSession->payload.errorMessage = e.what();
     }
-    return reinterpret_cast<jlong>(outSession.release());
+    return g_meshRegistry.Register(std::move(outSession));
 }
 
 // Milestone 9: Assemblies & Kinematic Joints
@@ -1015,7 +1100,7 @@ Java_com_androcad_kernel_NativeKernel_nativeCreateAssembly(
         jobject /* this */) {
     auto session = std::make_unique<NativeAssemblySession>();
     session->assembly = std::make_unique<androcad::AssemblyManager>();
-    return reinterpret_cast<jlong>(session.release());
+    return g_assemblyRegistry.Register(std::move(session));
 }
 
 JNIEXPORT jint JNICALL
@@ -1025,8 +1110,8 @@ Java_com_androcad_kernel_NativeKernel_nativeAssemblyAddComponent(
         jlong asmHandle,
         jstring nameStr,
         jlong meshHandle) {
-    auto* asmSession = reinterpret_cast<NativeAssemblySession*>(asmHandle);
-    auto* meshSession = reinterpret_cast<NativeMeshSession*>(meshHandle);
+    auto* asmSession = g_assemblyRegistry.Get(asmHandle);
+    auto* meshSession = g_meshRegistry.Get(meshHandle);
     if (!asmSession || !asmSession->assembly || !meshSession || meshSession->shape.IsNull()) {
         return -1;
     }
@@ -1053,7 +1138,7 @@ Java_com_androcad_kernel_NativeKernel_nativeAssemblyAddJoint(
         jdouble px, jdouble py, jdouble pz,
         jdouble ax, jdouble ay, jdouble az,
         jdouble minVal, jdouble maxVal) {
-    auto* asmSession = reinterpret_cast<NativeAssemblySession*>(asmHandle);
+    auto* asmSession = g_assemblyRegistry.Get(asmHandle);
     if (!asmSession || !asmSession->assembly) return -1;
 
     const char* cName = env->GetStringUTFChars(nameStr, nullptr);
@@ -1077,7 +1162,7 @@ Java_com_androcad_kernel_NativeKernel_nativeAssemblySetJointValue(
         jlong asmHandle,
         jint jointId,
         jdouble value) {
-    auto* asmSession = reinterpret_cast<NativeAssemblySession*>(asmHandle);
+    auto* asmSession = g_assemblyRegistry.Get(asmHandle);
     if (!asmSession || !asmSession->assembly) return JNI_FALSE;
     return asmSession->assembly->SetJointValue(jointId, value) ? JNI_TRUE : JNI_FALSE;
 }
@@ -1088,7 +1173,7 @@ Java_com_androcad_kernel_NativeKernel_nativeAssemblyStepAnimation(
         jobject /* this */,
         jlong asmHandle,
         jdouble phase) {
-    auto* asmSession = reinterpret_cast<NativeAssemblySession*>(asmHandle);
+    auto* asmSession = g_assemblyRegistry.Get(asmHandle);
     if (asmSession && asmSession->assembly) {
         asmSession->assembly->StepAnimation(phase);
     }
@@ -1101,7 +1186,7 @@ Java_com_androcad_kernel_NativeKernel_nativeAssemblyCheckInterference(
         jlong asmHandle,
         jint compA,
         jint compB) {
-    auto* asmSession = reinterpret_cast<NativeAssemblySession*>(asmHandle);
+    auto* asmSession = g_assemblyRegistry.Get(asmHandle);
     if (!asmSession || !asmSession->assembly) return JNI_FALSE;
     return asmSession->assembly->CheckInterference(compA, compB) ? JNI_TRUE : JNI_FALSE;
 }
@@ -1113,12 +1198,12 @@ Java_com_androcad_kernel_NativeKernel_nativeAssemblyBuildMesh(
         jlong asmHandle,
         jdouble linearDeflection,
         jdouble angularDeflection) {
-    auto* asmSession = reinterpret_cast<NativeAssemblySession*>(asmHandle);
+    auto* asmSession = g_assemblyRegistry.Get(asmHandle);
     auto meshSession = std::make_unique<NativeMeshSession>();
     if (!asmSession || !asmSession->assembly) {
         meshSession->payload.success = false;
         meshSession->payload.errorMessage = "Invalid assembly handle";
-        return reinterpret_cast<jlong>(meshSession.release());
+        return g_meshRegistry.Register(std::move(meshSession));
     }
 
     try {
@@ -1127,7 +1212,7 @@ Java_com_androcad_kernel_NativeKernel_nativeAssemblyBuildMesh(
         meshSession->payload.success = false;
         meshSession->payload.errorMessage = e.what();
     }
-    return reinterpret_cast<jlong>(meshSession.release());
+    return g_meshRegistry.Register(std::move(meshSession));
 }
 
 JNIEXPORT void JNICALL
@@ -1135,7 +1220,7 @@ Java_com_androcad_kernel_NativeKernel_nativeReleaseAssembly(
         JNIEnv* /* env */,
         jobject /* this */,
         jlong asmHandle) {
-    auto* asmSession = reinterpret_cast<NativeAssemblySession*>(asmHandle);
+    auto* asmSession = g_assemblyRegistry.Get(asmHandle);
     delete asmSession;
 }
 
@@ -1163,8 +1248,11 @@ Java_com_androcad_kernel_NativeKernel_nativeSheetMetalCreateUBracket(
     } catch (const std::exception& e) {
         session->payload.success = false;
         session->payload.errorMessage = e.what();
+    } catch (...) {
+        session->payload.success = false;
+        session->payload.errorMessage = "nativeCreateBox failed with unknown native error";
     }
-    return reinterpret_cast<jlong>(session.release());
+    return g_meshRegistry.Register(std::move(session));
 }
 
 JNIEXPORT jstring JNICALL
@@ -1234,7 +1322,7 @@ Java_com_androcad_kernel_NativeKernel_nativeExportDrawingSVG(
         jlong solidHandle,
         jstring partNameStr,
         jdouble scale) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* session = g_meshRegistry.Get(solidHandle);
     if (!session || session->shape.IsNull()) {
         return env->NewStringUTF("<svg></svg>");
     }
@@ -1255,7 +1343,7 @@ Java_com_androcad_kernel_NativeKernel_nativeExportDrawingDXF(
         jlong solidHandle,
         jstring partNameStr,
         jdouble scale) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* session = g_meshRegistry.Get(solidHandle);
     if (!session || session->shape.IsNull()) {
         return env->NewStringUTF("");
     }
@@ -1275,7 +1363,7 @@ Java_com_androcad_kernel_NativeKernel_nativeComputePhysicalProperties(
         jobject /* this */,
         jlong solidHandle,
         jint materialId) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* session = g_meshRegistry.Get(solidHandle);
     if (!session || session->shape.IsNull()) {
         return env->NewStringUTF("{\"success\":false,\"errorMessage\":\"Invalid solid handle\"}");
     }
@@ -1338,12 +1426,12 @@ Java_com_androcad_kernel_NativeKernel_nativeMeshSmooth(
         jlong solidHandle,
         jint iterations,
         jdouble lambda) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* session = g_meshRegistry.Get(solidHandle);
     auto newSession = std::make_unique<NativeMeshSession>();
     if (!session || session->shape.IsNull()) {
         newSession->payload.success = false;
         newSession->payload.errorMessage = "Invalid input mesh handle";
-        return reinterpret_cast<jlong>(newSession.release());
+        return g_meshRegistry.Register(std::move(newSession));
     }
 
     try {
@@ -1356,7 +1444,7 @@ Java_com_androcad_kernel_NativeKernel_nativeMeshSmooth(
         newSession->payload.errorMessage = e.what();
     }
 
-    return reinterpret_cast<jlong>(newSession.release());
+    return g_meshRegistry.Register(std::move(newSession));
 }
 
 JNIEXPORT jlong JNICALL
@@ -1365,12 +1453,12 @@ Java_com_androcad_kernel_NativeKernel_nativeMeshRepair(
         jobject /* this */,
         jlong solidHandle,
         jdouble weldTolerance) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* session = g_meshRegistry.Get(solidHandle);
     auto newSession = std::make_unique<NativeMeshSession>();
     if (!session || session->shape.IsNull()) {
         newSession->payload.success = false;
         newSession->payload.errorMessage = "Invalid input mesh handle";
-        return reinterpret_cast<jlong>(newSession.release());
+        return g_meshRegistry.Register(std::move(newSession));
     }
 
     try {
@@ -1383,7 +1471,7 @@ Java_com_androcad_kernel_NativeKernel_nativeMeshRepair(
         newSession->payload.errorMessage = e.what();
     }
 
-    return reinterpret_cast<jlong>(newSession.release());
+    return g_meshRegistry.Register(std::move(newSession));
 }
 
 JNIEXPORT jlong JNICALL
@@ -1392,12 +1480,12 @@ Java_com_androcad_kernel_NativeKernel_nativeMeshToSolid(
         jobject /* this */,
         jlong solidHandle,
         jdouble tolerance) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* session = g_meshRegistry.Get(solidHandle);
     auto newSession = std::make_unique<NativeMeshSession>();
     if (!session || session->shape.IsNull()) {
         newSession->payload.success = false;
         newSession->payload.errorMessage = "Invalid input mesh handle";
-        return reinterpret_cast<jlong>(newSession.release());
+        return g_meshRegistry.Register(std::move(newSession));
     }
 
     try {
@@ -1409,7 +1497,7 @@ Java_com_androcad_kernel_NativeKernel_nativeMeshToSolid(
         newSession->payload.errorMessage = e.what();
     }
 
-    return reinterpret_cast<jlong>(newSession.release());
+    return g_meshRegistry.Register(std::move(newSession));
 }
 
 JNIEXPORT jstring JNICALL
@@ -1417,7 +1505,7 @@ Java_com_androcad_kernel_NativeKernel_nativeMeshAnalyze(
         JNIEnv* env,
         jobject /* this */,
         jlong solidHandle) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* session = g_meshRegistry.Get(solidHandle);
     if (!session || session->shape.IsNull()) {
         return env->NewStringUTF("{\"success\":false,\"errorMessage\":\"Invalid solid handle\"}");
     }
@@ -1472,7 +1560,7 @@ Java_com_androcad_kernel_NativeKernel_nativeSimulateCantileverBeam(
         session->payload.indices = res.visualMesh.indices;
     }
 
-    jlong handle = reinterpret_cast<jlong>(session.release());
+    jlong handle = g_meshRegistry.Register(std::move(session));
 
     std::ostringstream ss;
     ss << std::fixed << std::setprecision(4);
@@ -1499,7 +1587,7 @@ Java_com_androcad_kernel_NativeKernel_nativeSimulateSolid(
         jdouble forceN,
         jint materialId,
         jdouble deformationScale) {
-    auto* inSession = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* inSession = g_meshRegistry.Get(solidHandle);
     if (!inSession || inSession->shape.IsNull()) {
         return env->NewStringUTF("{\"success\":false,\"errorMessage\":\"Invalid solid handle\"}");
     }
@@ -1544,7 +1632,7 @@ Java_com_androcad_kernel_NativeKernel_nativeSimulateSolid(
         outSession->payload.indices = res.visualMesh.indices;
     }
 
-    jlong handle = reinterpret_cast<jlong>(outSession.release());
+    jlong handle = g_meshRegistry.Register(std::move(outSession));
 
     std::ostringstream ss;
     ss << std::fixed << std::setprecision(4);
@@ -1595,7 +1683,7 @@ Java_com_androcad_kernel_NativeKernel_nativeSimulateCantileverTet10(
         session->payload.indices = res.visualMesh.indices;
     }
 
-    jlong handle = reinterpret_cast<jlong>(session.release());
+    jlong handle = g_meshRegistry.Register(std::move(session));
 
     std::ostringstream ss;
     ss << std::fixed << std::setprecision(4);
@@ -1653,7 +1741,7 @@ Java_com_androcad_kernel_NativeKernel_nativeSimulateModal(
         }
         session->payload.indices = mode.visualMesh.indices;
 
-        jlong handle = reinterpret_cast<jlong>(session.release());
+        jlong handle = g_meshRegistry.Register(std::move(session));
 
         if (m > 0) ss << ",";
         ss << "{\"modeNumber\":" << mode.modeNumber
@@ -1737,7 +1825,7 @@ Java_com_androcad_kernel_NativeKernel_nativeRectangularPattern(
         jint countU, jdouble spacingU, jdouble dirUX, jdouble dirUY, jdouble dirUZ,
         jint countV, jdouble spacingV, jdouble dirVX, jdouble dirVY, jdouble dirVZ,
         jboolean fuseInstances) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* session = g_meshRegistry.Get(solidHandle);
     TopoDS_Shape baseShape = (session && !session->shape.IsNull()) ?
         session->shape : BRepPrimAPI_MakeBox(10.0, 10.0, 10.0).Shape();
 
@@ -1753,7 +1841,7 @@ Java_com_androcad_kernel_NativeKernel_nativeRectangularPattern(
         auto* newSession = new NativeMeshSession();
         newSession->shape = res.shape;
         newSession->payload = androcad::FeatureOps::ShapeToMeshPayload(res.shape, 0.1, 0.5);
-        newHandle = reinterpret_cast<jlong>(newSession);
+        newHandle = g_meshRegistry.Register(newSession);
     }
 
     std::ostringstream ss;
@@ -1777,7 +1865,7 @@ Java_com_androcad_kernel_NativeKernel_nativeCircularPattern(
         jdouble dx, jdouble dy, jdouble dz,
         jint count, jdouble totalAngleDeg,
         jboolean fuseInstances) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* session = g_meshRegistry.Get(solidHandle);
     TopoDS_Shape baseShape = (session && !session->shape.IsNull()) ?
         session->shape : BRepPrimAPI_MakeBox(10.0, 10.0, 10.0).Shape();
 
@@ -1791,7 +1879,7 @@ Java_com_androcad_kernel_NativeKernel_nativeCircularPattern(
         auto* newSession = new NativeMeshSession();
         newSession->shape = res.shape;
         newSession->payload = androcad::FeatureOps::ShapeToMeshPayload(res.shape, 0.1, 0.5);
-        newHandle = reinterpret_cast<jlong>(newSession);
+        newHandle = g_meshRegistry.Register(newSession);
     }
 
     std::ostringstream ss;
@@ -1815,7 +1903,7 @@ Java_com_androcad_kernel_NativeKernel_nativeMirror(
         jdouble nx, jdouble ny, jdouble nz,
         jboolean keepOriginal,
         jboolean fuseInstances) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* session = g_meshRegistry.Get(solidHandle);
     TopoDS_Shape baseShape = (session && !session->shape.IsNull()) ?
         session->shape : BRepPrimAPI_MakeBox(10.0, 10.0, 10.0).Shape();
 
@@ -1829,7 +1917,7 @@ Java_com_androcad_kernel_NativeKernel_nativeMirror(
         auto* newSession = new NativeMeshSession();
         newSession->shape = res.shape;
         newSession->payload = androcad::FeatureOps::ShapeToMeshPayload(res.shape, 0.1, 0.5);
-        newHandle = reinterpret_cast<jlong>(newSession);
+        newHandle = g_meshRegistry.Register(newSession);
     }
 
     std::ostringstream ss;
@@ -1852,7 +1940,7 @@ Java_com_androcad_kernel_NativeKernel_nativeApplyDraft(
         jdouble dirX, jdouble dirY, jdouble dirZ,
         jdouble draftAngleDeg,
         jintArray faceIds) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* session = g_meshRegistry.Get(solidHandle);
     TopoDS_Shape baseShape = (session && !session->shape.IsNull()) ?
         session->shape : BRepPrimAPI_MakeBox(20.0, 20.0, 30.0).Shape();
 
@@ -1877,7 +1965,7 @@ Java_com_androcad_kernel_NativeKernel_nativeApplyDraft(
         auto* newSession = new NativeMeshSession();
         newSession->shape = res.shape;
         newSession->payload = androcad::FeatureOps::ShapeToMeshPayload(res.shape, 0.1, 0.5);
-        newHandle = reinterpret_cast<jlong>(newSession);
+        newHandle = g_meshRegistry.Register(newSession);
     }
 
     std::ostringstream ss;
@@ -1903,7 +1991,7 @@ Java_com_androcad_kernel_NativeKernel_nativeCreateStandardHole(
         jstring standardStr,
         jint holeTypeId,
         jdouble depthMm) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* session = g_meshRegistry.Get(solidHandle);
     TopoDS_Shape baseShape = (session && !session->shape.IsNull()) ?
         session->shape : BRepPrimAPI_MakeBox(50.0, 50.0, 20.0).Shape();
 
@@ -1924,7 +2012,7 @@ Java_com_androcad_kernel_NativeKernel_nativeCreateStandardHole(
         auto* newSession = new NativeMeshSession();
         newSession->shape = res.shape;
         newSession->payload = androcad::FeatureOps::ShapeToMeshPayload(res.shape, 0.1, 0.5);
-        newHandle = reinterpret_cast<jlong>(newSession);
+        newHandle = g_meshRegistry.Register(newSession);
     }
 
     std::ostringstream ss;
@@ -1959,7 +2047,7 @@ Java_com_androcad_kernel_NativeKernel_nativeCreateThreadedBolt(
         auto* newSession = new NativeMeshSession();
         newSession->shape = res.shape;
         newSession->payload = androcad::FeatureOps::ShapeToMeshPayload(res.shape, 0.1, 0.5);
-        newHandle = reinterpret_cast<jlong>(newSession);
+        newHandle = g_meshRegistry.Register(newSession);
     }
 
     std::ostringstream ss;
@@ -1983,7 +2071,7 @@ Java_com_androcad_kernel_NativeKernel_nativeProjectEdges(
         jlong solidHandle,
         jdouble ox, jdouble oy, jdouble oz,
         jdouble nx, jdouble ny, jdouble nz) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* session = g_meshRegistry.Get(solidHandle);
     TopoDS_Shape baseShape = (session && !session->shape.IsNull()) ?
         session->shape : BRepPrimAPI_MakeBox(30.0, 20.0, 10.0).Shape();
 
@@ -2172,7 +2260,7 @@ Java_com_androcad_kernel_NativeKernel_nativeGenerateMultiSheetDocument(
         jobject /* this */,
         jlong solidHandle,
         jstring partNameStr) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* session = g_meshRegistry.Get(solidHandle);
     if (!session || session->shape.IsNull()) {
         return env->NewStringUTF("{\"success\":false,\"errorMessage\":\"Invalid solid handle\"}");
     }
@@ -2216,7 +2304,7 @@ Java_com_androcad_kernel_NativeKernel_nativeExportMultiSheetSVG(
         jlong solidHandle,
         jstring partNameStr,
         jint sheetIndex) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* session = g_meshRegistry.Get(solidHandle);
     if (!session || session->shape.IsNull()) {
         return env->NewStringUTF("<svg></svg>");
     }
@@ -2255,7 +2343,7 @@ Java_com_androcad_kernel_NativeKernel_nativeExportMultiSheetDXF(
         jobject /* this */,
         jlong solidHandle,
         jstring partNameStr) {
-    auto* session = reinterpret_cast<NativeMeshSession*>(solidHandle);
+    auto* session = g_meshRegistry.Get(solidHandle);
     if (!session || session->shape.IsNull()) {
         return env->NewStringUTF("");
     }

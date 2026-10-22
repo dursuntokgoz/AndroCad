@@ -150,9 +150,14 @@ fun FilletInspectorDialog(
     modifier: Modifier = Modifier
 ) {
     var radius by remember { mutableStateOf(initialRadius) }
+    var isFirst by remember { mutableStateOf(true) }
 
     LaunchedEffect(radius) {
-        onRadiusChanged(radius)
+        if (isFirst) {
+            isFirst = false
+        } else {
+            onRadiusChanged(radius)
+        }
     }
 
     Surface(
@@ -235,9 +240,14 @@ fun ChamferInspectorDialog(
     modifier: Modifier = Modifier
 ) {
     var distance by remember { mutableStateOf(initialDistance) }
+    var isFirst by remember { mutableStateOf(true) }
 
     LaunchedEffect(distance) {
-        onDistanceChanged(distance)
+        if (isFirst) {
+            isFirst = false
+        } else {
+            onDistanceChanged(distance)
+        }
     }
 
     Surface(
@@ -322,9 +332,14 @@ fun HoleInspectorDialog(
 ) {
     var diameter by remember { mutableStateOf(initialDiameter) }
     var depth by remember { mutableStateOf(initialDepth) }
+    var isFirst by remember { mutableStateOf(true) }
 
     LaunchedEffect(diameter, depth) {
-        onHoleChanged(diameter, depth)
+        if (isFirst) {
+            isFirst = false
+        } else {
+            onHoleChanged(diameter, depth)
+        }
     }
 
     Surface(
