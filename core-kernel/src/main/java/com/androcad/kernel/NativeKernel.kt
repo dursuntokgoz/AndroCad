@@ -888,7 +888,7 @@ object NativeKernel {
             indexBuffer = indexByteBuffer,
             edgeVertexBuffer = edgeByteBuffer,
             boundingBox = BoundingBox(x0, y0, z0, x1, y1, z1),
-            nativeHandle = 0L
+            nativeHandle = 1L
         )
     }
 
@@ -1266,7 +1266,7 @@ object NativeKernel {
      * Milestone 6: Exports solid model to STEP format (AP214 or AP242).
      */
     fun exportStep(solid: BoxMeshResult, filePath: String, schema: String = "AP214"): IOResult {
-        if (!solid.success) {
+        if (!solid.success || solid.nativeHandle <= 0L) {
             return IOResult(false, "Invalid solid mesh result.", filePath)
         }
         if (solid.nativeHandle > 1000L && isLoaded) {
@@ -1284,7 +1284,7 @@ object NativeKernel {
             val tempHandle = try {
                 nativeCreateBox(100.0, 50.0, 20.0, 0.1, 0.5)
             } catch (t: Throwable) { 0L }
-            if (tempHandle > 1L) {
+            if (tempHandle > 1000L) {
                 val errArr = arrayOfNulls<String>(1)
                 val ok = try {
                     nativeExportStep(tempHandle, filePath, schema, errArr)
@@ -1346,7 +1346,7 @@ object NativeKernel {
      * Milestone 6: Exports solid model to STL mesh format.
      */
     fun exportStl(solid: BoxMeshResult, filePath: String, linearDeflection: Double = 0.1, binary: Boolean = true): IOResult {
-        if (!solid.success) {
+        if (!solid.success || solid.nativeHandle <= 0L) {
             return IOResult(false, "Invalid solid mesh result.", filePath)
         }
         if (solid.nativeHandle > 1000L && isLoaded) {
