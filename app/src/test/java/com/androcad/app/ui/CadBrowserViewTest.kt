@@ -65,20 +65,20 @@ class CadBrowserViewTest {
 
         // Document settings
         val docSettings = composeTestRule.onNodeWithTag("browser_section_doc_settings")
-        docSettings.assertIsDisplayed().performClick()
-        composeTestRule.onNodeWithText("• Units: Millimeters (mm)").assertIsDisplayed()
+        docSettings.performScrollTo().assertIsDisplayed().performClick()
+        composeTestRule.onNodeWithText("• Units: Millimeters (mm)").performScrollTo().assertIsDisplayed()
 
         // Origin planes
         val origin = composeTestRule.onNodeWithTag("browser_section_origin")
-        origin.assertIsDisplayed().performClick()
-        composeTestRule.onNodeWithTag("browser_item_origin_xy").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("browser_item_origin_xz").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("browser_item_origin_yz").assertIsDisplayed()
+        origin.performScrollTo().assertIsDisplayed().performClick()
+        composeTestRule.onNodeWithTag("browser_item_origin_xy").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithTag("browser_item_origin_xz").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithTag("browser_item_origin_yz").performScrollTo().assertIsDisplayed()
 
         // Construction
         val construction = composeTestRule.onNodeWithTag("browser_section_construction")
-        construction.assertIsDisplayed().performClick()
-        composeTestRule.onNodeWithText("• Plane 1 (Offset 10mm)").assertIsDisplayed()
+        construction.performScrollTo().assertIsDisplayed().performClick()
+        composeTestRule.onNodeWithText("• Plane 1 (Offset 10mm)").performScrollTo().assertIsDisplayed()
     }
 
     @Test

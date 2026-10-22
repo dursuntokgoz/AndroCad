@@ -1,11 +1,15 @@
 // Copyright (c) 2026 dursuntokgoz. All rights reserved.
 package com.androcad.app.tutorial
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.test.core.app.ApplicationProvider
 import com.androcad.app.AndroCadApp
 import com.androcad.kernel.NativeKernel
@@ -44,15 +48,17 @@ class TutorialTest {
     }
 
     @Test
-    fun testTutorialManagerPersistence() = runBlocking {
-        TutorialManager.resetTutorial(context)
-        assertFalse(TutorialManager.isCompleted(context))
+    fun testTutorialManagerPersistence() {
+        runBlocking {
+            TutorialManager.resetTutorial(context)
+            assertFalse(TutorialManager.isCompleted(context))
 
-        TutorialManager.setCompleted(context, true)
-        assertTrue(TutorialManager.isCompleted(context))
+            TutorialManager.setCompleted(context, true)
+            assertTrue(TutorialManager.isCompleted(context))
 
-        TutorialManager.resetTutorial(context)
-        assertFalse(TutorialManager.isCompleted(context))
+            TutorialManager.resetTutorial(context)
+            assertFalse(TutorialManager.isCompleted(context))
+        }
     }
 
     @Test
@@ -64,50 +70,39 @@ class TutorialTest {
 
         // On first run, tutorial overlay should be visible immediately
         composeTestRule.onNodeWithTag("tutorial_overlay").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("tutorial_step_indicator").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("tutorial_btn_skip").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("tutorial_btn_next").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tutorial_step_indicator", useUnmergedTree = true).assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tutorial_btn_skip").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tutorial_btn_next").performScrollTo().assertIsDisplayed()
     }
 
     @Test
     fun testTutorialStepNavigationAndCompletion() {
         var completed = false
         var skipped = false
+        var stepIndex by mutableStateOf(0)
 
         composeTestRule.setContent {
             TutorialOverlayView(
-                stepIndex = 0,
+                stepIndex = stepIndex,
                 totalSteps = TutorialManager.STEPS.size,
-                step = TutorialManager.STEPS[0],
+                step = TutorialManager.STEPS[stepIndex],
                 isDarkTheme = true,
-                onNext = {},
-                onPrev = {},
+                onNext = { stepIndex++ },
+                onPrev = { stepIndex-- },
                 onSkip = { skipped = true },
                 onFinish = { completed = true }
             )
         }
 
         composeTestRule.onNodeWithTag("tutorial_overlay").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("tutorial_step_indicator").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("tutorial_btn_skip").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("tutorial_btn_next").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tutorial_step_indicator", useUnmergedTree = true).assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tutorial_btn_skip").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tutorial_btn_next").performScrollTo().assertIsDisplayed()
 
         // Test last step shows finish button
-        composeTestRule.setContent {
-            val lastIndex = TutorialManager.STEPS.size - 1
-            TutorialOverlayView(
-                stepIndex = lastIndex,
-                totalSteps = TutorialManager.STEPS.size,
-                step = TutorialManager.STEPS[lastIndex],
-                isDarkTheme = true,
-                onNext = {},
-                onPrev = {},
-                onSkip = { skipped = true },
-                onFinish = { completed = true }
-            )
-        }
+        stepIndex = TutorialManager.STEPS.size - 1
 
-        composeTestRule.onNodeWithTag("tutorial_btn_finish").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tutorial_btn_finish").performScrollTo().assertIsDisplayed()
         composeTestRule.onNodeWithTag("tutorial_btn_finish").performClick()
         assertTrue("Finish button callback should have been triggered", completed)
     }
@@ -128,14 +123,16 @@ class TutorialTest {
             )
         }
 
-        composeTestRule.onNodeWithTag("tutorial_btn_skip").performClick()
+        composeTestRule.onNodeWithTag("tutorial_btn_skip").performScrollTo().performClick()
         assertTrue("Skip callback should have been triggered", skipped)
     }
 
     @Test
-    fun testRestartTutorialFromMenu() = runBlocking {
-        // Mark tutorial as already completed
-        TutorialManager.setCompleted(context, true)
+    fun testRestartTutorialFromMenu() {
+        runBlocking {
+            // Mark tutorial as already completed
+            TutorialManager.setCompleted(context, true)
+        }
 
         val fallbackBox = NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
         composeTestRule.setContent {
@@ -145,12 +142,12 @@ class TutorialTest {
         // Overlay should not be shown because it's completed
         composeTestRule.onNodeWithTag("tutorial_overlay").assertDoesNotExist()
 
-        // Tap restart tutorial button in top bar
-        composeTestRule.onNodeWithTag("btn_restart_tutorial").assertIsDisplayed()
+        // Tap restart tutorial button in top bar (perform scroll to ensure it's in view)
+        composeTestRule.onNodeWithTag("btn_restart_tutorial").performScrollTo().assertIsDisplayed()
         composeTestRule.onNodeWithTag("btn_restart_tutorial").performClick()
 
         // Tutorial overlay should now be visible again
         composeTestRule.onNodeWithTag("tutorial_overlay").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("tutorial_step_indicator").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tutorial_step_indicator", useUnmergedTree = true).assertIsDisplayed()
     }
 }
