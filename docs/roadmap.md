@@ -24,6 +24,11 @@ This document tracks development milestones, architectural decisions, and open r
    * *Selection:* To provide an intuitive direct manipulation CAD experience akin to Fusion 360, 2D sketch input is decoupled from raw camera touch manipulation via a specialized Compose overlay (`SketchCanvasOverlay`) positioned above the GLSurfaceView viewport when the Sketch workspace is active.
    * *Direct Manipulation:* 1-finger drag operations draw parametric primitives (Rectangles, Circles, Polylines) with live rubber-band stroke rendering, dynamic dimension tags, and automatic closed-profile detection with translucent cyan shading (`#3300A4E4`).
    * *Parametric Extrude Inspector:* Finishing a sketch automatically transitions the camera smoothly to 3D isometric (`NamedView.HOME`) and displays a floating parameter inspector (`ExtrudeInspectorDialog`). Dragging the depth slider immediately recalculates the B-Rep extrusion in Open CASCADE and pushes the updated mesh to the GLES viewport in real time. Committing creates an associative solid body in the Browser tree and appends an entry to the Parametric Timeline.
+8. **Magnetic Vertex Snapping, Topological Point Welding & True Solid Primitives**
+   * *Magnetic Snapping:* Touch drawing on mobile screens inherently lacks sub-millimeter precision. A 7.0 mm magnetic vertex snap zone (`findNearbyVertex`) locks drag start and end points to existing line endpoints, rectangle corners, and circle centers, with visual yellow indicator rings.
+   * *Topological Point Welding:* Unwelded coincident endpoints in OpenCASCADE cause `BRepBuilderAPI_MakeWire` to fail loop closure. The bridge applies 0.2 mm quantized point deduplication (`pointMap`), ensuring shared vertices reference identical OpenCASCADE point indices.
+   * *True Sketch-Driven Extrude & Revolve:* Both Extrude and Revolve now assemble and extrude/revolve the actual user-drawn sketch entities rather than static milestone demo shapes. Fallback sizing dynamically measures the bounding box of the active sketch.
+   * *Direct Modeling Workflow:* Added 1-tap `+ Sketch` (`btn_solid_create_sketch`) button in the Solid ribbon, a floating direct Extrude action button upon closed-profile detection, a true parametric Cylinder primitive (`tool_Cylinder`), and a clean-slate "✨ NEW DESIGN" button (`btn_new_design`).
 
 ---
 

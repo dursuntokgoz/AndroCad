@@ -142,6 +142,113 @@ fun BoxInspectorDialog(
 }
 
 @Composable
+fun CylinderInspectorDialog(
+    initialRadius: Float = 25f,
+    initialHeight: Float = 50f,
+    onDimensionsChanged: (radius: Float, height: Float) -> Unit,
+    onConfirm: (radius: Float, height: Float) -> Unit,
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var radius by remember { mutableStateOf(initialRadius) }
+    var height by remember { mutableStateOf(initialHeight) }
+
+    LaunchedEffect(radius, height) {
+        onDimensionsChanged(radius, height)
+    }
+
+    Surface(
+        color = Color(0xEE1E2228),
+        shape = RoundedCornerShape(12.dp),
+        border = androidx.compose.foundation.BorderStroke(1.5.dp, Color(0xFF00A4E4)),
+        modifier = modifier
+            .width(280.dp)
+            .testTag("cylinder_inspector_card")
+    ) {
+        Column(modifier = Modifier.padding(10.dp).verticalScroll(rememberScrollState())) {
+            // Header
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_extrude),
+                        contentDescription = "Cylinder",
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("CYLINDER (SOLID)", color = Color.White, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                }
+                Text(
+                    text = "✕",
+                    color = Color(0xFFAAAAAA),
+                    fontSize = 14.sp,
+                    modifier = Modifier.clickable { onDismiss() }.padding(4.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Radius
+            Text("Radius (R): ${radius.toInt()} mm (Ø ${(radius * 2).toInt()} mm)", color = Color(0xFFAAAAAA), fontSize = 11.sp)
+            Slider(
+                value = radius,
+                onValueChange = { radius = it },
+                valueRange = 5f..100f,
+                modifier = Modifier.fillMaxWidth().testTag("slider_cylinder_radius"),
+                colors = SliderDefaults.colors(thumbColor = Color(0xFF00A4E4), activeTrackColor = Color(0xFF00A4E4))
+            )
+
+            // Height
+            Text("Height (Z): ${height.toInt()} mm", color = Color(0xFFAAAAAA), fontSize = 11.sp)
+            Slider(
+                value = height,
+                onValueChange = { height = it },
+                valueRange = 5f..200f,
+                modifier = Modifier.fillMaxWidth().testTag("slider_cylinder_height"),
+                colors = SliderDefaults.colors(thumbColor = Color(0xFF00A4E4), activeTrackColor = Color(0xFF00A4E4))
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            // Actions
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Surface(
+                    color = Color(0xFF3B2A2A),
+                    shape = RoundedCornerShape(6.dp),
+                    modifier = Modifier.weight(1f).testTag("btn_cylinder_cancel").clickable { onDismiss() }
+                ) {
+                    Text(
+                        "Cancel",
+                        color = Color(0xFFFF8A80),
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.padding(vertical = 6.dp),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                    )
+                }
+                Surface(
+                    color = Color(0xFF00A4E4),
+                    shape = RoundedCornerShape(6.dp),
+                    modifier = Modifier.weight(1f).testTag("btn_cylinder_ok").clickable { onConfirm(radius, height) }
+                ) {
+                    Text(
+                        "✓ OK",
+                        color = Color.White,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(vertical = 6.dp),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
 fun FilletInspectorDialog(
     initialRadius: Float = 5f,
     onRadiusChanged: (r: Float) -> Unit,

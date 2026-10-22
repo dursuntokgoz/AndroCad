@@ -975,6 +975,28 @@ object NativeKernel {
     }
 
     /**
+     * Constructs a solid cylinder with given radius and height.
+     */
+    fun createCylinder(
+        radius: Double,
+        height: Double
+    ): BoxMeshResult {
+        if (isLoaded) {
+            try {
+                val sketch = createSketch()
+                val p = sketch.addPoint(0.0, 0.0)
+                sketch.addCircle(p, radius)
+                val solid = sketch.extrude(0.0, 0.0, height)
+                sketch.close()
+                if (solid.success && solid.nativeHandle > 1000L) return solid
+            } catch (t: Throwable) {
+                // fall through
+            }
+        }
+        return createFallbackBox(radius * 2.0, radius * 2.0, height)
+    }
+
+    /**
      * Extrudes a 2D closed sketch profile into a 3D solid prism along vector (dx, dy, dz).
      */
     fun extrude(

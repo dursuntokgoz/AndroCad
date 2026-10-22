@@ -187,3 +187,19 @@ Bu belge, AndroCAD mobil ve tablet arayüzündeki tüm tıklanabilir kontrolleri
 | Flanşlı Burç Kartı & Aç | `sample_open_flanged_bushing` | Özgün döner parçalı burç modelinin kopyasını sahneye yükler. | `testOpenSampleFlangedBushing` |
 | Telefon Standı Kartı & Aç | `sample_open_phone_stand` | Özgün açılı telefon tutucu modelinin kopyasını sahneye yükler. | `testOpenSamplePhoneStand` |
 | Delikli Plaka Kartı & Aç | `sample_open_perforated_plate` | Dizi ve delik özellikli montaj plakasının kopyasını yükler. | `testOpenSamplePerforatedPlate` |
+
+---
+
+## 10. Fusion 360 / Shapr3D Tarzı İnteraktif Eskiz ve Katı Modelleme
+
+| Kontrol Adı | `testTag` | Beklenen Davranış | Doğrulayan Test |
+| :--- | :--- | :--- | :--- |
+| Solid Ribbon Eskiz Başlat | `btn_solid_create_sketch` | 1 dokunuşla Sketch sekmesini ve 2D XY eskiz düzlemini açar. | `testSolidTabCreateSketchButton` |
+| Silindir İlkel Katı Aracı | `tool_Cylinder` | Yarıçap ve yükseklik parametreli OCCT silindir katısı oluşturur. | `testSolidTabCylinderInspector` |
+| Silindir Müfettiş Paneli | `cylinder_inspector_card` | Yarıçap (R) ve Z yüksekliği kaydırıcılarını sunar. | `testSolidTabCylinderInspector` |
+| Silindir Yarıçap Kaydırıcı | `slider_cylinder_radius` | Yarıçapı 5 mm ile 100 mm arasında dinamik değiştirir. | `testSolidTabCylinderInspector` |
+| Silindir Yükseklik Kaydırıcı | `slider_cylinder_height` | Yüksekliği 5 mm ile 200 mm arasında dinamik değiştirir. | `testSolidTabCylinderInspector` |
+| Silindir Onay Butonu | `btn_cylinder_ok` | Silindiri onaylar, Browser'a gövde ve Timeline'a işlem olarak ekler. | `testSolidTabCylinderInspector` |
+| Silindir İptal Butonu | `btn_cylinder_cancel` | Silindir işlemini iptal eder ve önceki sahneyi korur. | `testSolidTabCylinderInspector` |
+| Doğrudan Katılaştır (Extrude) | `btn_sketch_extrude_direct` | Kapalı profil algılandığında ekranda belirip doğrudan 3D Extrude açar. | `testDirectExtrudeButtonOnClosedProfile` |
+| Yeni Tasarım (Temiz Tuval) | `btn_new_design` | Sahneyi ve geçmişi sıfırlayarak ızgara üzerinde temiz eskiz başlatır. | `testTopBarControls` |

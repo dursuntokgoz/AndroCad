@@ -9,7 +9,7 @@ class ButtonBehaviorTest {
 
     private val allRegisteredTools = listOf(
         // Solid
-        "Box", "Extrude", "Revolve", "Fillet", "Chamfer", "Hole", "Shell",
+        "Box", "Cylinder", "Extrude", "Revolve", "Fillet", "Chamfer", "Hole", "Shell",
         "Combine", "Rect Pattern", "Circular Pattern", "Mirror", "Draft Angle",
         "ISO Hole (M6 CB)", "Threaded Bolt (M8)",
         // Sketch
