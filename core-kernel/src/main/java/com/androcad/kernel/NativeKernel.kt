@@ -979,16 +979,14 @@ object NativeKernel {
      */
     fun createCylinder(
         radius: Double,
-        height: Double,
-        linearDeflection: Double = 0.1,
-        angularDeflection: Double = 0.5
+        height: Double
     ): BoxMeshResult {
         if (isLoaded) {
             try {
                 val sketch = createSketch()
                 val p = sketch.addPoint(0.0, 0.0)
                 sketch.addCircle(p, radius)
-                val solid = sketch.extrude(0.0, 0.0, height, linearDeflection, angularDeflection)
+                val solid = sketch.extrude(0.0, 0.0, height)
                 sketch.close()
                 if (solid.success && solid.nativeHandle > 1000L) return solid
             } catch (t: Throwable) {
