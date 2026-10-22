@@ -43,10 +43,20 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Setup Android NDK
+        uses: nttld/setup-ndk@v1.5.0
+        with:
+          ndk-version: r26d
+          link-to-sdk: true
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3.4.2
         with:
           gradle-version: '8.7'
+
+      - name: Create Header Fallback for CMake Configuration
+        run: |
+          mkdir -p occt-dummy/include/opencascade occt-dummy/lib
 
       - name: Run Compose UI Test Matrix on JVM
         env:
@@ -56,7 +66,7 @@ jobs:
           TEST_HEIGHT_DP: ${{ matrix.profile.height_dp }}
         run: |
           echo "Running Compose UI tests for profile: ${{ matrix.profile.name }} (${{ matrix.profile.orientation }})"
-          gradle :app:testDebugUnitTest --tests "com.androcad.app.ui.*" --stacktrace || gradle :app:testDebugUnitTest --stacktrace
+          gradle :app:testDebugUnitTest --stacktrace -POCCT_INSTALL_DIR=$(pwd)/occt-dummy
 
       - name: Upload UI Test Reports
         if: always()

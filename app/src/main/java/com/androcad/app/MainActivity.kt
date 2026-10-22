@@ -160,7 +160,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
     // Phone layout bottom sheet toggle: null, "browser", "timeline", "properties"
     var phoneActiveSheet by remember { mutableStateOf<String?>(null) }
     var showEmptyState by remember { mutableStateOf(false) }
-    var showTutorial by remember { mutableStateOf(false) }
+    var showTutorial by remember { mutableStateOf(!TutorialManager.isTutorialCompletedInitial()) }
     var tutorialStepIndex by remember { mutableStateOf(0) }
     var showSamplesGallery by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
@@ -376,7 +376,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                         }
                     }
 
-                    Spacer(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.width(16.dp))
 
                     // Restart Tutorial Button
                     Surface(
@@ -502,7 +502,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             }
                         }
 
-                        Spacer(modifier = Modifier.weight(1f))
+                        Spacer(modifier = Modifier.width(16.dp))
 
                         // Finish Sketch button
                         Surface(

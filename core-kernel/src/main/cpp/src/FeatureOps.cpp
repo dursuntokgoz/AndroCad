@@ -373,11 +373,11 @@ MeshPayload FeatureOps::MakeHole(const TopoDS_Shape& solid,
     }
 
     try {
-        gp_Pnt pnt(px, py, pz);
         gp_Dir dir(dx, dy, dz);
+        gp_Pnt pnt(px - dir.X() * 0.1, py - dir.Y() * 0.1, pz - dir.Z() * 0.1);
         gp_Ax2 axis(pnt, dir);
 
-        BRepPrimAPI_MakeCylinder cylinder(axis, radius, depth);
+        BRepPrimAPI_MakeCylinder cylinder(axis, radius, depth + 0.2);
         cylinder.Build();
         if (!cylinder.IsDone()) {
             MeshPayload err; err.success = false; err.errorMessage = "Failed to construct tool cylinder for hole.";
