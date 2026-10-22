@@ -5,6 +5,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import com.androcad.app.samples.SampleDesign
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -84,7 +85,7 @@ class SamplesGalleryDialogTest {
             )
         }
 
-        composeTestRule.onNodeWithTag("sample_open_phone_stand").assertIsDisplayed().performClick()
+        composeTestRule.onNodeWithTag("sample_open_phone_stand").performScrollTo().assertIsDisplayed().performClick()
         assertNotNull(selectedSample)
         assertEquals("phone_stand", selectedSample?.id)
     }
@@ -100,7 +101,7 @@ class SamplesGalleryDialogTest {
             )
         }
 
-        composeTestRule.onNodeWithTag("sample_open_perforated_plate").assertIsDisplayed().performClick()
+        composeTestRule.onNodeWithTag("sample_open_perforated_plate").performScrollTo().assertIsDisplayed().performClick()
         assertNotNull(selectedSample)
         assertEquals("perforated_plate", selectedSample?.id)
     }

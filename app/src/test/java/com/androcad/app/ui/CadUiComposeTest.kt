@@ -44,13 +44,13 @@ class CadUiComposeTest {
         composeTestRule.onNodeWithTag("app_logo").assertIsDisplayed()
         composeTestRule.onNodeWithTag("tab_Solid").assertIsDisplayed()
         composeTestRule.onNodeWithTag("tab_Sketch").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("tab_FileIO").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tab_FileIO").performScrollTo().assertIsDisplayed()
     }
 
     @Test
     fun testThemeToggle() {
         setContentForTest()
-        val toggleNode = composeTestRule.onNodeWithTag("btn_theme_toggle")
+        val toggleNode = composeTestRule.onNodeWithTag("btn_theme_toggle").performScrollTo()
         toggleNode.assertIsDisplayed()
         toggleNode.performClick()
         toggleNode.assertIsDisplayed()
@@ -62,15 +62,15 @@ class CadUiComposeTest {
         // Switch to Sketch tab
         composeTestRule.onNodeWithTag("tab_Sketch").performClick()
         composeTestRule.onNodeWithTag("tool_Rectangle").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("btn_finish_sketch").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("btn_finish_sketch").performScrollTo().assertIsDisplayed()
 
         // Switch to File / IO tab
-        composeTestRule.onNodeWithTag("tab_FileIO").performClick()
+        composeTestRule.onNodeWithTag("tab_FileIO").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("tool_ExportSTEP").assertIsDisplayed()
         composeTestRule.onNodeWithTag("tool_ImportSTEP").assertIsDisplayed()
 
         // Switch back to Solid tab
-        composeTestRule.onNodeWithTag("tab_Solid").performClick()
+        composeTestRule.onNodeWithTag("tab_Solid").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("tool_Box").assertIsDisplayed()
     }
 
@@ -90,7 +90,7 @@ class CadUiComposeTest {
         composeTestRule.onNodeWithTag("tab_Sketch").performClick()
         composeTestRule.onNodeWithTag("tool_Rectangle").assertIsDisplayed().performClick()
         composeTestRule.onNodeWithTag("tool_Circle").assertIsDisplayed().performClick()
-        composeTestRule.onNodeWithTag("btn_finish_sketch").assertIsDisplayed().performClick()
+        composeTestRule.onNodeWithTag("btn_finish_sketch").performScrollTo().assertIsDisplayed().performClick()
     }
 
     @Test
@@ -113,7 +113,7 @@ class CadUiComposeTest {
     @Test
     fun testTopBarTutorialAndSamplesButtons() {
         setContentForTest()
-        composeTestRule.onNodeWithTag("btn_restart_tutorial").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("btn_open_samples").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("btn_restart_tutorial").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithTag("btn_open_samples").performScrollTo().assertIsDisplayed()
     }
 }

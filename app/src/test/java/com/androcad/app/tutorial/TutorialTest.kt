@@ -6,6 +6,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.test.core.app.ApplicationProvider
 import com.androcad.app.AndroCadApp
 import com.androcad.kernel.NativeKernel
@@ -44,15 +45,17 @@ class TutorialTest {
     }
 
     @Test
-    fun testTutorialManagerPersistence() = runBlocking {
-        TutorialManager.resetTutorial(context)
-        assertFalse(TutorialManager.isCompleted(context))
+    fun testTutorialManagerPersistence() {
+        runBlocking {
+            TutorialManager.resetTutorial(context)
+            assertFalse(TutorialManager.isCompleted(context))
 
-        TutorialManager.setCompleted(context, true)
-        assertTrue(TutorialManager.isCompleted(context))
+            TutorialManager.setCompleted(context, true)
+            assertTrue(TutorialManager.isCompleted(context))
 
-        TutorialManager.resetTutorial(context)
-        assertFalse(TutorialManager.isCompleted(context))
+            TutorialManager.resetTutorial(context)
+            assertFalse(TutorialManager.isCompleted(context))
+        }
     }
 
     @Test
@@ -133,9 +136,11 @@ class TutorialTest {
     }
 
     @Test
-    fun testRestartTutorialFromMenu() = runBlocking {
-        // Mark tutorial as already completed
-        TutorialManager.setCompleted(context, true)
+    fun testRestartTutorialFromMenu() {
+        runBlocking {
+            // Mark tutorial as already completed
+            TutorialManager.setCompleted(context, true)
+        }
 
         val fallbackBox = NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
         composeTestRule.setContent {
@@ -145,8 +150,8 @@ class TutorialTest {
         // Overlay should not be shown because it's completed
         composeTestRule.onNodeWithTag("tutorial_overlay").assertDoesNotExist()
 
-        // Tap restart tutorial button in top bar
-        composeTestRule.onNodeWithTag("btn_restart_tutorial").assertIsDisplayed()
+        // Tap restart tutorial button in top bar (perform scroll to ensure it's in view)
+        composeTestRule.onNodeWithTag("btn_restart_tutorial").performScrollTo().assertIsDisplayed()
         composeTestRule.onNodeWithTag("btn_restart_tutorial").performClick()
 
         // Tutorial overlay should now be visible again

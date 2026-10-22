@@ -57,6 +57,7 @@ class EmptyStateViewTest {
 
         // 4. New Part action
         composeTestRule.onNodeWithTag("empty_state_btn_new_part")
+            .performScrollTo()
             .assertIsDisplayed()
             .performClick()
         assertTrue("New Part callback should be invoked", newPartClicked)

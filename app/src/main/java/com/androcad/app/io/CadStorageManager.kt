@@ -135,6 +135,12 @@ object CadStorageManager {
     }
 
     private fun copyUriToFile(context: Context, uri: Uri, destFile: File) {
+        if (uri.scheme == "file" || uri.scheme == null) {
+            val srcFile = File(uri.path ?: uri.toString())
+            destFile.parentFile?.mkdirs()
+            srcFile.copyTo(destFile, overwrite = true)
+            return
+        }
         val inputStream: InputStream = context.contentResolver.openInputStream(uri)
             ?: throw IllegalStateException("Cannot open input stream for URI: $uri")
         inputStream.use { input ->
@@ -145,6 +151,12 @@ object CadStorageManager {
     }
 
     private fun copyFileToUri(context: Context, srcFile: File, uri: Uri) {
+        if (uri.scheme == "file" || uri.scheme == null) {
+            val destFile = File(uri.path ?: uri.toString())
+            destFile.parentFile?.mkdirs()
+            srcFile.copyTo(destFile, overwrite = true)
+            return
+        }
         val outputStream: OutputStream = context.contentResolver.openOutputStream(uri)
             ?: throw IllegalStateException("Cannot open output stream for URI: $uri")
         outputStream.use { output ->
