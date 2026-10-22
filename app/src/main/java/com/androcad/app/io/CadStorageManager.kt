@@ -28,7 +28,7 @@ object CadStorageManager {
                 vertexBuffer = null,
                 indexBuffer = null,
                 edgeVertexBuffer = null,
-                boundingBox = null,
+                boundingBox = com.androcad.kernel.BoundingBox(),
                 errorMessage = "Failed to copy content URI to cache: ${t.message}",
                 nativeHandle = 0L
             )
@@ -54,7 +54,7 @@ object CadStorageManager {
                 vertexBuffer = null,
                 indexBuffer = null,
                 edgeVertexBuffer = null,
-                boundingBox = null,
+                boundingBox = com.androcad.kernel.BoundingBox(),
                 errorMessage = "Failed to copy content URI to cache: ${t.message}",
                 nativeHandle = 0L
             )
