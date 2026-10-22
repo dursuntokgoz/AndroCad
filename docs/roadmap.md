@@ -326,3 +326,19 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
 * **Status:** Done
 * **Finish Date:** 2026-10-21
 
+---
+
+### Release v1.0.3: FTUE, Browser Panel, Button Fixes, SAF Storage & Sample Designs
+* **Goal:** Fix reported browser/button/import issues, introduce privacy-first storage architecture without broad permissions, implement guided first-launch onboarding tutorial, and add 4 editable original sample designs.
+* **Deliverables:**
+  - Implemented interactive CAD Browser tree (`CadBrowserView`, `BrowserState`) with body selection, eye visibility toggle, rename, and delete on both tablet and phone layouts.
+  - Corrected tool button icon mappings across all 54 registered CAD tools, eliminating fallback to `ic_box`.
+  - Replaced broad storage permission requests with modern Storage Access Framework (`OpenDocument` / `CreateDocument`) and safe cache bridging for native Open CASCADE POSIX I/O.
+  - Built 6-step interactive Onboarding Tutorial (`TutorialManager`, `TutorialOverlayView`) with DataStore persistence, skip buttons, back gesture support, and menu relaunch.
+  - Added 4 original, mathematically verified parametric CAD models (`assets/samples/`) with copy-on-open immutability protection, DAG rebuild recomputations, and gallery modal (`SamplesGalleryDialog`).
+  - Added automated CI manifest permission audit enforcing zero broad storage permissions.
+  - Added 8 real emulator screenshots in `docs/screenshots/` and comprehensive stabilization report in `docs/reports/stabilization.md`.
+  - **Release:** v1.0.3.
+* **Status:** Done
+* **Finish Date:** 2026-10-22
+
