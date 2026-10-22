@@ -81,7 +81,7 @@ data class BoxMeshResult(
         dx: Float, dy: Float, dz: Float,
         edgeTolerance: Float = 1.5f
     ): PickResult? {
-        if (nativeHandle == 0L || !success) return null
+        if (nativeHandle <= 1000L || !success || !NativeKernel.isLoaded) return null
         return NativeKernel.pickByRay(nativeHandle, ox, oy, oz, dx, dy, dz, edgeTolerance)
     }
 
@@ -113,7 +113,7 @@ data class BoxMeshResult(
         NativeKernel.thicken(this, thickness)
 
     override fun close() {
-        if (nativeHandle != 0L) {
+        if (nativeHandle > 1000L) {
             NativeKernel.releaseMesh(nativeHandle)
         }
     }
@@ -328,7 +328,7 @@ enum class AssemblyJointType(val id: Int) {
 
 class AssemblySession(val handle: Long) : Closeable {
     fun addComponent(name: String, solid: BoxMeshResult): Int {
-        if (handle == 0L || solid.nativeHandle == 0L) return -1
+        if (handle == 0L || solid.nativeHandle <= 1000L || !NativeKernel.isLoaded) return -1
         return NativeKernel.nativeAssemblyAddComponent(handle, name, solid.nativeHandle)
     }
 
@@ -1042,7 +1042,7 @@ object NativeKernel {
         linearDeflection: Double = 0.1,
         angularDeflection: Double = 0.5
     ): BoxMeshResult {
-        if (solid.nativeHandle == 0L || !solid.success) {
+        if (solid.nativeHandle <= 1000L || !solid.success || !isLoaded) {
             return BoxMeshResult(
                 success = false,
                 volume = 0.0,
@@ -1053,10 +1053,14 @@ object NativeKernel {
                 indexBuffer = null,
                 edgeVertexBuffer = null,
                 boundingBox = BoundingBox(),
-                errorMessage = "Invalid solid handle or failed solid."
+                errorMessage = "Invalid solid handle or native kernel not loaded."
             )
         }
-        val handle = nativeFillet(solid.nativeHandle, radius, targetEdgeId, linearDeflection, angularDeflection)
+        val handle = try {
+            nativeFillet(solid.nativeHandle, radius, targetEdgeId, linearDeflection, angularDeflection)
+        } catch (t: Throwable) {
+            0L
+        }
         return buildMeshResult(handle)
     }
 
@@ -1070,7 +1074,7 @@ object NativeKernel {
         linearDeflection: Double = 0.1,
         angularDeflection: Double = 0.5
     ): BoxMeshResult {
-        if (solid.nativeHandle == 0L || !solid.success) {
+        if (solid.nativeHandle <= 1000L || !solid.success || !isLoaded) {
             return BoxMeshResult(
                 success = false,
                 volume = 0.0,
@@ -1081,10 +1085,14 @@ object NativeKernel {
                 indexBuffer = null,
                 edgeVertexBuffer = null,
                 boundingBox = BoundingBox(),
-                errorMessage = "Invalid solid handle or failed solid."
+                errorMessage = "Invalid solid handle or native kernel not loaded."
             )
         }
-        val handle = nativeChamfer(solid.nativeHandle, distance, targetEdgeId, linearDeflection, angularDeflection)
+        val handle = try {
+            nativeChamfer(solid.nativeHandle, distance, targetEdgeId, linearDeflection, angularDeflection)
+        } catch (t: Throwable) {
+            0L
+        }
         return buildMeshResult(handle)
     }
 
@@ -1100,7 +1108,7 @@ object NativeKernel {
         linearDeflection: Double = 0.1,
         angularDeflection: Double = 0.5
     ): BoxMeshResult {
-        if (solid.nativeHandle == 0L || !solid.success) {
+        if (solid.nativeHandle <= 1000L || !solid.success || !isLoaded) {
             return BoxMeshResult(
                 success = false,
                 volume = 0.0,
@@ -1111,10 +1119,14 @@ object NativeKernel {
                 indexBuffer = null,
                 edgeVertexBuffer = null,
                 boundingBox = BoundingBox(),
-                errorMessage = "Invalid solid handle or failed solid."
+                errorMessage = "Invalid solid handle or native kernel not loaded."
             )
         }
-        val handle = nativeHole(solid.nativeHandle, px, py, pz, dx, dy, dz, radius, depth, linearDeflection, angularDeflection)
+        val handle = try {
+            nativeHole(solid.nativeHandle, px, py, pz, dx, dy, dz, radius, depth, linearDeflection, angularDeflection)
+        } catch (t: Throwable) {
+            0L
+        }
         return buildMeshResult(handle)
     }
 
@@ -1128,7 +1140,7 @@ object NativeKernel {
         linearDeflection: Double = 0.1,
         angularDeflection: Double = 0.5
     ): BoxMeshResult {
-        if (solid.nativeHandle == 0L || !solid.success) {
+        if (solid.nativeHandle <= 1000L || !solid.success || !isLoaded) {
             return BoxMeshResult(
                 success = false,
                 volume = 0.0,
@@ -1139,10 +1151,14 @@ object NativeKernel {
                 indexBuffer = null,
                 edgeVertexBuffer = null,
                 boundingBox = BoundingBox(),
-                errorMessage = "Invalid solid handle or failed solid."
+                errorMessage = "Invalid solid handle or native kernel not loaded."
             )
         }
-        val handle = nativeShell(solid.nativeHandle, thickness, removeFaceId, linearDeflection, angularDeflection)
+        val handle = try {
+            nativeShell(solid.nativeHandle, thickness, removeFaceId, linearDeflection, angularDeflection)
+        } catch (t: Throwable) {
+            0L
+        }
         return buildMeshResult(handle)
     }
 
@@ -1157,7 +1173,7 @@ object NativeKernel {
         linearDeflection: Double = 0.1,
         angularDeflection: Double = 0.5
     ): BoxMeshResult {
-        if (solidA.nativeHandle == 0L || !solidA.success || solidB.nativeHandle == 0L || !solidB.success) {
+        if (solidA.nativeHandle <= 1000L || !solidA.success || solidB.nativeHandle <= 1000L || !solidB.success || !isLoaded) {
             return BoxMeshResult(
                 success = false,
                 volume = 0.0,
@@ -1168,10 +1184,14 @@ object NativeKernel {
                 indexBuffer = null,
                 edgeVertexBuffer = null,
                 boundingBox = BoundingBox(),
-                errorMessage = "Invalid solid handles or failed solid."
+                errorMessage = "Invalid solid handles or native kernel not loaded."
             )
         }
-        val handle = nativeBoolean(solidA.nativeHandle, solidB.nativeHandle, type.id, fuzzy, linearDeflection, angularDeflection)
+        val handle = try {
+            nativeBoolean(solidA.nativeHandle, solidB.nativeHandle, type.id, fuzzy, linearDeflection, angularDeflection)
+        } catch (t: Throwable) {
+            0L
+        }
         return buildMeshResult(handle)
     }
 
@@ -1246,10 +1266,10 @@ object NativeKernel {
      * Milestone 6: Exports solid model to STEP format (AP214 or AP242).
      */
     fun exportStep(solid: BoxMeshResult, filePath: String, schema: String = "AP214"): IOResult {
-        if (!solid.success || solid.nativeHandle == 0L) {
+        if (!solid.success || solid.nativeHandle <= 0L) {
             return IOResult(false, "Invalid solid mesh result.", filePath)
         }
-        if (solid.nativeHandle > 1L && isLoaded) {
+        if (solid.nativeHandle > 1000L && isLoaded) {
             val errArr = arrayOfNulls<String>(1)
             val ok = try {
                 nativeExportStep(solid.nativeHandle, filePath, schema, errArr)
@@ -1264,7 +1284,7 @@ object NativeKernel {
             val tempHandle = try {
                 nativeCreateBox(100.0, 50.0, 20.0, 0.1, 0.5)
             } catch (t: Throwable) { 0L }
-            if (tempHandle > 1L) {
+            if (tempHandle > 1000L) {
                 val errArr = arrayOfNulls<String>(1)
                 val ok = try {
                     nativeExportStep(tempHandle, filePath, schema, errArr)
@@ -1326,10 +1346,10 @@ object NativeKernel {
      * Milestone 6: Exports solid model to STL mesh format.
      */
     fun exportStl(solid: BoxMeshResult, filePath: String, linearDeflection: Double = 0.1, binary: Boolean = true): IOResult {
-        if (!solid.success || solid.nativeHandle == 0L) {
+        if (!solid.success || solid.nativeHandle <= 0L) {
             return IOResult(false, "Invalid solid mesh result.", filePath)
         }
-        if (solid.nativeHandle > 1L && isLoaded) {
+        if (solid.nativeHandle > 1000L && isLoaded) {
             val errArr = arrayOfNulls<String>(1)
             val ok = try {
                 nativeExportStl(solid.nativeHandle, filePath, linearDeflection, binary, errArr)
@@ -1446,7 +1466,7 @@ object NativeKernel {
         linearDeflection: Double = 0.1,
         angularDeflection: Double = 0.5
     ): BoxMeshResult {
-        if (solid.nativeHandle == 0L || !solid.success) {
+        if (solid.nativeHandle <= 1000L || !solid.success || !isLoaded) {
             return BoxMeshResult(
                 success = false,
                 volume = 0.0,
@@ -1460,7 +1480,11 @@ object NativeKernel {
                 errorMessage = "Invalid solid handle for Press-Pull."
             )
         }
-        val handle = nativePressPullFace(solid.nativeHandle, faceId, distance, linearDeflection, angularDeflection)
+        val handle = try {
+            nativePressPullFace(solid.nativeHandle, faceId, distance, linearDeflection, angularDeflection)
+        } catch (t: Throwable) {
+            0L
+        }
         return buildMeshResult(handle)
     }
 
@@ -1473,7 +1497,7 @@ object NativeKernel {
         linearDeflection: Double = 0.1,
         angularDeflection: Double = 0.5
     ): BoxMeshResult {
-        if (solid.nativeHandle == 0L || !solid.success) {
+        if (solid.nativeHandle <= 1000L || !solid.success || !isLoaded) {
             return BoxMeshResult(
                 success = false,
                 volume = 0.0,
@@ -1487,7 +1511,11 @@ object NativeKernel {
                 errorMessage = "Invalid solid handle for Thicken."
             )
         }
-        val handle = nativeThicken(solid.nativeHandle, thickness, linearDeflection, angularDeflection)
+        val handle = try {
+            nativeThicken(solid.nativeHandle, thickness, linearDeflection, angularDeflection)
+        } catch (t: Throwable) {
+            0L
+        }
         return buildMeshResult(handle)
     }
 
@@ -1609,7 +1637,7 @@ object NativeKernel {
         partName: String = "Part1",
         scale: Double = 1.0
     ): String {
-        if (solid.nativeHandle == 0L || !solid.success) return "<svg></svg>"
+        if (solid.nativeHandle <= 1000L || !isLoaded || !solid.success) return "<svg></svg>"
         return nativeExportDrawingSVG(solid.nativeHandle, partName, scale)
     }
 
@@ -1621,7 +1649,7 @@ object NativeKernel {
         partName: String = "Part1",
         scale: Double = 1.0
     ): String {
-        if (solid.nativeHandle == 0L || !solid.success) return ""
+        if (solid.nativeHandle <= 1000L || !isLoaded || !solid.success) return ""
         return nativeExportDrawingDXF(solid.nativeHandle, partName, scale)
     }
 
@@ -1632,7 +1660,7 @@ object NativeKernel {
         solid: BoxMeshResult,
         partName: String = "Mechanical Assembly"
     ): DrawingDocumentData {
-        if (solid.nativeHandle == 0L || !solid.success) {
+        if (solid.nativeHandle <= 1000L || !isLoaded || !solid.success) {
             return DrawingDocumentData(false, "", 0, emptyList(), "Invalid solid handle")
         }
         val json = nativeGenerateMultiSheetDocument(solid.nativeHandle, partName)
@@ -1647,7 +1675,7 @@ object NativeKernel {
         partName: String = "Mechanical Assembly",
         sheetIndex: Int = 0
     ): String {
-        if (solid.nativeHandle == 0L || !solid.success) return "<svg></svg>"
+        if (solid.nativeHandle <= 1000L || !isLoaded || !solid.success) return "<svg></svg>"
         return nativeExportMultiSheetSVG(solid.nativeHandle, partName, sheetIndex)
     }
 
@@ -1658,7 +1686,7 @@ object NativeKernel {
         solid: BoxMeshResult,
         partName: String = "Mechanical Assembly"
     ): String {
-        if (solid.nativeHandle == 0L || !solid.success) return ""
+        if (solid.nativeHandle <= 1000L || !isLoaded || !solid.success) return ""
         return nativeExportMultiSheetDXF(solid.nativeHandle, partName)
     }
 
@@ -1722,7 +1750,7 @@ object NativeKernel {
      * Milestone 12: Computes physical mass, volume, surface area, center-of-gravity, and moments of inertia.
      */
     fun computePhysicalProperties(solid: BoxMeshResult, materialId: Int = 0): PhysicalPropertiesInfo {
-        if (solid.nativeHandle == 0L || !solid.success) {
+        if (solid.nativeHandle <= 1000L || !isLoaded || !solid.success) {
             return PhysicalPropertiesInfo(false, "", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, errorMessage = "Invalid solid")
         }
         val json = nativeComputePhysicalProperties(solid.nativeHandle, materialId)
@@ -1789,7 +1817,7 @@ object NativeKernel {
      * Milestone 13: Smooths mesh using volume-preserving Laplacian diffusion filter.
      */
     fun smoothMesh(solid: BoxMeshResult, iterations: Int = 3, lambda: Double = 0.5): BoxMeshResult {
-        if (solid.nativeHandle == 0L || !solid.success) return solid
+        if (solid.nativeHandle <= 1000L || !isLoaded || !solid.success) return solid
         val handle = nativeMeshSmooth(solid.nativeHandle, iterations, lambda)
         return buildMeshResult(handle)
     }
@@ -1798,7 +1826,7 @@ object NativeKernel {
      * Milestone 13: Repairs mesh by welding co-located vertices and removing degenerate triangles.
      */
     fun repairMesh(solid: BoxMeshResult, weldTolerance: Double = 1e-4): BoxMeshResult {
-        if (solid.nativeHandle == 0L || !solid.success) return solid
+        if (solid.nativeHandle <= 1000L || !isLoaded || !solid.success) return solid
         val handle = nativeMeshRepair(solid.nativeHandle, weldTolerance)
         return buildMeshResult(handle)
     }
@@ -1807,7 +1835,7 @@ object NativeKernel {
      * Milestone 13: Converts triangle mesh into a watertight OCCT B-Rep solid body.
      */
     fun convertMeshToSolid(solid: BoxMeshResult, tolerance: Double = 1e-2): BoxMeshResult {
-        if (solid.nativeHandle == 0L || !solid.success) return solid
+        if (solid.nativeHandle <= 1000L || !isLoaded || !solid.success) return solid
         val handle = nativeMeshToSolid(solid.nativeHandle, tolerance)
         return buildMeshResult(handle)
     }
@@ -1816,7 +1844,7 @@ object NativeKernel {
      * Milestone 13: Analyzes mesh topology, manifoldness, and Euler characteristic.
      */
     fun analyzeMesh(solid: BoxMeshResult): MeshAnalysisInfo {
-        if (solid.nativeHandle == 0L || !solid.success) {
+        if (solid.nativeHandle <= 1000L || !isLoaded || !solid.success) {
             return MeshAnalysisInfo(false, 0, 0, 0, 0.0, 0.0, false, 0, "Invalid solid")
         }
         val json = nativeMeshAnalyze(solid.nativeHandle)
@@ -1868,7 +1896,7 @@ object NativeKernel {
         materialId: Int = 0,
         deformationScale: Double = 1.0
     ): SimulationResultInfo {
-        if (solid.nativeHandle == 0L || !solid.success) {
+        if (solid.nativeHandle <= 1000L || !isLoaded || !solid.success) {
             return SimulationResultInfo(false, 0, 0, 0.0, 0.0, 0.0, 0.0, null, "Invalid solid")
         }
         val json = nativeSimulateSolid(solid.nativeHandle, targetElementSizeMm, forceN, materialId, deformationScale)
@@ -2334,7 +2362,7 @@ object NativeKernel {
     ): Boolean
     external fun nativeReleaseMesh(handle: Long)
     fun releaseMesh(handle: Long) {
-        if (handle > 1L && isLoaded) {
+        if (handle > 1000L && isLoaded) {
             try {
                 nativeReleaseMesh(handle)
             } catch (t: Throwable) {

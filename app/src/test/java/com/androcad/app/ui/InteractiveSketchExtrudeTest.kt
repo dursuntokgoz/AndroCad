@@ -181,4 +181,25 @@ class InteractiveSketchExtrudeTest {
         composeTestRule.onNodeWithTag("btn_hole_ok").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("hole_inspector_card").assertDoesNotExist()
     }
+
+    @Test
+    fun testChamferAndFilletCancelAndSliders() {
+        setContentForTest()
+
+        composeTestRule.onNodeWithTag("tab_Solid").performClick()
+
+        // Chamfer with Cancel
+        composeTestRule.onNodeWithTag("tool_Chamfer").performClick()
+        composeTestRule.onNodeWithTag("chamfer_inspector_card").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("slider_chamfer_distance").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("btn_chamfer_cancel").performClick()
+        composeTestRule.onNodeWithTag("chamfer_inspector_card").assertDoesNotExist()
+
+        // Fillet with Cancel
+        composeTestRule.onNodeWithTag("tool_Fillet").performClick()
+        composeTestRule.onNodeWithTag("fillet_inspector_card").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("slider_fillet_radius").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("btn_fillet_cancel").performClick()
+        composeTestRule.onNodeWithTag("fillet_inspector_card").assertDoesNotExist()
+    }
 }
