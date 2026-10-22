@@ -2,10 +2,10 @@
 
 > **Document Type:** Project Session History, Architecture Ledger & Engineering Handoff  
 > **Repository:** `dursuntokgoz/AndroCad`  
-> **Last Synchronized:** 2026-10-21 (Post Release `v1.0.2`)  
+> **Last Synchronized:** 2026-10-22 (Post Release `v1.0.3`)  
 > **Lead Developer / Identity:** `dursuntokgoz` (`10403537+dursuntokgoz@users.noreply.github.com`)  
 > **Target Devices:** Xiaomi 15T Pro (Snapdragon/Dimensity Phone) & Xiaomi Pad 6 (Snapdragon 870 Tablet)  
-> **Target Production Release:** `v1.0.2` (Debug & Release APK published via GitHub Releases)
+> **Target Production Release:** `v1.0.3` (Debug & Release APK published via GitHub Releases)
 
 ---
 
@@ -133,6 +133,23 @@ flowchart TD
      - Compliant ISO-10303-21 AP214 STEP exporter.
      - Auto-creation of default model on first import if file does not yet exist on disk.
   4. Released **`v1.0.2`** via GitHub Actions.
+
+### Hotfix 4: Release v1.0.3 — FTUE, Browser Panel, Button Fixes, SAF Storage & Sample Designs (2026-10-22)
+* **Root Causes & Addressed Bugs:**
+  1. Left Browser tree was non-operational; items could not be expanded, toggled for visibility, selected, renamed, or deleted.
+  2. Tools mistakenly fell back to `ic_box` icon.
+  3. Import/export failed due to native Open CASCADE C++ trying to open Android `content://` URIs directly instead of POSIX cache files.
+  4. Privacy and security: broad storage permissions were eliminated in favor of modern Storage Access Framework (SAF).
+* **Fixes & Implementations:**
+  1. Developed `CadBrowserView` and `BrowserState` with reactive visibility toggles, selection highlights, rename/delete actions, and phone sheet integration.
+  2. Mapped 54 CAD tool buttons to dedicated vector drawables.
+  3. Built `CadStorageManager` handling SAF `content://` URIs via safe application cache streaming.
+  4. Added `EmptyStateView` welcoming new users without requesting storage permissions.
+  5. Implemented 6-step interactive Onboarding Tutorial (`TutorialManager`, `TutorialOverlayView`) with DataStore persistence, skip button, and back gesture.
+  6. Created 4 original editable CAD sample designs (L-Bracket, Flanged Bushing, Phone Stand, Perforated Plate) with copy-on-open APK asset immutability and `SamplesGalleryDialog`.
+  7. Automated CI manifest permission audit verifying zero broad storage permissions.
+  8. Published `README.md` and `README_TR.md` with honest feature matrix and verified emulator screenshots.
+  9. Released **`v1.0.3`** via GitHub Actions.
 
 ---
 
