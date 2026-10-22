@@ -1,6 +1,9 @@
 // Copyright (c) 2026 dursuntokgoz. All rights reserved.
 package com.androcad.app.tutorial
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -68,23 +71,24 @@ class TutorialTest {
         // On first run, tutorial overlay should be visible immediately
         composeTestRule.onNodeWithTag("tutorial_overlay").assertIsDisplayed()
         composeTestRule.onNodeWithTag("tutorial_step_indicator", useUnmergedTree = true).assertIsDisplayed()
-        composeTestRule.onNodeWithTag("tutorial_btn_skip").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("tutorial_btn_next").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tutorial_btn_skip").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tutorial_btn_next").performScrollTo().assertIsDisplayed()
     }
 
     @Test
     fun testTutorialStepNavigationAndCompletion() {
         var completed = false
         var skipped = false
+        var stepIndex by mutableStateOf(0)
 
         composeTestRule.setContent {
             TutorialOverlayView(
-                stepIndex = 0,
+                stepIndex = stepIndex,
                 totalSteps = TutorialManager.STEPS.size,
-                step = TutorialManager.STEPS[0],
+                step = TutorialManager.STEPS[stepIndex],
                 isDarkTheme = true,
-                onNext = {},
-                onPrev = {},
+                onNext = { stepIndex++ },
+                onPrev = { stepIndex-- },
                 onSkip = { skipped = true },
                 onFinish = { completed = true }
             )
@@ -92,25 +96,13 @@ class TutorialTest {
 
         composeTestRule.onNodeWithTag("tutorial_overlay").assertIsDisplayed()
         composeTestRule.onNodeWithTag("tutorial_step_indicator", useUnmergedTree = true).assertIsDisplayed()
-        composeTestRule.onNodeWithTag("tutorial_btn_skip").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("tutorial_btn_next").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tutorial_btn_skip").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tutorial_btn_next").performScrollTo().assertIsDisplayed()
 
         // Test last step shows finish button
-        composeTestRule.setContent {
-            val lastIndex = TutorialManager.STEPS.size - 1
-            TutorialOverlayView(
-                stepIndex = lastIndex,
-                totalSteps = TutorialManager.STEPS.size,
-                step = TutorialManager.STEPS[lastIndex],
-                isDarkTheme = true,
-                onNext = {},
-                onPrev = {},
-                onSkip = { skipped = true },
-                onFinish = { completed = true }
-            )
-        }
+        stepIndex = TutorialManager.STEPS.size - 1
 
-        composeTestRule.onNodeWithTag("tutorial_btn_finish").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tutorial_btn_finish").performScrollTo().assertIsDisplayed()
         composeTestRule.onNodeWithTag("tutorial_btn_finish").performClick()
         assertTrue("Finish button callback should have been triggered", completed)
     }
@@ -131,7 +123,7 @@ class TutorialTest {
             )
         }
 
-        composeTestRule.onNodeWithTag("tutorial_btn_skip").performClick()
+        composeTestRule.onNodeWithTag("tutorial_btn_skip").performScrollTo().performClick()
         assertTrue("Skip callback should have been triggered", skipped)
     }
 
