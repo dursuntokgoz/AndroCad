@@ -1,0 +1,515 @@
+// Copyright (c) 2026 dursuntokgoz. All rights reserved.
+package com.androcad.app.ui
+
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.androcad.app.model.SketchClosedProfile
+import com.androcad.app.model.SketchEntity
+import com.androcad.app.model.SketchMath
+import kotlin.math.abs
+import kotlin.math.hypot
+import kotlin.math.max
+import kotlin.math.min
+
+@Composable
+fun SketchCanvasOverlay(
+    activeTool: String,
+    sketchEntities: List<SketchEntity>,
+    onEntitiesChanged: (List<SketchEntity>) -> Unit,
+    onFinishSketch: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var isSnapEnabled by remember { mutableStateOf(true) }
+    val gridSpacingMm = 10f
+    val canvasScale = 2.0f // 2.0 pixels per mm
+
+    var dragStart by remember { mutableStateOf<Offset?>(null) }
+    var dragCurrent by remember { mutableStateOf<Offset?>(null) }
+    var isDragging by remember { mutableStateOf(false) }
+
+    val currentProfile = remember(sketchEntities) {
+        SketchMath.evaluateProfile(sketchEntities)
+    }
+
+    BoxWithConstraints(
+        modifier = modifier
+            .fillMaxSize()
+            .testTag("sketch_canvas_overlay")
+    ) {
+        val widthPx = constraints.maxWidth.toFloat()
+        val heightPx = constraints.maxHeight.toFloat()
+        val centerX = widthPx / 2f
+        val centerY = heightPx / 2f
+
+        fun toMmX(px: Float): Float = (px - centerX) / canvasScale
+        fun toMmY(py: Float): Float = -(py - centerY) / canvasScale
+        fun toPxX(mmX: Float): Float = centerX + mmX * canvasScale
+        fun toPxY(mmY: Float): Float = centerY - mmY * canvasScale
+
+        // Interactive Canvas
+        Canvas(
+            modifier = Modifier
+                .fillMaxSize()
+                .pointerInput(activeTool, isSnapEnabled, sketchEntities) {
+                    detectDragGestures(
+                        onDragStart = { offset ->
+                            dragStart = offset
+                            dragCurrent = offset
+                            isDragging = true
+                        },
+                        onDrag = { change, dragAmount ->
+                            change.consume()
+                            dragCurrent = (dragCurrent ?: dragStart ?: change.position) + dragAmount
+                        },
+                        onDragEnd = {
+                            val start = dragStart
+                            val current = dragCurrent
+                            if (start != null && current != null) {
+                                var sX = toMmX(start.x)
+                                var sY = toMmY(start.y)
+                                var eX = toMmX(current.x)
+                                var eY = toMmY(current.y)
+
+                                if (isSnapEnabled) {
+                                    sX = SketchMath.snapToGrid(sX, gridSpacingMm)
+                                    sY = SketchMath.snapToGrid(sY, gridSpacingMm)
+                                    eX = SketchMath.snapToGrid(eX, gridSpacingMm)
+                                    eY = SketchMath.snapToGrid(eY, gridSpacingMm)
+                                }
+
+                                when (activeTool) {
+                                    "Rectangle" -> {
+                                        val minX = min(sX, eX)
+                                        val minY = min(sY, eY)
+                                        val w = abs(eX - sX)
+                                        val h = abs(eY - sY)
+                                        if (w >= 4f && h >= 4f) {
+                                            val rect = SketchEntity.Rectangle(
+                                                id = "rect_${System.currentTimeMillis()}",
+                                                minX = minX,
+                                                minY = minY,
+                                                width = w,
+                                                height = h
+                                            )
+                                            onEntitiesChanged(sketchEntities + rect)
+                                        }
+                                    }
+                                    "Circle" -> {
+                                        val r = hypot(eX - sX, eY - sY)
+                                        if (r >= 3f) {
+                                            val circ = SketchEntity.Circle(
+                                                id = "circ_${System.currentTimeMillis()}",
+                                                centerX = sX,
+                                                centerY = sY,
+                                                radius = r
+                                            )
+                                            onEntitiesChanged(sketchEntities + circ)
+                                        }
+                                    }
+                                    "Line" -> {
+                                        val length = hypot(eX - sX, eY - sY)
+                                        if (length >= 3f) {
+                                            val line = SketchEntity.Line(
+                                                id = "line_${System.currentTimeMillis()}",
+                                                startX = sX,
+                                                startY = sY,
+                                                endX = eX,
+                                                endY = eY
+                                            )
+                                            onEntitiesChanged(sketchEntities + line)
+                                        }
+                                    }
+                                }
+                            }
+                            dragStart = null
+                            dragCurrent = null
+                            isDragging = false
+                        },
+                        onDragCancel = {
+                            dragStart = null
+                            dragCurrent = null
+                            isDragging = false
+                        }
+                    )
+                }
+        ) {
+            // 1. Draw Grid
+            val gridSpacingPx = gridSpacingMm * canvasScale
+            val startGridX = (centerX % gridSpacingPx)
+            var curX = startGridX
+            while (curX < size.width) {
+                val isMajor = abs((curX - centerX) % (gridSpacingPx * 5)) < 1f
+                drawLine(
+                    color = if (isMajor) Color(0x33888888) else Color(0x18888888),
+                    start = Offset(curX, 0f),
+                    end = Offset(curX, size.height),
+                    strokeWidth = if (isMajor) 1.5f else 1f
+                )
+                curX += gridSpacingPx
+            }
+
+            val startGridY = (centerY % gridSpacingPx)
+            var curY = startGridY
+            while (curY < size.height) {
+                val isMajor = abs((curY - centerY) % (gridSpacingPx * 5)) < 1f
+                drawLine(
+                    color = if (isMajor) Color(0x33888888) else Color(0x18888888),
+                    start = Offset(0f, curY),
+                    end = Offset(size.width, curY),
+                    strokeWidth = if (isMajor) 1.5f else 1f
+                )
+                curY += gridSpacingPx
+            }
+
+            // 2. Draw Coordinate Origin Axes (Red = X, Green = Y)
+            // X-Axis
+            drawLine(
+                color = Color(0xBBF44336),
+                start = Offset(0f, centerY),
+                end = Offset(size.width, centerY),
+                strokeWidth = 2f
+            )
+            // Y-Axis
+            drawLine(
+                color = Color(0xBB4CAF50),
+                start = Offset(centerX, 0f),
+                end = Offset(centerX, size.height),
+                strokeWidth = 2f
+            )
+            // Origin point
+            drawCircle(color = Color(0xFF00A4E4), radius = 5f, center = Offset(centerX, centerY))
+            drawCircle(color = Color.White, radius = 2.5f, center = Offset(centerX, centerY))
+
+            // 3. Render Committed Sketch Entities
+            val strokeColor = Color(0xFF00A4E4)
+            val fillColor = Color(0x3300A4E4)
+            val handleColor = Color.White
+
+            for (entity in sketchEntities) {
+                when (entity) {
+                    is SketchEntity.Rectangle -> {
+                        val pxL = toPxX(entity.minX)
+                        val pxR = toPxX(entity.minX + entity.width)
+                        val pxT = toPxY(entity.minY + entity.height)
+                        val pxB = toPxY(entity.minY)
+
+                        val left = min(pxL, pxR)
+                        val top = min(pxT, pxB)
+                        val width = abs(pxR - pxL)
+                        val height = abs(pxB - pxT)
+
+                        // Translucent closed profile fill
+                        drawRect(
+                            color = fillColor,
+                            topLeft = Offset(left, top),
+                            size = Size(width, height)
+                        )
+                        // Solid cyan outline
+                        drawRect(
+                            color = strokeColor,
+                            topLeft = Offset(left, top),
+                            size = Size(width, height),
+                            style = Stroke(width = 3.5f)
+                        )
+                        // 4 Corner vertex handles
+                        listOf(
+                            Offset(left, top),
+                            Offset(left + width, top),
+                            Offset(left + width, top + height),
+                            Offset(left, top + height)
+                        ).forEach { pt ->
+                            drawCircle(color = strokeColor, radius = 5f, center = pt)
+                            drawCircle(color = handleColor, radius = 3f, center = pt)
+                        }
+                    }
+                    is SketchEntity.Circle -> {
+                        val cX = toPxX(entity.centerX)
+                        val cY = toPxY(entity.centerY)
+                        val rPx = entity.radius * canvasScale
+
+                        // Translucent closed profile fill
+                        drawCircle(
+                            color = fillColor,
+                            radius = rPx,
+                            center = Offset(cX, cY)
+                        )
+                        // Solid outline
+                        drawCircle(
+                            color = strokeColor,
+                            radius = rPx,
+                            center = Offset(cX, cY),
+                            style = Stroke(width = 3.5f)
+                        )
+                        // Center crosshair
+                        drawLine(
+                            color = strokeColor,
+                            start = Offset(cX - 8f, cY),
+                            end = Offset(cX + 8f, cY),
+                            strokeWidth = 2f
+                        )
+                        drawLine(
+                            color = strokeColor,
+                            start = Offset(cX, cY - 8f),
+                            end = Offset(cX, cY + 8f),
+                            strokeWidth = 2f
+                        )
+                    }
+                    is SketchEntity.Line -> {
+                        val p1 = Offset(toPxX(entity.startX), toPxY(entity.startY))
+                        val p2 = Offset(toPxX(entity.endX), toPxY(entity.endY))
+
+                        drawLine(
+                            color = strokeColor,
+                            start = p1,
+                            end = p2,
+                            strokeWidth = 3.5f
+                        )
+                        drawCircle(color = strokeColor, radius = 4f, center = p1)
+                        drawCircle(color = handleColor, radius = 2.5f, center = p1)
+                        drawCircle(color = strokeColor, radius = 4f, center = p2)
+                        drawCircle(color = handleColor, radius = 2.5f, center = p2)
+                    }
+                }
+            }
+
+            // 4. Live Rubber-Band In-Progress Drawing Preview
+            if (isDragging && dragStart != null && dragCurrent != null) {
+                val start = dragStart!!
+                val current = dragCurrent!!
+                var sX = toMmX(start.x)
+                var sY = toMmY(start.y)
+                var eX = toMmX(current.x)
+                var eY = toMmY(current.y)
+
+                if (isSnapEnabled) {
+                    sX = SketchMath.snapToGrid(sX, gridSpacingMm)
+                    sY = SketchMath.snapToGrid(sY, gridSpacingMm)
+                    eX = SketchMath.snapToGrid(eX, gridSpacingMm)
+                    eY = SketchMath.snapToGrid(eY, gridSpacingMm)
+                }
+
+                val previewStartPx = Offset(toPxX(sX), toPxY(sY))
+                val previewCurrentPx = Offset(toPxX(eX), toPxY(eY))
+                val dashEffect = PathEffect.dashPathEffect(floatArrayOf(12f, 8f), 0f)
+
+                when (activeTool) {
+                    "Rectangle" -> {
+                        val left = min(previewStartPx.x, previewCurrentPx.x)
+                        val top = min(previewStartPx.y, previewCurrentPx.y)
+                        val w = abs(previewCurrentPx.x - previewStartPx.x)
+                        val h = abs(previewCurrentPx.y - previewStartPx.y)
+
+                        drawRect(
+                            color = Color(0x2200A4E4),
+                            topLeft = Offset(left, top),
+                            size = Size(w, h)
+                        )
+                        drawRect(
+                            color = Color(0xFF00E5FF),
+                            topLeft = Offset(left, top),
+                            size = Size(w, h),
+                            style = Stroke(width = 3f, pathEffect = dashEffect)
+                        )
+                    }
+                    "Circle" -> {
+                        val rPx = hypot(eX - sX, eY - sY) * canvasScale
+                        drawCircle(
+                            color = Color(0x2200A4E4),
+                            radius = rPx,
+                            center = previewStartPx
+                        )
+                        drawCircle(
+                            color = Color(0xFF00E5FF),
+                            radius = rPx,
+                            center = previewStartPx,
+                            style = Stroke(width = 3f, pathEffect = dashEffect)
+                        )
+                        drawLine(
+                            color = Color(0xAAFFFFFF),
+                            start = previewStartPx,
+                            end = previewCurrentPx,
+                            strokeWidth = 2f
+                        )
+                    }
+                    "Line" -> {
+                        drawLine(
+                            color = Color(0xFF00E5FF),
+                            start = previewStartPx,
+                            end = previewCurrentPx,
+                            strokeWidth = 3f,
+                            pathEffect = dashEffect
+                        )
+                    }
+                }
+            }
+        }
+
+        // Top Status Badge (Fusion 360 Style Profile Indicator)
+        Surface(
+            color = Color(0xEE1E2228),
+            shape = RoundedCornerShape(8.dp),
+            border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF00A4E4)),
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(12.dp)
+                .testTag("sketch_status_badge")
+        ) {
+            Row(
+                modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                val isClosed = currentProfile?.isClosed == true
+                Surface(
+                    color = if (isClosed) Color(0xFF4CAF50) else Color(0xFFFF9800),
+                    shape = RoundedCornerShape(4.dp),
+                    modifier = Modifier.size(8.dp)
+                ) {}
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = if (isClosed) {
+                        "✓ ${currentProfile?.description ?: "Closed Profile"} • Ready to Extrude"
+                    } else if (sketchEntities.isNotEmpty()) {
+                        "Drawing... (${sketchEntities.size} entities, open)"
+                    } else {
+                        "Sketch Mode: Draw with 1 finger (${activeTool})"
+                    },
+                    color = Color.White,
+                    fontSize = 11.sp
+                )
+            }
+        }
+
+        // Bottom HUD Control Bar
+        Surface(
+            color = Color(0xEE1A1C20),
+            shape = RoundedCornerShape(20.dp),
+            border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF454950)),
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(start = 12.dp, bottom = 48.dp)
+        ) {
+            Row(
+                modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                // Snap Toggle
+                Surface(
+                    color = if (isSnapEnabled) Color(0xFF00A4E4) else Color(0xFF2C2F33),
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier
+                        .testTag("btn_sketch_snap")
+                        .clickable { isSnapEnabled = !isSnapEnabled }
+                ) {
+                    Text(
+                        text = if (isSnapEnabled) "Snap: 10mm" else "Snap: Off",
+                        color = Color.White,
+                        fontSize = 10.sp,
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                    )
+                }
+
+                // Undo Button
+                if (sketchEntities.isNotEmpty()) {
+                    Surface(
+                        color = Color(0xFF2C2F33),
+                        shape = RoundedCornerShape(12.dp),
+                        modifier = Modifier
+                            .testTag("btn_sketch_undo")
+                            .clickable {
+                                onEntitiesChanged(sketchEntities.dropLast(1))
+                            }
+                    ) {
+                        Text(
+                            text = "Undo",
+                            color = Color.White,
+                            fontSize = 10.sp,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        )
+                    }
+
+                    // Clear Button
+                    Surface(
+                        color = Color(0xFF3B2A2A),
+                        shape = RoundedCornerShape(12.dp),
+                        modifier = Modifier
+                            .testTag("btn_sketch_clear")
+                            .clickable {
+                                onEntitiesChanged(emptyList())
+                            }
+                    ) {
+                        Text(
+                            text = "Clear",
+                            color = Color(0xFFFF8A80),
+                            fontSize = 10.sp,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        )
+                    }
+                }
+
+                // Instant Preset Shape (100x50 mm) for rapid 1-tap sketching and testing
+                Surface(
+                    color = Color(0xFF233644),
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier
+                        .testTag("btn_sketch_preset")
+                        .clickable {
+                            val preset = SketchEntity.Rectangle(
+                                id = "rect_preset_${System.currentTimeMillis()}",
+                                minX = -50f,
+                                minY = -25f,
+                                width = 100f,
+                                height = 50f
+                            )
+                            onEntitiesChanged(sketchEntities + preset)
+                        }
+                ) {
+                    Text(
+                        text = "+ 100x50 mm",
+                        color = Color(0xFF80D8FF),
+                        fontSize = 10.sp,
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                    )
+                }
+
+                // HUD Finish Sketch Button
+                Surface(
+                    color = Color(0xFF4CAF50),
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier
+                        .testTag("btn_sketch_finish_hud")
+                        .clickable { onFinishSketch() }
+                ) {
+                    Text(
+                        text = "Finish Sketch ✓",
+                        color = Color.White,
+                        fontSize = 10.sp,
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
+                    )
+                }
+            }
+        }
+    }
+}

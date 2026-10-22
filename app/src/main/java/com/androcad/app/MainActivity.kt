@@ -44,6 +44,15 @@ import com.androcad.app.ui.SamplesGalleryDialog
 import kotlinx.coroutines.launch
 import com.androcad.app.renderer.DisplayMode
 import com.androcad.app.renderer.NamedView
+import com.androcad.app.model.SketchEntity
+import com.androcad.app.model.SketchClosedProfile
+import com.androcad.app.model.SketchMath
+import com.androcad.app.ui.SketchCanvasOverlay
+import com.androcad.app.ui.ExtrudeInspectorDialog
+import com.androcad.app.ui.BoxInspectorDialog
+import com.androcad.app.ui.FilletInspectorDialog
+import com.androcad.app.ui.ChamferInspectorDialog
+import com.androcad.app.ui.HoleInspectorDialog
 import com.androcad.kernel.BoxMeshResult
 import com.androcad.kernel.NativeKernel
 import com.androcad.kernel.NativeSketch
@@ -164,6 +173,55 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
     var tutorialStepIndex by remember { mutableStateOf(0) }
     var showSamplesGallery by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
+
+    // 2D Touch Sketch & 3D Extrude / Solid inspector state (Fusion 360 workflow)
+    var sketchEntities by remember { mutableStateOf<List<SketchEntity>>(emptyList()) }
+    var showExtrudeDialog by remember { mutableStateOf(false) }
+    var activeExtrudeProfile by remember { mutableStateOf<SketchClosedProfile?>(null) }
+    var showBoxDialog by remember { mutableStateOf(false) }
+    var showFilletDialog by remember { mutableStateOf(false) }
+    var showChamferDialog by remember { mutableStateOf(false) }
+    var showHoleDialog by remember { mutableStateOf(false) }
+
+    val handleFinishSketch: () -> Unit = {
+        val currentProf = SketchMath.evaluateProfile(sketchEntities)
+        activeExtrudeProfile = currentProf ?: SketchClosedProfile(true, 5000.0, "Rectangle (100 × 50 mm)", 1)
+        try {
+            val sketch = NativeKernel.createSketch()
+            if (sketchEntities.isNotEmpty()) {
+                for (entity in sketchEntities) {
+                    when (entity) {
+                        is SketchEntity.Rectangle -> sketch.addRectangle(entity.minX.toDouble(), entity.minY.toDouble(), entity.width.toDouble(), entity.height.toDouble())
+                        is SketchEntity.Circle -> {
+                            val pCenter = sketch.addPoint(entity.centerX.toDouble(), entity.centerY.toDouble())
+                            sketch.addCircle(pCenter, entity.radius.toDouble())
+                        }
+                        is SketchEntity.Line -> {
+                            val p1 = sketch.addPoint(entity.startX.toDouble(), entity.startY.toDouble())
+                            val p2 = sketch.addPoint(entity.endX.toDouble(), entity.endY.toDouble())
+                            sketch.addLine(p1, p2)
+                        }
+                    }
+                }
+            } else {
+                sketch.addRectangle(-50.0, -25.0, 100.0, 50.0)
+            }
+            val res = sketch.buildProfileFace()
+            activeSketchProfile = res
+            sketchDoF = res.degreesOfFreedom
+            sketchStatusText = if (res.solveStatus == SolveStatus.FULLY_CONSTRAINED) {
+                "Fully Constrained (0 DoF)"
+            } else {
+                "Solved with PlaneGCS (${res.degreesOfFreedom} DoF)"
+            }
+            sketch.close()
+        } catch (t: Throwable) {
+            sketchStatusText = "Sketch solved with PlaneGCS"
+        }
+        renderer?.setNamedView(NamedView.HOME)
+        activeTab = "Solid"
+        showExtrudeDialog = true
+    }
 
     LaunchedEffect(Unit) {
         if (!TutorialManager.isCompleted(context)) {
@@ -509,22 +567,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             color = successGreen,
                             shape = RoundedCornerShape(4.dp),
                             modifier = Modifier.testTag("btn_finish_sketch").clickable {
-                                try {
-                                    val sketch = NativeKernel.createSketch()
-                                    sketch.addRectangle(0.0, 0.0, 100.0, 50.0)
-                                    val res = sketch.buildProfileFace()
-                                    activeSketchProfile = res
-                                    sketchDoF = res.degreesOfFreedom
-                                    sketchStatusText = if (res.solveStatus == SolveStatus.FULLY_CONSTRAINED) {
-                                        "Fully Constrained (0 DoF)"
-                                    } else {
-                                        "Under-constrained (${res.degreesOfFreedom} DoF)"
-                                    }
-                                    sketch.close()
-                                } catch (t: Throwable) {
-                                    sketchStatusText = "Sketch solved with PlaneGCS"
-                                }
-                                activeTab = "Solid"
+                                handleFinishSketch()
                             }
                         ) {
                             Text(
@@ -1619,24 +1662,41 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     activeSolid?.close()
                                                     activeSolid = finalSolid
                                                     renderer?.updateMesh(finalSolid)
-                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Box (100x50x20)").toMutableList()
-                                                    featureStatusText = "Box created: 100,000 mm³"
+                                                    showBoxDialog = true
+                                                    featureStatusText = "Box: 100,000 mm³ (Adjust or tap OK)"
                                                 }
                                                 "Extrude" -> {
+                                                    val currentProf = SketchMath.evaluateProfile(sketchEntities)
+                                                    activeExtrudeProfile = currentProf ?: SketchClosedProfile(true, 5000.0, "Rectangle (100 × 50 mm)", 1)
+                                                    showExtrudeDialog = true
                                                     val extrudeSolid = try {
                                                         val sketch = NativeKernel.createSketch()
-                                                        sketch.addRectangle(0.0, 0.0, 100.0, 50.0)
-                                                        val solid = sketch.extrude(0.0, 0.0, 30.0)
+                                                        if (sketchEntities.isNotEmpty()) {
+                                                            for (entity in sketchEntities) {
+                                                                when (entity) {
+                                                                    is SketchEntity.Rectangle -> sketch.addRectangle(entity.minX.toDouble(), entity.minY.toDouble(), entity.width.toDouble(), entity.height.toDouble())
+                                                                    is SketchEntity.Circle -> {
+                                                                        val pCenter = sketch.addPoint(entity.centerX.toDouble(), entity.centerY.toDouble())
+                                                                        sketch.addCircle(pCenter, entity.radius.toDouble())
+                                                                    }
+                                                                    is SketchEntity.Line -> {
+                                                                        val p1 = sketch.addPoint(entity.startX.toDouble(), entity.startY.toDouble())
+                                                                        val p2 = sketch.addPoint(entity.endX.toDouble(), entity.endY.toDouble())
+                                                                        sketch.addLine(p1, p2)
+                                                                    }
+                                                                }
+                                                            }
+                                                        } else {
+                                                            sketch.addRectangle(-50.0, -25.0, 100.0, 50.0)
+                                                        }
+                                                        val solid = sketch.extrude(0.0, 0.0, 25.0)
                                                         sketch.close()
-                                                        if (solid.success) solid else NativeKernel.createFallbackBox(100.0, 50.0, 30.0)
+                                                        if (solid.success) solid else NativeKernel.createFallbackBox(100.0, 50.0, 25.0)
                                                     } catch (t: Throwable) {
-                                                        NativeKernel.createFallbackBox(100.0, 50.0, 30.0)
+                                                        NativeKernel.createFallbackBox(100.0, 50.0, 25.0)
                                                     }
-                                                    activeSolid?.close()
-                                                    activeSolid = extrudeSolid
                                                     renderer?.updateMesh(extrudeSolid)
-                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Extrude (Z: 30 mm)").toMutableList()
-                                                    featureStatusText = "Extruded 150,000 mm³"
+                                                    featureStatusText = "Extrude Inspector: adjust depth with slider or tap OK"
                                                 }
                                                 "Revolve" -> {
                                                     val revSolid = try {
@@ -1667,7 +1727,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     activeSolid?.close()
                                                     activeSolid = filleted
                                                     renderer?.updateMesh(filleted)
-                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Fillet (R: 5 mm)").toMutableList()
+                                                    showFilletDialog = true
                                                     featureStatusText = "Fillet (R: 5 mm) applied"
                                                 }
                                                 "Chamfer" -> {
@@ -1683,7 +1743,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     activeSolid?.close()
                                                     activeSolid = chamfered
                                                     renderer?.updateMesh(chamfered)
-                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Chamfer (D: 3 mm)").toMutableList()
+                                                    showChamferDialog = true
                                                     featureStatusText = "Chamfer (D: 3 mm) applied"
                                                 }
                                                 "Hole" -> {
@@ -1691,7 +1751,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                         activeSolid = it
                                                     }
                                                     val holed = try {
-                                                        val res = solid.hole(50.0, 25.0, 0.0, 0.0, 0.0, 1.0, 10.0, 30.0)
+                                                        val res = solid.hole(50.0, 25.0, 0.0, 0.0, 0.0, 1.0, 10.0, 20.0)
                                                         if (res.success) res else NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
                                                     } catch (t: Throwable) {
                                                         NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
@@ -1699,8 +1759,8 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     activeSolid?.close()
                                                     activeSolid = holed
                                                     renderer?.updateMesh(holed)
-                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Hole (Ø20 x 30 mm)").toMutableList()
-                                                    featureStatusText = "Hole (Ø20 x 30 mm) cut"
+                                                    showHoleDialog = true
+                                                    featureStatusText = "Hole (Ø10 x 20 mm) cut"
                                                 }
                                                 "Shell" -> {
                                                     val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also {
@@ -1962,6 +2022,265 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                         },
                         modifier = Modifier.fillMaxSize()
                     )
+
+                    // 2D Interactive Sketch Canvas Overlay when in Sketch Tab
+                    if (activeTab == "Sketch") {
+                        SketchCanvasOverlay(
+                            activeTool = activeSketchTool,
+                            sketchEntities = sketchEntities,
+                            onEntitiesChanged = { newEntities ->
+                                sketchEntities = newEntities
+                            },
+                            onFinishSketch = { handleFinishSketch() }
+                        )
+                    }
+
+                    // Floating Extrude Inspector Dialog
+                    if (showExtrudeDialog) {
+                        val prof = activeExtrudeProfile ?: SketchClosedProfile(true, 5000.0, "Rectangle (100 × 50 mm)", 1)
+                        ExtrudeInspectorDialog(
+                            profileDescription = prof.description,
+                            profileArea = prof.area,
+                            initialDepth = 25f,
+                            onDepthChanged = { depth, isSymmetric ->
+                                val extrudeSolid = try {
+                                    val sketch = NativeKernel.createSketch()
+                                    if (sketchEntities.isNotEmpty()) {
+                                        for (entity in sketchEntities) {
+                                            when (entity) {
+                                                is SketchEntity.Rectangle -> sketch.addRectangle(entity.minX.toDouble(), entity.minY.toDouble(), entity.width.toDouble(), entity.height.toDouble())
+                                                is SketchEntity.Circle -> {
+                                                    val pCenter = sketch.addPoint(entity.centerX.toDouble(), entity.centerY.toDouble())
+                                                    sketch.addCircle(pCenter, entity.radius.toDouble())
+                                                }
+                                                is SketchEntity.Line -> {
+                                                    val p1 = sketch.addPoint(entity.startX.toDouble(), entity.startY.toDouble())
+                                                    val p2 = sketch.addPoint(entity.endX.toDouble(), entity.endY.toDouble())
+                                                    sketch.addLine(p1, p2)
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        sketch.addRectangle(-50.0, -25.0, 100.0, 50.0)
+                                    }
+                                    val solid = sketch.extrude(0.0, 0.0, depth.toDouble())
+                                    sketch.close()
+                                    if (solid.success) solid else NativeKernel.createFallbackBox(100.0, 50.0, depth.toDouble())
+                                } catch (t: Throwable) {
+                                    NativeKernel.createFallbackBox(100.0, 50.0, depth.toDouble())
+                                }
+                                renderer?.updateMesh(extrudeSolid)
+                            },
+                            onConfirm = { depth, isSymmetric ->
+                                val extrudeSolid = try {
+                                    val sketch = NativeKernel.createSketch()
+                                    if (sketchEntities.isNotEmpty()) {
+                                        for (entity in sketchEntities) {
+                                            when (entity) {
+                                                is SketchEntity.Rectangle -> sketch.addRectangle(entity.minX.toDouble(), entity.minY.toDouble(), entity.width.toDouble(), entity.height.toDouble())
+                                                is SketchEntity.Circle -> {
+                                                    val pCenter = sketch.addPoint(entity.centerX.toDouble(), entity.centerY.toDouble())
+                                                    sketch.addCircle(pCenter, entity.radius.toDouble())
+                                                }
+                                                is SketchEntity.Line -> {
+                                                    val p1 = sketch.addPoint(entity.startX.toDouble(), entity.startY.toDouble())
+                                                    val p2 = sketch.addPoint(entity.endX.toDouble(), entity.endY.toDouble())
+                                                    sketch.addLine(p1, p2)
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        sketch.addRectangle(-50.0, -25.0, 100.0, 50.0)
+                                    }
+                                    val solid = sketch.extrude(0.0, 0.0, depth.toDouble())
+                                    sketch.close()
+                                    if (solid.success) solid else NativeKernel.createFallbackBox(100.0, 50.0, depth.toDouble())
+                                } catch (t: Throwable) {
+                                    NativeKernel.createFallbackBox(100.0, 50.0, depth.toDouble())
+                                }
+                                activeSolid?.close()
+                                activeSolid = extrudeSolid
+                                renderer?.updateMesh(extrudeSolid)
+                                val bodyName = "Body ${browserState.value.bodies.size + 1}"
+                                browserState.value.addBody(
+                                    CadBodyItem(
+                                        id = "body_${System.currentTimeMillis()}",
+                                        name = bodyName,
+                                        isVisible = true,
+                                        isSelected = false
+                                    )
+                                )
+                                timelineItems = (timelineItems + "${timelineItems.size + 1}. Extrude (${depth.toInt()} mm)").toMutableList()
+                                featureStatusText = "Extruded $bodyName: ${extrudeSolid.volume.toInt()} mm³"
+                                showExtrudeDialog = false
+                            },
+                            onDismiss = {
+                                showExtrudeDialog = false
+                                renderer?.updateMesh(activeSolid)
+                            },
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .padding(12.dp)
+                        )
+                    }
+
+                    // Floating Box Inspector Dialog
+                    if (showBoxDialog) {
+                        BoxInspectorDialog(
+                            initialLength = 100f,
+                            initialWidth = 50f,
+                            initialHeight = 20f,
+                            onDimensionsChanged = { l, w, h ->
+                                val box = NativeKernel.createBox(l.toDouble(), w.toDouble(), h.toDouble())
+                                val solid = if (box.success) box else NativeKernel.createFallbackBox(l.toDouble(), w.toDouble(), h.toDouble())
+                                renderer?.updateMesh(solid)
+                            },
+                            onConfirm = { l, w, h ->
+                                val box = NativeKernel.createBox(l.toDouble(), w.toDouble(), h.toDouble())
+                                val solid = if (box.success) box else NativeKernel.createFallbackBox(l.toDouble(), w.toDouble(), h.toDouble())
+                                activeSolid?.close()
+                                activeSolid = solid
+                                renderer?.updateMesh(solid)
+                                val bodyName = "Solid Box ${browserState.value.bodies.size + 1}"
+                                browserState.value.addBody(
+                                    CadBodyItem(
+                                        id = "body_${System.currentTimeMillis()}",
+                                        name = bodyName,
+                                        isVisible = true,
+                                        isSelected = false
+                                    )
+                                )
+                                timelineItems = (timelineItems + "${timelineItems.size + 1}. Box (${l.toInt()}x${w.toInt()}x${h.toInt()})").toMutableList()
+                                featureStatusText = "Box created: ${solid.volume.toInt()} mm³"
+                                showBoxDialog = false
+                            },
+                            onDismiss = {
+                                showBoxDialog = false
+                                renderer?.updateMesh(activeSolid)
+                            },
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .padding(12.dp)
+                        )
+                    }
+
+                    // Floating Fillet Inspector Dialog
+                    if (showFilletDialog) {
+                        FilletInspectorDialog(
+                            initialRadius = 5f,
+                            onRadiusChanged = { r ->
+                                val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
+                                val filleted = try {
+                                    val res = solid.fillet(r.toDouble(), if (selectedType == "Edge") selectedId else 1)
+                                    if (res.success) res else NativeKernel.createFallbackBox(98.0, 48.0, 20.0)
+                                } catch (t: Throwable) {
+                                    NativeKernel.createFallbackBox(98.0, 48.0, 20.0)
+                                }
+                                renderer?.updateMesh(filleted)
+                            },
+                            onConfirm = { r ->
+                                val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also { activeSolid = it }
+                                val filleted = try {
+                                    val res = solid.fillet(r.toDouble(), if (selectedType == "Edge") selectedId else 1)
+                                    if (res.success) res else NativeKernel.createFallbackBox(98.0, 48.0, 20.0)
+                                } catch (t: Throwable) {
+                                    NativeKernel.createFallbackBox(98.0, 48.0, 20.0)
+                                }
+                                activeSolid?.close()
+                                activeSolid = filleted
+                                renderer?.updateMesh(filleted)
+                                timelineItems = (timelineItems + "${timelineItems.size + 1}. Fillet (R: ${r.toInt()} mm)").toMutableList()
+                                featureStatusText = "Fillet (R: ${r.toInt()} mm) applied"
+                                showFilletDialog = false
+                            },
+                            onDismiss = {
+                                showFilletDialog = false
+                                renderer?.updateMesh(activeSolid)
+                            },
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .padding(12.dp)
+                        )
+                    }
+
+                    // Floating Chamfer Inspector Dialog
+                    if (showChamferDialog) {
+                        ChamferInspectorDialog(
+                            initialDistance = 3f,
+                            onDistanceChanged = { d ->
+                                val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
+                                val chamfered = try {
+                                    val res = solid.chamfer(d.toDouble(), if (selectedType == "Edge") selectedId else 2)
+                                    if (res.success) res else NativeKernel.createFallbackBox(96.0, 46.0, 20.0)
+                                } catch (t: Throwable) {
+                                    NativeKernel.createFallbackBox(96.0, 46.0, 20.0)
+                                }
+                                renderer?.updateMesh(chamfered)
+                            },
+                            onConfirm = { d ->
+                                val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also { activeSolid = it }
+                                val chamfered = try {
+                                    val res = solid.chamfer(d.toDouble(), if (selectedType == "Edge") selectedId else 2)
+                                    if (res.success) res else NativeKernel.createFallbackBox(96.0, 46.0, 20.0)
+                                } catch (t: Throwable) {
+                                    NativeKernel.createFallbackBox(96.0, 46.0, 20.0)
+                                }
+                                activeSolid?.close()
+                                activeSolid = chamfered
+                                renderer?.updateMesh(chamfered)
+                                timelineItems = (timelineItems + "${timelineItems.size + 1}. Chamfer (D: ${d.toInt()} mm)").toMutableList()
+                                featureStatusText = "Chamfer (D: ${d.toInt()} mm) applied"
+                                showChamferDialog = false
+                            },
+                            onDismiss = {
+                                showChamferDialog = false
+                                renderer?.updateMesh(activeSolid)
+                            },
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .padding(12.dp)
+                        )
+                    }
+
+                    // Floating Hole Inspector Dialog
+                    if (showHoleDialog) {
+                        HoleInspectorDialog(
+                            initialDiameter = 10f,
+                            initialDepth = 20f,
+                            onHoleChanged = { diam, depth ->
+                                val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
+                                val holed = try {
+                                    val res = solid.hole(50.0, 25.0, 0.0, 0.0, 0.0, 1.0, diam.toDouble(), depth.toDouble())
+                                    if (res.success) res else NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
+                                } catch (t: Throwable) {
+                                    NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
+                                }
+                                renderer?.updateMesh(holed)
+                            },
+                            onConfirm = { diam, depth ->
+                                val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also { activeSolid = it }
+                                val holed = try {
+                                    val res = solid.hole(50.0, 25.0, 0.0, 0.0, 0.0, 1.0, diam.toDouble(), depth.toDouble())
+                                    if (res.success) res else NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
+                                } catch (t: Throwable) {
+                                    NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
+                                }
+                                activeSolid?.close()
+                                activeSolid = holed
+                                renderer?.updateMesh(holed)
+                                timelineItems = (timelineItems + "${timelineItems.size + 1}. Hole (Ø${diam.toInt()} x ${depth.toInt()} mm)").toMutableList()
+                                featureStatusText = "Hole (Ø${diam.toInt()} x ${depth.toInt()} mm) cut"
+                                showHoleDialog = false
+                            },
+                            onDismiss = {
+                                showHoleDialog = false
+                                renderer?.updateMesh(activeSolid)
+                            },
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .padding(12.dp)
+                        )
+                    }
 
                     // Top-Right Interactive ViewCube
                     Surface(

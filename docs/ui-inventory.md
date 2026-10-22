@@ -58,6 +58,32 @@ Bu belge, AndroCAD mobil ve tablet arayüzündeki tüm tıklanabilir kontrolleri
 | Ölçülendirme | `tool_Dimension` | Geometriler arasına boyutsal mesafe kısıtı atar. | `testSketchTools` |
 | Geometrik Kısıtlar | `tool_Constraints` | Çakışıklık, paralellik, diklik, teğetlik kısıtlar. | `testSketchTools` |
 | Eskizi Bitir | `btn_finish_sketch` | PlaneGCS ile çözüp kapalı profili katılaştırmaya hazır hale getirir. | `testSketchTools` |
+| Çizim Tuvali | `sketch_canvas_overlay` | 1 parmak dokunmatik çizim, kauçuk bant ve saydam profil dolgusu sunar. | `testSketchOverlayDisplayedInSketchTab` |
+| Durum Rozeti | `sketch_status_badge` | Aktif çizim ve kapalı profil (alan, kenar sayısı) durumunu bildirir. | `testSketchOverlayDisplayedInSketchTab` |
+| Izgara Yakalama | `btn_sketch_snap` | 10 mm ızgara yakalama kilit modunu açıp kapatır. | `testSketchOverlayDisplayedInSketchTab` |
+| Hazır Dikdörtgen | `btn_sketch_preset` | Tek dokunuşla 100x50 mm kapalı dikdörtgen profil ekler. | `testPresetSketchCreationAndProfileStatus` |
+| Geri Al (Eskiz) | `btn_sketch_undo` | Tuvaldeki son eklenen geometriyi siler. | `testPresetSketchCreationAndProfileStatus` |
+| Tuvali Temizle | `btn_sketch_clear` | Çizilmiş tüm eskiz nesnelerini temizler. | `testPresetSketchCreationAndProfileStatus` |
+| Eskizi Bitir (HUD) | `btn_sketch_finish_hud` | Eskizi bitirip kamerayı izometrik 3D'ye alır ve Ekstrüzyon panelini açar. | `testFinishSketchOpensExtrudeInspector` |
+
+### Katı Modelleme Parametrik Denetleyicileri (Solid Inspector Cards)
+| Kontrol Adı | `testTag` | Beklenen Davranış | Doğrulayan Test |
+| :--- | :--- | :--- | :--- |
+| Ekstrüzyon Paneli | `extrude_inspector_card` | Fusion 360 tarzı yüzen ekstrüzyon parametre kartı. | `testFinishSketchOpensExtrudeInspector` |
+| Ekstrüzyon Derinliği | `slider_extrude_depth` | Derinliği 2-150 mm arasında canlı 3D mesh güncellemesiyle ayarlar. | `testFinishSketchOpensExtrudeInspector` |
+| Derinlik Göstergesi | `text_extrude_depth` | Seçili ekstrüzyon mesafesini mm cinsinden gösterir. | `testFinishSketchOpensExtrudeInspector` |
+| +10 Adımlayıcı | `btn_extrude_step_plus_10` | Ekstrüzyon derinliğini 10 mm artırır. | `testSolidTabToolExtrudeOpensInspector` |
+| -1 Adımlayıcı | `btn_extrude_step_minus_1` | Ekstrüzyon derinliğini 1 mm azaltır. | `testSolidTabToolExtrudeOpensInspector` |
+| Ekstrüzyon Tamamla | `btn_extrude_ok` | B-Rep katı gövdesini oluşturur, Browser ve Timeline'a ekler. | `testFinishSketchOpensExtrudeInspector` |
+| Ekstrüzyon İptal | `btn_extrude_cancel` | Ekstrüzyon önizlemesini iptal edip paneli kapatır. | `testSolidTabToolExtrudeOpensInspector` |
+| Kutu Paneli | `box_inspector_card` | Boy, En ve Yükseklik kaydırıcılarını içeren prizma paneli. | `testSolidTabBoxInspector` |
+| Kutu Tamamla | `btn_box_ok` | Ayarlanan boyutlarda parametrik kutuyu oluşturur. | `testSolidTabBoxInspector` |
+| Radyus Paneli | `fillet_inspector_card` | Canlı yarıçap kaydırıcısı olan radyus paneli. | `testSolidTabFilletChamferHoleInspectors` |
+| Radyus Tamamla | `btn_fillet_ok` | Seçili radyus işlemini gövdeye uygular. | `testSolidTabFilletChamferHoleInspectors` |
+| Pah Paneli | `chamfer_inspector_card` | Pah mesafesi kaydırıcısı olan pah paneli. | `testSolidTabFilletChamferHoleInspectors` |
+| Pah Tamamla | `btn_chamfer_ok` | Seçili pah işlemini gövdeye uygular. | `testSolidTabFilletChamferHoleInspectors` |
+| Delik Paneli | `hole_inspector_card` | Çap ve derinlik kaydırıcıları olan delik delme paneli. | `testSolidTabFilletChamferHoleInspectors` |
+| Delik Tamamla | `btn_hole_ok` | Silindirik deliği katı üzerinden çıkarır (Boolean Cut). | `testSolidTabFilletChamferHoleInspectors` |
 
 ### Dosya & G/Ç (File / IO Tab)
 | Kontrol Adı | `testTag` | Beklenen Davranış | Doğrulayan Test |
