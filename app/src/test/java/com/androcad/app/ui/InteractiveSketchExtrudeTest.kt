@@ -118,10 +118,10 @@ class InteractiveSketchExtrudeTest {
         composeTestRule.onNodeWithTag("extrude_inspector_card").assertIsDisplayed()
         composeTestRule.onNodeWithTag("text_extrude_depth").assertIsDisplayed()
         composeTestRule.onNodeWithTag("slider_extrude_depth").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("btn_extrude_ok").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("btn_extrude_ok").performScrollTo().assertIsDisplayed()
 
         // Confirm extrusion
-        composeTestRule.onNodeWithTag("btn_extrude_ok").performClick()
+        composeTestRule.onNodeWithTag("btn_extrude_ok").performScrollTo().performClick()
 
         // Verify dialog dismissed
         composeTestRule.onNodeWithTag("extrude_inspector_card").assertDoesNotExist()
@@ -137,11 +137,11 @@ class InteractiveSketchExtrudeTest {
         composeTestRule.onNodeWithTag("extrude_inspector_card").assertIsDisplayed()
 
         // Test stepper button
-        composeTestRule.onNodeWithTag("btn_extrude_step_plus_10").performClick()
-        composeTestRule.onNodeWithTag("btn_extrude_step_minus_1").performClick()
+        composeTestRule.onNodeWithTag("btn_extrude_step_plus_10").performScrollTo().performClick()
+        composeTestRule.onNodeWithTag("btn_extrude_step_minus_1").performScrollTo().performClick()
 
         // Test cancel
-        composeTestRule.onNodeWithTag("btn_extrude_cancel").performClick()
+        composeTestRule.onNodeWithTag("btn_extrude_cancel").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("extrude_inspector_card").assertDoesNotExist()
     }
 
@@ -153,7 +153,7 @@ class InteractiveSketchExtrudeTest {
         composeTestRule.onNodeWithTag("tool_Box").performClick()
 
         composeTestRule.onNodeWithTag("box_inspector_card").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("btn_box_ok").assertIsDisplayed().performClick()
+        composeTestRule.onNodeWithTag("btn_box_ok").performScrollTo().assertIsDisplayed().performClick()
         composeTestRule.onNodeWithTag("box_inspector_card").assertDoesNotExist()
     }
 
@@ -166,19 +166,19 @@ class InteractiveSketchExtrudeTest {
         // Fillet
         composeTestRule.onNodeWithTag("tool_Fillet").performClick()
         composeTestRule.onNodeWithTag("fillet_inspector_card").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("btn_fillet_ok").performClick()
+        composeTestRule.onNodeWithTag("btn_fillet_ok").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("fillet_inspector_card").assertDoesNotExist()
 
         // Chamfer
         composeTestRule.onNodeWithTag("tool_Chamfer").performClick()
         composeTestRule.onNodeWithTag("chamfer_inspector_card").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("btn_chamfer_ok").performClick()
+        composeTestRule.onNodeWithTag("btn_chamfer_ok").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("chamfer_inspector_card").assertDoesNotExist()
 
         // Hole
         composeTestRule.onNodeWithTag("tool_Hole").performClick()
         composeTestRule.onNodeWithTag("hole_inspector_card").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("btn_hole_ok").performClick()
+        composeTestRule.onNodeWithTag("btn_hole_ok").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("hole_inspector_card").assertDoesNotExist()
     }
 }

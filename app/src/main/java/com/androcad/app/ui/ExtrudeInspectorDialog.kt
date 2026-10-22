@@ -6,7 +6,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
@@ -48,7 +50,9 @@ fun ExtrudeInspectorDialog(
             .testTag("extrude_inspector_card")
     ) {
         Column(
-            modifier = Modifier.padding(14.dp)
+            modifier = Modifier
+                .padding(10.dp)
+                .verticalScroll(rememberScrollState())
         ) {
             // Header
             Row(

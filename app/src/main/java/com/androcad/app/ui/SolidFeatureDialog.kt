@@ -4,7 +4,9 @@ package com.androcad.app.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
@@ -46,7 +48,7 @@ fun BoxInspectorDialog(
             .width(280.dp)
             .testTag("box_inspector_card")
     ) {
-        Column(modifier = Modifier.padding(14.dp)) {
+        Column(modifier = Modifier.padding(10.dp).verticalScroll(rememberScrollState())) {
             // Header
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -161,7 +163,7 @@ fun FilletInspectorDialog(
             .width(280.dp)
             .testTag("fillet_inspector_card")
     ) {
-        Column(modifier = Modifier.padding(14.dp)) {
+        Column(modifier = Modifier.padding(10.dp).verticalScroll(rememberScrollState())) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -246,7 +248,7 @@ fun ChamferInspectorDialog(
             .width(280.dp)
             .testTag("chamfer_inspector_card")
     ) {
-        Column(modifier = Modifier.padding(14.dp)) {
+        Column(modifier = Modifier.padding(10.dp).verticalScroll(rememberScrollState())) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -333,7 +335,7 @@ fun HoleInspectorDialog(
             .width(280.dp)
             .testTag("hole_inspector_card")
     ) {
-        Column(modifier = Modifier.padding(14.dp)) {
+        Column(modifier = Modifier.padding(10.dp).verticalScroll(rememberScrollState())) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
