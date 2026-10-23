@@ -979,8 +979,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m64_tablet.png`) and phone (`docs/screenshots/m64_phone.png`) screenshots.
   - Release: `v1.34.0`.
 * **Acceptance Tests:** 3D measurement caliper computes distances within $10^{-6}\text{ mm}$ and dihedral angles within $10^{-4}$ degrees.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

@@ -1,0 +1,10 @@
+{
+  "milestone": "M64",
+  "title": "3D Precision Caliper: Minimum Distance, Dihedral Angle & Arc-Length Inspector",
+  "version": "v1.34.0",
+  "apkArtifact": "AndroCAD-v1.34.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m64_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m64_phone.png"
+}
