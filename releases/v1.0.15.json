@@ -1,0 +1,10 @@
+{
+  "milestone": "M24",
+  "title": "Multi-Form-Factor Responsive UI Matrix (Small Phone, Foldable, Tablet)",
+  "version": "v1.0.15",
+  "apkArtifact": "AndroCAD-v1.0.15-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m24_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m24_phone.png"
+}

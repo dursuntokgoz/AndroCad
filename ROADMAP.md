@@ -420,8 +420,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m24_tablet.png`) and phone (`docs/screenshots/m24_phone.png`) screenshots.
   - Release: `v1.0.15`.
 * **Acceptance Tests:** Zero clipped controls or unreachable buttons across 320dp, 393dp, 673dp, and 1280dp screen widths; 3D viewport retains >= 55% screen area.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

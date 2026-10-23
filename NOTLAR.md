@@ -34,3 +34,4 @@
 | **M21** | `v1.0.12` | ✅ Done | JNI Export & Signature Parity Audit (Name-Mangling Regression Guard) — CTest (`[PASS] M21 JNI Export Audit (Kotlin externals=95, C++ exports=95, internalMangled=0, unmatched=0)`) & Screenshots (`t_lum=36.1`, `p_lum=36.5`) doğrulandı. |
 | **M22** | `v1.0.13` | ✅ Done | EGL/GL Thread Safety & Render Context Guard — CTest (`[PASS] M22 EGL/GL Thread Safety Guard`) & Screenshots (`t_lum=36.2`, `p_lum=36.6`) doğrulandı. |
 | **M23** | `v1.0.14` | ✅ Done | Multi-ABI Native Library Loader & Missing .so Dependency Verifier — CTest (`[PASS] M23 Multi-ABI Native Library Load Order (3 ABIs, 49 libs)`) & Screenshots (`t_lum=36.1`, `p_lum=36.5`) doğrulandı. |
+| **M24** | `v1.0.15` | ✅ Done | Multi-Form-Factor Responsive UI Matrix (Small Phone, Foldable, Tablet) — CTest (`[PASS] M24 Multi-Form-Factor Responsive UI Matrix`) & Screenshots (`t_lum=36.2`, `p_lum=36.9`) doğrulandı. |
