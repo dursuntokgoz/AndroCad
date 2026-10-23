@@ -1063,12 +1063,12 @@ object NativeKernel {
         dy: Double = 50.0,
         dz: Double = 20.0
     ): BoxMeshResult {
-        val x0 = - (dx * 0.5).toFloat()
-        val x1 = (dx * 0.5).toFloat()
-        val y0 = - (dy * 0.5).toFloat()
-        val y1 = (dy * 0.5).toFloat()
-        val z0 = - (dz * 0.5).toFloat()
-        val z1 = (dz * 0.5).toFloat()
+        val x0 = 0f
+        val x1 = dx.toFloat()
+        val y0 = 0f
+        val y1 = dy.toFloat()
+        val z0 = 0f
+        val z1 = dz.toFloat()
 
         val vertexCount = 24
         val stride = 28 // 3*4 + 3*4 + 4
@@ -1084,18 +1084,18 @@ object NativeKernel {
             vertexByteBuffer.putInt(faceId)
         }
 
-        // Face 1: Front (+Z, faceId 1)
-        addV(x0, y0, z1, 0f, 0f, 1f, 1); addV(x1, y0, z1, 0f, 0f, 1f, 1); addV(x1, y1, z1, 0f, 0f, 1f, 1); addV(x0, y1, z1, 0f, 0f, 1f, 1)
-        // Face 2: Back (-Z, faceId 2)
-        addV(x1, y0, z0, 0f, 0f, -1f, 2); addV(x0, y0, z0, 0f, 0f, -1f, 2); addV(x0, y1, z0, 0f, 0f, -1f, 2); addV(x1, y1, z0, 0f, 0f, -1f, 2)
-        // Face 3: Top (+Y, faceId 3)
-        addV(x0, y1, z1, 0f, 1f, 0f, 3); addV(x1, y1, z1, 0f, 1f, 0f, 3); addV(x1, y1, z0, 0f, 1f, 0f, 3); addV(x0, y1, z0, 0f, 1f, 0f, 3)
-        // Face 4: Bottom (-Y, faceId 4)
-        addV(x0, y0, z0, 0f, -1f, 0f, 4); addV(x1, y0, z0, 0f, -1f, 0f, 4); addV(x1, y0, z1, 0f, -1f, 0f, 4); addV(x0, y0, z1, 0f, -1f, 0f, 4)
-        // Face 5: Right (+X, faceId 5)
-        addV(x1, y0, z1, 1f, 0f, 0f, 5); addV(x1, y0, z0, 1f, 0f, 0f, 5); addV(x1, y1, z0, 1f, 0f, 0f, 5); addV(x1, y1, z1, 1f, 0f, 0f, 5)
-        // Face 6: Left (-X, faceId 6)
-        addV(x0, y0, z0, -1f, 0f, 0f, 6); addV(x0, y0, z1, -1f, 0f, 0f, 6); addV(x0, y1, z1, -1f, 0f, 0f, 6); addV(x0, y1, z0, -1f, 0f, 0f, 6)
+        // Face 1: Left (-X, faceId 1)
+        addV(x0, y0, z0, -1f, 0f, 0f, 1); addV(x0, y0, z1, -1f, 0f, 0f, 1); addV(x0, y1, z1, -1f, 0f, 0f, 1); addV(x0, y1, z0, -1f, 0f, 0f, 1)
+        // Face 2: Right (+X, faceId 2)
+        addV(x1, y0, z1, 1f, 0f, 0f, 2); addV(x1, y0, z0, 1f, 0f, 0f, 2); addV(x1, y1, z0, 1f, 0f, 0f, 2); addV(x1, y1, z1, 1f, 0f, 0f, 2)
+        // Face 3: Front (-Y, faceId 3)
+        addV(x0, y0, z0, 0f, -1f, 0f, 3); addV(x1, y0, z0, 0f, -1f, 0f, 3); addV(x1, y0, z1, 0f, -1f, 0f, 3); addV(x0, y0, z1, 0f, -1f, 0f, 3)
+        // Face 4: Back (+Y, faceId 4)
+        addV(x0, y1, z1, 0f, 1f, 0f, 4); addV(x1, y1, z1, 0f, 1f, 0f, 4); addV(x1, y1, z0, 0f, 1f, 0f, 4); addV(x0, y1, z0, 0f, 1f, 0f, 4)
+        // Face 5: Bottom (-Z, faceId 5)
+        addV(x1, y0, z0, 0f, 0f, -1f, 5); addV(x0, y0, z0, 0f, 0f, -1f, 5); addV(x0, y1, z0, 0f, 0f, -1f, 5); addV(x1, y1, z0, 0f, 0f, -1f, 5)
+        // Face 6: Top (+Z, faceId 6)
+        addV(x0, y0, z1, 0f, 0f, 1f, 6); addV(x1, y0, z1, 0f, 0f, 1f, 6); addV(x1, y1, z1, 0f, 0f, 1f, 6); addV(x0, y1, z1, 0f, 0f, 1f, 6)
 
         vertexByteBuffer.position(0)
 
@@ -1120,18 +1120,21 @@ object NativeKernel {
         }
 
         val boxEdges = listOf(
+            // Bottom edges 1..4 (z = z0)
             Pair(floatArrayOf(x0, y0, z0), floatArrayOf(x1, y0, z0)),
-            Pair(floatArrayOf(x1, y0, z0), floatArrayOf(x1, y0, z1)),
-            Pair(floatArrayOf(x1, y0, z1), floatArrayOf(x0, y0, z1)),
-            Pair(floatArrayOf(x0, y0, z1), floatArrayOf(x0, y0, z0)),
-            Pair(floatArrayOf(x0, y1, z0), floatArrayOf(x1, y1, z0)),
-            Pair(floatArrayOf(x1, y1, z0), floatArrayOf(x1, y1, z1)),
-            Pair(floatArrayOf(x1, y1, z1), floatArrayOf(x0, y1, z1)),
-            Pair(floatArrayOf(x0, y1, z1), floatArrayOf(x0, y1, z0)),
-            Pair(floatArrayOf(x0, y0, z0), floatArrayOf(x0, y1, z0)),
             Pair(floatArrayOf(x1, y0, z0), floatArrayOf(x1, y1, z0)),
+            Pair(floatArrayOf(x1, y1, z0), floatArrayOf(x0, y1, z0)),
+            Pair(floatArrayOf(x0, y1, z0), floatArrayOf(x0, y0, z0)),
+            // Vertical edges 5..8 (z0 to z1)
+            Pair(floatArrayOf(x0, y0, z0), floatArrayOf(x0, y0, z1)),
+            Pair(floatArrayOf(x1, y0, z0), floatArrayOf(x1, y0, z1)),
+            Pair(floatArrayOf(x1, y1, z0), floatArrayOf(x1, y1, z1)),
+            Pair(floatArrayOf(x0, y1, z0), floatArrayOf(x0, y1, z1)),
+            // Top edges 9..12 (z = z1)
+            Pair(floatArrayOf(x0, y0, z1), floatArrayOf(x1, y0, z1)),
             Pair(floatArrayOf(x1, y0, z1), floatArrayOf(x1, y1, z1)),
-            Pair(floatArrayOf(x0, y0, z1), floatArrayOf(x0, y1, z1))
+            Pair(floatArrayOf(x1, y1, z1), floatArrayOf(x0, y1, z1)),
+            Pair(floatArrayOf(x0, y1, z1), floatArrayOf(x0, y0, z1))
         )
 
         for (e in boxEdges.indices) {
