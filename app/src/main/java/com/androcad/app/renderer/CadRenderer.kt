@@ -682,13 +682,11 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
         if (abs(nz) < 0.9f) {
             val lx = -ny
             val ly = nx
-            val lz = 0f
             val len = sqrt((lx * lx + ly * ly).toDouble()).toFloat().coerceAtLeast(1e-4f)
             ux = lx / len
             uy = ly / len
             uz = 0f
         } else {
-            val lx = 0f
             val ly = -nz
             val lz = ny
             val len = sqrt((ly * ly + lz * lz).toDouble()).toFloat().coerceAtLeast(1e-4f)
