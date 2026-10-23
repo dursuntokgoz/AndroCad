@@ -13,6 +13,9 @@
 #include <BRepCheck_Analyzer.hxx>
 #include <BRepGProp.hxx>
 #include <GProp_GProps.hxx>
+#include <ShapeAnalysis_FreeBounds.hxx>
+#include <TopTools_HSequenceOfShape.hxx>
+#include <TopoDS.hxx>
 #include <Standard_Failure.hxx>
 
 #include <iostream>
@@ -55,7 +58,7 @@ int Sketcher::AddCircle(int pCenter, double radius) {
 }
 
 int Sketcher::AddRectangle(double u, double v, double width, double height) {
-    int p0 = solver.AddPoint(u, v, false);
+    int p0 = solver.AddPoint(u, v, true);
     int p1 = solver.AddPoint(u + width, v, false);
     int p2 = solver.AddPoint(u + width, v + height, false);
     int p3 = solver.AddPoint(u, v + height, false);
@@ -121,7 +124,7 @@ SketchResult Sketcher::BuildProfileFace() {
     }
 
     try {
-        BRepBuilderAPI_MakeWire wireMaker;
+        Handle(TopTools_HSequenceOfShape) edgeSeq = new TopTools_HSequenceOfShape();
 
         for (const auto& curve : curves) {
             if (curve.type == CurveType::Line) {
@@ -137,7 +140,7 @@ SketchResult Sketcher::BuildProfileFace() {
 
                 Handle(Geom_TrimmedCurve) seg = GC_MakeSegment(wStart, wEnd).Value();
                 TopoDS_Edge edge = BRepBuilderAPI_MakeEdge(seg);
-                wireMaker.Add(edge);
+                edgeSeq->Append(edge);
 
             } else if (curve.type == CurveType::Circle) {
                 auto pCenter = solver.GetPoint(curve.p1);
@@ -155,18 +158,60 @@ SketchResult Sketcher::BuildProfileFace() {
                 gp_Circ circle(axis, r);
 
                 TopoDS_Edge edge = BRepBuilderAPI_MakeEdge(circle);
-                wireMaker.Add(edge);
+                edgeSeq->Append(edge);
             }
         }
 
-        if (!wireMaker.IsDone()) {
-            result.errorMessage = "Failed to assemble sketch wire.";
+        if (edgeSeq->IsEmpty()) {
+            result.errorMessage = "Failed to assemble sketch wire (no valid edges).";
             return result;
         }
 
-        TopoDS_Wire wire = wireMaker.Wire();
+        Handle(TopTools_HSequenceOfShape) wireSeq = new TopTools_HSequenceOfShape();
+        ShapeAnalysis_FreeBounds::ConnectEdgesToWires(edgeSeq, 1e-3, Standard_False, wireSeq);
+
+        TopoDS_Wire wire;
+        bool foundClosed = false;
+        double maxWireArea = -1.0;
+        gp_Pln occtPlane(gp_Pnt(plane.ox, plane.oy, plane.oz), gp_Dir(plane.nx, plane.ny, plane.nz));
+
+        for (int i = 1; i <= wireSeq->Length(); ++i) {
+            TopoDS_Wire candidate = TopoDS::Wire(wireSeq->Value(i));
+            if (candidate.Closed()) {
+                BRepBuilderAPI_MakeFace testFace(occtPlane, candidate, Standard_True);
+                if (testFace.IsDone()) {
+                    GProp_GProps props;
+                    BRepGProp::SurfaceProperties(testFace.Face(), props);
+                    double area = std::abs(props.Mass());
+                    if (area > maxWireArea) {
+                        maxWireArea = area;
+                        wire = candidate;
+                        foundClosed = true;
+                    }
+                } else if (!foundClosed) {
+                    wire = candidate;
+                    foundClosed = true;
+                }
+            } else if (wire.IsNull()) {
+                wire = candidate;
+            }
+        }
+
+        if (wire.IsNull()) {
+            BRepBuilderAPI_MakeWire wireMaker;
+            for (int i = 1; i <= edgeSeq->Length(); ++i) {
+                wireMaker.Add(TopoDS::Edge(edgeSeq->Value(i)));
+            }
+            if (!wireMaker.IsDone()) {
+                result.errorMessage = "Failed to assemble sketch wire.";
+                return result;
+            }
+            wire = wireMaker.Wire();
+            foundClosed = wire.Closed();
+        }
+
         result.wire = wire;
-        result.isClosedProfile = wire.Closed();
+        result.isClosedProfile = foundClosed || wire.Closed();
 
         if (!result.isClosedProfile) {
             result.errorMessage = "Sketch profile is open (not closed).";
@@ -174,7 +219,6 @@ SketchResult Sketcher::BuildProfileFace() {
         }
 
         // Construct planar bounded face on sketch plane
-        gp_Pln occtPlane(gp_Pnt(plane.ox, plane.oy, plane.oz), gp_Dir(plane.nx, plane.ny, plane.nz));
         BRepBuilderAPI_MakeFace faceMaker(occtPlane, wire, Standard_True);
 
         if (!faceMaker.IsDone()) {
@@ -183,6 +227,23 @@ SketchResult Sketcher::BuildProfileFace() {
         }
 
         TopoDS_Face face = faceMaker.Face();
+        // Add inner wires (holes inside sketch, e.g., circle inside rectangle) if any
+        if (wireSeq->Length() > 1) {
+            for (int i = 1; i <= wireSeq->Length(); ++i) {
+                TopoDS_Wire innerCandidate = TopoDS::Wire(wireSeq->Value(i));
+                if (innerCandidate.Closed() && !innerCandidate.IsSame(wire)) {
+                    TopoDS_Wire reversedInner = TopoDS::Wire(innerCandidate.Reversed());
+                    BRepBuilderAPI_MakeFace withHole(face, reversedInner);
+                    if (withHole.IsDone()) {
+                        BRepCheck_Analyzer holeCheck(withHole.Face());
+                        if (holeCheck.IsValid()) {
+                            face = withHole.Face();
+                        }
+                    }
+                }
+            }
+        }
+
         BRepCheck_Analyzer checker(face);
         if (!checker.IsValid()) {
             result.errorMessage = "Constructed face failed topological validation.";
@@ -192,7 +253,7 @@ SketchResult Sketcher::BuildProfileFace() {
         // Calculate surface area
         GProp_GProps props;
         BRepGProp::SurfaceProperties(face, props);
-        result.profileArea = props.Mass();
+        result.profileArea = std::abs(props.Mass());
         result.face = face;
         result.success = true;
 

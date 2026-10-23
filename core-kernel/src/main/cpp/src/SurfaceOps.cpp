@@ -253,19 +253,18 @@ MeshPayload SurfaceOps::PressPullFace(const TopoDS_Shape& solid,
             normal.Reverse();
         }
 
-        // Extrude a tool prism along face normal
-        gp_Vec extrudeVec(normal.X() * std::abs(offsetDistance),
-                          normal.Y() * std::abs(offsetDistance),
-                          normal.Z() * std::abs(offsetDistance));
-
-        BRepPrimAPI_MakePrism prismMaker(targetFace, extrudeVec);
-        prismMaker.Build();
-        if (!prismMaker.IsDone()) {
-            throw std::runtime_error("Failed to construct prism for Press-Pull offset");
-        }
-        TopoDS_Shape toolPrism = prismMaker.Shape();
-
+        // Extrude a tool prism along face normal (or inward if offsetDistance < 0)
         if (offsetDistance > 0.0) {
+            gp_Vec extrudeVec(normal.X() * offsetDistance,
+                              normal.Y() * offsetDistance,
+                              normal.Z() * offsetDistance);
+            BRepPrimAPI_MakePrism prismMaker(targetFace, extrudeVec);
+            prismMaker.Build();
+            if (!prismMaker.IsDone()) {
+                throw std::runtime_error("Failed to construct prism for Press-Pull offset");
+            }
+            TopoDS_Shape toolPrism = prismMaker.Shape();
+
             // Join (Fuse) to extend material outwards
             BRepAlgoAPI_Fuse fuse(solid, toolPrism);
             fuse.SetFuzzyValue(1e-5);
@@ -275,6 +274,17 @@ MeshPayload SurfaceOps::PressPullFace(const TopoDS_Shape& solid,
             }
             outSolid = fuse.Shape();
         } else {
+            double depth = std::abs(offsetDistance);
+            gp_Vec extrudeVec(-normal.X() * depth,
+                              -normal.Y() * depth,
+                              -normal.Z() * depth);
+            BRepPrimAPI_MakePrism prismMaker(targetFace, extrudeVec);
+            prismMaker.Build();
+            if (!prismMaker.IsDone()) {
+                throw std::runtime_error("Failed to construct inward prism for Press-Pull cut");
+            }
+            TopoDS_Shape toolPrism = prismMaker.Shape();
+
             // Cut into body to remove material inwards
             BRepAlgoAPI_Cut cut(solid, toolPrism);
             cut.SetFuzzyValue(1e-5);

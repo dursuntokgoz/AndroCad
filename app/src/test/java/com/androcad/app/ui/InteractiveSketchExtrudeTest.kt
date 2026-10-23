@@ -69,6 +69,16 @@ class InteractiveSketchExtrudeTest {
         val openProfile = SketchMath.evaluateProfile(listOf(openLine))
         assertNotNull(openProfile)
         assertFalse(openProfile!!.isClosed)
+
+        // 5. Out-of-order closed polygon loop detection
+        val l1 = SketchEntity.Line("l1", 0f, 0f, 40f, 0f)
+        val l3 = SketchEntity.Line("l3", 40f, 30f, 0f, 30f)
+        val l2 = SketchEntity.Line("l2", 40f, 0f, 40f, 30f)
+        val l4 = SketchEntity.Line("l4", 0f, 30f, 0f, 0f)
+        val loopProfile = SketchMath.evaluateProfile(listOf(l1, l3, l2, l4))
+        assertNotNull(loopProfile)
+        assertTrue(loopProfile!!.isClosed)
+        assertEquals(1200.0, loopProfile.area, 1.0)
     }
 
     @Test

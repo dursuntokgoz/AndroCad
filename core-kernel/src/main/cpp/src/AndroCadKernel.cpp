@@ -376,14 +376,23 @@ PickResult AndroCadKernel::PickEntityByRay(const MeshPayload& payload, const Ray
                 float nz = ax * by - ay * bx;
                 float len = std::sqrt(nx * nx + ny * ny + nz * nz);
                 if (len > 1e-6f) {
-                    closestFaceNormal[0] = nx / len;
-                    closestFaceNormal[1] = ny / len;
-                    closestFaceNormal[2] = nz / len;
+                    nx /= len;
+                    ny /= len;
+                    nz /= len;
                 } else {
-                    closestFaceNormal[0] = v0.nx;
-                    closestFaceNormal[1] = v0.ny;
-                    closestFaceNormal[2] = v0.nz;
+                    nx = v0.nx;
+                    ny = v0.ny;
+                    nz = v0.nz;
                 }
+                // Ensure outward surface normal opposes the incoming ray direction
+                if (nx * ray.dx + ny * ray.dy + nz * ray.dz > 0.0f) {
+                    nx = -nx;
+                    ny = -ny;
+                    nz = -nz;
+                }
+                closestFaceNormal[0] = nx;
+                closestFaceNormal[1] = ny;
+                closestFaceNormal[2] = nz;
             }
         }
     }
@@ -397,9 +406,15 @@ PickResult AndroCadKernel::PickEntityByRay(const MeshPayload& payload, const Ray
         result.hitPoint[0] = closestEdgePoint[0];
         result.hitPoint[1] = closestEdgePoint[1];
         result.hitPoint[2] = closestEdgePoint[2];
-        result.normal[0] = 0.0f;
-        result.normal[1] = 0.0f;
-        result.normal[2] = 1.0f;
+        if (closestFaceId != 0) {
+            result.normal[0] = closestFaceNormal[0];
+            result.normal[1] = closestFaceNormal[1];
+            result.normal[2] = closestFaceNormal[2];
+        } else {
+            result.normal[0] = 0.0f;
+            result.normal[1] = 0.0f;
+            result.normal[2] = 1.0f;
+        }
         return result;
     }
 

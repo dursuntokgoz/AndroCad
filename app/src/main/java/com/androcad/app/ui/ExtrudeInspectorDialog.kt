@@ -29,16 +29,21 @@ fun ExtrudeInspectorDialog(
     profileDescription: String,
     profileArea: Double,
     initialDepth: Float = 25f,
+    initialOperation: String = "Join",
     onDepthChanged: (depth: Float, isSymmetric: Boolean) -> Unit,
     onConfirm: (depth: Float, isSymmetric: Boolean) -> Unit,
     onDismiss: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onOperationChanged: (depth: Float, isSymmetric: Boolean, operation: String) -> Unit = { d, s, _ -> onDepthChanged(d, s) },
+    onConfirmWithOperation: (depth: Float, isSymmetric: Boolean, operation: String) -> Unit = { d, s, _ -> onConfirm(d, s) }
 ) {
     var depth by remember { mutableStateOf(initialDepth) }
     var isSymmetric by remember { mutableStateOf(false) }
+    var operation by remember { mutableStateOf(initialOperation) }
 
-    LaunchedEffect(depth, isSymmetric) {
+    LaunchedEffect(depth, isSymmetric, operation) {
         onDepthChanged(depth, isSymmetric)
+        onOperationChanged(depth, isSymmetric, operation)
     }
 
     Surface(
@@ -150,7 +155,10 @@ fun ExtrudeInspectorDialog(
                             .weight(1f)
                             .testTag("btn_extrude_step_${label.replace("+", "plus_").replace("-", "minus_")}")
                             .clickable {
-                                depth = (depth + delta).coerceIn(2f, 150f)
+                                var next = (depth + delta).coerceIn(-100f, 150f)
+                                if (next in -1f..1f) next = if (delta > 0) 2f else -2f
+                                depth = next
+                                if (depth < 0f && operation == "Join") operation = "Cut"
                             }
                     ) {
                         Text(
@@ -167,8 +175,10 @@ fun ExtrudeInspectorDialog(
             // Depth slider
             Slider(
                 value = depth,
-                onValueChange = { depth = it },
-                valueRange = 2f..150f,
+                onValueChange = {
+                    depth = if (it in -1f..1f) 2f else it
+                },
+                valueRange = -50f..150f,
                 steps = 0,
                 colors = SliderDefaults.colors(
                     thumbColor = Color(0xFF00A4E4),
@@ -179,6 +189,42 @@ fun ExtrudeInspectorDialog(
                     .fillMaxWidth()
                     .testTag("slider_extrude_depth")
             )
+
+            // Operation Selector (Join / Cut / New Body)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Operation",
+                    color = Color(0xFFAAAAAA),
+                    fontSize = 11.sp
+                )
+                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    listOf("Join", "Cut", "New Body").forEach { op ->
+                        val isSel = (operation == op)
+                        Surface(
+                            color = if (isSel) {
+                                if (op == "Cut") Color(0xFFE53935) else Color(0xFF00A4E4)
+                            } else Color(0xFF2C2F33),
+                            shape = RoundedCornerShape(4.dp),
+                            modifier = Modifier
+                                .testTag("btn_extrude_op_${op.replace(" ", "_").lowercase()}")
+                                .clickable { operation = op }
+                        ) {
+                            Text(
+                                text = op,
+                                color = Color.White,
+                                fontSize = 10.sp,
+                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)
+                            )
+                        }
+                    }
+                }
+            }
 
             // Direction Toggle (One Side vs Symmetric)
             Row(
@@ -256,7 +302,7 @@ fun ExtrudeInspectorDialog(
                     modifier = Modifier
                         .weight(1f)
                         .testTag("btn_extrude_ok")
-                        .clickable { onConfirm(depth, isSymmetric) }
+                        .clickable { onConfirmWithOperation(depth, isSymmetric, operation) }
                 ) {
                     Text(
                         text = "✓ OK",

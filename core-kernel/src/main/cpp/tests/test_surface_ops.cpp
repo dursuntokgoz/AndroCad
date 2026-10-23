@@ -123,9 +123,17 @@ void TestPressPullFace() {
     TopoDS_Shape offsetSolid;
     MeshPayload payload = SurfaceOps::PressPullFace(box, targetFaceId, 10.0, offsetSolid);
 
-    assert(payload.success && "Press-Pull should succeed");
+    assert(payload.success && "Press-Pull outward should succeed");
     assert(std::abs(payload.volume - 150000.0) < 100.0 && "Press-Pull outward volume must match 150,000 mm³");
     std::cout << "  ✓ Press-Pull expanded volume: " << payload.volume << " mm³ (Target: 150,000 mm³)" << std::endl;
+
+    // Offset top face inwards by -5.0 mm -> New height = 15.0 mm (Volume = 75,000 mm³)
+    TopoDS_Shape cutSolid;
+    MeshPayload cutPayload = SurfaceOps::PressPullFace(box, targetFaceId, -5.0, cutSolid);
+
+    assert(cutPayload.success && "Press-Pull inward cut should succeed");
+    assert(std::abs(cutPayload.volume - 75000.0) < 100.0 && "Press-Pull inward cut volume must match 75,000 mm³");
+    std::cout << "  ✓ Press-Pull inward cut volume: " << cutPayload.volume << " mm³ (Target: 75,000 mm³)" << std::endl;
 }
 
 int main() {

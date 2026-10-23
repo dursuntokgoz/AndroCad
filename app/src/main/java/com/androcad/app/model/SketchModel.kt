@@ -80,11 +80,28 @@ object SketchMath {
 
         val lines = entities.filterIsInstance<SketchEntity.Line>()
         if (lines.size >= 3) {
+            // Check if any subset or full sequence of lines forms a closed loop
+            val endpoints = mutableListOf<Pair<Float, Float>>()
+            for (l in lines) {
+                endpoints.add(Pair(l.startX, l.startY))
+                endpoints.add(Pair(l.endX, l.endY))
+            }
+            var unmatchedCount = 0
+            for (i in endpoints.indices) {
+                val p = endpoints[i]
+                var hasNeighbor = false
+                for (j in endpoints.indices) {
+                    if (i != j && hypot(p.first - endpoints[j].first, p.second - endpoints[j].second) <= 10f) {
+                        hasNeighbor = true
+                        break
+                    }
+                }
+                if (!hasNeighbor) unmatchedCount++
+            }
             val first = lines.first()
             val last = lines.last()
-            val dist = hypot(first.startX - last.endX, first.startY - last.endY)
-            if (dist < 8f) { // Within 8mm tolerance of loop closure
-                // Estimate polygon area via shoelace formula
+            val directDist = hypot(first.startX - last.endX, first.startY - last.endY)
+            if (unmatchedCount == 0 || directDist <= 10f) {
                 var sum = 0.0
                 for (i in lines.indices) {
                     val l = lines[i]

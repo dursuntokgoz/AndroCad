@@ -96,6 +96,8 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
     private var pendingMesh: BoxMeshResult? = null
     @Volatile
     private var meshNeedsUpload = false
+    @Volatile
+    private var resetCameraOnUpload = true
 
     // 1. Shaders
     private val faceVertexShader = """
@@ -383,9 +385,13 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
         GLES30.glBindVertexArray(0)
     }
 
-    fun updateMesh(newMesh: BoxMeshResult?) {
+    fun updateMesh(newMesh: BoxMeshResult?, resetCamera: Boolean = false) {
+        val hadNoMesh = (meshResult == null || !meshResult!!.success) && (newMesh != null && newMesh.success)
         meshResult = newMesh
         pendingMesh = newMesh
+        if (resetCamera || hadNoMesh) {
+            resetCameraOnUpload = true
+        }
         meshNeedsUpload = true
     }
 
@@ -535,9 +541,15 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
     override fun onDrawFrame(gl: GL10?) {
         if (meshNeedsUpload) {
             meshNeedsUpload = false
+            val shouldReset = resetCameraOnUpload
+            resetCameraOnUpload = false
             meshResult = pendingMesh
             setupMeshBuffers()
-            zoomToFit()
+            if (shouldReset) {
+                zoomToFit()
+            } else {
+                updateTargetMarker()
+            }
         }
         updateMatrices()
 
@@ -558,8 +570,7 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
             val gridModel = FloatArray(16)
             Matrix.setIdentityM(gridModel, 0)
             val groundY = meshResult?.let {
-                val bbox = it.boundingBox
-                - (bbox.maxY - bbox.minY) * 0.5f
+                if (it.success) it.boundingBox.minY.coerceAtMost(0.0f) else 0.0f
             } ?: 0.0f
             Matrix.translateM(gridModel, 0, 0.0f, groundY, 0.0f)
             Matrix.multiplyMM(gridMVP, 0, viewMatrix, 0, gridModel, 0)
@@ -929,12 +940,6 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
 
         Matrix.setIdentityM(modelMatrix, 0)
 
-        // Center box around origin
-        meshResult?.let {
-            val bbox = it.boundingBox
-            Matrix.translateM(modelMatrix, 0, -bbox.centerX, -bbox.centerY, -bbox.centerZ)
-        }
-
         Matrix.multiplyMM(mvpMatrix, 0, viewMatrix, 0, modelMatrix, 0)
         Matrix.multiplyMM(mvpMatrix, 0, projectionMatrix, 0, mvpMatrix, 0)
     }
@@ -959,16 +964,27 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
         distance = (distance / scaleFactor).coerceIn(10.0f, 3000.0f)
     }
 
-    fun zoomToFit() {
+    fun zoomToFit(resetAngle: Boolean = true) {
         val currentMesh = meshResult
         if (currentMesh != null && currentMesh.success) {
             val bbox = currentMesh.boundingBox
+            targetX = bbox.centerX
+            targetY = bbox.centerY
+            targetZ = bbox.centerZ
+            distance = (bbox.diagonal * 1.6f).coerceAtLeast(50f)
+            if (resetAngle) {
+                azimuth = 35.0f
+                elevation = 25.0f
+            }
+        } else {
             targetX = 0f
             targetY = 0f
             targetZ = 0f
-            distance = (bbox.diagonal * 1.6f).coerceAtLeast(50f)
-            azimuth = 35.0f
-            elevation = 25.0f
+            distance = 200f
+            if (resetAngle) {
+                azimuth = 35.0f
+                elevation = 25.0f
+            }
         }
     }
 

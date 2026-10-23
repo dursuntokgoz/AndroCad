@@ -186,7 +186,7 @@ fun SketchCanvasOverlay(
                                             onEntitiesChanged(sketchEntities + circ)
                                         }
                                     }
-                                    "Line" -> {
+                                    "Line", "B-Spline" -> {
                                         val length = hypot(eX - sX, eY - sY)
                                         if (length < 3f) {
                                             // Tap to draw / Polyline chaining mode
@@ -223,6 +223,23 @@ fun SketchCanvasOverlay(
                                             )
                                             onEntitiesChanged(sketchEntities + line)
                                             lastPolylinePoint = Pair(eX, eY)
+                                        }
+                                    }
+                                    "Constraints" -> {
+                                        if (sketchEntities.isNotEmpty()) {
+                                            val snapped = sketchEntities.map { ent ->
+                                                when (ent) {
+                                                    is SketchEntity.Line -> {
+                                                        val dx = abs(ent.endX - ent.startX)
+                                                        val dy = abs(ent.endY - ent.startY)
+                                                        if (dx < 5f) ent.copy(endX = ent.startX)
+                                                        else if (dy < 5f) ent.copy(endY = ent.startY)
+                                                        else ent
+                                                    }
+                                                    else -> ent
+                                                }
+                                            }
+                                            onEntitiesChanged(snapped)
                                         }
                                     }
                                 }

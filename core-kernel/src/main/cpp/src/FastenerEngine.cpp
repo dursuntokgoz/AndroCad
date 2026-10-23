@@ -84,7 +84,10 @@ HoleResult FastenerEngine::CreateStandardHole(
 
     try {
         FastenerStandard stdSpec = GetStandard(standardName);
-        gp_Ax2 holeAx(position, direction);
+        gp_Pnt shiftedPos(position.X() - direction.X() * 0.1,
+                          position.Y() - direction.Y() * 0.1,
+                          position.Z() - direction.Z() * 0.1);
+        gp_Ax2 holeAx(shiftedPos, direction);
 
         TopoDS_Shape cutter;
 
@@ -94,11 +97,11 @@ HoleResult FastenerEngine::CreateStandardHole(
         }
 
         // Base hole cylinder
-        TopoDS_Shape baseCyl = BRepPrimAPI_MakeCylinder(holeAx, holeRadius, depthMm).Shape();
+        TopoDS_Shape baseCyl = BRepPrimAPI_MakeCylinder(holeAx, holeRadius, depthMm + 0.2).Shape();
 
         if (type == HoleType::COUNTERBORE) {
             double cbRadius = stdSpec.counterboreDiaMm / 2.0;
-            double cbDepth = std::min(stdSpec.counterboreDepthMm, depthMm * 0.8);
+            double cbDepth = std::min(stdSpec.counterboreDepthMm, depthMm * 0.8) + 0.1;
             TopoDS_Shape cbCyl = BRepPrimAPI_MakeCylinder(holeAx, cbRadius, cbDepth).Shape();
 
             BRepAlgoAPI_Fuse fuser(baseCyl, cbCyl);

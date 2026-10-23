@@ -9,6 +9,7 @@
 #include <TopoDS.hxx>
 #include <TopoDS_Face.hxx>
 #include <TopoDS_Compound.hxx>
+#include <BRepAdaptor_Surface.hxx>
 #include <GProp_GProps.hxx>
 #include <BRepGProp.hxx>
 #include <Standard_Failure.hxx>
@@ -253,6 +254,7 @@ PatternResult PatternEngine::ApplyDraft(
         gp_Pln neutralPlane(gp_Pnt(0, 0, 0), pullDirection);
 
         int currentId = 1;
+        bool addedAny = false;
         for (TopExp_Explorer exp(baseShape, TopAbs_FACE); exp.More(); exp.Next(), ++currentId) {
             bool matches = false;
             for (int fid : targetFaceIds) {
@@ -260,7 +262,29 @@ PatternResult PatternEngine::ApplyDraft(
             }
             if (matches) {
                 TopoDS_Face face = TopoDS::Face(exp.Current());
-                drafter.Add(face, pullDirection, angleRad, neutralPlane);
+                BRepAdaptor_Surface surf(face);
+                if (surf.GetType() == GeomAbs_Plane) {
+                    gp_Dir fNorm = surf.Plane().Axis().Direction();
+                    if (std::abs(fNorm.Dot(pullDirection)) < 0.99) {
+                        drafter.Add(face, pullDirection, angleRad, neutralPlane);
+                        addedAny = true;
+                    }
+                }
+            }
+        }
+
+        if (!addedAny) {
+            for (TopExp_Explorer exp(baseShape, TopAbs_FACE); exp.More(); exp.Next()) {
+                TopoDS_Face face = TopoDS::Face(exp.Current());
+                BRepAdaptor_Surface surf(face);
+                if (surf.GetType() == GeomAbs_Plane) {
+                    gp_Dir fNorm = surf.Plane().Axis().Direction();
+                    if (std::abs(fNorm.Dot(pullDirection)) < 0.2) {
+                        drafter.Add(face, pullDirection, angleRad, neutralPlane);
+                        addedAny = true;
+                        break;
+                    }
+                }
             }
         }
 
