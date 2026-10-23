@@ -1,0 +1,10 @@
+{
+  "milestone": "M44",
+  "title": "Coupled Thermo-Mechanical Stress & Thermal Expansion Analysis",
+  "version": "v1.14.0",
+  "apkArtifact": "AndroCAD-v1.14.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m44_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m44_phone.png"
+}

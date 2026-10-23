@@ -699,8 +699,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m44_tablet.png`) and phone (`docs/screenshots/m44_phone.png`) screenshots.
   - Release: `v1.14.0`.
 * **Acceptance Tests:** Fixed-end heated bar produces axial compressive thermal stress matching $\sigma = E \alpha \Delta T$ within $0.5\%$.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 
