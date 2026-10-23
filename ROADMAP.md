@@ -686,8 +686,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m43_tablet.png`) and phone (`docs/screenshots/m43_phone.png`) screenshots.
   - Release: `v1.13.0`.
 * **Acceptance Tests:** Nodal temperatures match analytical Fourier conduction and convective cooling curves within $0.5\%$.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

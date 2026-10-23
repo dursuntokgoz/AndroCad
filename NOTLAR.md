@@ -53,3 +53,4 @@
 | **M40** | `v1.10.0` | ✅ Done | Subtractive CAM: 2-Axis CNC Lathe Turning, Profiling & Grooving — CTest (`[PASS] M40 2-Axis CNC Lathe Turning & Grooving`) & Screenshots (`t_lum=36.1`, `p_lum=36.7`) doğrulandı. |
 | **M41** | `v1.11.0` | ✅ Done | Subtractive CAM: 3+2 Indexed 5-Axis Positional Milling & Holder Collision Check — CTest (`[PASS] M41 3+2 Indexed 5-Axis Positional Milling`) & Screenshots (`t_lum=36.1`, `p_lum=36.7`) doğrulandı. |
 | **M42** | `v1.12.0` | ✅ Done | Structural Simulation: Linear Eigenvalue Buckling Analysis — CTest (`[PASS] M42 Linear Eigenvalue Buckling Analysis`) & Screenshots (`t_lum=36.7`, `p_lum=37.8`) doğrulandı. |
+| **M43** | `v1.13.0` | ✅ Done | Thermal Simulation: Steady-State Heat Conduction & Convection FEA — CTest (`[PASS] M43 Steady-State Heat Conduction & Convection FEA`) & Screenshots (`t_lum=36.7`, `p_lum=37.8`) doğrulandı. |

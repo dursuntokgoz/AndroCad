@@ -1,0 +1,10 @@
+{
+  "milestone": "M43",
+  "title": "Thermal Simulation: Steady-State Heat Conduction & Convection FEA",
+  "version": "v1.13.0",
+  "apkArtifact": "AndroCAD-v1.13.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m43_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m43_phone.png"
+}
