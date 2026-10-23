@@ -951,8 +951,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m62_tablet.png`) and phone (`docs/screenshots/m62_phone.png`) screenshots.
   - Release: `v1.32.0`.
 * **Acceptance Tests:** Cylindrical wrap emboss preserves arc-length $s = R \Delta\theta$ without chordal distortion and modifies solid volume by exact $A_{profile} \times d_{emboss}$.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

@@ -1,0 +1,10 @@
+{
+  "milestone": "M62",
+  "title": "3D Emboss, Deboss & Cylindrical Wrap Engraving",
+  "version": "v1.32.0",
+  "apkArtifact": "AndroCAD-v1.32.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m62_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m62_phone.png"
+}
