@@ -923,8 +923,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m60_tablet.png`) and phone (`docs/screenshots/m60_phone.png`) screenshots.
   - Release: `v1.30.0`.
 * **Acceptance Tests:** Hemmed sheet metal part unfolds to analytical flat length including $180^\circ$ hem allowance within $0.1\text{ mm}$.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

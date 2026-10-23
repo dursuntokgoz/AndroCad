@@ -1,0 +1,10 @@
+{
+  "milestone": "M60",
+  "title": "Sheet Metal Expansion: Rolled Hem, Lofted Flange & Ventilation Louver",
+  "version": "v1.30.0",
+  "apkArtifact": "AndroCAD-v1.30.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m60_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m60_phone.png"
+}
