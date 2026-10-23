@@ -78,3 +78,4 @@
 | **M65** | `v1.35.0` | ✅ Done | Real-Time Multi-Plane Section Box & Cross-Section Hatch Renderer — CTest (`[PASS] M65 Multi-Plane Section Box & Hatch Renderer`) & Screenshots (`t_lum=36.1`, `p_lum=36.7`) doğrulandı. |
 | **M66** | `v1.36.0` | ✅ Done | ECAD / PCB Enclosure Bridge (IDF / KiCad Board, Standoffs & Keep-Out Zones) — CTest (`[PASS] M66 ECAD / PCB Enclosure Bridge`) & Screenshots (`t_lum=36.2`, `p_lum=36.7`) doğrulandı. |
 | **M67** | `v1.37.0` | ✅ Done | Git-Friendly Parametric CAD Diff, Branching & Conflict-Free Merge Engine — CTest (`[PASS] M67 Git-Friendly JSON-CAD Diff & 3-Way Merge`) & Screenshots (`t_lum=36.2`, `p_lum=36.7`) doğrulandı. |
+| **M68** | `v1.38.0` | ✅ Done | Offline Mechanical Engineering Handbook: ISO 286 Fits, Thread Tap & Speeds Calculator — CTest (`[PASS] M68 ISO 286 Fits & Mechanical Handbook`) & Screenshots (`t_lum=36.1`, `p_lum=36.7`) doğrulandı. |

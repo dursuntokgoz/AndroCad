@@ -1035,8 +1035,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m68_tablet.png`) and phone (`docs/screenshots/m68_phone.png`) screenshots.
   - Release: `v1.38.0`.
 * **Acceptance Tests:** ISO 286 tolerance calculator matches standard micrometer upper/lower deviations ($ES, EI, es, ei$) across IT6–IT11 grades.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

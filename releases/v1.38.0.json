@@ -1,0 +1,10 @@
+{
+  "milestone": "M68",
+  "title": "Offline Mechanical Engineering Handbook: ISO 286 Fits, Thread Tap & Speeds Calculator",
+  "version": "v1.38.0",
+  "apkArtifact": "AndroCAD-v1.38.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m68_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m68_phone.png"
+}
