@@ -1,0 +1,10 @@
+{
+  "milestone": "M45",
+  "title": "Generative Design: SIMP Topology Optimization Engine",
+  "version": "v1.15.0",
+  "apkArtifact": "AndroCAD-v1.15.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m45_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m45_phone.png"
+}

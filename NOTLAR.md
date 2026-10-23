@@ -55,3 +55,4 @@
 | **M42** | `v1.12.0` | ✅ Done | Structural Simulation: Linear Eigenvalue Buckling Analysis — CTest (`[PASS] M42 Linear Eigenvalue Buckling Analysis`) & Screenshots (`t_lum=36.7`, `p_lum=37.8`) doğrulandı. |
 | **M43** | `v1.13.0` | ✅ Done | Thermal Simulation: Steady-State Heat Conduction & Convection FEA — CTest (`[PASS] M43 Steady-State Heat Conduction & Convection FEA`) & Screenshots (`t_lum=36.7`, `p_lum=37.8`) doğrulandı. |
 | **M44** | `v1.14.0` | ✅ Done | Coupled Thermo-Mechanical Stress & Thermal Expansion Analysis — CTest (`[PASS] M44 Coupled Thermo-Mechanical Stress Analysis`) & Screenshots (`t_lum=36.7`, `p_lum=37.8`) doğrulandı. |
+| **M45** | `v1.15.0` | ✅ Done | Generative Design: SIMP Topology Optimization Engine — CTest (`[PASS] M45 SIMP Topology Optimization Engine`) & Screenshots (`t_lum=36.2`, `p_lum=36.6`) doğrulandı. |
