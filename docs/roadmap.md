@@ -811,8 +811,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m52_tablet.png`) and phone (`docs/screenshots/m52_phone.png`) screenshots.
   - Release: `v1.22.0`.
 * **Acceptance Tests:** Stylus processor rejects 100% of concurrent large-area palm touches and reduces high-frequency digitizer jitter by >= 75%.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

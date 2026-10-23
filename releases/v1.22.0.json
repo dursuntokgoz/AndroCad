@@ -1,0 +1,10 @@
+{
+  "milestone": "M52",
+  "title": "Stylus / S-Pen Pressure, Tilt & Palm Rejection Sketch Engine",
+  "version": "v1.22.0",
+  "apkArtifact": "AndroCAD-v1.22.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m52_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m52_phone.png"
+}
