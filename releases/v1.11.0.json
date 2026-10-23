@@ -1,0 +1,10 @@
+{
+  "milestone": "M41",
+  "title": "Subtractive CAM: 3+2 Indexed 5-Axis Positional Milling & Holder Collision Check",
+  "version": "v1.11.0",
+  "apkArtifact": "AndroCAD-v1.11.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m41_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m41_phone.png"
+}

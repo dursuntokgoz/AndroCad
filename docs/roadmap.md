@@ -658,8 +658,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m41_tablet.png`) and phone (`docs/screenshots/m41_phone.png`) screenshots.
   - Release: `v1.11.0`.
 * **Acceptance Tests:** Tilted face operations compute exact $(A, C)$ rotary angles and flag any tool-holder interference before post-processing.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

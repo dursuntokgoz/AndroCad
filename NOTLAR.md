@@ -51,3 +51,4 @@
 | **M38** | `v1.8.0` | ✅ Done | Additive Manufacturing: TPMS Gyroid Infill, Adaptive Layer Height & Adhesion — CTest (`[PASS] M38 TPMS Gyroid Infill & Adaptive Layer Slicer`) & Screenshots (`t_lum=36.2`, `p_lum=36.6`) doğrulandı. |
 | **M39** | `v1.9.0` | ✅ Done | Subtractive CAM: High-Speed Trochoidal Adaptive Milling & Rest Machining — CTest (`[PASS] M39 High-Speed Trochoidal Adaptive Milling`) & Screenshots (`t_lum=36.1`, `p_lum=36.7`) doğrulandı. |
 | **M40** | `v1.10.0` | ✅ Done | Subtractive CAM: 2-Axis CNC Lathe Turning, Profiling & Grooving — CTest (`[PASS] M40 2-Axis CNC Lathe Turning & Grooving`) & Screenshots (`t_lum=36.1`, `p_lum=36.7`) doğrulandı. |
+| **M41** | `v1.11.0` | ✅ Done | Subtractive CAM: 3+2 Indexed 5-Axis Positional Milling & Holder Collision Check — CTest (`[PASS] M41 3+2 Indexed 5-Axis Positional Milling`) & Screenshots (`t_lum=36.1`, `p_lum=36.7`) doğrulandı. |
