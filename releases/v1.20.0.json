@@ -1,0 +1,10 @@
+{
+  "milestone": "M50",
+  "title": "Data Exchange: Wavefront OBJ & MTL Material Mesh Import/Export",
+  "version": "v1.20.0",
+  "apkArtifact": "AndroCAD-v1.20.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m50_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m50_phone.png"
+}
