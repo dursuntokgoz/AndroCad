@@ -1,0 +1,10 @@
+{
+  "milestone": "M27",
+  "title": "Privacy-First Opt-In Crash & OCCT Diagnostic Reporter",
+  "version": "v1.0.18",
+  "apkArtifact": "AndroCAD-v1.0.18-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m27_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m27_phone.png"
+}

@@ -462,8 +462,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m27_tablet.png`) and phone (`docs/screenshots/m27_phone.png`) screenshots.
   - Release: `v1.0.18`.
 * **Acceptance Tests:** Zero diagnostic packets written or exported when opt-in is disabled; sanitized JSON report exports cleanly when user explicitly approves.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 
