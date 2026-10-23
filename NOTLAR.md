@@ -40,3 +40,4 @@
 | **M27** | `v1.0.18` | ✅ Done | Privacy-First Opt-In Crash & OCCT Diagnostic Reporter — CTest (`[PASS] M27 Privacy-First Opt-In Crash & Diagnostic Vault`) & Screenshots (`t_lum=36.1`, `p_lum=36.7`) doğrulandı. |
 | **M28** | `v1.0.19` | ✅ Done | Retry & Resolution of Deferred Capabilities: Hierarchical STEP Assembly & Multi-Solid Booleans — CTest (`[PASS] M28 Hierarchical STEP Assembly Tree Parser`) & Screenshots (`t_lum=36.2`, `p_lum=36.7`) doğrulandı. |
 | **M29** | `v1.0.20` | ✅ Done | SAF Content-URI Torture & Corrupt CAD File Resilience — CTest (`[PASS] M29 Corrupt CAD I/O Fuzz & SAF Torture Suite`) & Screenshots (`t_lum=36.2`, `p_lum=36.7`) doğrulandı. |
+| **M30** | `v1.0.21` | ✅ Done | Topological Naming (TNP) Deep History & Upstream Mutation Hardening — CTest (`[PASS] M30 TNP 15-Step Deep History Stress Test`) & Screenshots (`t_lum=36.1`, `p_lum=36.9`) doğrulandı. |

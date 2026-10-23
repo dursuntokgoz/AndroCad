@@ -1,0 +1,10 @@
+{
+  "milestone": "M30",
+  "title": "Topological Naming (TNP) Deep History & Upstream Mutation Hardening",
+  "version": "v1.0.21",
+  "apkArtifact": "AndroCAD-v1.0.21-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m30_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m30_phone.png"
+}

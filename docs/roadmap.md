@@ -504,8 +504,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m30_tablet.png`) and phone (`docs/screenshots/m30_phone.png`) screenshots.
   - Release: `v1.0.21`.
 * **Acceptance Tests:** Downstream fillets and face-sketches re-bind to >= 98% of mutated topological entities across 15-step parametric history rebuilds.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 
