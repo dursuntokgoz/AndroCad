@@ -1,0 +1,10 @@
+{
+  "milestone": "M28",
+  "title": "Retry & Resolution of Deferred Capabilities: Hierarchical STEP Assembly & Multi-Solid Booleans",
+  "version": "v1.0.19",
+  "apkArtifact": "AndroCAD-v1.0.19-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m28_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m28_phone.png"
+}

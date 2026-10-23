@@ -38,3 +38,4 @@
 | **M25** | `v1.0.16` | ✅ Done | Automated Viewport Black-Screen & Blank-Render Diagnostics — CTest (`[PASS] M25 Viewport Black-Screen & Blank-Render Diagnostics`) & Screenshots (`t_lum=34.9`, `p_lum=33.9`) doğrulandı. |
 | **M26** | `v1.0.17` | ✅ Done | Memory Budget & High-Poly Performance Profiler (Low-RAM Guard) — CTest (`[PASS] M26 High-Poly Memory Budget Profiler`) & Screenshots (`t_lum=36.0`, `p_lum=36.7`) doğrulandı. |
 | **M27** | `v1.0.18` | ✅ Done | Privacy-First Opt-In Crash & OCCT Diagnostic Reporter — CTest (`[PASS] M27 Privacy-First Opt-In Crash & Diagnostic Vault`) & Screenshots (`t_lum=36.1`, `p_lum=36.7`) doğrulandı. |
+| **M28** | `v1.0.19` | ✅ Done | Retry & Resolution of Deferred Capabilities: Hierarchical STEP Assembly & Multi-Solid Booleans — CTest (`[PASS] M28 Hierarchical STEP Assembly Tree Parser`) & Screenshots (`t_lum=36.2`, `p_lum=36.7`) doğrulandı. |
