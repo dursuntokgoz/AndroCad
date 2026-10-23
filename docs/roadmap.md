@@ -490,8 +490,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m29_tablet.png`) and phone (`docs/screenshots/m29_phone.png`) screenshots.
   - Release: `v1.0.20`.
 * **Acceptance Tests:** 100% of truncated, zero-byte, and malformed STEP/STL/JSON inputs return structured `errorMessage` diagnostics with zero crashes or lingering temp files.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

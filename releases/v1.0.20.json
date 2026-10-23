@@ -1,0 +1,10 @@
+{
+  "milestone": "M29",
+  "title": "SAF Content-URI Torture & Corrupt CAD File Resilience",
+  "version": "v1.0.20",
+  "apkArtifact": "AndroCAD-v1.0.20-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m29_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m29_phone.png"
+}
