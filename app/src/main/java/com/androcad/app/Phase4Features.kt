@@ -23,7 +23,7 @@ object Phase4Features {
     const val FAZ4_END_MILESTONE = 270
     const val FAZ4_TOTAL_MILESTONES = 200
 
-    data classFaz4DomainSummary(
+    data class Faz4DomainSummary(
         val domainId: Int,
         val startMilestone: Int,
         val endMilestone: Int,
@@ -31,17 +31,17 @@ object Phase4Features {
         val verified: Boolean
     )
 
-    fun getAllDomains(): List<classFaz4DomainSummary> = listOf(
-        classFaz4DomainSummary(1, 71, 90, "3D Direct Manipulation, Ray-Edge-Face Target Resolver & Z-Up Integrity", true),
-        classFaz4DomainSummary(2, 91, 110, "Advanced Parametric Sketching, Splines & Geometric Constraint Solver", true),
-        classFaz4DomainSummary(3, 111, 130, "Advanced Solid Modeling, Direct Editing & Synchronous Technology", true),
-        classFaz4DomainSummary(4, 131, 150, "Class-A Surfacing, Subdivision T-Splines & Reverse Engineering", true),
-        classFaz4DomainSummary(5, 151, 170, "Sheet Metal, Weldments, Structural Frames & ASME Piping", true),
-        classFaz4DomainSummary(6, 171, 190, "Assemblies, Multibody Dynamics, Inverse Kinematics & Tolerance Stackup", true),
-        classFaz4DomainSummary(7, 191, 210, "Multiphysics CAE (Fatigue, Conjugate Thermal, CFD & Injection Molding)", true),
-        classFaz4DomainSummary(8, 211, 230, "5-Axis CNC CAM, Mill-Turn, Wire EDM, Probing & TPMS Additive", true),
-        classFaz4DomainSummary(9, 231, 250, "MBD Semantic PMI, GD&T Bonus Tolerancing, Metrology, DFM & LCA", true),
-        classFaz4DomainSummary(10, 251, 270, "GPU Viewport Shaders, Spatial Computing, AI CAD Copilot & Security", true)
+    fun getAllDomains(): List<Faz4DomainSummary> = listOf(
+        Faz4DomainSummary(1, 71, 90, "3D Direct Manipulation, Ray-Edge-Face Target Resolver & Z-Up Integrity", true),
+        Faz4DomainSummary(2, 91, 110, "Advanced Parametric Sketching, Splines & Geometric Constraint Solver", true),
+        Faz4DomainSummary(3, 111, 130, "Advanced Solid Modeling, Direct Editing & Synchronous Technology", true),
+        Faz4DomainSummary(4, 131, 150, "Class-A Surfacing, Subdivision T-Splines & Reverse Engineering", true),
+        Faz4DomainSummary(5, 151, 170, "Sheet Metal, Weldments, Structural Frames & ASME Piping", true),
+        Faz4DomainSummary(6, 171, 190, "Assemblies, Multibody Dynamics, Inverse Kinematics & Tolerance Stackup", true),
+        Faz4DomainSummary(7, 191, 210, "Multiphysics CAE (Fatigue, Conjugate Thermal, CFD & Injection Molding)", true),
+        Faz4DomainSummary(8, 211, 230, "5-Axis CNC CAM, Mill-Turn, Wire EDM, Probing & TPMS Additive", true),
+        Faz4DomainSummary(9, 231, 250, "MBD Semantic PMI, GD&T Bonus Tolerancing, Metrology, DFM & LCA", true),
+        Faz4DomainSummary(10, 251, 270, "GPU Viewport Shaders, Spatial Computing, AI CAD Copilot & Security", true)
     )
 
     /**
