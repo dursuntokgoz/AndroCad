@@ -1,0 +1,10 @@
+{
+  "milestone": "M38",
+  "title": "Additive Manufacturing: TPMS Gyroid Infill, Adaptive Layer Height & Adhesion",
+  "version": "v1.8.0",
+  "apkArtifact": "AndroCAD-v1.8.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m38_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m38_phone.png"
+}

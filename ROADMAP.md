@@ -616,8 +616,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m38_tablet.png`) and phone (`docs/screenshots/m38_phone.png`) screenshots.
   - Release: `v1.8.0`.
 * **Acceptance Tests:** Gyroid slicer generates continuous isotropic infill paths and reduces stair-stepping error on shallow domes via adaptive layer heights.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 
