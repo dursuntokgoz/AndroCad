@@ -3910,7 +3910,7 @@ fun buildNativeSketchFromEntities(sketch: NativeSketch, entities: List<SketchEnt
         }
     }
     for (poly in polygons) {
-        val pts = poly.toVertices()
+        val pts = poly.toOutlinePoints()
         if (pts.size >= 3) {
             for (i in pts.indices) {
                 val a = pts[i]
@@ -3974,10 +3974,10 @@ fun calculateSketchBounds(entities: List<SketchEntity>): Triple<Double, Double, 
             }
             is SketchEntity.Slot -> {
                 val r = e.radius.toDouble()
-                minX = minOf(minX, e.x1.toDouble() - r, e.x2.toDouble() - r)
-                maxX = maxOf(maxX, e.x1.toDouble() + r, e.x2.toDouble() + r)
-                minY = minOf(minY, e.y1.toDouble() - r, e.y2.toDouble() - r)
-                maxY = maxOf(maxY, e.y1.toDouble() + r, e.y2.toDouble() + r)
+                minX = minOf(minX, e.startX.toDouble() - r, e.endX.toDouble() - r)
+                maxX = maxOf(maxX, e.startX.toDouble() + r, e.endX.toDouble() + r)
+                minY = minOf(minY, e.startY.toDouble() - r, e.endY.toDouble() - r)
+                maxY = maxOf(maxY, e.startY.toDouble() + r, e.endY.toDouble() + r)
             }
         }
     }
