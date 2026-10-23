@@ -65,3 +65,4 @@
 | **M52** | `v1.22.0` | ✅ Done | Stylus / S-Pen Pressure, Tilt & Palm Rejection Sketch Engine — CTest (`[PASS] M52 Stylus / S-Pen Pressure, Tilt & Palm Rejection`) & Screenshots (`t_lum=36.1`, `p_lum=37.0`) doğrulandı. |
 | **M53** | `v1.23.0` | ✅ Done | Accessibility (a11y): TalkBack Semantics, High-Contrast Mode & Touch Target Audit — CTest (`[PASS] M53 WCAG AAA Accessibility & TalkBack Semantics`) & Screenshots (`t_lum=36.2`, `p_lum=36.7`) doğrulandı. |
 | **M54** | `v1.24.0` | ✅ Done | Multi-Language Localization (i18n): TR, EN, DE, JA & AR (RTL) Support — CTest (`[PASS] M54 Multi-Language Localization (TR/EN/DE/JA/AR)`) & Screenshots (`t_lum=36.1`, `p_lum=36.9`) doğrulandı. |
+| **M55** | `v1.25.0` | ✅ Done | Embedded Parametric Scripting & Macro Automation API (AndroScript) — CTest (`[PASS] M55 Embedded AndroScript Macro Automation API`) & Screenshots (`t_lum=36.1`, `p_lum=37.0`) doğrulandı. |

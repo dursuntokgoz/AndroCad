@@ -1,0 +1,10 @@
+{
+  "milestone": "M55",
+  "title": "Embedded Parametric Scripting & Macro Automation API (AndroScript)",
+  "version": "v1.25.0",
+  "apkArtifact": "AndroCAD-v1.25.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m55_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m55_phone.png"
+}
