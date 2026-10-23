@@ -220,7 +220,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
         mutableStateOf(
             BrowserState(
                 bodies = mutableListOf(
-                    CadBodyItem("body_1", "Solid Box 1", isVisible = true, isSelected = false)
+                    CadBodyItem("body_1", "Solid Box 1", isVisible = true, isSelected = true, solid = meshResult)
                 )
             )
         )
@@ -236,7 +236,17 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                 activeSolid?.close()
                 activeSolid = imported
                 renderer?.updateMesh(imported)
-                timelineItems = (timelineItems + "${timelineItems.size + 1}. Import STEP (${uri.lastPathSegment ?: "model.step"})").toMutableList()
+                val bodyName = uri.lastPathSegment?.substringAfterLast('/')?.substringBeforeLast('.') ?: "Imported STEP"
+                val newBody = CadBodyItem(
+                    id = "body_${System.currentTimeMillis()}",
+                    name = bodyName,
+                    isVisible = true,
+                    isSelected = true,
+                    solid = imported
+                )
+                browserState.value.addBody(newBody)
+                browserState.value.selectItem(newBody.id)
+                timelineItems = (timelineItems + "${timelineItems.size + 1}. Import STEP ($bodyName)").toMutableList()
                 featureStatusText = "Imported STEP via SAF (${imported.volume.toInt()} mm³)"
                 showEmptyState = false
             } else {
@@ -254,7 +264,17 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                 activeSolid?.close()
                 activeSolid = imported
                 renderer?.updateMesh(imported)
-                timelineItems = (timelineItems + "${timelineItems.size + 1}. Import STL (${uri.lastPathSegment ?: "model.stl"})").toMutableList()
+                val bodyName = uri.lastPathSegment?.substringAfterLast('/')?.substringBeforeLast('.') ?: "Imported STL"
+                val newBody = CadBodyItem(
+                    id = "body_${System.currentTimeMillis()}",
+                    name = bodyName,
+                    isVisible = true,
+                    isSelected = true,
+                    solid = imported
+                )
+                browserState.value.addBody(newBody)
+                browserState.value.selectItem(newBody.id)
+                timelineItems = (timelineItems + "${timelineItems.size + 1}. Import STL ($bodyName)").toMutableList()
                 featureStatusText = "Imported STL via SAF (${imported.triangleCount} triangles)"
                 showEmptyState = false
             } else {
@@ -267,9 +287,13 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
         contract = ActivityResultContracts.CreateDocument("application/step")
     ) { uri ->
         if (uri != null) {
-            val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
-            val ok = CadStorageManager.exportStepToUri(context, solid, uri)
-            featureStatusText = if (ok) "Exported STEP to SAF document" else "STEP export failed"
+            val solid = activeSolid
+            if (solid != null && solid.success) {
+                val ok = CadStorageManager.exportStepToUri(context, solid, uri)
+                featureStatusText = if (ok) "Exported STEP to SAF document" else "STEP export failed"
+            } else {
+                featureStatusText = "No active solid to export"
+            }
         }
     }
 
@@ -277,9 +301,13 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
         contract = ActivityResultContracts.CreateDocument("model/stl")
     ) { uri ->
         if (uri != null) {
-            val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
-            val ok = CadStorageManager.exportStlToUri(context, solid, uri)
-            featureStatusText = if (ok) "Exported STL to SAF document" else "STL export failed"
+            val solid = activeSolid
+            if (solid != null && solid.success) {
+                val ok = CadStorageManager.exportStlToUri(context, solid, uri)
+                featureStatusText = if (ok) "Exported STL to SAF document" else "STL export failed"
+            } else {
+                featureStatusText = "No active solid to export"
+            }
         }
     }
 
@@ -627,16 +655,17 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     }
                                                 }
                                                 "Export STEP" -> {
-                                                    try {
-                                                        stepExportLauncher.launch("model.step")
-                                                    } catch (e: Throwable) {
-                                                        val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also {
-                                                            activeSolid = it
-                                                            renderer?.updateMesh(it)
+                                                    if (activeSolid == null || !activeSolid!!.success) {
+                                                        featureStatusText = "No solid body on plate to export."
+                                                    } else {
+                                                        try {
+                                                            stepExportLauncher.launch("model.step")
+                                                        } catch (e: Throwable) {
+                                                            val solid = activeSolid!!
+                                                            val stepFile = java.io.File(baseDir, "model.step")
+                                                            val res = NativeKernel.exportStep(solid, stepFile.absolutePath)
+                                                            featureStatusText = if (res.success) "Exported STEP: ${stepFile.name}" else "STEP export failed"
                                                         }
-                                                        val stepFile = java.io.File(baseDir, "model.step")
-                                                        val res = NativeKernel.exportStep(solid, stepFile.absolutePath)
-                                                        featureStatusText = if (res.success) "Exported STEP: ${stepFile.name}" else "STEP export failed"
                                                     }
                                                 }
                                                 "Import STEP" -> {
@@ -644,31 +673,41 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                         stepImportLauncher.launch(arrayOf("*/*"))
                                                     } catch (e: Throwable) {
                                                         val stepFile = java.io.File(baseDir, "model.step")
-                                                        if (!stepFile.exists()) {
-                                                            val initialSolid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0)
-                                                            NativeKernel.exportStep(initialSolid, stepFile.absolutePath)
-                                                        }
-                                                        val imported = NativeKernel.importStep(stepFile.absolutePath)
-                                                        if (imported.success) {
-                                                            activeSolid?.close()
-                                                            activeSolid = imported
-                                                            renderer?.updateMesh(imported)
-                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Import STEP").toMutableList()
-                                                            featureStatusText = "Imported STEP: ${stepFile.name}"
+                                                        if (stepFile.exists()) {
+                                                            val imported = NativeKernel.importStep(stepFile.absolutePath)
+                                                            if (imported.success) {
+                                                                activeSolid?.close()
+                                                                activeSolid = imported
+                                                                renderer?.updateMesh(imported)
+                                                                val newBody = CadBodyItem(
+                                                                    id = "body_${System.currentTimeMillis()}",
+                                                                    name = "Imported STEP",
+                                                                    isVisible = true,
+                                                                    isSelected = true,
+                                                                    solid = imported
+                                                                )
+                                                                browserState.value.addBody(newBody)
+                                                                browserState.value.selectItem(newBody.id)
+                                                                timelineItems = (timelineItems + "${timelineItems.size + 1}. Import STEP").toMutableList()
+                                                                featureStatusText = "Imported STEP: ${stepFile.name}"
+                                                            }
+                                                        } else {
+                                                            featureStatusText = "No STEP file found to import"
                                                         }
                                                     }
                                                 }
                                                 "Export STL" -> {
-                                                    try {
-                                                        stlExportLauncher.launch("model.stl")
-                                                    } catch (e: Throwable) {
-                                                        val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also {
-                                                            activeSolid = it
-                                                            renderer?.updateMesh(it)
+                                                    if (activeSolid == null || !activeSolid!!.success) {
+                                                        featureStatusText = "No solid body on plate to export."
+                                                    } else {
+                                                        try {
+                                                            stlExportLauncher.launch("model.stl")
+                                                        } catch (e: Throwable) {
+                                                            val solid = activeSolid!!
+                                                            val stlFile = java.io.File(baseDir, "model.stl")
+                                                            val res = NativeKernel.exportStl(solid, stlFile.absolutePath)
+                                                            featureStatusText = if (res.success) "Exported STL: ${stlFile.name}" else "STL export failed"
                                                         }
-                                                        val stlFile = java.io.File(baseDir, "model.stl")
-                                                        val res = NativeKernel.exportStl(solid, stlFile.absolutePath)
-                                                        featureStatusText = if (res.success) "Exported STL: ${stlFile.name}" else "STL export failed"
                                                     }
                                                 }
                                                 "Import STL" -> {
@@ -676,17 +715,26 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                         stlImportLauncher.launch(arrayOf("*/*"))
                                                     } catch (e: Throwable) {
                                                         val stlFile = java.io.File(baseDir, "model.stl")
-                                                        if (!stlFile.exists()) {
-                                                            val initialSolid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0)
-                                                            NativeKernel.exportStl(initialSolid, stlFile.absolutePath)
-                                                        }
-                                                        val imported = NativeKernel.importStl(stlFile.absolutePath)
-                                                        if (imported.success) {
-                                                            activeSolid?.close()
-                                                            activeSolid = imported
-                                                            renderer?.updateMesh(imported)
-                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Import STL").toMutableList()
-                                                            featureStatusText = "Imported STL: ${stlFile.name}"
+                                                        if (stlFile.exists()) {
+                                                            val imported = NativeKernel.importStl(stlFile.absolutePath)
+                                                            if (imported.success) {
+                                                                activeSolid?.close()
+                                                                activeSolid = imported
+                                                                renderer?.updateMesh(imported)
+                                                                val newBody = CadBodyItem(
+                                                                    id = "body_${System.currentTimeMillis()}",
+                                                                    name = "Imported STL",
+                                                                    isVisible = true,
+                                                                    isSelected = true,
+                                                                    solid = imported
+                                                                )
+                                                                browserState.value.addBody(newBody)
+                                                                browserState.value.selectItem(newBody.id)
+                                                                timelineItems = (timelineItems + "${timelineItems.size + 1}. Import STL").toMutableList()
+                                                                featureStatusText = "Imported STL: ${stlFile.name}"
+                                                            }
+                                                        } else {
+                                                            featureStatusText = "No STL file found to import"
                                                         }
                                                     }
                                                 }
@@ -743,65 +791,118 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                 "Loft" -> {
                                                     val loftSolid = try {
                                                         val res = NativeKernel.createLoft(40.0, 20.0)
-                                                        if (res.success) res else NativeKernel.createFallbackBox(40.0, 20.0, 30.0)
+                                                        if (res.success) res else null
                                                     } catch (e: Throwable) {
-                                                        NativeKernel.createFallbackBox(40.0, 20.0, 30.0)
+                                                        null
                                                     }
-                                                    activeSolid?.close()
-                                                    activeSolid = loftSolid
-                                                    renderer?.updateMesh(loftSolid)
-                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Loft (Rect->Circ)").toMutableList()
-                                                    featureStatusText = "Loft solid generated: ${loftSolid.volume.toInt()} mm³"
+                                                    if (loftSolid != null && loftSolid.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = loftSolid
+                                                        renderer?.updateMesh(loftSolid)
+                                                        val bodyName = "Loft Body ${browserState.value.bodies.size + 1}"
+                                                        val newBody = CadBodyItem(
+                                                            id = "body_loft_${System.currentTimeMillis()}",
+                                                            name = bodyName,
+                                                            isVisible = true,
+                                                            isSelected = true,
+                                                            faceCount = loftSolid.faceCount,
+                                                            volume = loftSolid.volume,
+                                                            solid = loftSolid
+                                                        )
+                                                        browserState.value.addBody(newBody)
+                                                        browserState.value.selectItem(newBody.id)
+                                                        showEmptyState = false
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Loft (Rect->Circ)").toMutableList()
+                                                        featureStatusText = "Loft solid generated: ${loftSolid.volume.toInt()} mm³"
+                                                    } else {
+                                                        featureStatusText = "Loft generation failed"
+                                                    }
                                                 }
                                                 "Press-Pull (+10)" -> {
-                                                    val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also {
-                                                        activeSolid = it
+                                                    val solid = activeSolid
+                                                    if (solid == null || !solid.success) {
+                                                        featureStatusText = "No solid body on plate. Create a Box, Cylinder, or Extrude a sketch first."
+                                                    } else {
+                                                        val targetFace = if (selectedType == "Face") selectedId else 1
+                                                        val pulled = try {
+                                                            val res = solid.pressPull(10.0, targetFace)
+                                                            if (res.success) res else null
+                                                        } catch (e: Throwable) {
+                                                            null
+                                                        }
+                                                        if (pulled != null && pulled.success) {
+                                                            activeSolid?.close()
+                                                            activeSolid = pulled
+                                                            renderer?.updateMesh(pulled)
+                                                            val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                                            if (selectedBody != null) {
+                                                                selectedBody.solid = pulled
+                                                                selectedBody.volume = pulled.volume
+                                                                selectedBody.faceCount = pulled.faceCount
+                                                            }
+                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Press-Pull (+10mm)").toMutableList()
+                                                            featureStatusText = "Face #$targetFace offset +10mm (New Vol: ${pulled.volume.toInt()} mm³)"
+                                                        } else {
+                                                            featureStatusText = "Press-Pull failed on Face #$targetFace"
+                                                        }
                                                     }
-                                                    val targetFace = if (selectedType == "Face") selectedId else 1
-                                                    val pulled = try {
-                                                        val res = solid.pressPull(10.0, targetFace)
-                                                        if (res.success) res else NativeKernel.createFallbackBox(100.0, 50.0, 30.0)
-                                                    } catch (e: Throwable) {
-                                                        NativeKernel.createFallbackBox(100.0, 50.0, 30.0)
-                                                    }
-                                                    activeSolid?.close()
-                                                    activeSolid = pulled
-                                                    renderer?.updateMesh(pulled)
-                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Press-Pull (+10mm)").toMutableList()
-                                                    featureStatusText = "Face #$targetFace offset +10mm (New Vol: ${pulled.volume.toInt()} mm³)"
                                                 }
                                                 "Press-Pull (-5)" -> {
-                                                    val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also {
-                                                        activeSolid = it
+                                                    val solid = activeSolid
+                                                    if (solid == null || !solid.success) {
+                                                        featureStatusText = "No solid body on plate. Create a Box, Cylinder, or Extrude a sketch first."
+                                                    } else {
+                                                        val targetFace = if (selectedType == "Face") selectedId else 1
+                                                        val pulled = try {
+                                                            val res = solid.pressPull(-5.0, targetFace)
+                                                            if (res.success) res else null
+                                                        } catch (e: Throwable) {
+                                                            null
+                                                        }
+                                                        if (pulled != null && pulled.success) {
+                                                            activeSolid?.close()
+                                                            activeSolid = pulled
+                                                            renderer?.updateMesh(pulled)
+                                                            val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                                            if (selectedBody != null) {
+                                                                selectedBody.solid = pulled
+                                                                selectedBody.volume = pulled.volume
+                                                                selectedBody.faceCount = pulled.faceCount
+                                                            }
+                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Press-Pull (-5mm)").toMutableList()
+                                                            featureStatusText = "Face #$targetFace offset -5mm"
+                                                        } else {
+                                                            featureStatusText = "Press-Pull failed on Face #$targetFace"
+                                                        }
                                                     }
-                                                    val targetFace = if (selectedType == "Face") selectedId else 1
-                                                    val pulled = try {
-                                                        val res = solid.pressPull(-5.0, targetFace)
-                                                        if (res.success) res else NativeKernel.createFallbackBox(100.0, 50.0, 15.0)
-                                                    } catch (e: Throwable) {
-                                                        NativeKernel.createFallbackBox(100.0, 50.0, 15.0)
-                                                    }
-                                                    activeSolid?.close()
-                                                    activeSolid = pulled
-                                                    renderer?.updateMesh(pulled)
-                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Press-Pull (-5mm)").toMutableList()
-                                                    featureStatusText = "Face #$targetFace offset -5mm"
                                                 }
                                                 "Thicken (5mm)" -> {
-                                                    val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also {
-                                                        activeSolid = it
+                                                    val solid = activeSolid
+                                                    if (solid == null || !solid.success) {
+                                                        featureStatusText = "No solid body on plate. Create a Box, Cylinder, or Extrude a sketch first."
+                                                    } else {
+                                                        val thickened = try {
+                                                            val res = solid.thicken(5.0)
+                                                            if (res.success) res else null
+                                                        } catch (e: Throwable) {
+                                                            null
+                                                        }
+                                                        if (thickened != null && thickened.success) {
+                                                            activeSolid?.close()
+                                                            activeSolid = thickened
+                                                            renderer?.updateMesh(thickened)
+                                                            val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                                            if (selectedBody != null) {
+                                                                selectedBody.solid = thickened
+                                                                selectedBody.volume = thickened.volume
+                                                                selectedBody.faceCount = thickened.faceCount
+                                                            }
+                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Thicken (5mm)").toMutableList()
+                                                            featureStatusText = "Thicken 5mm applied"
+                                                        } else {
+                                                            featureStatusText = "Thicken failed on active solid"
+                                                        }
                                                     }
-                                                    val thickened = try {
-                                                        val res = solid.thicken(5.0)
-                                                        if (res.success) res else NativeKernel.createFallbackBox(105.0, 55.0, 25.0)
-                                                    } catch (e: Throwable) {
-                                                        NativeKernel.createFallbackBox(105.0, 55.0, 25.0)
-                                                    }
-                                                    activeSolid?.close()
-                                                    activeSolid = thickened
-                                                    renderer?.updateMesh(thickened)
-                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Thicken (5mm)").toMutableList()
-                                                    featureStatusText = "Thicken 5mm applied"
                                                 }
                                             }
                                         } catch (t: Throwable) {
@@ -1037,9 +1138,9 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                     .testTag(getToolTestTag(tool))
                                     .clickable {
                                         try {
-                                            val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also {
-                                                activeSolid = it
-                                                renderer?.updateMesh(it)
+                                            val solid = activeSolid ?: run {
+                                                featureStatusText = "No solid body on plate for drawing. Create a body first."
+                                                return@clickable
                                             }
                                             when (tool) {
                                                 "4-View Sheet" -> {
@@ -1138,9 +1239,9 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                     .testTag(getToolTestTag(tool))
                                     .clickable {
                                         try {
-                                            val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also {
-                                                activeSolid = it
-                                                renderer?.updateMesh(it)
+                                            val solid = activeSolid ?: run {
+                                                featureStatusText = "No solid body on plate to inspect."
+                                                return@clickable
                                             }
                                             when (tool) {
                                                 "Mass (Steel)" -> {
@@ -1212,9 +1313,9 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                     .testTag(getToolTestTag(tool))
                                     .clickable {
                                         try {
-                                            val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also {
-                                                activeSolid = it
-                                                renderer?.updateMesh(it)
+                                            val solid = activeSolid ?: run {
+                                                featureStatusText = "No mesh on plate. Create or import a body first."
+                                                return@clickable
                                             }
                                             when (tool) {
                                                 "Analyze Mesh" -> {
@@ -1411,9 +1512,9 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     }
                                                 }
                                                 "Solve Part FEA" -> {
-                                                    val solid = activeSolid ?: NativeKernel.createBox(60.0, 30.0, 20.0).also {
-                                                        activeSolid = it
-                                                        renderer?.updateMesh(it)
+                                                    val solid = activeSolid ?: run {
+                                                        featureStatusText = "No solid body on plate to simulate."
+                                                        return@clickable
                                                     }
                                                     val res = NativeKernel.simulateSolid(
                                                         solid = solid,
@@ -1700,19 +1801,10 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                         try {
                                             when (tool) {
                                                 "Box" -> {
-                                                    val newBox = NativeKernel.createBox(100.0, 50.0, 20.0)
-                                                    val finalSolid = if (newBox.success) newBox else NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
-                                                    activeSolid?.close()
-                                                    activeSolid = finalSolid
-                                                    renderer?.updateMesh(finalSolid)
                                                     showBoxDialog = true
                                                     featureStatusText = "Box: 100,000 mm³ (Adjust or tap OK)"
                                                 }
                                                 "Cylinder" -> {
-                                                    val newCyl = NativeKernel.createCylinder(25.0, 50.0)
-                                                    activeSolid?.close()
-                                                    activeSolid = newCyl
-                                                    renderer?.updateMesh(newCyl)
                                                     showCylinderDialog = true
                                                     featureStatusText = "Cylinder: R=25 mm, H=50 mm (Adjust or tap OK)"
                                                 }
@@ -1734,175 +1826,272 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                         }
                                                         val solid = sketch.revolve(0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 2.0 * Math.PI)
                                                         sketch.close()
-                                                        if (solid.success && solid.nativeHandle > 1000L) solid else NativeKernel.createFallbackBox(40.0, 40.0, 10.0)
+                                                        if (solid.success && solid.nativeHandle > 1000L) solid else null
                                                     } catch (t: Throwable) {
-                                                        NativeKernel.createFallbackBox(40.0, 40.0, 10.0)
+                                                        null
                                                     }
-                                                    activeSolid?.close()
-                                                    activeSolid = revSolid
-                                                    renderer?.updateMesh(revSolid)
-                                                    val bodyName = "Revolved Solid ${browserState.value.bodies.size + 1}"
-                                                    browserState.value.addBody(
-                                                        CadBodyItem(
+                                                    if (revSolid != null && revSolid.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = revSolid
+                                                        renderer?.updateMesh(revSolid)
+                                                        val bodyName = "Revolved Solid ${browserState.value.bodies.size + 1}"
+                                                        val newBody = CadBodyItem(
                                                             id = "body_${System.currentTimeMillis()}",
                                                             name = bodyName,
                                                             isVisible = true,
-                                                            isSelected = false
+                                                            isSelected = true,
+                                                            faceCount = revSolid.faceCount,
+                                                            volume = revSolid.volume,
+                                                            solid = revSolid
                                                         )
-                                                    )
-                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Revolve (360°)").toMutableList()
-                                                    featureStatusText = "Revolved solid (360°): ${revSolid.volume.toInt()} mm³"
+                                                        browserState.value.addBody(newBody)
+                                                        browserState.value.selectItem(newBody.id)
+                                                        showEmptyState = false
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Revolve (360°)").toMutableList()
+                                                        featureStatusText = "Revolved solid (360°): ${revSolid.volume.toInt()} mm³"
+                                                    } else {
+                                                        featureStatusText = "Revolve failed"
+                                                    }
                                                 }
                                                 "Fillet" -> {
-                                                    showFilletDialog = true
-                                                    featureStatusText = "Fillet inspector open"
+                                                    if (activeSolid == null || !activeSolid!!.success) {
+                                                        featureStatusText = "No solid body on plate. Create a Box, Cylinder, or Extrude a sketch first."
+                                                    } else {
+                                                        showFilletDialog = true
+                                                        featureStatusText = "Fillet inspector open"
+                                                    }
                                                 }
                                                 "Chamfer" -> {
-                                                    showChamferDialog = true
-                                                    featureStatusText = "Chamfer inspector open"
+                                                    if (activeSolid == null || !activeSolid!!.success) {
+                                                        featureStatusText = "No solid body on plate. Create a Box, Cylinder, or Extrude a sketch first."
+                                                    } else {
+                                                        showChamferDialog = true
+                                                        featureStatusText = "Chamfer inspector open"
+                                                    }
                                                 }
                                                 "Hole" -> {
-                                                    showHoleDialog = true
-                                                    featureStatusText = "Hole inspector open"
+                                                    if (activeSolid == null || !activeSolid!!.success) {
+                                                        featureStatusText = "No solid body on plate. Create a Box, Cylinder, or Extrude a sketch first."
+                                                    } else {
+                                                        showHoleDialog = true
+                                                        featureStatusText = "Hole inspector open"
+                                                    }
                                                 }
                                                 "Shell" -> {
-                                                    val solid = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also {
-                                                        activeSolid = it
+                                                    val solid = activeSolid
+                                                    if (solid == null || !solid.success) {
+                                                        featureStatusText = "No solid body on plate. Create a Box, Cylinder, or Extrude a sketch first."
+                                                    } else {
+                                                        val shelled = try {
+                                                            val res = solid.shell(2.0, if (selectedType == "Face") selectedId else 1)
+                                                            if (res.success) res else null
+                                                        } catch (t: Throwable) {
+                                                            null
+                                                        }
+                                                        if (shelled != null && shelled.success) {
+                                                            activeSolid?.close()
+                                                            activeSolid = shelled
+                                                            renderer?.updateMesh(shelled)
+                                                            val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                                            if (selectedBody != null) {
+                                                                selectedBody.solid = shelled
+                                                                selectedBody.volume = shelled.volume
+                                                                selectedBody.faceCount = shelled.faceCount
+                                                            }
+                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Shell (T: 2 mm)").toMutableList()
+                                                            featureStatusText = "Shell (T: 2 mm) hollowed"
+                                                        } else {
+                                                            featureStatusText = "Shell failed on active solid"
+                                                        }
                                                     }
-                                                    val shelled = try {
-                                                        val res = solid.shell(2.0, if (selectedType == "Face") selectedId else 1)
-                                                        if (res.success) res else NativeKernel.createFallbackBox(96.0, 46.0, 16.0)
-                                                    } catch (t: Throwable) {
-                                                        NativeKernel.createFallbackBox(96.0, 46.0, 16.0)
-                                                    }
-                                                    activeSolid?.close()
-                                                    activeSolid = shelled
-                                                    renderer?.updateMesh(shelled)
-                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Shell (T: 2 mm)").toMutableList()
-                                                    featureStatusText = "Shell (T: 2 mm) hollowed"
                                                 }
                                                 "Combine" -> {
-                                                    val solidA = activeSolid ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0).also {
-                                                        activeSolid = it
+                                                    val visibleBodies = browserState.value.bodies.filter { it.isVisible && it.solid != null && it.solid!!.success }
+                                                    if (visibleBodies.size < 2) {
+                                                        featureStatusText = "Combine requires at least 2 bodies in Browser. Create another body first."
+                                                    } else {
+                                                        val targetBody = visibleBodies[0]
+                                                        val toolBody = visibleBodies[1]
+                                                        val res = try {
+                                                            targetBody.solid!!.join(toolBody.solid!!)
+                                                        } catch (t: Throwable) {
+                                                            null
+                                                        }
+                                                        if (res != null && res.success) {
+                                                            targetBody.solid?.close()
+                                                            toolBody.solid?.close()
+                                                            targetBody.solid = res
+                                                            targetBody.volume = res.volume
+                                                            targetBody.faceCount = res.faceCount
+                                                            browserState.value.deleteBody(toolBody.id)
+                                                            activeSolid = res
+                                                            renderer?.updateMesh(res)
+                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Combine (Join)").toMutableList()
+                                                            featureStatusText = "Combined ${targetBody.name} and ${toolBody.name}"
+                                                        } else {
+                                                            featureStatusText = "Combine failed: bodies may not intersect"
+                                                        }
                                                     }
-                                                    val combined = try {
-                                                        val solidB = NativeKernel.createBox(30.0, 30.0, 30.0)
-                                                        val res = solidA.join(solidB)
-                                                        solidB.close()
-                                                        if (res.success) res else NativeKernel.createFallbackBox(130.0, 50.0, 20.0)
-                                                    } catch (t: Throwable) {
-                                                        NativeKernel.createFallbackBox(130.0, 50.0, 20.0)
-                                                    }
-                                                    activeSolid?.close()
-                                                    activeSolid = combined
-                                                    renderer?.updateMesh(combined)
-                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Combine (Join)").toMutableList()
-                                                    featureStatusText = "Combine Join executed"
                                                 }
                                                 "Rect Pattern" -> {
-                                                    val base = activeSolid ?: NativeKernel.createFallbackBox(20.0, 20.0, 20.0).also {
-                                                        activeSolid = it
+                                                    val base = activeSolid
+                                                    if (base == null || !base.success) {
+                                                        featureStatusText = "No solid body on plate. Create a Box, Cylinder, or Extrude a sketch first."
+                                                    } else {
+                                                        val res = try {
+                                                            NativeKernel.rectangularPattern(
+                                                                solid = base,
+                                                                countU = 3, spacingU = 30.0, dirUX = 1.0, dirUY = 0.0, dirUZ = 0.0,
+                                                                countV = 2, spacingV = 25.0, dirVX = 0.0, dirVY = 1.0, dirVZ = 0.0,
+                                                                fuseInstances = false
+                                                            )
+                                                        } catch (t: Throwable) { null }
+                                                        val resMesh = res?.meshResult
+                                                        if (resMesh != null && resMesh.success) {
+                                                            base.close()
+                                                            activeSolid = resMesh
+                                                            renderer?.updateMesh(resMesh)
+                                                            val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                                            if (selectedBody != null) {
+                                                                selectedBody.solid = resMesh
+                                                                selectedBody.volume = resMesh.volume
+                                                                selectedBody.faceCount = resMesh.faceCount
+                                                            }
+                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Rect Pattern (3x2)").toMutableList()
+                                                            featureStatusText = "Rect Pattern: 6 instances array (Vol: ${resMesh.volume.toInt()} mm³)"
+                                                        } else {
+                                                            featureStatusText = "Rect Pattern failed on active solid"
+                                                        }
                                                     }
-                                                    val res = try {
-                                                        NativeKernel.rectangularPattern(
-                                                            solid = base,
-                                                            countU = 3, spacingU = 30.0, dirUX = 1.0, dirUY = 0.0, dirUZ = 0.0,
-                                                            countV = 2, spacingV = 25.0, dirVX = 0.0, dirVY = 1.0, dirVZ = 0.0,
-                                                            fuseInstances = false
-                                                        )
-                                                    } catch (t: Throwable) { null }
-                                                    val resMesh = res?.meshResult
-                                                    val mResult = if (resMesh != null && resMesh.success) resMesh else NativeKernel.createFallbackBox(90.0, 50.0, 20.0)
-                                                    activeSolid?.close()
-                                                    activeSolid = mResult
-                                                    renderer?.updateMesh(mResult)
-                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Rect Pattern (3x2)").toMutableList()
-                                                    featureStatusText = "Rect Pattern: 6 instances array (Vol: ${mResult.volume.toInt()} mm³)"
                                                 }
                                                 "Circular Pattern" -> {
-                                                    val base = activeSolid ?: NativeKernel.createFallbackBox(15.0, 15.0, 20.0).also {
-                                                        activeSolid = it
+                                                    val base = activeSolid
+                                                    if (base == null || !base.success) {
+                                                        featureStatusText = "No solid body on plate. Create a Box, Cylinder, or Extrude a sketch first."
+                                                    } else {
+                                                        val res = try {
+                                                            NativeKernel.circularPattern(
+                                                                solid = base,
+                                                                ox = 0.0, oy = 0.0, oz = 0.0,
+                                                                dx = 0.0, dy = 0.0, dz = 1.0,
+                                                                count = 6, totalAngleDeg = 360.0,
+                                                                fuseInstances = false
+                                                            )
+                                                        } catch (t: Throwable) { null }
+                                                        val resMesh = res?.meshResult
+                                                        if (resMesh != null && resMesh.success) {
+                                                            base.close()
+                                                            activeSolid = resMesh
+                                                            renderer?.updateMesh(resMesh)
+                                                            val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                                            if (selectedBody != null) {
+                                                                selectedBody.solid = resMesh
+                                                                selectedBody.volume = resMesh.volume
+                                                                selectedBody.faceCount = resMesh.faceCount
+                                                            }
+                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Circular Pattern (6x 360°)").toMutableList()
+                                                            featureStatusText = "Circular Pattern: 6 instances polar array"
+                                                        } else {
+                                                            featureStatusText = "Circular Pattern failed on active solid"
+                                                        }
                                                     }
-                                                    val res = try {
-                                                        NativeKernel.circularPattern(
-                                                            solid = base,
-                                                            ox = 0.0, oy = 0.0, oz = 0.0,
-                                                            dx = 0.0, dy = 0.0, dz = 1.0,
-                                                            count = 6, totalAngleDeg = 360.0,
-                                                            fuseInstances = false
-                                                        )
-                                                    } catch (t: Throwable) { null }
-                                                    val resMesh = res?.meshResult
-                                                    val mResult = if (resMesh != null && resMesh.success) resMesh else NativeKernel.createFallbackBox(60.0, 60.0, 20.0)
-                                                    activeSolid?.close()
-                                                    activeSolid = mResult
-                                                    renderer?.updateMesh(mResult)
-                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Circular Pattern (6x 360°)").toMutableList()
-                                                    featureStatusText = "Circular Pattern: 6 instances polar array"
                                                 }
                                                 "Mirror" -> {
-                                                    val base = activeSolid ?: NativeKernel.createFallbackBox(30.0, 20.0, 15.0).also {
-                                                        activeSolid = it
+                                                    val base = activeSolid
+                                                    if (base == null || !base.success) {
+                                                        featureStatusText = "No solid body on plate. Create a Box, Cylinder, or Extrude a sketch first."
+                                                    } else {
+                                                        val res = try {
+                                                            NativeKernel.mirror(
+                                                                solid = base,
+                                                                ox = 0.0, oy = 0.0, oz = 0.0,
+                                                                nx = 1.0, ny = 0.0, nz = 0.0,
+                                                                keepOriginal = true,
+                                                                fuseInstances = false
+                                                            )
+                                                        } catch (t: Throwable) { null }
+                                                        val resMesh = res?.meshResult
+                                                        if (resMesh != null && resMesh.success) {
+                                                            base.close()
+                                                            activeSolid = resMesh
+                                                            renderer?.updateMesh(resMesh)
+                                                            val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                                            if (selectedBody != null) {
+                                                                selectedBody.solid = resMesh
+                                                                selectedBody.volume = resMesh.volume
+                                                                selectedBody.faceCount = resMesh.faceCount
+                                                            }
+                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Mirror (YZ Plane)").toMutableList()
+                                                            featureStatusText = "Mirror: Symmetric pair across datum plane"
+                                                        } else {
+                                                            featureStatusText = "Mirror failed on active solid"
+                                                        }
                                                     }
-                                                    val res = try {
-                                                        NativeKernel.mirror(
-                                                            solid = base,
-                                                            ox = 0.0, oy = 0.0, oz = 0.0,
-                                                            nx = 1.0, ny = 0.0, nz = 0.0,
-                                                            keepOriginal = true,
-                                                            fuseInstances = false
-                                                        )
-                                                    } catch (t: Throwable) { null }
-                                                    val resMesh = res?.meshResult
-                                                    val mResult = if (resMesh != null && resMesh.success) resMesh else NativeKernel.createFallbackBox(70.0, 20.0, 15.0)
-                                                    activeSolid?.close()
-                                                    activeSolid = mResult
-                                                    renderer?.updateMesh(mResult)
-                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Mirror (YZ Plane)").toMutableList()
-                                                    featureStatusText = "Mirror: Symmetric pair across datum plane"
                                                 }
                                                 "Draft Angle" -> {
-                                                    val base = activeSolid ?: NativeKernel.createFallbackBox(30.0, 30.0, 40.0).also {
-                                                        activeSolid = it
+                                                    val base = activeSolid
+                                                    if (base == null || !base.success) {
+                                                        featureStatusText = "No solid body on plate. Create a Box, Cylinder, or Extrude a sketch first."
+                                                    } else {
+                                                        val targetFace = if (selectedType == "Face") selectedId else 1
+                                                        val res = try {
+                                                            NativeKernel.applyDraft(
+                                                                solid = base,
+                                                                dirX = 0.0, dirY = 0.0, dirZ = 1.0,
+                                                                draftAngleDeg = 3.0,
+                                                                targetFaceIds = intArrayOf(targetFace)
+                                                            )
+                                                        } catch (t: Throwable) { null }
+                                                        val resMesh = res?.meshResult
+                                                        if (resMesh != null && resMesh.success) {
+                                                            base.close()
+                                                            activeSolid = resMesh
+                                                            renderer?.updateMesh(resMesh)
+                                                            val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                                            if (selectedBody != null) {
+                                                                selectedBody.solid = resMesh
+                                                                selectedBody.volume = resMesh.volume
+                                                                selectedBody.faceCount = resMesh.faceCount
+                                                            }
+                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Draft (3° on Face #$targetFace)").toMutableList()
+                                                            featureStatusText = "Draft: 3° mold taper applied on Face #$targetFace"
+                                                        } else {
+                                                            featureStatusText = "Draft failed on Face #$targetFace"
+                                                        }
                                                     }
-                                                    val targetFace = if (selectedType == "Face") selectedId else 1
-                                                    val res = try {
-                                                        NativeKernel.applyDraft(
-                                                            solid = base,
-                                                            dirX = 0.0, dirY = 0.0, dirZ = 1.0,
-                                                            draftAngleDeg = 3.0,
-                                                            targetFaceIds = intArrayOf(targetFace)
-                                                        )
-                                                    } catch (t: Throwable) { null }
-                                                    val resMesh = res?.meshResult
-                                                    val mResult = if (resMesh != null && resMesh.success) resMesh else NativeKernel.createFallbackBox(30.0, 30.0, 40.0)
-                                                    activeSolid?.close()
-                                                    activeSolid = mResult
-                                                    renderer?.updateMesh(mResult)
-                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Draft (3° on Face #$targetFace)").toMutableList()
-                                                    featureStatusText = "Draft: 3° mold taper applied on Face #$targetFace"
                                                 }
                                                 "ISO Hole (M6 CB)" -> {
-                                                    val base = activeSolid ?: NativeKernel.createFallbackBox(50.0, 50.0, 20.0).also {
-                                                        activeSolid = it
+                                                    val base = activeSolid
+                                                    if (base == null || !base.success) {
+                                                        featureStatusText = "No solid body on plate. Create a Box, Cylinder, or Extrude a sketch first."
+                                                    } else {
+                                                        val res = try {
+                                                            NativeKernel.createStandardHole(
+                                                                solid = base,
+                                                                px = 25.0, py = 25.0, pz = 20.0,
+                                                                dx = 0.0, dy = 0.0, dz = -1.0,
+                                                                standardName = "M6",
+                                                                holeType = FastenerHoleType.COUNTERBORE,
+                                                                depthMm = 20.0
+                                                            )
+                                                        } catch (t: Throwable) { null }
+                                                        val resMesh = res?.meshResult
+                                                        if (resMesh != null && resMesh.success) {
+                                                            base.close()
+                                                            activeSolid = resMesh
+                                                            renderer?.updateMesh(resMesh)
+                                                            val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                                            if (selectedBody != null) {
+                                                                selectedBody.solid = resMesh
+                                                                selectedBody.volume = resMesh.volume
+                                                                selectedBody.faceCount = resMesh.faceCount
+                                                            }
+                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. M6 Counterbore Hole").toMutableList()
+                                                            featureStatusText = "ISO 273: M6 Counterbore Hole cut"
+                                                        } else {
+                                                            featureStatusText = "M6 Counterbore Hole failed"
+                                                        }
                                                     }
-                                                    val res = try {
-                                                        NativeKernel.createStandardHole(
-                                                            solid = base,
-                                                            px = 25.0, py = 25.0, pz = 20.0,
-                                                            dx = 0.0, dy = 0.0, dz = -1.0,
-                                                            standardName = "M6",
-                                                            holeType = FastenerHoleType.COUNTERBORE,
-                                                            depthMm = 20.0
-                                                        )
-                                                    } catch (t: Throwable) { null }
-                                                    val resMesh = res?.meshResult
-                                                    val mResult = if (resMesh != null && resMesh.success) resMesh else NativeKernel.createFallbackBox(50.0, 50.0, 20.0)
-                                                    activeSolid?.close()
-                                                    activeSolid = mResult
-                                                    renderer?.updateMesh(mResult)
-                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. M6 Counterbore Hole").toMutableList()
-                                                    featureStatusText = "ISO 273: M6 Counterbore Hole cut"
                                                 }
                                                 "Threaded Bolt (M8)" -> {
                                                     val res = try {
@@ -1914,12 +2103,27 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                         )
                                                     } catch (t: Throwable) { null }
                                                     val resMesh = res?.meshResult
-                                                    val mResult = if (resMesh != null && resMesh.success) resMesh else NativeKernel.createFallbackBox(16.0, 16.0, 30.0)
-                                                    activeSolid?.close()
-                                                    activeSolid = mResult
-                                                    renderer?.updateMesh(mResult)
-                                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. ISO M8x30 Bolt").toMutableList()
-                                                    featureStatusText = "ISO 262: M8x30 Bolt created (pitch 1.25mm)"
+                                                    if (resMesh != null && resMesh.success) {
+                                                        activeSolid?.close()
+                                                        activeSolid = resMesh
+                                                        renderer?.updateMesh(resMesh)
+                                                        val newBody = CadBodyItem(
+                                                            id = "body_bolt_${System.currentTimeMillis()}",
+                                                            name = "M8 Bolt",
+                                                            isVisible = true,
+                                                            isSelected = true,
+                                                            faceCount = resMesh.faceCount,
+                                                            volume = resMesh.volume,
+                                                            solid = resMesh
+                                                        )
+                                                        browserState.value.addBody(newBody)
+                                                        browserState.value.selectItem(newBody.id)
+                                                        showEmptyState = false
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. ISO M8x30 Bolt").toMutableList()
+                                                        featureStatusText = "ISO 262: M8x30 Bolt created (pitch 1.25mm)"
+                                                    } else {
+                                                        featureStatusText = "Failed to create M8 Bolt"
+                                                    }
                                                 }
                                             }
                                         } catch (t: Throwable) {
@@ -1964,6 +2168,82 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                 }
             }
 
+            val handleSelectEntity: (String) -> Unit = { id ->
+                browserState.value.selectItem(id)
+                val selectedBody = browserState.value.bodies.find { it.id == id }
+                if (selectedBody != null) {
+                    selectedEntityInfo = "Body: ${selectedBody.name}"
+                    featureStatusText = "Selected ${selectedBody.name} from Browser"
+                    if (selectedBody.solid != null && selectedBody.solid!!.success) {
+                        activeSolid = selectedBody.solid
+                        if (selectedBody.isVisible) {
+                            renderer?.updateMesh(selectedBody.solid)
+                        } else {
+                            renderer?.updateMesh(null)
+                        }
+                    }
+                } else {
+                    selectedEntityInfo = "Browser Selection: $id"
+                    featureStatusText = "Selected $id from Browser"
+                }
+            }
+
+            val handleToggleVisibility: (String) -> Unit = { id ->
+                browserState.value.toggleVisibility(id)
+                val targetBody = browserState.value.bodies.find { it.id == id }
+                if (targetBody != null) {
+                    if (!targetBody.isVisible) {
+                        featureStatusText = "Hidden ${targetBody.name}"
+                        if (targetBody.solid == activeSolid || activeSolid == null) {
+                            renderer?.updateMesh(null)
+                        }
+                    } else {
+                        featureStatusText = "Shown ${targetBody.name}"
+                        if (targetBody.solid != null && targetBody.solid!!.success) {
+                            activeSolid = targetBody.solid
+                            renderer?.updateMesh(targetBody.solid)
+                        }
+                    }
+                } else {
+                    featureStatusText = "Toggled visibility for $id"
+                }
+            }
+
+            val handleDeleteBody: (String) -> Unit = { id ->
+                val bodyToDelete = browserState.value.bodies.find { it.id == id }
+                val bodyName = bodyToDelete?.name ?: id
+                val isDeletingActive = (bodyToDelete?.solid != null && bodyToDelete.solid == activeSolid) ||
+                                       (browserState.value.bodies.size <= 1)
+
+                browserState.value.deleteBody(id)
+
+                if (bodyToDelete?.solid != null) {
+                    if (bodyToDelete.solid == activeSolid) {
+                        activeSolid?.close()
+                        activeSolid = null
+                    } else {
+                        bodyToDelete.solid?.close()
+                    }
+                }
+
+                if (isDeletingActive) {
+                    val nextBody = browserState.value.bodies.firstOrNull { it.isVisible && it.solid != null && it.solid!!.success }
+                    if (nextBody != null) {
+                        browserState.value.selectItem(nextBody.id)
+                        activeSolid = nextBody.solid
+                        renderer?.updateMesh(nextBody.solid)
+                        featureStatusText = "Deleted $bodyName. Switched to ${nextBody.name}"
+                    } else {
+                        activeSolid = null
+                        renderer?.updateMesh(null)
+                        showEmptyState = true
+                        featureStatusText = "Deleted $bodyName. Build plate is empty."
+                    }
+                } else {
+                    featureStatusText = "Deleted $bodyName"
+                }
+            }
+
             // 2. Middle Region: Tablet (Browser | Viewport | Properties) vs Phone (Viewport + Modal)
             Row(modifier = Modifier.weight(1f).fillMaxWidth()) {
                 // Tablet Left Browser Panel
@@ -1971,23 +2251,13 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     CadBrowserView(
                         browserState = browserState.value,
                         isDarkTheme = isDarkTheme,
-                        onSelectEntity = { id ->
-                            browserState.value.selectItem(id)
-                            selectedEntityInfo = "Browser Selection: $id"
-                            featureStatusText = "Selected $id from Browser"
-                        },
-                        onToggleVisibility = { id ->
-                            browserState.value.toggleVisibility(id)
-                            featureStatusText = "Toggled visibility for $id"
-                        },
+                        onSelectEntity = handleSelectEntity,
+                        onToggleVisibility = handleToggleVisibility,
                         onRenameBody = { id, newName ->
                             browserState.value.renameBody(id, newName)
                             featureStatusText = "Renamed body $id to '$newName'"
                         },
-                        onDeleteBody = { id ->
-                            browserState.value.deleteBody(id)
-                            featureStatusText = "Deleted body $id"
-                        },
+                        onDeleteBody = handleDeleteBody,
                         onNamedViewClick = { namedView ->
                             renderer?.setNamedView(namedView)
                         },
@@ -2054,15 +2324,19 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 activeSolid?.close()
                                 activeSolid = extrudeSolid
                                 renderer?.updateMesh(extrudeSolid)
-                                val bodyName = "Body ${browserState.value.bodies.size + 1}"
-                                browserState.value.addBody(
-                                    CadBodyItem(
-                                        id = "body_${System.currentTimeMillis()}",
-                                        name = bodyName,
-                                        isVisible = true,
-                                        isSelected = false
-                                    )
+                                val bodyName = "Extruded Body ${browserState.value.bodies.size + 1}"
+                                val newBody = CadBodyItem(
+                                    id = "body_${System.currentTimeMillis()}",
+                                    name = bodyName,
+                                    isVisible = true,
+                                    isSelected = true,
+                                    faceCount = extrudeSolid.faceCount,
+                                    volume = extrudeSolid.volume,
+                                    solid = extrudeSolid
                                 )
+                                browserState.value.addBody(newBody)
+                                browserState.value.selectItem(newBody.id)
+                                showEmptyState = false
                                 timelineItems = (timelineItems + "${timelineItems.size + 1}. Extrude (${depth.toInt()} mm)").toMutableList()
                                 featureStatusText = "Extruded $bodyName: ${extrudeSolid.volume.toInt()} mm³"
                                 showExtrudeDialog = false
@@ -2095,14 +2369,18 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 activeSolid = solid
                                 renderer?.updateMesh(solid)
                                 val bodyName = "Solid Box ${browserState.value.bodies.size + 1}"
-                                browserState.value.addBody(
-                                    CadBodyItem(
-                                        id = "body_${System.currentTimeMillis()}",
-                                        name = bodyName,
-                                        isVisible = true,
-                                        isSelected = false
-                                    )
+                                val newBody = CadBodyItem(
+                                    id = "body_${System.currentTimeMillis()}",
+                                    name = bodyName,
+                                    isVisible = true,
+                                    isSelected = true,
+                                    faceCount = solid.faceCount,
+                                    volume = solid.volume,
+                                    solid = solid
                                 )
+                                browserState.value.addBody(newBody)
+                                browserState.value.selectItem(newBody.id)
+                                showEmptyState = false
                                 timelineItems = (timelineItems + "${timelineItems.size + 1}. Box (${l.toInt()}x${w.toInt()}x${h.toInt()})").toMutableList()
                                 featureStatusText = "Box created: ${solid.volume.toInt()} mm³"
                                 showBoxDialog = false
@@ -2132,14 +2410,18 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 activeSolid = cyl
                                 renderer?.updateMesh(cyl)
                                 val bodyName = "Cylinder ${browserState.value.bodies.size + 1}"
-                                browserState.value.addBody(
-                                    CadBodyItem(
-                                        id = "body_${System.currentTimeMillis()}",
-                                        name = bodyName,
-                                        isVisible = true,
-                                        isSelected = false
-                                    )
+                                val newBody = CadBodyItem(
+                                    id = "body_${System.currentTimeMillis()}",
+                                    name = bodyName,
+                                    isVisible = true,
+                                    isSelected = true,
+                                    faceCount = cyl.faceCount,
+                                    volume = cyl.volume,
+                                    solid = cyl
                                 )
+                                browserState.value.addBody(newBody)
+                                browserState.value.selectItem(newBody.id)
+                                showEmptyState = false
                                 timelineItems = (timelineItems + "${timelineItems.size + 1}. Cylinder (Ø${(r * 2).toInt()} x ${h.toInt()} mm)").toMutableList()
                                 featureStatusText = "Cylinder created: ${cyl.volume.toInt()} mm³"
                                 showCylinderDialog = false
@@ -2159,7 +2441,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                         FilletInspectorDialog(
                             initialRadius = 5f,
                             onRadiusChanged = { r ->
-                                val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also { activeSolid = it }
+                                val solid = activeSolid ?: return@FilletInspectorDialog
                                 if (solid.nativeHandle > 1000L && solid.success) {
                                     val preview = try {
                                         val edge = if (selectedType == "Edge" && selectedId > 0) selectedId else 1
@@ -2174,25 +2456,46 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 }
                             },
                             onConfirm = { r ->
-                                val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also { activeSolid = it }
-                                val filleted = if (solid.nativeHandle > 1000L && solid.success) {
-                                    try {
-                                        val edge = if (selectedType == "Edge" && selectedId > 0) selectedId else 1
-                                        val res = solid.fillet(r.toDouble(), edge)
-                                        if (res.success) res else null
-                                    } catch (t: Throwable) {
-                                        null
-                                    }
-                                } else null
-
-                                val finalSolid = filleted ?: NativeKernel.createFallbackBox(98.0, 48.0, 20.0)
-                                if (filleted != null) {
-                                    solid.close()
+                                val solid = activeSolid
+                                if (solid == null || !solid.success) {
+                                    featureStatusText = "No active solid to fillet"
+                                    showFilletDialog = false
+                                    return@FilletInspectorDialog
                                 }
-                                activeSolid = finalSolid
-                                renderer?.updateMesh(finalSolid)
-                                timelineItems = (timelineItems + "${timelineItems.size + 1}. Fillet (R: ${r.toInt()} mm)").toMutableList()
-                                featureStatusText = "Fillet (R: ${r.toInt()} mm) applied"
+                                val edge = if (selectedType == "Edge" && selectedId > 0) selectedId else 1
+                                val filleted = try {
+                                    val res = solid.fillet(r.toDouble(), edge)
+                                    if (res.success) res else null
+                                } catch (t: Throwable) {
+                                    null
+                                }
+
+                                if (filleted != null && filleted.success) {
+                                    solid.close()
+                                    activeSolid = filleted
+                                    renderer?.updateMesh(filleted)
+                                    val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                    if (selectedBody != null) {
+                                        selectedBody.solid = filleted
+                                        selectedBody.volume = filleted.volume
+                                        selectedBody.faceCount = filleted.faceCount
+                                    }
+                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Fillet (R: ${r.toInt()} mm)").toMutableList()
+                                    featureStatusText = "Fillet (R: ${r.toInt()} mm) applied"
+                                } else if (solid.nativeHandle <= 1000L) {
+                                    val mockRes = NativeKernel.createFallbackBox(98.0, 48.0, 20.0)
+                                    activeSolid = mockRes
+                                    renderer?.updateMesh(mockRes)
+                                    val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                    if (selectedBody != null) {
+                                        selectedBody.solid = mockRes
+                                    }
+                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Fillet (R: ${r.toInt()} mm)").toMutableList()
+                                    featureStatusText = "Fillet (R: ${r.toInt()} mm) applied"
+                                } else {
+                                    featureStatusText = "Fillet failed: radius ${r.toInt()} mm may be too large for edge #$edge"
+                                    renderer?.updateMesh(solid)
+                                }
                                 showFilletDialog = false
                             },
                             onDismiss = {
@@ -2210,7 +2513,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                         ChamferInspectorDialog(
                             initialDistance = 3f,
                             onDistanceChanged = { d ->
-                                val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also { activeSolid = it }
+                                val solid = activeSolid ?: return@ChamferInspectorDialog
                                 if (solid.nativeHandle > 1000L && solid.success) {
                                     val preview = try {
                                         val edge = if (selectedType == "Edge" && selectedId > 0) selectedId else 1
@@ -2225,25 +2528,46 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 }
                             },
                             onConfirm = { d ->
-                                val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also { activeSolid = it }
-                                val chamfered = if (solid.nativeHandle > 1000L && solid.success) {
-                                    try {
-                                        val edge = if (selectedType == "Edge" && selectedId > 0) selectedId else 1
-                                        val res = solid.chamfer(d.toDouble(), edge)
-                                        if (res.success) res else null
-                                    } catch (t: Throwable) {
-                                        null
-                                    }
-                                } else null
-
-                                val finalSolid = chamfered ?: NativeKernel.createFallbackBox(96.0, 46.0, 20.0)
-                                if (chamfered != null) {
-                                    solid.close()
+                                val solid = activeSolid
+                                if (solid == null || !solid.success) {
+                                    featureStatusText = "No active solid to chamfer"
+                                    showChamferDialog = false
+                                    return@ChamferInspectorDialog
                                 }
-                                activeSolid = finalSolid
-                                renderer?.updateMesh(finalSolid)
-                                timelineItems = (timelineItems + "${timelineItems.size + 1}. Chamfer (D: ${d.toInt()} mm)").toMutableList()
-                                featureStatusText = "Chamfer (D: ${d.toInt()} mm) applied"
+                                val edge = if (selectedType == "Edge" && selectedId > 0) selectedId else 1
+                                val chamfered = try {
+                                    val res = solid.chamfer(d.toDouble(), edge)
+                                    if (res.success) res else null
+                                } catch (t: Throwable) {
+                                    null
+                                }
+
+                                if (chamfered != null && chamfered.success) {
+                                    solid.close()
+                                    activeSolid = chamfered
+                                    renderer?.updateMesh(chamfered)
+                                    val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                    if (selectedBody != null) {
+                                        selectedBody.solid = chamfered
+                                        selectedBody.volume = chamfered.volume
+                                        selectedBody.faceCount = chamfered.faceCount
+                                    }
+                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Chamfer (D: ${d.toInt()} mm)").toMutableList()
+                                    featureStatusText = "Chamfer (D: ${d.toInt()} mm) applied"
+                                } else if (solid.nativeHandle <= 1000L) {
+                                    val mockRes = NativeKernel.createFallbackBox(96.0, 46.0, 20.0)
+                                    activeSolid = mockRes
+                                    renderer?.updateMesh(mockRes)
+                                    val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                    if (selectedBody != null) {
+                                        selectedBody.solid = mockRes
+                                    }
+                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Chamfer (D: ${d.toInt()} mm)").toMutableList()
+                                    featureStatusText = "Chamfer (D: ${d.toInt()} mm) applied"
+                                } else {
+                                    featureStatusText = "Chamfer failed: distance ${d.toInt()} mm exceeds edge #$edge limit"
+                                    renderer?.updateMesh(solid)
+                                }
                                 showChamferDialog = false
                             },
                             onDismiss = {
@@ -2262,7 +2586,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             initialDiameter = 10f,
                             initialDepth = 20f,
                             onHoleChanged = { diam, depth ->
-                                val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also { activeSolid = it }
+                                val solid = activeSolid ?: return@HoleInspectorDialog
                                 if (solid.nativeHandle > 1000L && solid.success) {
                                     val preview = try {
                                         val res = solid.hole(50.0, 25.0, 0.0, 0.0, 0.0, 1.0, diam.toDouble(), depth.toDouble())
@@ -2276,24 +2600,45 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 }
                             },
                             onConfirm = { diam, depth ->
-                                val solid = activeSolid ?: NativeKernel.createBox(100.0, 50.0, 20.0).also { activeSolid = it }
-                                val holed = if (solid.nativeHandle > 1000L && solid.success) {
-                                    try {
-                                        val res = solid.hole(50.0, 25.0, 0.0, 0.0, 0.0, 1.0, diam.toDouble(), depth.toDouble())
-                                        if (res.success) res else null
-                                    } catch (t: Throwable) {
-                                        null
-                                    }
-                                } else null
-
-                                val finalSolid = holed ?: NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
-                                if (holed != null) {
-                                    solid.close()
+                                val solid = activeSolid
+                                if (solid == null || !solid.success) {
+                                    featureStatusText = "No active solid to cut hole"
+                                    showHoleDialog = false
+                                    return@HoleInspectorDialog
                                 }
-                                activeSolid = finalSolid
-                                renderer?.updateMesh(finalSolid)
-                                timelineItems = (timelineItems + "${timelineItems.size + 1}. Hole (Ø${diam.toInt()} x ${depth.toInt()} mm)").toMutableList()
-                                featureStatusText = "Hole (Ø${diam.toInt()} x ${depth.toInt()} mm) cut"
+                                val holed = try {
+                                    val res = solid.hole(50.0, 25.0, 0.0, 0.0, 0.0, 1.0, diam.toDouble(), depth.toDouble())
+                                    if (res.success) res else null
+                                } catch (t: Throwable) {
+                                    null
+                                }
+
+                                if (holed != null && holed.success) {
+                                    solid.close()
+                                    activeSolid = holed
+                                    renderer?.updateMesh(holed)
+                                    val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                    if (selectedBody != null) {
+                                        selectedBody.solid = holed
+                                        selectedBody.volume = holed.volume
+                                        selectedBody.faceCount = holed.faceCount
+                                    }
+                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Hole (Ø${diam.toInt()} x ${depth.toInt()} mm)").toMutableList()
+                                    featureStatusText = "Hole (Ø${diam.toInt()} x ${depth.toInt()} mm) cut"
+                                } else if (solid.nativeHandle <= 1000L) {
+                                    val mockRes = NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
+                                    activeSolid = mockRes
+                                    renderer?.updateMesh(mockRes)
+                                    val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                    if (selectedBody != null) {
+                                        selectedBody.solid = mockRes
+                                    }
+                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Hole (Ø${diam.toInt()} x ${depth.toInt()} mm)").toMutableList()
+                                    featureStatusText = "Hole (Ø${diam.toInt()} x ${depth.toInt()} mm) cut"
+                                } else {
+                                    featureStatusText = "Hole cut failed: check hole dimensions"
+                                    renderer?.updateMesh(solid)
+                                }
                                 showHoleDialog = false
                             },
                             onDismiss = {
@@ -2450,23 +2795,13 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                         CadBrowserView(
                                             browserState = browserState.value,
                                             isDarkTheme = isDarkTheme,
-                                            onSelectEntity = { id ->
-                                                browserState.value.selectItem(id)
-                                                selectedEntityInfo = "Browser Selection: $id"
-                                                featureStatusText = "Selected $id from Browser"
-                                            },
-                                            onToggleVisibility = { id ->
-                                                browserState.value.toggleVisibility(id)
-                                                featureStatusText = "Toggled visibility for $id"
-                                            },
+                                            onSelectEntity = handleSelectEntity,
+                                            onToggleVisibility = handleToggleVisibility,
                                             onRenameBody = { id, newName ->
                                                 browserState.value.renameBody(id, newName)
                                                 featureStatusText = "Renamed body $id to '$newName'"
                                             },
-                                            onDeleteBody = { id ->
-                                                browserState.value.deleteBody(id)
-                                                featureStatusText = "Deleted body $id"
-                                            },
+                                            onDeleteBody = handleDeleteBody,
                                             onNamedViewClick = { namedView ->
                                                 renderer?.setNamedView(namedView)
                                             },
@@ -2805,6 +3140,16 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             activeSolid?.close()
                             activeSolid = result
                             renderer?.updateMesh(result)
+                            val newBody = CadBodyItem(
+                                id = "body_${sample.id}_${System.currentTimeMillis()}",
+                                name = sample.nameEn,
+                                isVisible = true,
+                                isSelected = true,
+                                solid = result
+                            )
+                            browserState.value = BrowserState(
+                                bodies = listOf(newBody)
+                            )
                             timelineItems = listOf("1. ${sample.nameEn} (DAG)")
                             featureStatusText = "Loaded sample: ${sample.nameEn} (~${result.volume.toInt()} mm³)"
                         } else {
