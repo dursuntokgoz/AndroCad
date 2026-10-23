@@ -49,3 +49,4 @@
 | **M36** | `v1.6.0` | ✅ Done | Injection Mold Design: Automated Core, Cavity & Shrinkage Tooling Split — CTest (`[PASS] M36 Injection Mold Core & Cavity Split`) & Screenshots (`t_lum=36.1`, `p_lum=36.9`) doğrulandı. |
 | **M37** | `v1.7.0` | ✅ Done | Additive Manufacturing: Overhang Analysis & Branching Tree Supports — CTest (`[PASS] M37 Additive Overhang & Branching Tree Supports`) & Screenshots (`t_lum=36.2`, `p_lum=36.6`) doğrulandı. |
 | **M38** | `v1.8.0` | ✅ Done | Additive Manufacturing: TPMS Gyroid Infill, Adaptive Layer Height & Adhesion — CTest (`[PASS] M38 TPMS Gyroid Infill & Adaptive Layer Slicer`) & Screenshots (`t_lum=36.2`, `p_lum=36.6`) doğrulandı. |
+| **M39** | `v1.9.0` | ✅ Done | Subtractive CAM: High-Speed Trochoidal Adaptive Milling & Rest Machining — CTest (`[PASS] M39 High-Speed Trochoidal Adaptive Milling`) & Screenshots (`t_lum=36.1`, `p_lum=36.7`) doğrulandı. |

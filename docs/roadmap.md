@@ -630,8 +630,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m39_tablet.png`) and phone (`docs/screenshots/m39_phone.png`) screenshots.
   - Release: `v1.9.0`.
 * **Acceptance Tests:** Trochoidal toolpaths never exceed configured radial engagement limit in $90^\circ$ pockets and emit valid G2/G3 arc-fitted G-Code.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

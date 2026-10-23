@@ -1,0 +1,10 @@
+{
+  "milestone": "M39",
+  "title": "Subtractive CAM: High-Speed Trochoidal Adaptive Milling & Rest Machining",
+  "version": "v1.9.0",
+  "apkArtifact": "AndroCAD-v1.9.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m39_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m39_phone.png"
+}
