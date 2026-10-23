@@ -2398,4 +2398,131 @@ Java_com_androcad_kernel_NativeKernel_nativeFormatGDTFrame(
     return env->NewStringUTF(fcf.FormattedString().c_str());
 }
 
+// -------------------------------------------------------------------------
+// Milestone 21: Advanced 3D Modeling Primitives, Transform, Sweep & Split
+// -------------------------------------------------------------------------
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeCreateSphere(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jdouble cx, jdouble cy, jdouble cz,
+        jdouble radius,
+        jdouble linearDeflection,
+        jdouble angularDeflection) {
+    auto session = std::make_unique<NativeMeshSession>();
+    session->payload = androcad::FeatureOps::MakeSphere(
+        cx, cy, cz, radius, session->shape, linearDeflection, angularDeflection);
+    return g_meshRegistry.Register(std::move(session));
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeCreateTorus(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jdouble cx, jdouble cy, jdouble cz,
+        jdouble nx, jdouble ny, jdouble nz,
+        jdouble majorRadius, jdouble minorRadius,
+        jdouble linearDeflection,
+        jdouble angularDeflection) {
+    auto session = std::make_unique<NativeMeshSession>();
+    session->payload = androcad::FeatureOps::MakeTorus(
+        cx, cy, cz, nx, ny, nz, majorRadius, minorRadius, session->shape, linearDeflection, angularDeflection);
+    return g_meshRegistry.Register(std::move(session));
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeCreateCone(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jdouble cx, jdouble cy, jdouble cz,
+        jdouble nx, jdouble ny, jdouble nz,
+        jdouble bottomRadius, jdouble topRadius, jdouble height,
+        jdouble linearDeflection,
+        jdouble angularDeflection) {
+    auto session = std::make_unique<NativeMeshSession>();
+    session->payload = androcad::FeatureOps::MakeCone(
+        cx, cy, cz, nx, ny, nz, bottomRadius, topRadius, height, session->shape, linearDeflection, angularDeflection);
+    return g_meshRegistry.Register(std::move(session));
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeTransformSolid(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong solidHandle,
+        jdouble tx, jdouble ty, jdouble tz,
+        jdouble rxDeg, jdouble ryDeg, jdouble rzDeg,
+        jdouble scaleFactor,
+        jdouble linearDeflection,
+        jdouble angularDeflection) {
+    auto* solidSession = g_meshRegistry.Get(solidHandle);
+    auto meshSession = std::make_unique<NativeMeshSession>();
+    if (!solidSession || solidSession->shape.IsNull()) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = "Invalid solid handle for Transform.";
+        return g_meshRegistry.Register(std::move(meshSession));
+    }
+    meshSession->payload = androcad::FeatureOps::TransformSolid(
+        solidSession->shape,
+        tx, ty, tz,
+        rxDeg, ryDeg, rzDeg,
+        scaleFactor,
+        meshSession->shape,
+        linearDeflection,
+        angularDeflection);
+    return g_meshRegistry.Register(std::move(meshSession));
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeSplitSolidByPlane(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jlong solidHandle,
+        jdouble ox, jdouble oy, jdouble oz,
+        jdouble nx, jdouble ny, jdouble nz,
+        jdouble linearDeflection,
+        jdouble angularDeflection) {
+    auto* solidSession = g_meshRegistry.Get(solidHandle);
+    auto meshSession = std::make_unique<NativeMeshSession>();
+    if (!solidSession || solidSession->shape.IsNull()) {
+        meshSession->payload.success = false;
+        meshSession->payload.errorMessage = "Invalid solid handle for Split.";
+        return g_meshRegistry.Register(std::move(meshSession));
+    }
+    meshSession->payload = androcad::FeatureOps::SplitSolidByPlane(
+        solidSession->shape,
+        ox, oy, oz,
+        nx, ny, nz,
+        meshSession->shape,
+        linearDeflection,
+        angularDeflection);
+    return g_meshRegistry.Register(std::move(meshSession));
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeCreateSweepPipe(
+        JNIEnv* /* env */,
+        jobject /* this */,
+        jdouble pathWidth,
+        jdouble pathHeight,
+        jdouble pipeRadius,
+        jdouble linearDeflection,
+        jdouble angularDeflection) {
+    auto session = std::make_unique<NativeMeshSession>();
+    try {
+        TopoDS_Wire spine = androcad::SurfaceOps::CreateRectangleWire(0.0, 0.0, 0.0, pathWidth, pathHeight);
+        TopoDS_Wire profile = androcad::SurfaceOps::CreateCircleWire(0.0, 0.0, 0.0, pipeRadius, 1.0, 0.0, 0.0);
+        session->payload = androcad::SurfaceOps::MakeSweep(
+            spine, profile, true, session->shape, linearDeflection, angularDeflection);
+    } catch (const Standard_Failure& e) {
+        session->payload.success = false;
+        session->payload.errorMessage = e.GetMessageString();
+    } catch (const std::exception& e) {
+        session->payload.success = false;
+        session->payload.errorMessage = e.what();
+    }
+    return g_meshRegistry.Register(std::move(session));
+}
+
 } // extern "C"

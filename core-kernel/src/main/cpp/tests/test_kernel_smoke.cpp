@@ -405,6 +405,47 @@ int main() {
     auto oobFillet = androcad::FeatureOps::MakeFillet(extrudeSolid, 2.0, 9999, outOfBoundsSolid);
     std::cout << "  Out-of-bounds edge fillet handled safely: success=" << oobFillet.success << std::endl;
 
-    std::cout << "[PASS] All AndroCAD Milestone 3 & 4 Tests passed successfully!" << std::endl;
+    // Test 4.9: Sphere, Torus, Cone, TransformSolid & SplitSolidByPlane
+    TopoDS_Shape sphereSolid;
+    auto sphereMesh = androcad::FeatureOps::MakeSphere(0.0, 0.0, 0.0, 15.0, sphereSolid);
+    double expectedSphereVol = (4.0 / 3.0) * M_PI * 15.0 * 15.0 * 15.0;
+    if (!sphereMesh.success || std::abs(sphereMesh.volume - expectedSphereVol) > 5.0) {
+        std::cerr << "[FAIL] Sphere creation or volume failed! Got " << sphereMesh.volume << std::endl;
+        return 1;
+    }
+
+    TopoDS_Shape torusSolid;
+    auto torusMesh = androcad::FeatureOps::MakeTorus(0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 30.0, 8.0, torusSolid);
+    double expectedTorusVol = (M_PI * 8.0 * 8.0) * (2.0 * M_PI * 30.0);
+    if (!torusMesh.success || std::abs(torusMesh.volume - expectedTorusVol) > 15.0) {
+        std::cerr << "[FAIL] Torus creation or volume failed! Got " << torusMesh.volume << std::endl;
+        return 1;
+    }
+
+    TopoDS_Shape coneSolid;
+    auto coneMesh = androcad::FeatureOps::MakeCone(0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 20.0, 10.0, 30.0, coneSolid);
+    double expectedConeVol = (M_PI * 30.0 / 3.0) * (400.0 + 200.0 + 100.0);
+    if (!coneMesh.success || std::abs(coneMesh.volume - expectedConeVol) > 15.0) {
+        std::cerr << "[FAIL] Cone creation or volume failed! Got " << coneMesh.volume << std::endl;
+        return 1;
+    }
+
+    TopoDS_Shape transformedSolid;
+    auto trMesh = androcad::FeatureOps::TransformSolid(extrudeSolid, 25.0, -10.0, 5.0, 0.0, 0.0, 45.0, 2.0, transformedSolid);
+    // Scaling by 2x increases volume by 2^3 = 8x (150,000 * 8 = 1,200,000 mm³)
+    if (!trMesh.success || std::abs(trMesh.volume - 1200000.0) > 10.0) {
+        std::cerr << "[FAIL] TransformSolid volume mismatch! Got " << trMesh.volume << std::endl;
+        return 1;
+    }
+
+    TopoDS_Shape splitSolid;
+    auto splitMesh = androcad::FeatureOps::SplitSolidByPlane(extrudeSolid, 50.0, 25.0, 15.0, 1.0, 0.0, 0.0, splitSolid);
+    // Splitting a [0..100]x[0..50]x[0..30] box at X=50 cuts volume in half (75,000 mm³)
+    if (!splitMesh.success || std::abs(splitMesh.volume - 75000.0) > 5.0) {
+        std::cerr << "[FAIL] SplitSolidByPlane volume mismatch! Got " << splitMesh.volume << std::endl;
+        return 1;
+    }
+
+    std::cout << "[PASS] All AndroCAD Milestone 3, 4 & 21 Tests passed successfully!" << std::endl;
     return 0;
 }

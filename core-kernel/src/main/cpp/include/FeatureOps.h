@@ -83,6 +83,46 @@ public:
                                    TopoDS_Shape& outSolid,
                                    double linearDeflection = 0.1,
                                    double angularDeflection = 0.5);
+
+    // 8. Sphere: analytical 3D sphere centered at (cx, cy, cz)
+    static MeshPayload MakeSphere(double cx, double cy, double cz,
+                                  double radius,
+                                  TopoDS_Shape& outSolid,
+                                  double linearDeflection = 0.1,
+                                  double angularDeflection = 0.5);
+
+    // 9. Torus: analytical 3D torus at (cx, cy, cz) oriented along normal (nx, ny, nz)
+    static MeshPayload MakeTorus(double cx, double cy, double cz,
+                                 double nx, double ny, double nz,
+                                 double majorRadius, double minorRadius,
+                                 TopoDS_Shape& outSolid,
+                                 double linearDeflection = 0.1,
+                                 double angularDeflection = 0.5);
+
+    // 10. Cone / Frustum: analytical 3D cone or frustum at (cx, cy, cz) along normal (nx, ny, nz)
+    static MeshPayload MakeCone(double cx, double cy, double cz,
+                                double nx, double ny, double nz,
+                                double bottomRadius, double topRadius, double height,
+                                TopoDS_Shape& outSolid,
+                                double linearDeflection = 0.1,
+                                double angularDeflection = 0.5);
+
+    // 11. Transform Solid: Move (tx, ty, tz), Rotate (rxDeg, ryDeg, rzDeg around centroid), and Scale
+    static MeshPayload TransformSolid(const TopoDS_Shape& solid,
+                                      double tx, double ty, double tz,
+                                      double rxDeg, double ryDeg, double rzDeg,
+                                      double scaleFactor,
+                                      TopoDS_Shape& outSolid,
+                                      double linearDeflection = 0.1,
+                                      double angularDeflection = 0.5);
+
+    // 12. Split Solid by Plane: cuts away the +normal half-space across plane (ox,oy,oz, nx,ny,nz)
+    static MeshPayload SplitSolidByPlane(const TopoDS_Shape& solid,
+                                         double ox, double oy, double oz,
+                                         double nx, double ny, double nz,
+                                         TopoDS_Shape& outSolid,
+                                         double linearDeflection = 0.1,
+                                         double angularDeflection = 0.5);
 };
 
 } // namespace androcad

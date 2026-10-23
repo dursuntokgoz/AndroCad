@@ -99,6 +99,22 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
     @Volatile
     private var resetCameraOnUpload = true
 
+    private class SecondaryGpuBuffer(
+        var faceVao: Int = 0,
+        var faceVbo: Int = 0,
+        var faceIbo: Int = 0,
+        var triangleIndexCount: Int = 0,
+        var edgeVao: Int = 0,
+        var edgeVbo: Int = 0,
+        var edgeVertexCount: Int = 0
+    )
+
+    @Volatile
+    private var pendingSecondaryMeshes: List<BoxMeshResult> = emptyList()
+    @Volatile
+    private var secondaryMeshesNeedUpload = false
+    private val secondaryGpuBuffers = mutableListOf<SecondaryGpuBuffer>()
+
     // 1. Shaders
     private val faceVertexShader = """
         #version 300 es
@@ -395,6 +411,86 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
         meshNeedsUpload = true
     }
 
+    fun updateSecondaryMeshes(meshes: List<BoxMeshResult>) {
+        pendingSecondaryMeshes = meshes.filter { it.success }
+        secondaryMeshesNeedUpload = true
+    }
+
+    private fun setupSecondaryMeshBuffers() {
+        for (buf in secondaryGpuBuffers) {
+            if (buf.faceVbo != 0) GLES30.glDeleteBuffers(2, intArrayOf(buf.faceVbo, buf.faceIbo), 0)
+            if (buf.faceVao != 0) GLES30.glDeleteVertexArrays(1, intArrayOf(buf.faceVao), 0)
+            if (buf.edgeVbo != 0) GLES30.glDeleteBuffers(1, intArrayOf(buf.edgeVbo), 0)
+            if (buf.edgeVao != 0) GLES30.glDeleteVertexArrays(1, intArrayOf(buf.edgeVao), 0)
+        }
+        secondaryGpuBuffers.clear()
+
+        val meshes = pendingSecondaryMeshes
+        for (m in meshes) {
+            if (!m.success) continue
+            val gpuBuf = SecondaryGpuBuffer()
+            val vBuf = m.vertexBuffer
+            val iBuf = m.indexBuffer
+            if (vBuf != null && iBuf != null) {
+                gpuBuf.triangleIndexCount = m.triangleCount * 3
+                val vaos = IntArray(1)
+                GLES30.glGenVertexArrays(1, vaos, 0)
+                gpuBuf.faceVao = vaos[0]
+                GLES30.glBindVertexArray(gpuBuf.faceVao)
+
+                val buffers = IntArray(2)
+                GLES30.glGenBuffers(2, buffers, 0)
+                gpuBuf.faceVbo = buffers[0]
+                gpuBuf.faceIbo = buffers[1]
+
+                val vNative = vBuf.order(ByteOrder.nativeOrder())
+                vNative.position(0)
+                GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, gpuBuf.faceVbo)
+                GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, vNative.capacity(), vNative, GLES30.GL_STATIC_DRAW)
+
+                val iNative = iBuf.order(ByteOrder.nativeOrder())
+                iNative.position(0)
+                GLES30.glBindBuffer(GLES30.GL_ELEMENT_ARRAY_BUFFER, gpuBuf.faceIbo)
+                GLES30.glBufferData(GLES30.GL_ELEMENT_ARRAY_BUFFER, iNative.capacity(), iNative, GLES30.GL_STATIC_DRAW)
+
+                val stride = (3 * 4) + (3 * 4) + 4
+                GLES30.glEnableVertexAttribArray(0)
+                GLES30.glVertexAttribPointer(0, 3, GLES30.GL_FLOAT, false, stride, 0)
+                GLES30.glEnableVertexAttribArray(1)
+                GLES30.glVertexAttribPointer(1, 3, GLES30.GL_FLOAT, false, stride, 12)
+                GLES30.glEnableVertexAttribArray(2)
+                GLES30.glVertexAttribIPointer(2, 1, GLES30.GL_UNSIGNED_INT, stride, 24)
+                GLES30.glBindVertexArray(0)
+            }
+
+            val edgeBuf = m.edgeVertexBuffer
+            if (edgeBuf != null) {
+                val edgeStride = (3 * 4) + 4
+                gpuBuf.edgeVertexCount = edgeBuf.capacity() / edgeStride
+                val vaos = IntArray(1)
+                GLES30.glGenVertexArrays(1, vaos, 0)
+                gpuBuf.edgeVao = vaos[0]
+                GLES30.glBindVertexArray(gpuBuf.edgeVao)
+
+                val buffers = IntArray(1)
+                GLES30.glGenBuffers(1, buffers, 0)
+                gpuBuf.edgeVbo = buffers[0]
+
+                val eNative = edgeBuf.order(ByteOrder.nativeOrder())
+                eNative.position(0)
+                GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, gpuBuf.edgeVbo)
+                GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, eNative.capacity(), eNative, GLES30.GL_STATIC_DRAW)
+
+                GLES30.glEnableVertexAttribArray(0)
+                GLES30.glVertexAttribPointer(0, 3, GLES30.GL_FLOAT, false, edgeStride, 0)
+                GLES30.glEnableVertexAttribArray(1)
+                GLES30.glVertexAttribIPointer(1, 1, GLES30.GL_UNSIGNED_INT, edgeStride, 12)
+                GLES30.glBindVertexArray(0)
+            }
+            secondaryGpuBuffers.add(gpuBuf)
+        }
+    }
+
     private fun setupMeshBuffers() {
         if (faceVbo != 0) {
             GLES30.glDeleteBuffers(2, intArrayOf(faceVbo, faceIbo), 0)
@@ -551,6 +647,10 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
                 updateTargetMarker()
             }
         }
+        if (secondaryMeshesNeedUpload) {
+            secondaryMeshesNeedUpload = false
+            setupSecondaryMeshBuffers()
+        }
         updateMatrices()
 
         // 1. Check if a pick was requested
@@ -602,7 +702,7 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
         }
 
         // Draw solid faces if Shaded or Shaded+Edges
-        if (displayMode != DisplayMode.WIREFRAME && faceVao != 0 && triangleIndexCount > 0) {
+        if (displayMode != DisplayMode.WIREFRAME) {
             if (displayMode == DisplayMode.SHADED_WITH_EDGES) {
                 // Polygon offset pushes faces slightly back to eliminate Z-fighting with boundary edges
                 GLES30.glEnable(GLES30.GL_POLYGON_OFFSET_FILL)
@@ -613,11 +713,22 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
             GLES30.glUniformMatrix4fv(GLES30.glGetUniformLocation(faceProgram, "uMVPMatrix"), 1, false, mvpMatrix, 0)
             GLES30.glUniformMatrix4fv(GLES30.glGetUniformLocation(faceProgram, "uModelMatrix"), 1, false, modelMatrix, 0)
             GLES30.glUniform3fv(GLES30.glGetUniformLocation(faceProgram, "uCameraPos"), 1, cameraPos, 0)
-            GLES30.glUniform1ui(GLES30.glGetUniformLocation(faceProgram, "uSelectedFaceId"), selectedFaceId)
 
-            GLES30.glBindVertexArray(faceVao)
-            GLES30.glDrawElements(GLES30.GL_TRIANGLES, triangleIndexCount, GLES30.GL_UNSIGNED_INT, 0)
-            GLES30.glBindVertexArray(0)
+            if (faceVao != 0 && triangleIndexCount > 0) {
+                GLES30.glUniform1ui(GLES30.glGetUniformLocation(faceProgram, "uSelectedFaceId"), selectedFaceId)
+                GLES30.glBindVertexArray(faceVao)
+                GLES30.glDrawElements(GLES30.GL_TRIANGLES, triangleIndexCount, GLES30.GL_UNSIGNED_INT, 0)
+                GLES30.glBindVertexArray(0)
+            }
+
+            for (sec in secondaryGpuBuffers) {
+                if (sec.faceVao != 0 && sec.triangleIndexCount > 0) {
+                    GLES30.glUniform1ui(GLES30.glGetUniformLocation(faceProgram, "uSelectedFaceId"), 0)
+                    GLES30.glBindVertexArray(sec.faceVao)
+                    GLES30.glDrawElements(GLES30.GL_TRIANGLES, sec.triangleIndexCount, GLES30.GL_UNSIGNED_INT, 0)
+                    GLES30.glBindVertexArray(0)
+                }
+            }
 
             if (displayMode == DisplayMode.SHADED_WITH_EDGES) {
                 GLES30.glDisable(GLES30.GL_POLYGON_OFFSET_FILL)
@@ -625,16 +736,27 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
         }
 
         // Draw boundary/feature edges if Shaded+Edges or Wireframe
-        if (displayMode != DisplayMode.SHADED && edgeVao != 0 && edgeVertexCount > 0) {
+        if (displayMode != DisplayMode.SHADED) {
             GLES30.glUseProgram(edgeProgram)
             GLES30.glUniformMatrix4fv(GLES30.glGetUniformLocation(edgeProgram, "uMVPMatrix"), 1, false, mvpMatrix, 0)
-            GLES30.glUniform1ui(GLES30.glGetUniformLocation(edgeProgram, "uSelectedEdgeId"), selectedEdgeId)
             GLES30.glUniform1i(GLES30.glGetUniformLocation(edgeProgram, "uIsWireframe"), if (displayMode == DisplayMode.WIREFRAME) 1 else 0)
-
             GLES30.glLineWidth(2.5f)
-            GLES30.glBindVertexArray(edgeVao)
-            GLES30.glDrawArrays(GLES30.GL_LINES, 0, edgeVertexCount)
-            GLES30.glBindVertexArray(0)
+
+            if (edgeVao != 0 && edgeVertexCount > 0) {
+                GLES30.glUniform1ui(GLES30.glGetUniformLocation(edgeProgram, "uSelectedEdgeId"), selectedEdgeId)
+                GLES30.glBindVertexArray(edgeVao)
+                GLES30.glDrawArrays(GLES30.GL_LINES, 0, edgeVertexCount)
+                GLES30.glBindVertexArray(0)
+            }
+
+            for (sec in secondaryGpuBuffers) {
+                if (sec.edgeVao != 0 && sec.edgeVertexCount > 0) {
+                    GLES30.glUniform1ui(GLES30.glGetUniformLocation(edgeProgram, "uSelectedEdgeId"), 0)
+                    GLES30.glBindVertexArray(sec.edgeVao)
+                    GLES30.glDrawArrays(GLES30.GL_LINES, 0, sec.edgeVertexCount)
+                    GLES30.glBindVertexArray(0)
+                }
+            }
         }
 
         // Draw 3D Target Marker at tapped coordinates if an entity is selected

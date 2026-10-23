@@ -4,6 +4,11 @@
 #include <BRepPrimAPI_MakePrism.hxx>
 #include <BRepPrimAPI_MakeRevol.hxx>
 #include <BRepPrimAPI_MakeCylinder.hxx>
+#include <BRepPrimAPI_MakeSphere.hxx>
+#include <BRepPrimAPI_MakeTorus.hxx>
+#include <BRepPrimAPI_MakeCone.hxx>
+#include <BRepPrimAPI_MakeBox.hxx>
+#include <BRepBuilderAPI_Transform.hxx>
 #include <BRepFilletAPI_MakeFillet.hxx>
 #include <BRepFilletAPI_MakeChamfer.hxx>
 #include <BRepOffsetAPI_MakeThickSolid.hxx>
@@ -558,6 +563,194 @@ MeshPayload FeatureOps::MakeBoolean(const TopoDS_Shape& solidA,
         return err;
     } catch (...) {
         MeshPayload err; err.success = false; err.errorMessage = "Boolean failed with unknown native error.";
+        return err;
+    }
+}
+
+MeshPayload FeatureOps::MakeSphere(double cx, double cy, double cz,
+                                   double radius,
+                                   TopoDS_Shape& outSolid,
+                                   double linearDeflection,
+                                   double angularDeflection) {
+    if (radius <= 0.0) {
+        MeshPayload err; err.success = false; err.errorMessage = "Sphere radius must be positive.";
+        return err;
+    }
+    try {
+        gp_Pnt center(cx, cy, cz);
+        BRepPrimAPI_MakeSphere mkSphere(center, radius);
+        mkSphere.Build();
+        if (!mkSphere.IsDone() || mkSphere.Shape().IsNull()) {
+            MeshPayload err; err.success = false; err.errorMessage = "BRepPrimAPI_MakeSphere failed.";
+            return err;
+        }
+        outSolid = mkSphere.Shape();
+        return ShapeToMeshPayload(outSolid, linearDeflection, angularDeflection);
+    } catch (const Standard_Failure& e) {
+        MeshPayload err; err.success = false; err.errorMessage = std::string("Sphere Standard_Failure: ") + e.GetMessageString();
+        return err;
+    } catch (const std::exception& e) {
+        MeshPayload err; err.success = false; err.errorMessage = std::string("Sphere std::exception: ") + e.what();
+        return err;
+    }
+}
+
+MeshPayload FeatureOps::MakeTorus(double cx, double cy, double cz,
+                                  double nx, double ny, double nz,
+                                  double majorRadius, double minorRadius,
+                                  TopoDS_Shape& outSolid,
+                                  double linearDeflection,
+                                  double angularDeflection) {
+    if (majorRadius <= 0.0 || minorRadius <= 0.0 || minorRadius >= majorRadius) {
+        MeshPayload err; err.success = false; err.errorMessage = "Torus requires 0 < minorRadius < majorRadius.";
+        return err;
+    }
+    try {
+        gp_Ax2 axis(gp_Pnt(cx, cy, cz), gp_Dir(nx, ny, nz));
+        BRepPrimAPI_MakeTorus mkTorus(axis, majorRadius, minorRadius);
+        mkTorus.Build();
+        if (!mkTorus.IsDone() || mkTorus.Shape().IsNull()) {
+            MeshPayload err; err.success = false; err.errorMessage = "BRepPrimAPI_MakeTorus failed.";
+            return err;
+        }
+        outSolid = mkTorus.Shape();
+        return ShapeToMeshPayload(outSolid, linearDeflection, angularDeflection);
+    } catch (const Standard_Failure& e) {
+        MeshPayload err; err.success = false; err.errorMessage = std::string("Torus Standard_Failure: ") + e.GetMessageString();
+        return err;
+    } catch (const std::exception& e) {
+        MeshPayload err; err.success = false; err.errorMessage = std::string("Torus std::exception: ") + e.what();
+        return err;
+    }
+}
+
+MeshPayload FeatureOps::MakeCone(double cx, double cy, double cz,
+                                 double nx, double ny, double nz,
+                                 double bottomRadius, double topRadius, double height,
+                                 TopoDS_Shape& outSolid,
+                                 double linearDeflection,
+                                 double angularDeflection) {
+    if (bottomRadius < 0.0 || topRadius < 0.0 || (bottomRadius <= 1e-4 && topRadius <= 1e-4) || height <= 0.0) {
+        MeshPayload err; err.success = false; err.errorMessage = "Cone requires positive height and at least one positive radius.";
+        return err;
+    }
+    try {
+        gp_Ax2 axis(gp_Pnt(cx, cy, cz), gp_Dir(nx, ny, nz));
+        BRepPrimAPI_MakeCone mkCone(axis, bottomRadius, topRadius, height);
+        mkCone.Build();
+        if (!mkCone.IsDone() || mkCone.Shape().IsNull()) {
+            MeshPayload err; err.success = false; err.errorMessage = "BRepPrimAPI_MakeCone failed.";
+            return err;
+        }
+        outSolid = mkCone.Shape();
+        return ShapeToMeshPayload(outSolid, linearDeflection, angularDeflection);
+    } catch (const Standard_Failure& e) {
+        MeshPayload err; err.success = false; err.errorMessage = std::string("Cone Standard_Failure: ") + e.GetMessageString();
+        return err;
+    } catch (const std::exception& e) {
+        MeshPayload err; err.success = false; err.errorMessage = std::string("Cone std::exception: ") + e.what();
+        return err;
+    }
+}
+
+MeshPayload FeatureOps::TransformSolid(const TopoDS_Shape& solid,
+                                       double tx, double ty, double tz,
+                                       double rxDeg, double ryDeg, double rzDeg,
+                                       double scaleFactor,
+                                       TopoDS_Shape& outSolid,
+                                       double linearDeflection,
+                                       double angularDeflection) {
+    if (solid.IsNull() || scaleFactor <= 1e-3) {
+        MeshPayload err; err.success = false; err.errorMessage = "Invalid solid or non-positive scale factor.";
+        return err;
+    }
+    try {
+        Bnd_Box bbox;
+        BRepBndLib::Add(solid, bbox);
+        Standard_Real xmin = 0, ymin = 0, zmin = 0, xmax = 0, ymax = 0, zmax = 0;
+        bbox.Get(xmin, ymin, zmin, xmax, ymax, zmax);
+        gp_Pnt pivot((xmin + xmax) * 0.5, (ymin + ymax) * 0.5, (zmin + zmax) * 0.5);
+
+        TopoDS_Shape current = solid;
+        const double degToRad = M_PI / 180.0;
+
+        if (std::abs(rxDeg) > 1e-4) {
+            gp_Trsf rotX;
+            rotX.SetRotation(gp_Ax1(pivot, gp_Dir(1.0, 0.0, 0.0)), rxDeg * degToRad);
+            current = BRepBuilderAPI_Transform(current, rotX, Standard_True).Shape();
+        }
+        if (std::abs(ryDeg) > 1e-4) {
+            gp_Trsf rotY;
+            rotY.SetRotation(gp_Ax1(pivot, gp_Dir(0.0, 1.0, 0.0)), ryDeg * degToRad);
+            current = BRepBuilderAPI_Transform(current, rotY, Standard_True).Shape();
+        }
+        if (std::abs(rzDeg) > 1e-4) {
+            gp_Trsf rotZ;
+            rotZ.SetRotation(gp_Ax1(pivot, gp_Dir(0.0, 0.0, 1.0)), rzDeg * degToRad);
+            current = BRepBuilderAPI_Transform(current, rotZ, Standard_True).Shape();
+        }
+        if (std::abs(scaleFactor - 1.0) > 1e-4) {
+            gp_Trsf scl;
+            scl.SetScale(pivot, scaleFactor);
+            current = BRepBuilderAPI_Transform(current, scl, Standard_True).Shape();
+        }
+        if (std::abs(tx) > 1e-4 || std::abs(ty) > 1e-4 || std::abs(tz) > 1e-4) {
+            gp_Trsf tr;
+            tr.SetTranslation(gp_Vec(tx, ty, tz));
+            current = BRepBuilderAPI_Transform(current, tr, Standard_True).Shape();
+        }
+
+        outSolid = current;
+        return ShapeToMeshPayload(outSolid, linearDeflection, angularDeflection);
+    } catch (const Standard_Failure& e) {
+        MeshPayload err; err.success = false; err.errorMessage = std::string("Transform Standard_Failure: ") + e.GetMessageString();
+        return err;
+    } catch (const std::exception& e) {
+        MeshPayload err; err.success = false; err.errorMessage = std::string("Transform std::exception: ") + e.what();
+        return err;
+    }
+}
+
+MeshPayload FeatureOps::SplitSolidByPlane(const TopoDS_Shape& solid,
+                                          double ox, double oy, double oz,
+                                          double nx, double ny, double nz,
+                                          TopoDS_Shape& outSolid,
+                                          double linearDeflection,
+                                          double angularDeflection) {
+    if (solid.IsNull()) {
+        MeshPayload err; err.success = false; err.errorMessage = "Solid is null.";
+        return err;
+    }
+    try {
+        gp_Dir normDir(nx, ny, nz);
+        gp_Pnt origin(ox - normDir.X() * 500.0, oy - normDir.Y() * 500.0, oz - normDir.Z() * 500.0);
+        // Create a coordinate system whose Z is along normDir, shifted in U and V by -500 so the 1000x1000x500 box covers the half-space
+        gp_Ax2 cutAx(gp_Pnt(ox, oy, oz), normDir);
+        gp_Dir uDir = cutAx.XDirection();
+        gp_Dir vDir = cutAx.YDirection();
+        gp_Pnt corner(
+            ox - uDir.X() * 500.0 - vDir.X() * 500.0,
+            oy - uDir.Y() * 500.0 - vDir.Y() * 500.0,
+            oz - uDir.Z() * 500.0 - vDir.Z() * 500.0
+        );
+        gp_Ax2 boxAx(corner, normDir, uDir);
+        BRepPrimAPI_MakeBox halfSpaceBox(boxAx, 1000.0, 1000.0, 1000.0);
+        halfSpaceBox.Build();
+
+        BRepAlgoAPI_Cut cutter(solid, halfSpaceBox.Shape());
+        cutter.SetFuzzyValue(1e-5);
+        cutter.Build();
+        if (!cutter.IsDone() || cutter.Shape().IsNull()) {
+            MeshPayload err; err.success = false; err.errorMessage = "SplitSolidByPlane Boolean Cut failed.";
+            return err;
+        }
+        outSolid = cutter.Shape();
+        return ShapeToMeshPayload(outSolid, linearDeflection, angularDeflection);
+    } catch (const Standard_Failure& e) {
+        MeshPayload err; err.success = false; err.errorMessage = std::string("Split Standard_Failure: ") + e.GetMessageString();
+        return err;
+    } catch (const std::exception& e) {
+        MeshPayload err; err.success = false; err.errorMessage = std::string("Split std::exception: ") + e.what();
         return err;
     }
 }

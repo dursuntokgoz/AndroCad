@@ -110,6 +110,14 @@ fun SketchCanvasOverlay(
                     is SketchEntity.Circle -> {
                         checkPt(e.centerX, e.centerY)
                     }
+                    is SketchEntity.Polygon -> {
+                        checkPt(e.centerX, e.centerY)
+                        e.toOutlinePoints().forEach { (px, py) -> checkPt(px, py) }
+                    }
+                    is SketchEntity.Slot -> {
+                        checkPt(e.startX, e.startY)
+                        checkPt(e.endX, e.endY)
+                    }
                 }
             }
             return closestVertex
@@ -184,6 +192,38 @@ fun SketchCanvasOverlay(
                                                 radius = r
                                             )
                                             onEntitiesChanged(sketchEntities + circ)
+                                        }
+                                    }
+                                    "Polygon" -> {
+                                        val r = hypot(eX - sX, eY - sY).coerceAtLeast(15f)
+                                        val poly = SketchEntity.Polygon(
+                                            id = "poly_${System.currentTimeMillis()}",
+                                            centerX = sX,
+                                            centerY = sY,
+                                            radius = r,
+                                            sides = 6
+                                        )
+                                        onEntitiesChanged(sketchEntities + poly)
+                                    }
+                                    "Slot" -> {
+                                        val len = hypot(eX - sX, eY - sY)
+                                        val endSlotX = if (len >= 5f) eX else sX + 40f
+                                        val endSlotY = if (len >= 5f) eY else sY
+                                        val slotR = max(8f, hypot(endSlotX - sX, endSlotY - sY) * 0.25f)
+                                        val slot = SketchEntity.Slot(
+                                            id = "slot_${System.currentTimeMillis()}",
+                                            startX = sX,
+                                            startY = sY,
+                                            endX = endSlotX,
+                                            endY = endSlotY,
+                                            radius = slotR
+                                        )
+                                        onEntitiesChanged(sketchEntities + slot)
+                                    }
+                                    "Offset" -> {
+                                        val offsetEnt = SketchMath.offsetLastEntity(sketchEntities, 5f)
+                                        if (offsetEnt != null) {
+                                            onEntitiesChanged(sketchEntities + offsetEnt)
                                         }
                                     }
                                     "Line", "B-Spline" -> {
@@ -392,6 +432,48 @@ fun SketchCanvasOverlay(
                         drawCircle(color = strokeColor, radius = 4f, center = p2)
                         drawCircle(color = handleColor, radius = 2.5f, center = p2)
                     }
+                    is SketchEntity.Polygon -> {
+                        val outline = entity.toOutlinePoints()
+                        if (outline.size >= 3) {
+                            val path = Path().apply {
+                                val first = outline.first()
+                                moveTo(toPxX(first.first), toPxY(first.second))
+                                for (i in 1 until outline.size) {
+                                    lineTo(toPxX(outline[i].first), toPxY(outline[i].second))
+                                }
+                                close()
+                            }
+                            drawPath(path = path, color = fillColor)
+                            drawPath(path = path, color = strokeColor, style = Stroke(width = 3.5f))
+                            outline.forEach { (px, py) ->
+                                val pt = Offset(toPxX(px), toPxY(py))
+                                drawCircle(color = strokeColor, radius = 4.5f, center = pt)
+                                drawCircle(color = handleColor, radius = 2.5f, center = pt)
+                            }
+                        }
+                    }
+                    is SketchEntity.Slot -> {
+                        val outline = entity.toOutlinePoints()
+                        if (outline.size >= 3) {
+                            val path = Path().apply {
+                                val first = outline.first()
+                                moveTo(toPxX(first.first), toPxY(first.second))
+                                for (i in 1 until outline.size) {
+                                    lineTo(toPxX(outline[i].first), toPxY(outline[i].second))
+                                }
+                                close()
+                            }
+                            drawPath(path = path, color = fillColor)
+                            drawPath(path = path, color = strokeColor, style = Stroke(width = 3.5f))
+                            val p1 = Offset(toPxX(entity.startX), toPxY(entity.startY))
+                            val p2 = Offset(toPxX(entity.endX), toPxY(entity.endY))
+                            drawLine(color = Color(0x8800E5FF), start = p1, end = p2, strokeWidth = 1.5f)
+                            drawCircle(color = strokeColor, radius = 4.5f, center = p1)
+                            drawCircle(color = handleColor, radius = 2.5f, center = p1)
+                            drawCircle(color = strokeColor, radius = 4.5f, center = p2)
+                            drawCircle(color = handleColor, radius = 2.5f, center = p2)
+                        }
+                    }
                 }
             }
 
@@ -459,7 +541,7 @@ fun SketchCanvasOverlay(
                             style = Stroke(width = 3f, pathEffect = dashEffect)
                         )
                     }
-                    "Circle" -> {
+                    "Circle", "Polygon" -> {
                         val rPx = hypot(eX - sX, eY - sY) * canvasScale
                         drawCircle(
                             color = Color(0x2200A4E4),
@@ -479,7 +561,7 @@ fun SketchCanvasOverlay(
                             strokeWidth = 2f
                         )
                     }
-                    "Line" -> {
+                    "Line", "Slot" -> {
                         drawLine(
                             color = Color(0xFF00E5FF),
                             start = previewStartPx,
@@ -513,6 +595,8 @@ fun SketchCanvasOverlay(
             val dimText = when (activeTool) {
                 "Rectangle" -> "${abs(eX - sX).toInt()} × ${abs(eY - sY).toInt()} mm"
                 "Circle" -> "R: ${hypot(eX - sX, eY - sY).toInt()} mm (Ø ${(hypot(eX - sX, eY - sY) * 2).toInt()} mm)"
+                "Polygon" -> "Hex R: ${hypot(eX - sX, eY - sY).toInt()} mm"
+                "Slot" -> "Slot L: ${hypot(eX - sX, eY - sY).toInt()} mm"
                 "Line" -> "L: ${hypot(eX - sX, eY - sY).toInt()} mm"
                 else -> ""
             }
@@ -533,6 +617,128 @@ fun SketchCanvasOverlay(
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                     )
+                }
+            }
+        }
+
+        // Interactive Smart Dimension Editor Bar (Fusion 360 / SolidWorks exact millimeter sizing)
+        if (activeTool == "Dimension" && sketchEntities.isNotEmpty()) {
+            val lastEnt = sketchEntities.last()
+            Surface(
+                color = Color(0xF01E2228),
+                shape = RoundedCornerShape(10.dp),
+                border = androidx.compose.foundation.BorderStroke(1.5.dp, Color(0xFF00E5FF)),
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(top = 12.dp, end = 12.dp)
+                    .testTag("sketch_dimension_bar")
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    Text("📏 Smart Dim:", color = Color(0xFF00E5FF), fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                    when (lastEnt) {
+                        is SketchEntity.Rectangle -> {
+                            Text("W: ${lastEnt.width.toInt()}mm", color = Color.White, fontSize = 11.sp)
+                            Surface(
+                                color = Color(0xFF2C2F33),
+                                shape = RoundedCornerShape(6.dp),
+                                modifier = Modifier.testTag("btn_dim_w_minus").clickable {
+                                    val nw = (lastEnt.width - 10f).coerceAtLeast(10f)
+                                    onEntitiesChanged(sketchEntities.dropLast(1) + lastEnt.copy(width = nw))
+                                }
+                            ) { Text("-10", color = Color.White, fontSize = 10.sp, modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)) }
+                            Surface(
+                                color = Color(0xFF007ACC),
+                                shape = RoundedCornerShape(6.dp),
+                                modifier = Modifier.testTag("btn_dim_w_plus").clickable {
+                                    val nw = (lastEnt.width + 10f).coerceAtMost(300f)
+                                    onEntitiesChanged(sketchEntities.dropLast(1) + lastEnt.copy(width = nw))
+                                }
+                            ) { Text("+10", color = Color.White, fontSize = 10.sp, modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)) }
+
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text("H: ${lastEnt.height.toInt()}mm", color = Color.White, fontSize = 11.sp)
+                            Surface(
+                                color = Color(0xFF2C2F33),
+                                shape = RoundedCornerShape(6.dp),
+                                modifier = Modifier.testTag("btn_dim_h_minus").clickable {
+                                    val nh = (lastEnt.height - 10f).coerceAtLeast(10f)
+                                    onEntitiesChanged(sketchEntities.dropLast(1) + lastEnt.copy(height = nh))
+                                }
+                            ) { Text("-10", color = Color.White, fontSize = 10.sp, modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)) }
+                            Surface(
+                                color = Color(0xFF007ACC),
+                                shape = RoundedCornerShape(6.dp),
+                                modifier = Modifier.testTag("btn_dim_h_plus").clickable {
+                                    val nh = (lastEnt.height + 10f).coerceAtMost(300f)
+                                    onEntitiesChanged(sketchEntities.dropLast(1) + lastEnt.copy(height = nh))
+                                }
+                            ) { Text("+10", color = Color.White, fontSize = 10.sp, modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)) }
+                        }
+                        is SketchEntity.Circle -> {
+                            Text("Ø ${(lastEnt.radius * 2).toInt()}mm", color = Color.White, fontSize = 11.sp)
+                            Surface(
+                                color = Color(0xFF2C2F33),
+                                shape = RoundedCornerShape(6.dp),
+                                modifier = Modifier.testTag("btn_dim_r_minus").clickable {
+                                    val nr = (lastEnt.radius - 5f).coerceAtLeast(5f)
+                                    onEntitiesChanged(sketchEntities.dropLast(1) + lastEnt.copy(radius = nr))
+                                }
+                            ) { Text("-10", color = Color.White, fontSize = 10.sp, modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)) }
+                            Surface(
+                                color = Color(0xFF007ACC),
+                                shape = RoundedCornerShape(6.dp),
+                                modifier = Modifier.testTag("btn_dim_r_plus").clickable {
+                                    val nr = (lastEnt.radius + 5f).coerceAtMost(150f)
+                                    onEntitiesChanged(sketchEntities.dropLast(1) + lastEnt.copy(radius = nr))
+                                }
+                            ) { Text("+10", color = Color.White, fontSize = 10.sp, modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)) }
+                        }
+                        is SketchEntity.Polygon -> {
+                            Text("R: ${lastEnt.radius.toInt()}mm", color = Color.White, fontSize = 11.sp)
+                            Surface(
+                                color = Color(0xFF2C2F33),
+                                shape = RoundedCornerShape(6.dp),
+                                modifier = Modifier.testTag("btn_dim_r_minus").clickable {
+                                    val nr = (lastEnt.radius - 5f).coerceAtLeast(5f)
+                                    onEntitiesChanged(sketchEntities.dropLast(1) + lastEnt.copy(radius = nr))
+                                }
+                            ) { Text("-5", color = Color.White, fontSize = 10.sp, modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)) }
+                            Surface(
+                                color = Color(0xFF007ACC),
+                                shape = RoundedCornerShape(6.dp),
+                                modifier = Modifier.testTag("btn_dim_r_plus").clickable {
+                                    val nr = (lastEnt.radius + 5f).coerceAtMost(150f)
+                                    onEntitiesChanged(sketchEntities.dropLast(1) + lastEnt.copy(radius = nr))
+                                }
+                            ) { Text("+5", color = Color.White, fontSize = 10.sp, modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)) }
+                        }
+                        is SketchEntity.Slot -> {
+                            Text("R: ${lastEnt.radius.toInt()}mm", color = Color.White, fontSize = 11.sp)
+                            Surface(
+                                color = Color(0xFF2C2F33),
+                                shape = RoundedCornerShape(6.dp),
+                                modifier = Modifier.testTag("btn_dim_r_minus").clickable {
+                                    val nr = (lastEnt.radius - 2f).coerceAtLeast(4f)
+                                    onEntitiesChanged(sketchEntities.dropLast(1) + lastEnt.copy(radius = nr))
+                                }
+                            ) { Text("-2", color = Color.White, fontSize = 10.sp, modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)) }
+                            Surface(
+                                color = Color(0xFF007ACC),
+                                shape = RoundedCornerShape(6.dp),
+                                modifier = Modifier.testTag("btn_dim_r_plus").clickable {
+                                    val nr = (lastEnt.radius + 2f).coerceAtMost(100f)
+                                    onEntitiesChanged(sketchEntities.dropLast(1) + lastEnt.copy(radius = nr))
+                                }
+                            ) { Text("+2", color = Color.White, fontSize = 10.sp, modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)) }
+                        }
+                        is SketchEntity.Line -> {
+                            Text("L: ${lastEnt.length.toInt()}mm", color = Color.White, fontSize = 11.sp)
+                        }
+                    }
                 }
             }
         }

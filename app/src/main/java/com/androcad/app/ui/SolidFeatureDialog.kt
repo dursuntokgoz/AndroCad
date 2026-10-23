@@ -528,3 +528,547 @@ fun HoleInspectorDialog(
         }
     }
 }
+
+@Composable
+fun RevolveInspectorDialog(
+    initialAngleDeg: Float = 360f,
+    onRevolveChanged: (angleDeg: Float, operation: String) -> Unit,
+    onConfirm: (angleDeg: Float, operation: String) -> Unit,
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var angleDeg by remember { mutableStateOf(initialAngleDeg) }
+    var operation by remember { mutableStateOf("New Body") }
+    var isFirst by remember { mutableStateOf(true) }
+
+    LaunchedEffect(angleDeg, operation) {
+        if (isFirst) {
+            isFirst = false
+        } else {
+            onRevolveChanged(angleDeg, operation)
+        }
+    }
+
+    Surface(
+        color = Color(0xEE1E2228),
+        shape = RoundedCornerShape(12.dp),
+        border = androidx.compose.foundation.BorderStroke(1.5.dp, Color(0xFF00A4E4)),
+        modifier = modifier
+            .width(280.dp)
+            .testTag("revolve_inspector_card")
+    ) {
+        Column(modifier = Modifier.padding(10.dp).verticalScroll(rememberScrollState())) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_revolve),
+                        contentDescription = "Revolve",
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("REVOLVE", color = Color.White, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                }
+                Text("✕", color = Color(0xFFAAAAAA), fontSize = 14.sp, modifier = Modifier.clickable { onDismiss() }.padding(4.dp))
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+            Text("Angle: ${angleDeg.toInt()}°", color = Color(0xFFAAAAAA), fontSize = 11.sp)
+            Slider(
+                value = angleDeg,
+                onValueChange = { angleDeg = it },
+                valueRange = 15f..360f,
+                modifier = Modifier.fillMaxWidth().testTag("slider_revolve_angle"),
+                colors = SliderDefaults.colors(thumbColor = Color(0xFF00A4E4), activeTrackColor = Color(0xFF00A4E4))
+            )
+
+            Text("Operation:", color = Color(0xFFAAAAAA), fontSize = 11.sp)
+            Spacer(modifier = Modifier.height(4.dp))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                listOf("New Body", "Join", "Cut").forEach { op ->
+                    val selected = (operation == op)
+                    Surface(
+                        color = if (selected) Color(0xFF007ACC) else Color(0xFF2C2F33),
+                        shape = RoundedCornerShape(6.dp),
+                        modifier = Modifier
+                            .weight(1f)
+                            .testTag("btn_revolve_op_${op.replace(" ", "_")}")
+                            .clickable { operation = op }
+                    ) {
+                        Text(
+                            text = op,
+                            color = Color.White,
+                            fontSize = 10.sp,
+                            modifier = Modifier.padding(vertical = 5.dp),
+                            textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Surface(
+                    color = Color(0xFF3B2A2A),
+                    shape = RoundedCornerShape(6.dp),
+                    modifier = Modifier.weight(1f).testTag("btn_revolve_cancel").clickable { onDismiss() }
+                ) {
+                    Text(
+                        "Cancel",
+                        color = Color(0xFFFF8A80),
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.padding(vertical = 6.dp),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                    )
+                }
+                Surface(
+                    color = Color(0xFF00A4E4),
+                    shape = RoundedCornerShape(6.dp),
+                    modifier = Modifier.weight(1f).testTag("btn_revolve_ok").clickable { onConfirm(angleDeg, operation) }
+                ) {
+                    Text(
+                        "✓ OK",
+                        color = Color.White,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(vertical = 6.dp),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ShellInspectorDialog(
+    initialThickness: Float = 2f,
+    onThicknessChanged: (t: Float) -> Unit,
+    onConfirm: (t: Float) -> Unit,
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var thickness by remember { mutableStateOf(initialThickness) }
+    var isFirst by remember { mutableStateOf(true) }
+
+    LaunchedEffect(thickness) {
+        if (isFirst) {
+            isFirst = false
+        } else {
+            onThicknessChanged(thickness)
+        }
+    }
+
+    Surface(
+        color = Color(0xEE1E2228),
+        shape = RoundedCornerShape(12.dp),
+        border = androidx.compose.foundation.BorderStroke(1.5.dp, Color(0xFF00A4E4)),
+        modifier = modifier
+            .width(280.dp)
+            .testTag("shell_inspector_card")
+    ) {
+        Column(modifier = Modifier.padding(10.dp).verticalScroll(rememberScrollState())) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_shell),
+                        contentDescription = "Shell",
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("SHELL (HOLLOW)", color = Color.White, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                }
+                Text("✕", color = Color(0xFFAAAAAA), fontSize = 14.sp, modifier = Modifier.clickable { onDismiss() }.padding(4.dp))
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+            Text("Wall Thickness: ${"%.1f".format(thickness)} mm", color = Color(0xFFAAAAAA), fontSize = 11.sp)
+            Slider(
+                value = thickness,
+                onValueChange = { thickness = it },
+                valueRange = 0.5f..15f,
+                modifier = Modifier.fillMaxWidth().testTag("slider_shell_thickness"),
+                colors = SliderDefaults.colors(thumbColor = Color(0xFF00A4E4), activeTrackColor = Color(0xFF00A4E4))
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Surface(
+                    color = Color(0xFF3B2A2A),
+                    shape = RoundedCornerShape(6.dp),
+                    modifier = Modifier.weight(1f).testTag("btn_shell_cancel").clickable { onDismiss() }
+                ) {
+                    Text(
+                        "Cancel",
+                        color = Color(0xFFFF8A80),
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.padding(vertical = 6.dp),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                    )
+                }
+                Surface(
+                    color = Color(0xFF00A4E4),
+                    shape = RoundedCornerShape(6.dp),
+                    modifier = Modifier.weight(1f).testTag("btn_shell_ok").clickable { onConfirm(thickness) }
+                ) {
+                    Text(
+                        "✓ OK",
+                        color = Color.White,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(vertical = 6.dp),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun CombineInspectorDialog(
+    initialOperation: String = "Join",
+    onConfirm: (operation: String, keepToolBody: Boolean) -> Unit,
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var operation by remember { mutableStateOf(initialOperation) }
+    var keepTool by remember { mutableStateOf(false) }
+
+    Surface(
+        color = Color(0xEE1E2228),
+        shape = RoundedCornerShape(12.dp),
+        border = androidx.compose.foundation.BorderStroke(1.5.dp, Color(0xFF00A4E4)),
+        modifier = modifier
+            .width(280.dp)
+            .testTag("combine_inspector_card")
+    ) {
+        Column(modifier = Modifier.padding(10.dp).verticalScroll(rememberScrollState())) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_combine),
+                        contentDescription = "Combine",
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("COMBINE (BOOLEAN)", color = Color.White, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                }
+                Text("✕", color = Color(0xFFAAAAAA), fontSize = 14.sp, modifier = Modifier.clickable { onDismiss() }.padding(4.dp))
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+            Text("Boolean Operation:", color = Color(0xFFAAAAAA), fontSize = 11.sp)
+            Spacer(modifier = Modifier.height(6.dp))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                listOf("Join", "Cut", "Intersect").forEach { op ->
+                    val selected = (operation == op)
+                    Surface(
+                        color = if (selected) {
+                            when (op) {
+                                "Cut" -> Color(0xFFD32F2F)
+                                "Intersect" -> Color(0xFFFF8F00)
+                                else -> Color(0xFF007ACC)
+                            }
+                        } else Color(0xFF2C2F33),
+                        shape = RoundedCornerShape(6.dp),
+                        modifier = Modifier
+                            .weight(1f)
+                            .testTag("btn_combine_op_$op")
+                            .clickable { operation = op }
+                    ) {
+                        Text(
+                            text = op,
+                            color = Color.White,
+                            fontSize = 11.sp,
+                            fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal,
+                            modifier = Modifier.padding(vertical = 6.dp),
+                            textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+            Surface(
+                color = if (keepTool) Color(0xFF007ACC) else Color(0xFF2C2F33),
+                shape = RoundedCornerShape(6.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("btn_combine_keep_tool")
+                    .clickable { keepTool = !keepTool }
+            ) {
+                Text(
+                    text = if (keepTool) "✓ Keep Tool Body" else "Keep Tool Body: Off",
+                    color = Color.White,
+                    fontSize = 11.sp,
+                    modifier = Modifier.padding(vertical = 5.dp, horizontal = 8.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Surface(
+                    color = Color(0xFF3B2A2A),
+                    shape = RoundedCornerShape(6.dp),
+                    modifier = Modifier.weight(1f).testTag("btn_combine_cancel").clickable { onDismiss() }
+                ) {
+                    Text(
+                        "Cancel",
+                        color = Color(0xFFFF8A80),
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.padding(vertical = 6.dp),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                    )
+                }
+                Surface(
+                    color = Color(0xFF00A4E4),
+                    shape = RoundedCornerShape(6.dp),
+                    modifier = Modifier.weight(1f).testTag("btn_combine_ok").clickable { onConfirm(operation, keepTool) }
+                ) {
+                    Text(
+                        "✓ OK",
+                        color = Color.White,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(vertical = 6.dp),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun TransformInspectorDialog(
+    onTransformChanged: (tx: Float, ty: Float, tz: Float, rz: Float, scale: Float) -> Unit,
+    onConfirm: (tx: Float, ty: Float, tz: Float, rz: Float, scale: Float) -> Unit,
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var tx by remember { mutableStateOf(0f) }
+    var ty by remember { mutableStateOf(0f) }
+    var tz by remember { mutableStateOf(0f) }
+    var rz by remember { mutableStateOf(0f) }
+    var scale by remember { mutableStateOf(1f) }
+    var isFirst by remember { mutableStateOf(true) }
+
+    LaunchedEffect(tx, ty, tz, rz, scale) {
+        if (isFirst) {
+            isFirst = false
+        } else {
+            onTransformChanged(tx, ty, tz, rz, scale)
+        }
+    }
+
+    Surface(
+        color = Color(0xEE1E2228),
+        shape = RoundedCornerShape(12.dp),
+        border = androidx.compose.foundation.BorderStroke(1.5.dp, Color(0xFF00A4E4)),
+        modifier = modifier
+            .width(280.dp)
+            .testTag("transform_inspector_card")
+    ) {
+        Column(modifier = Modifier.padding(10.dp).verticalScroll(rememberScrollState())) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text("MOVE / ROTATE / SCALE", color = Color.White, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                Text("✕", color = Color(0xFFAAAAAA), fontSize = 14.sp, modifier = Modifier.clickable { onDismiss() }.padding(4.dp))
+            }
+
+            Spacer(modifier = Modifier.height(6.dp))
+            Text("Move X: ${tx.toInt()} mm | Move Y: ${ty.toInt()} mm", color = Color(0xFFAAAAAA), fontSize = 10.sp)
+            Slider(
+                value = tx,
+                onValueChange = { tx = it },
+                valueRange = -100f..100f,
+                modifier = Modifier.fillMaxWidth().testTag("slider_transform_tx"),
+                colors = SliderDefaults.colors(thumbColor = Color(0xFF00A4E4), activeTrackColor = Color(0xFF00A4E4))
+            )
+            Slider(
+                value = ty,
+                onValueChange = { ty = it },
+                valueRange = -100f..100f,
+                modifier = Modifier.fillMaxWidth().testTag("slider_transform_ty"),
+                colors = SliderDefaults.colors(thumbColor = Color(0xFF00A4E4), activeTrackColor = Color(0xFF00A4E4))
+            )
+
+            Text("Move Z: ${tz.toInt()} mm | Rotate Z: ${rz.toInt()}°", color = Color(0xFFAAAAAA), fontSize = 10.sp)
+            Slider(
+                value = tz,
+                onValueChange = { tz = it },
+                valueRange = -100f..100f,
+                modifier = Modifier.fillMaxWidth().testTag("slider_transform_tz"),
+                colors = SliderDefaults.colors(thumbColor = Color(0xFF00A4E4), activeTrackColor = Color(0xFF00A4E4))
+            )
+            Slider(
+                value = rz,
+                onValueChange = { rz = it },
+                valueRange = -180f..180f,
+                modifier = Modifier.fillMaxWidth().testTag("slider_transform_rz"),
+                colors = SliderDefaults.colors(thumbColor = Color(0xFF00A4E4), activeTrackColor = Color(0xFF00A4E4))
+            )
+
+            Text("Scale Factor: ${"%.2f".format(scale)}x", color = Color(0xFFAAAAAA), fontSize = 10.sp)
+            Slider(
+                value = scale,
+                onValueChange = { scale = it },
+                valueRange = 0.25f..2.5f,
+                modifier = Modifier.fillMaxWidth().testTag("slider_transform_scale"),
+                colors = SliderDefaults.colors(thumbColor = Color(0xFF00A4E4), activeTrackColor = Color(0xFF00A4E4))
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Surface(
+                    color = Color(0xFF3B2A2A),
+                    shape = RoundedCornerShape(6.dp),
+                    modifier = Modifier.weight(1f).testTag("btn_transform_cancel").clickable { onDismiss() }
+                ) {
+                    Text(
+                        "Cancel",
+                        color = Color(0xFFFF8A80),
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.padding(vertical = 6.dp),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                    )
+                }
+                Surface(
+                    color = Color(0xFF00A4E4),
+                    shape = RoundedCornerShape(6.dp),
+                    modifier = Modifier.weight(1f).testTag("btn_transform_ok").clickable { onConfirm(tx, ty, tz, rz, scale) }
+                ) {
+                    Text(
+                        "✓ OK",
+                        color = Color.White,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(vertical = 6.dp),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun SphereInspectorDialog(
+    initialRadius: Float = 30f,
+    onRadiusChanged: (r: Float) -> Unit,
+    onConfirm: (r: Float, operation: String) -> Unit,
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var radius by remember { mutableStateOf(initialRadius) }
+    var operation by remember { mutableStateOf("New Body") }
+
+    LaunchedEffect(radius) {
+        onRadiusChanged(radius)
+    }
+
+    Surface(
+        color = Color(0xEE1E2228),
+        shape = RoundedCornerShape(12.dp),
+        border = androidx.compose.foundation.BorderStroke(1.5.dp, Color(0xFF00A4E4)),
+        modifier = modifier
+            .width(280.dp)
+            .testTag("sphere_inspector_card")
+    ) {
+        Column(modifier = Modifier.padding(10.dp).verticalScroll(rememberScrollState())) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text("SPHERE (SOLID)", color = Color.White, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                Text("✕", color = Color(0xFFAAAAAA), fontSize = 14.sp, modifier = Modifier.clickable { onDismiss() }.padding(4.dp))
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+            Text("Radius (R): ${radius.toInt()} mm (Ø ${(radius * 2).toInt()} mm)", color = Color(0xFFAAAAAA), fontSize = 11.sp)
+            Slider(
+                value = radius,
+                onValueChange = { radius = it },
+                valueRange = 5f..100f,
+                modifier = Modifier.fillMaxWidth().testTag("slider_sphere_radius"),
+                colors = SliderDefaults.colors(thumbColor = Color(0xFF00A4E4), activeTrackColor = Color(0xFF00A4E4))
+            )
+
+            Text("Operation:", color = Color(0xFFAAAAAA), fontSize = 11.sp)
+            Spacer(modifier = Modifier.height(4.dp))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                listOf("New Body", "Join", "Cut").forEach { op ->
+                    val selected = (operation == op)
+                    Surface(
+                        color = if (selected) Color(0xFF007ACC) else Color(0xFF2C2F33),
+                        shape = RoundedCornerShape(6.dp),
+                        modifier = Modifier
+                            .weight(1f)
+                            .testTag("btn_sphere_op_${op.replace(" ", "_")}")
+                            .clickable { operation = op }
+                    ) {
+                        Text(
+                            text = op,
+                            color = Color.White,
+                            fontSize = 10.sp,
+                            modifier = Modifier.padding(vertical = 5.dp),
+                            textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Surface(
+                    color = Color(0xFF3B2A2A),
+                    shape = RoundedCornerShape(6.dp),
+                    modifier = Modifier.weight(1f).testTag("btn_sphere_cancel").clickable { onDismiss() }
+                ) {
+                    Text(
+                        "Cancel",
+                        color = Color(0xFFFF8A80),
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.padding(vertical = 6.dp),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                    )
+                }
+                Surface(
+                    color = Color(0xFF00A4E4),
+                    shape = RoundedCornerShape(6.dp),
+                    modifier = Modifier.weight(1f).testTag("btn_sphere_ok").clickable { onConfirm(radius, operation) }
+                ) {
+                    Text(
+                        "✓ OK",
+                        color = Color.White,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(vertical = 6.dp),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                    )
+                }
+            }
+        }
+    }
+}

@@ -79,6 +79,29 @@ class InteractiveSketchExtrudeTest {
         assertNotNull(loopProfile)
         assertTrue(loopProfile!!.isClosed)
         assertEquals(1200.0, loopProfile.area, 1.0)
+
+        // 6. Regular Polygon (Hexagon) profile math
+        val hex = SketchEntity.Polygon("p1", 0f, 0f, 30f, 6)
+        val hexProfile = SketchMath.evaluateProfile(listOf(hex))
+        assertNotNull(hexProfile)
+        assertTrue(hexProfile!!.isClosed)
+        val expectedHexArea = 0.5 * 6 * 30.0 * 30.0 * Math.sin(2.0 * Math.PI / 6.0)
+        assertEquals(expectedHexArea, hexProfile.area, 1.0)
+
+        // 7. Slot profile math
+        val slot = SketchEntity.Slot("s1", -20f, 0f, 20f, 0f, 10f)
+        val slotProfile = SketchMath.evaluateProfile(listOf(slot))
+        assertNotNull(slotProfile)
+        assertTrue(slotProfile!!.isClosed)
+        val expectedSlotArea = (40.0 * 20.0) + (Math.PI * 10.0 * 10.0)
+        assertEquals(expectedSlotArea, slotProfile.area, 1.0)
+
+        // 8. Offset entity math
+        val offsetRect = SketchMath.offsetLastEntity(listOf(rect), 5f)
+        assertTrue(offsetRect is SketchEntity.Rectangle)
+        val rOff = offsetRect as SketchEntity.Rectangle
+        assertEquals(110f, rOff.width, 0.01f)
+        assertEquals(60f, rOff.height, 0.01f)
     }
 
     @Test
@@ -308,5 +331,55 @@ class InteractiveSketchExtrudeTest {
 
         // Fillet inspector dialog should NOT open because there is no active solid
         composeTestRule.onNodeWithTag("fillet_inspector_card").assertDoesNotExist()
+    }
+
+    @Test
+    fun testSolidTabSphereRevolveShellMoveRotateInspectors() {
+        setContentForTest()
+
+        composeTestRule.onNodeWithTag("tab_Solid").performClick()
+
+        // Sphere
+        composeTestRule.onNodeWithTag("tool_Sphere").performScrollTo().performClick()
+        composeTestRule.onNodeWithTag("sphere_inspector_card").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("btn_sphere_ok").performScrollTo().performClick()
+        composeTestRule.onNodeWithTag("sphere_inspector_card").assertDoesNotExist()
+
+        // Revolve
+        composeTestRule.onNodeWithTag("tool_Revolve").performScrollTo().performClick()
+        composeTestRule.onNodeWithTag("revolve_inspector_card").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("btn_revolve_ok").performScrollTo().performClick()
+        composeTestRule.onNodeWithTag("revolve_inspector_card").assertDoesNotExist()
+
+        // Shell
+        composeTestRule.onNodeWithTag("tool_Shell").performScrollTo().performClick()
+        composeTestRule.onNodeWithTag("shell_inspector_card").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("btn_shell_ok").performScrollTo().performClick()
+        composeTestRule.onNodeWithTag("shell_inspector_card").assertDoesNotExist()
+
+        // Move / Rotate
+        composeTestRule.onNodeWithTag("tool_MoveRotate").performScrollTo().performClick()
+        composeTestRule.onNodeWithTag("transform_inspector_card").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("btn_transform_ok").performScrollTo().performClick()
+        composeTestRule.onNodeWithTag("transform_inspector_card").assertDoesNotExist()
+    }
+
+    @Test
+    fun testSmartDimensionEditorAndUndoRedoToolbar() {
+        setContentForTest()
+
+        // Verify Undo and Redo buttons are displayed in top toolbar
+        composeTestRule.onNodeWithTag("btn_undo").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("btn_redo").assertIsDisplayed()
+
+        // Switch to Sketch tab, create preset rectangle, and activate Dimension tool
+        composeTestRule.onNodeWithTag("tab_Sketch").performClick()
+        composeTestRule.onNodeWithTag("btn_sketch_preset").performClick()
+        composeTestRule.onNodeWithTag("tool_Dimension").performScrollTo().performClick()
+
+        // Smart Dimension Editor bar should appear
+        composeTestRule.onNodeWithTag("sketch_dimension_bar").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("btn_dim_w_plus").performClick()
+        composeTestRule.onNodeWithTag("btn_dim_h_plus").performClick()
     }
 }

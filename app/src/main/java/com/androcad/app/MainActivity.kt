@@ -54,6 +54,11 @@ import com.androcad.app.ui.CylinderInspectorDialog
 import com.androcad.app.ui.FilletInspectorDialog
 import com.androcad.app.ui.ChamferInspectorDialog
 import com.androcad.app.ui.HoleInspectorDialog
+import com.androcad.app.ui.RevolveInspectorDialog
+import com.androcad.app.ui.ShellInspectorDialog
+import com.androcad.app.ui.CombineInspectorDialog
+import com.androcad.app.ui.TransformInspectorDialog
+import com.androcad.app.ui.SphereInspectorDialog
 import com.androcad.kernel.BoxMeshResult
 import com.androcad.kernel.NativeKernel
 import com.androcad.kernel.NativeSketch
@@ -186,6 +191,12 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
     var showFilletDialog by remember { mutableStateOf(false) }
     var showChamferDialog by remember { mutableStateOf(false) }
     var showHoleDialog by remember { mutableStateOf(false) }
+    var showRevolveDialog by remember { mutableStateOf(false) }
+    var showShellDialog by remember { mutableStateOf(false) }
+    var showCombineDialog by remember { mutableStateOf(false) }
+    var showTransformDialog by remember { mutableStateOf(false) }
+    var showSphereDialog by remember { mutableStateOf(false) }
+    var historySnapshots by remember { mutableStateOf(listOf<BoxMeshResult?>(meshResult)) }
     var activeSketchPlane by remember { mutableStateOf("XY") }
     var sketchPlaneOrigin by remember { mutableStateOf<Triple<Double, Double, Double>?>(null) }
     var sketchPlaneNormal by remember { mutableStateOf<Triple<Double, Double, Double>?>(null) }
@@ -388,14 +399,55 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
         }
     }
 
-    // Multi-finger undo / redo actions
+    fun syncSecondaryBodies() {
+        val secondary = browserState.value.bodies
+            .filter { it.isVisible && it.solid != null && it.solid!!.success && it.solid != activeSolid }
+            .mapNotNull { it.solid }
+        renderer?.updateSecondaryMeshes(secondary)
+    }
+
+    LaunchedEffect(timelineItems.size) {
+        if (timelineItems.isEmpty()) {
+            historySnapshots = emptyList()
+        } else if (timelineItems.size > historySnapshots.size) {
+            val mutable = historySnapshots.toMutableList()
+            while (mutable.size < timelineItems.size) {
+                mutable.add(activeSolid)
+            }
+            historySnapshots = mutable
+        }
+        syncSecondaryBodies()
+    }
+
+    LaunchedEffect(activeSolid, browserState.value.bodies.size) {
+        syncSecondaryBodies()
+    }
+
+    fun restoreHistoryStep(targetStep: Int) {
+        val snap = historySnapshots.getOrNull(targetStep)
+        if (snap != null && snap.success) {
+            activeSolid = snap
+            renderer?.updateMesh(snap)
+            val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+            if (selectedBody != null) {
+                selectedBody.solid = snap
+                selectedBody.volume = snap.volume
+                selectedBody.faceCount = snap.faceCount
+            }
+            syncSecondaryBodies()
+        }
+    }
+
+    // Multi-finger and toolbar undo / redo actions with real 3D solid restoration
     fun handleUndo() {
         if (rollbackPos == -1 && timelineItems.size > 1) {
             rollbackPos = timelineItems.lastIndex - 1
-            featureStatusText = "Undo (2-finger tap): Rolled back to step ${rollbackPos + 1}"
+            restoreHistoryStep(rollbackPos)
+            featureStatusText = "Undo: Rolled back to step ${rollbackPos + 1} (${timelineItems[rollbackPos]})"
         } else if (rollbackPos > 0) {
             rollbackPos -= 1
-            featureStatusText = "Undo (2-finger tap): Rolled back to step ${rollbackPos + 1}"
+            restoreHistoryStep(rollbackPos)
+            featureStatusText = "Undo: Rolled back to step ${rollbackPos + 1} (${timelineItems[rollbackPos]})"
         } else {
             featureStatusText = "Undo: At earliest history step"
         }
@@ -404,8 +456,10 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
     fun handleRedo() {
         if (rollbackPos >= 0 && rollbackPos < timelineItems.lastIndex) {
             rollbackPos += 1
+            val targetIdx = rollbackPos
             if (rollbackPos == timelineItems.lastIndex) rollbackPos = -1
-            featureStatusText = "Redo (3-finger tap): Rolled forward"
+            restoreHistoryStep(targetIdx)
+            featureStatusText = "Redo: Rolled forward to step ${targetIdx + 1} (${timelineItems[targetIdx]})"
         } else {
             featureStatusText = "Redo: At latest history step"
         }
@@ -559,6 +613,37 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 
                     Spacer(modifier = Modifier.width(6.dp))
 
+                    // Undo & Redo Toolbar Buttons
+                    Surface(
+                        color = chipBgColor,
+                        shape = RoundedCornerShape(4.dp),
+                        modifier = Modifier.testTag("btn_undo").clickable { handleUndo() }
+                    ) {
+                        Text(
+                            text = "↶ UNDO",
+                            color = textColor,
+                            fontSize = 11.sp,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(6.dp))
+
+                    Surface(
+                        color = chipBgColor,
+                        shape = RoundedCornerShape(4.dp),
+                        modifier = Modifier.testTag("btn_redo").clickable { handleRedo() }
+                    ) {
+                        Text(
+                            text = "↷ REDO",
+                            color = textColor,
+                            fontSize = 11.sp,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(6.dp))
+
                     // New Design Clean Slate Button
                     Surface(
                         color = Color(0xFF1E3A5F),
@@ -567,10 +652,13 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             activeSolid?.close()
                             activeSolid = null
                             renderer?.updateMesh(null, resetCamera = true)
+                            renderer?.updateSecondaryMeshes(emptyList())
                             sketchEntities = emptyList()
                             sketchPlaneOrigin = Triple(0.0, 0.0, 0.0)
                             sketchPlaneNormal = Triple(0.0, 0.0, 1.0)
                             timelineItems = mutableListOf()
+                            historySnapshots = emptyList()
+                            rollbackPos = -1
                             browserState.value = BrowserState(bodies = emptyList(), sketches = emptyList())
                             activeTab = "Sketch"
                             featureStatusText = "New Design: Draw sketch profile"
@@ -597,7 +685,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     if (activeTab == "Sketch") {
-                        val sketchTools = listOf("Rectangle", "Line", "Circle", "B-Spline", "Project Edge", "Dimension", "Constraints")
+                        val sketchTools = listOf("Rectangle", "Line", "Circle", "Polygon", "Slot", "Offset", "B-Spline", "Project Edge", "Dimension", "Constraints")
                         sketchTools.forEach { tool ->
                             Surface(
                                 color = if (activeSketchTool == tool) accentBlue else chipBgColor,
@@ -605,6 +693,21 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 modifier = Modifier.testTag(getToolTestTag(tool)).clickable {
                                     activeSketchTool = tool
                                     when (tool) {
+                                        "Polygon" -> {
+                                            sketchStatusText = "Polygon (Hexagon): Drag on canvas to draw or tap preset"
+                                        }
+                                        "Slot" -> {
+                                            sketchStatusText = "Slot (Obround): Drag between center points to draw"
+                                        }
+                                        "Offset" -> {
+                                            val offsetEnt = SketchMath.offsetLastEntity(sketchEntities, 5f)
+                                            if (offsetEnt != null) {
+                                                sketchEntities = sketchEntities + offsetEnt
+                                                sketchStatusText = "Offset profile (+5 mm) generated"
+                                            } else {
+                                                sketchStatusText = "Draw a closed shape first to offset (+5 mm)"
+                                            }
+                                        }
                                         "Project Edge" -> {
                                             activeSolid?.let { solid ->
                                                 val proj = NativeKernel.projectEdges(solid)
@@ -907,7 +1010,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             }
                         }
                     } else if (activeTab == "Surface") {
-                        val surfaceTools = listOf("Loft", "Press-Pull (+10)", "Press-Pull (-5)", "Thicken (5mm)")
+                        val surfaceTools = listOf("Loft", "Sweep Pipe", "Split Body", "Press-Pull (+10)", "Press-Pull (-5)", "Thicken (5mm)")
                         surfaceTools.forEach { tool ->
                             Surface(
                                 color = chipBgColor,
@@ -925,7 +1028,6 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                         null
                                                     }
                                                     if (loftSolid != null && loftSolid.success) {
-                                                        activeSolid?.close()
                                                         activeSolid = loftSolid
                                                         renderer?.updateMesh(loftSolid)
                                                         val bodyName = "Loft Body ${browserState.value.bodies.size + 1}"
@@ -945,6 +1047,66 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                         featureStatusText = "Loft solid generated: ${loftSolid.volume.toInt()} mm³"
                                                     } else {
                                                         featureStatusText = "Loft generation failed"
+                                                    }
+                                                }
+                                                "Sweep Pipe" -> {
+                                                    val pipeSolid = try {
+                                                        val res = NativeKernel.createSweepPipe(8.0)
+                                                        if (res.success) res else null
+                                                    } catch (e: Throwable) {
+                                                        null
+                                                    }
+                                                    if (pipeSolid != null && pipeSolid.success) {
+                                                        activeSolid = pipeSolid
+                                                        renderer?.updateMesh(pipeSolid)
+                                                        val bodyName = "Sweep Pipe ${browserState.value.bodies.size + 1}"
+                                                        val newBody = CadBodyItem(
+                                                            id = "body_sweep_${System.currentTimeMillis()}",
+                                                            name = bodyName,
+                                                            isVisible = true,
+                                                            isSelected = true,
+                                                            faceCount = pipeSolid.faceCount,
+                                                            volume = pipeSolid.volume,
+                                                            solid = pipeSolid
+                                                        )
+                                                        browserState.value.addBody(newBody)
+                                                        browserState.value.selectItem(newBody.id)
+                                                        showEmptyState = false
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Sweep Pipe (R=8mm)").toMutableList()
+                                                        featureStatusText = "Sweep Pipe generated along 3D spline spine: ${pipeSolid.volume.toInt()} mm³"
+                                                    } else {
+                                                        featureStatusText = "Sweep Pipe generation failed"
+                                                    }
+                                                }
+                                                "Split Body" -> {
+                                                    val solid = activeSolid
+                                                    if (solid == null || !solid.success) {
+                                                        featureStatusText = "No solid body on plate to split."
+                                                    } else {
+                                                        val bbox = solid.boundingBox
+                                                        val px = selectedHitPoint?.first?.toDouble() ?: bbox.centerX.toDouble()
+                                                        val py = selectedHitPoint?.second?.toDouble() ?: bbox.centerY.toDouble()
+                                                        val pz = selectedHitPoint?.third?.toDouble() ?: bbox.centerZ.toDouble()
+                                                        val splitRes = try {
+                                                            val res = solid.splitByPlane(px, py, pz, 1.0, 0.0, 0.0)
+                                                            if (res.success) res else null
+                                                        } catch (e: Throwable) {
+                                                            null
+                                                        }
+                                                        if (splitRes != null && splitRes.success) {
+                                                            activeSolid = splitRes
+                                                            renderer?.updateMesh(splitRes)
+                                                            val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                                            if (selectedBody != null) {
+                                                                selectedBody.solid = splitRes
+                                                                selectedBody.volume = splitRes.volume
+                                                                selectedBody.faceCount = splitRes.faceCount
+                                                            }
+                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Split Body (X=${px.toInt()})").toMutableList()
+                                                            featureStatusText = "Split Body across plane X=${px.toInt()}mm (New Vol: ${splitRes.volume.toInt()} mm³)"
+                                                        } else {
+                                                            featureStatusText = "Split Body failed across selected plane"
+                                                        }
                                                     }
                                                 }
                                                 "Press-Pull (+10)" -> {
@@ -1918,7 +2080,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             }
                         }
 
-                        val tools = listOf("Box", "Cylinder", "Extrude", "Revolve", "Fillet", "Chamfer", "Hole", "Shell", "Combine", "Rect Pattern", "Circular Pattern", "Mirror", "Draft Angle", "ISO Hole (M6 CB)", "Threaded Bolt (M8)")
+                        val tools = listOf("Box", "Cylinder", "Sphere", "Torus", "Cone", "Extrude", "Revolve", "Fillet", "Chamfer", "Hole", "Shell", "Combine", "Move/Rotate", "Rect Pattern", "Circular Pattern", "Mirror", "Draft Angle", "ISO Hole (M6 CB)", "Threaded Bolt (M8)")
                         tools.forEach { tool ->
                             Surface(
                                 color = chipBgColor,
@@ -1935,6 +2097,64 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                 "Cylinder" -> {
                                                     showCylinderDialog = true
                                                     featureStatusText = "Cylinder: R=25 mm, H=50 mm (Adjust or tap OK)"
+                                                }
+                                                "Sphere" -> {
+                                                    showSphereDialog = true
+                                                    featureStatusText = "Sphere: R=30 mm (Adjust radius or tap OK)"
+                                                }
+                                                "Torus" -> {
+                                                    val cx = selectedHitPoint?.first?.toDouble() ?: 0.0
+                                                    val cy = selectedHitPoint?.second?.toDouble() ?: 0.0
+                                                    val cz = selectedHitPoint?.third?.toDouble() ?: 0.0
+                                                    val torus = NativeKernel.createTorus(40.0, 12.0, cx, cy, cz)
+                                                    if (torus.success) {
+                                                        activeSolid = torus
+                                                        renderer?.updateMesh(torus)
+                                                        val bodyName = "Torus ${browserState.value.bodies.size + 1}"
+                                                        val newBody = CadBodyItem(
+                                                            id = "body_torus_${System.currentTimeMillis()}",
+                                                            name = bodyName,
+                                                            isVisible = true,
+                                                            isSelected = true,
+                                                            faceCount = torus.faceCount,
+                                                            volume = torus.volume,
+                                                            solid = torus
+                                                        )
+                                                        browserState.value.addBody(newBody)
+                                                        browserState.value.selectItem(newBody.id)
+                                                        showEmptyState = false
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Torus (R=40, r=12)").toMutableList()
+                                                        featureStatusText = "Torus created: ${torus.volume.toInt()} mm³"
+                                                    } else {
+                                                        featureStatusText = "Torus creation failed"
+                                                    }
+                                                }
+                                                "Cone" -> {
+                                                    val cx = selectedHitPoint?.first?.toDouble() ?: 0.0
+                                                    val cy = selectedHitPoint?.second?.toDouble() ?: 0.0
+                                                    val cz = selectedHitPoint?.third?.toDouble() ?: 0.0
+                                                    val cone = NativeKernel.createCone(30.0, 0.0, 60.0, cx, cy, cz)
+                                                    if (cone.success) {
+                                                        activeSolid = cone
+                                                        renderer?.updateMesh(cone)
+                                                        val bodyName = "Cone ${browserState.value.bodies.size + 1}"
+                                                        val newBody = CadBodyItem(
+                                                            id = "body_cone_${System.currentTimeMillis()}",
+                                                            name = bodyName,
+                                                            isVisible = true,
+                                                            isSelected = true,
+                                                            faceCount = cone.faceCount,
+                                                            volume = cone.volume,
+                                                            solid = cone
+                                                        )
+                                                        browserState.value.addBody(newBody)
+                                                        browserState.value.selectItem(newBody.id)
+                                                        showEmptyState = false
+                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Cone (R=30, H=60)").toMutableList()
+                                                        featureStatusText = "Cone created: ${cone.volume.toInt()} mm³"
+                                                    } else {
+                                                        featureStatusText = "Cone creation failed"
+                                                    }
                                                 }
                                                 "Extrude" -> {
                                                     if (sketchEntities.isNotEmpty()) {
@@ -1961,75 +2181,8 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     }
                                                 }
                                                 "Revolve" -> {
-                                                    val revSolid = try {
-                                                        val sketch = NativeKernel.createSketch()
-                                                        var axisX = 0.0
-                                                        if (sketchEntities.isNotEmpty()) {
-                                                            buildNativeSketchFromEntities(sketch, sketchEntities)
-                                                            var minU = Double.MAX_VALUE
-                                                            var maxU = -Double.MAX_VALUE
-                                                            for (e in sketchEntities) {
-                                                                when (e) {
-                                                                    is SketchEntity.Rectangle -> {
-                                                                        minU = minOf(minU, e.minX.toDouble())
-                                                                        maxU = maxOf(maxU, (e.minX + e.width).toDouble())
-                                                                    }
-                                                                    is SketchEntity.Circle -> {
-                                                                        minU = minOf(minU, (e.centerX - e.radius).toDouble())
-                                                                        maxU = maxOf(maxU, (e.centerX + e.radius).toDouble())
-                                                                    }
-                                                                    is SketchEntity.Line -> {
-                                                                        minU = minOf(minU, e.startX.toDouble(), e.endX.toDouble())
-                                                                        maxU = maxOf(maxU, e.startX.toDouble(), e.endX.toDouble())
-                                                                    }
-                                                                }
-                                                            }
-                                                            if (minU <= 0.0 && maxU >= 0.0) {
-                                                                axisX = minU - 10.0
-                                                            }
-                                                        } else {
-                                                            sketch.addRectangle(20.0, 0.0, 15.0, 20.0)
-                                                        }
-                                                        val solid = sketch.revolve(axisX, 0.0, 0.0, 0.0, 1.0, 0.0, 2.0 * Math.PI)
-                                                        sketch.close()
-                                                        if (solid.success && solid.nativeHandle > 1000L) solid else null
-                                                    } catch (t: Throwable) {
-                                                        null
-                                                    }
-                                                    if (revSolid != null && revSolid.success) {
-                                                        if (sketchEntities.isNotEmpty()) {
-                                                            val currentProf = SketchMath.evaluateProfile(sketchEntities)
-                                                            val sketchName = "Sketch ${browserState.value.sketches.size + 1}"
-                                                            browserState.value.addSketch(
-                                                                CadSketchItem(
-                                                                    id = "sketch_${System.currentTimeMillis()}",
-                                                                    name = sketchName,
-                                                                    isVisible = false,
-                                                                    profileArea = currentProf?.area ?: 1000.0
-                                                                )
-                                                            )
-                                                            sketchEntities = emptyList()
-                                                        }
-                                                        activeSolid = revSolid
-                                                        renderer?.updateMesh(revSolid)
-                                                        val bodyName = "Revolved Solid ${browserState.value.bodies.size + 1}"
-                                                        val newBody = CadBodyItem(
-                                                            id = "body_${System.currentTimeMillis()}",
-                                                            name = bodyName,
-                                                            isVisible = true,
-                                                            isSelected = true,
-                                                            faceCount = revSolid.faceCount,
-                                                            volume = revSolid.volume,
-                                                            solid = revSolid
-                                                        )
-                                                        browserState.value.addBody(newBody)
-                                                        browserState.value.selectItem(newBody.id)
-                                                        showEmptyState = false
-                                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Revolve (360°)").toMutableList()
-                                                        featureStatusText = "Revolved solid (360°): ${revSolid.volume.toInt()} mm³"
-                                                    } else {
-                                                        featureStatusText = "Revolve failed"
-                                                    }
+                                                    showRevolveDialog = true
+                                                    featureStatusText = "Revolve Inspector: adjust angle (15°..360°) or tap OK"
                                                 }
                                                 "Fillet" -> {
                                                     if (activeSolid == null || !activeSolid!!.success) {
@@ -2060,27 +2213,8 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     if (solid == null || !solid.success) {
                                                         featureStatusText = "No solid body on plate. Create a Box, Cylinder, or Extrude a sketch first."
                                                     } else {
-                                                        val shelled = try {
-                                                            val res = solid.shell(2.0, if (selectedType == "Face") selectedId else 1)
-                                                            if (res.success) res else null
-                                                        } catch (t: Throwable) {
-                                                            null
-                                                        }
-                                                        if (shelled != null && shelled.success) {
-                                                            activeSolid?.close()
-                                                            activeSolid = shelled
-                                                            renderer?.updateMesh(shelled)
-                                                            val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
-                                                            if (selectedBody != null) {
-                                                                selectedBody.solid = shelled
-                                                                selectedBody.volume = shelled.volume
-                                                                selectedBody.faceCount = shelled.faceCount
-                                                            }
-                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Shell (T: 2 mm)").toMutableList()
-                                                            featureStatusText = "Shell (T: 2 mm) hollowed"
-                                                        } else {
-                                                            featureStatusText = "Shell failed on active solid"
-                                                        }
+                                                        showShellDialog = true
+                                                        featureStatusText = "Shell inspector open: adjust wall thickness or tap OK"
                                                     }
                                                 }
                                                 "Combine" -> {
@@ -2088,27 +2222,17 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     if (visibleBodies.size < 2) {
                                                         featureStatusText = "Combine requires at least 2 bodies in Browser. Create another body first."
                                                     } else {
-                                                        val targetBody = visibleBodies[0]
-                                                        val toolBody = visibleBodies[1]
-                                                        val res = try {
-                                                            targetBody.solid!!.join(toolBody.solid!!)
-                                                        } catch (t: Throwable) {
-                                                            null
-                                                        }
-                                                        if (res != null && res.success) {
-                                                            targetBody.solid?.close()
-                                                            toolBody.solid?.close()
-                                                            targetBody.solid = res
-                                                            targetBody.volume = res.volume
-                                                            targetBody.faceCount = res.faceCount
-                                                            browserState.value.deleteBody(toolBody.id)
-                                                            activeSolid = res
-                                                            renderer?.updateMesh(res)
-                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Combine (Join)").toMutableList()
-                                                            featureStatusText = "Combined ${targetBody.name} and ${toolBody.name}"
-                                                        } else {
-                                                            featureStatusText = "Combine failed: bodies may not intersect"
-                                                        }
+                                                        showCombineDialog = true
+                                                        featureStatusText = "Combine Inspector: choose Join, Cut, or Intersect"
+                                                    }
+                                                }
+                                                "Move/Rotate" -> {
+                                                    val solid = activeSolid
+                                                    if (solid == null || !solid.success) {
+                                                        featureStatusText = "No solid body on plate to transform."
+                                                    } else {
+                                                        showTransformDialog = true
+                                                        featureStatusText = "Move / Rotate / Scale Inspector open"
                                                     }
                                                 }
                                                 "Rect Pattern" -> {
@@ -2682,11 +2806,23 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             initialRadius = 25f,
                             initialHeight = 50f,
                             onDimensionsChanged = { r, h ->
-                                val cyl = NativeKernel.createCylinder(r.toDouble(), h.toDouble())
+                                val ox = selectedHitPoint?.first?.toDouble() ?: 0.0
+                                val oy = selectedHitPoint?.second?.toDouble() ?: 0.0
+                                val oz = selectedHitPoint?.third?.toDouble() ?: 0.0
+                                val nx = selectedFaceNormal?.first?.toDouble() ?: 0.0
+                                val ny = selectedFaceNormal?.second?.toDouble() ?: 0.0
+                                val nz = selectedFaceNormal?.third?.toDouble() ?: 1.0
+                                val cyl = NativeKernel.createCylinder(r.toDouble(), h.toDouble(), ox, oy, oz, nx, ny, nz)
                                 renderer?.updateMesh(cyl)
                             },
                             onConfirm = { r, h ->
-                                val cyl = NativeKernel.createCylinder(r.toDouble(), h.toDouble())
+                                val ox = selectedHitPoint?.first?.toDouble() ?: 0.0
+                                val oy = selectedHitPoint?.second?.toDouble() ?: 0.0
+                                val oz = selectedHitPoint?.third?.toDouble() ?: 0.0
+                                val nx = selectedFaceNormal?.first?.toDouble() ?: 0.0
+                                val ny = selectedFaceNormal?.second?.toDouble() ?: 0.0
+                                val nz = selectedFaceNormal?.third?.toDouble() ?: 1.0
+                                val cyl = NativeKernel.createCylinder(r.toDouble(), h.toDouble(), ox, oy, oz, nx, ny, nz)
                                 activeSolid = cyl
                                 renderer?.updateMesh(cyl)
                                 val bodyName = "Cylinder ${browserState.value.bodies.size + 1}"
@@ -2895,6 +3031,294 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             },
                             onDismiss = {
                                 showHoleDialog = false
+                                renderer?.updateMesh(activeSolid)
+                            },
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .padding(12.dp)
+                        )
+                    }
+
+                    // Floating Sphere Inspector Dialog
+                    if (showSphereDialog) {
+                        SphereInspectorDialog(
+                            initialRadius = 30f,
+                            onRadiusChanged = { r ->
+                                val cx = selectedHitPoint?.first?.toDouble() ?: 0.0
+                                val cy = selectedHitPoint?.second?.toDouble() ?: 0.0
+                                val cz = selectedHitPoint?.third?.toDouble() ?: 0.0
+                                val sph = NativeKernel.createSphere(r.toDouble(), cx, cy, cz)
+                                renderer?.updateMesh(sph)
+                            },
+                            onConfirm = { r, operation ->
+                                val cx = selectedHitPoint?.first?.toDouble() ?: 0.0
+                                val cy = selectedHitPoint?.second?.toDouble() ?: 0.0
+                                val cz = selectedHitPoint?.third?.toDouble() ?: 0.0
+                                val sph = NativeKernel.createSphere(r.toDouble(), cx, cy, cz)
+                                val baseBefore = activeSolid
+                                if (operation != "New Body" && baseBefore != null && baseBefore.success && baseBefore.nativeHandle > 1000L && sph.nativeHandle > 1000L) {
+                                    val boolRes = if (operation == "Cut") baseBefore.cut(sph) else baseBefore.join(sph)
+                                    if (boolRes.success) {
+                                        activeSolid = boolRes
+                                        renderer?.updateMesh(boolRes)
+                                        val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                        if (selectedBody != null) {
+                                            selectedBody.solid = boolRes
+                                            selectedBody.volume = boolRes.volume
+                                            selectedBody.faceCount = boolRes.faceCount
+                                        }
+                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Sphere $operation (R=${r.toInt()})").toMutableList()
+                                        featureStatusText = "Sphere ($operation) applied: ${boolRes.volume.toInt()} mm³"
+                                        showSphereDialog = false
+                                        return@SphereInspectorDialog
+                                    }
+                                }
+                                activeSolid = sph
+                                renderer?.updateMesh(sph)
+                                val bodyName = "Sphere ${browserState.value.bodies.size + 1}"
+                                val newBody = CadBodyItem(
+                                    id = "body_sphere_${System.currentTimeMillis()}",
+                                    name = bodyName,
+                                    isVisible = true,
+                                    isSelected = true,
+                                    faceCount = sph.faceCount,
+                                    volume = sph.volume,
+                                    solid = sph
+                                )
+                                browserState.value.addBody(newBody)
+                                browserState.value.selectItem(newBody.id)
+                                showEmptyState = false
+                                timelineItems = (timelineItems + "${timelineItems.size + 1}. Sphere (R=${r.toInt()} mm)").toMutableList()
+                                featureStatusText = "Sphere created: ${sph.volume.toInt()} mm³"
+                                showSphereDialog = false
+                            },
+                            onDismiss = {
+                                showSphereDialog = false
+                                renderer?.updateMesh(activeSolid)
+                            },
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .padding(12.dp)
+                        )
+                    }
+
+                    // Floating Revolve Inspector Dialog
+                    if (showRevolveDialog) {
+                        fun computeRevolveSolid(angleDeg: Float, operation: String): BoxMeshResult? {
+                            return try {
+                                val sketch = NativeKernel.createSketch()
+                                var axisX = 0.0
+                                if (sketchEntities.isNotEmpty()) {
+                                    buildNativeSketchFromEntities(sketch, sketchEntities)
+                                    val (dx, _, _) = calculateSketchBounds(sketchEntities)
+                                    axisX = -dx * 0.6 - 10.0
+                                } else {
+                                    sketch.addRectangle(20.0, 0.0, 15.0, 20.0)
+                                }
+                                val angleRad = Math.toRadians(angleDeg.toDouble().coerceIn(15.0, 360.0))
+                                val solid = sketch.revolve(axisX, 0.0, 0.0, 0.0, 1.0, 0.0, angleRad)
+                                sketch.close()
+                                val validTool = if (solid.success) solid else null
+                                val base = activeSolid
+                                if (validTool != null && operation != "New Body" && base != null && base.success && base.nativeHandle > 1000L && validTool.nativeHandle > 1000L) {
+                                    val bRes = if (operation == "Cut") base.cut(validTool) else base.join(validTool)
+                                    if (bRes.success) return bRes
+                                }
+                                validTool
+                            } catch (t: Throwable) {
+                                null
+                            }
+                        }
+
+                        RevolveInspectorDialog(
+                            initialAngleDeg = 360f,
+                            onRevolveChanged = { angleDeg, operation ->
+                                val preview = computeRevolveSolid(angleDeg, operation)
+                                if (preview != null && preview.success) {
+                                    renderer?.updateMesh(preview)
+                                }
+                            },
+                            onConfirm = { angleDeg, operation ->
+                                val revSolid = computeRevolveSolid(angleDeg, operation)
+                                if (revSolid != null && revSolid.success) {
+                                    if (sketchEntities.isNotEmpty()) {
+                                        val currentProf = SketchMath.evaluateProfile(sketchEntities)
+                                        browserState.value.addSketch(
+                                            CadSketchItem(
+                                                id = "sketch_${System.currentTimeMillis()}",
+                                                name = "Sketch ${browserState.value.sketches.size + 1}",
+                                                isVisible = false,
+                                                profileArea = currentProf?.area ?: 1000.0
+                                            )
+                                        )
+                                        sketchEntities = emptyList()
+                                    }
+                                    activeSolid = revSolid
+                                    renderer?.updateMesh(revSolid)
+                                    val bodyName = "Revolved Solid ${browserState.value.bodies.size + 1}"
+                                    val newBody = CadBodyItem(
+                                        id = "body_rev_${System.currentTimeMillis()}",
+                                        name = bodyName,
+                                        isVisible = true,
+                                        isSelected = true,
+                                        faceCount = revSolid.faceCount,
+                                        volume = revSolid.volume,
+                                        solid = revSolid
+                                    )
+                                    browserState.value.addBody(newBody)
+                                    browserState.value.selectItem(newBody.id)
+                                    showEmptyState = false
+                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Revolve (${angleDeg.toInt()}°)").toMutableList()
+                                    featureStatusText = "Revolved solid (${angleDeg.toInt()}°): ${revSolid.volume.toInt()} mm³"
+                                } else {
+                                    featureStatusText = "Revolve failed"
+                                    renderer?.updateMesh(activeSolid)
+                                }
+                                showRevolveDialog = false
+                            },
+                            onDismiss = {
+                                showRevolveDialog = false
+                                renderer?.updateMesh(activeSolid)
+                            },
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .padding(12.dp)
+                        )
+                    }
+
+                    // Floating Shell Inspector Dialog
+                    if (showShellDialog) {
+                        ShellInspectorDialog(
+                            initialThickness = 2f,
+                            onThicknessChanged = { t ->
+                                val solid = activeSolid ?: return@ShellInspectorDialog
+                                if (solid.nativeHandle > 1000L && solid.success) {
+                                    val targetFace = if (selectedType == "Face" && selectedId > 0) selectedId else 1
+                                    val preview = try {
+                                        val res = solid.shell(t.toDouble(), targetFace)
+                                        if (res.success) res else null
+                                    } catch (e: Throwable) { null }
+                                    if (preview != null) renderer?.updateMesh(preview)
+                                }
+                            },
+                            onConfirm = { t ->
+                                val solid = activeSolid
+                                if (solid != null && solid.success) {
+                                    val targetFace = if (selectedType == "Face" && selectedId > 0) selectedId else 1
+                                    val shelled = try {
+                                        val res = solid.shell(t.toDouble(), targetFace)
+                                        if (res.success) res else null
+                                    } catch (e: Throwable) { null }
+                                    if (shelled != null && shelled.success) {
+                                        activeSolid = shelled
+                                        renderer?.updateMesh(shelled)
+                                        val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                        if (selectedBody != null) {
+                                            selectedBody.solid = shelled
+                                            selectedBody.volume = shelled.volume
+                                            selectedBody.faceCount = shelled.faceCount
+                                        }
+                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Shell (T: ${"%.1f".format(t)} mm)").toMutableList()
+                                        featureStatusText = "Shell (T: ${"%.1f".format(t)} mm) hollowed on Face #$targetFace"
+                                    } else {
+                                        featureStatusText = "Shell failed on Face #$targetFace"
+                                        renderer?.updateMesh(solid)
+                                    }
+                                }
+                                showShellDialog = false
+                            },
+                            onDismiss = {
+                                showShellDialog = false
+                                renderer?.updateMesh(activeSolid)
+                            },
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .padding(12.dp)
+                        )
+                    }
+
+                    // Floating Combine Inspector Dialog
+                    if (showCombineDialog) {
+                        CombineInspectorDialog(
+                            initialOperation = "Join",
+                            onConfirm = { op, keepTool ->
+                                val visibleBodies = browserState.value.bodies.filter { it.isVisible && it.solid != null && it.solid!!.success }
+                                if (visibleBodies.size >= 2) {
+                                    val targetBody = visibleBodies[0]
+                                    val toolBody = visibleBodies[1]
+                                    val res = try {
+                                        when (op) {
+                                            "Cut" -> targetBody.solid!!.cut(toolBody.solid!!)
+                                            "Intersect" -> targetBody.solid!!.intersect(toolBody.solid!!)
+                                            else -> targetBody.solid!!.join(toolBody.solid!!)
+                                        }
+                                    } catch (t: Throwable) { null }
+                                    if (res != null && res.success) {
+                                        targetBody.solid = res
+                                        targetBody.volume = res.volume
+                                        targetBody.faceCount = res.faceCount
+                                        if (!keepTool) {
+                                            browserState.value.deleteBody(toolBody.id)
+                                        }
+                                        activeSolid = res
+                                        renderer?.updateMesh(res)
+                                        syncSecondaryBodies()
+                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Combine ($op)").toMutableList()
+                                        featureStatusText = "Combined ${targetBody.name} and ${toolBody.name} ($op)"
+                                    } else {
+                                        featureStatusText = "Combine ($op) failed: bodies may not intersect"
+                                    }
+                                }
+                                showCombineDialog = false
+                            },
+                            onDismiss = {
+                                showCombineDialog = false
+                            },
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .padding(12.dp)
+                        )
+                    }
+
+                    // Floating Transform (Move / Rotate / Scale) Inspector Dialog
+                    if (showTransformDialog) {
+                        TransformInspectorDialog(
+                            onTransformChanged = { tx, ty, tz, rz, scale ->
+                                val solid = activeSolid ?: return@TransformInspectorDialog
+                                if (solid.nativeHandle > 1000L && solid.success) {
+                                    val preview = try {
+                                        val res = solid.transform(tx.toDouble(), ty.toDouble(), tz.toDouble(), 0.0, 0.0, rz.toDouble(), scale.toDouble())
+                                        if (res.success) res else null
+                                    } catch (e: Throwable) { null }
+                                    if (preview != null) renderer?.updateMesh(preview)
+                                }
+                            },
+                            onConfirm = { tx, ty, tz, rz, scale ->
+                                val solid = activeSolid
+                                if (solid != null && solid.success) {
+                                    val transformed = try {
+                                        val res = solid.transform(tx.toDouble(), ty.toDouble(), tz.toDouble(), 0.0, 0.0, rz.toDouble(), scale.toDouble())
+                                        if (res.success) res else null
+                                    } catch (e: Throwable) { null }
+                                    if (transformed != null && transformed.success) {
+                                        activeSolid = transformed
+                                        renderer?.updateMesh(transformed)
+                                        val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                        if (selectedBody != null) {
+                                            selectedBody.solid = transformed
+                                            selectedBody.volume = transformed.volume
+                                            selectedBody.faceCount = transformed.faceCount
+                                        }
+                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Transform (Move/Rotate/Scale)").toMutableList()
+                                        featureStatusText = "Transform applied (T:[${tx.toInt()},${ty.toInt()},${tz.toInt()}], Rz:${rz.toInt()}°, Scale:${"%.2f".format(scale)}x)"
+                                    } else {
+                                        renderer?.updateMesh(solid)
+                                    }
+                                }
+                                showTransformDialog = false
+                            },
+                            onDismiss = {
+                                showTransformDialog = false
                                 renderer?.updateMesh(activeSolid)
                             },
                             modifier = Modifier
@@ -3214,8 +3638,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 modifier = Modifier
                                     .testTag("timeline_step_${index}")
                                     .clickable {
-                                        rollbackPos = index
-                                        featureStatusText = "Rolled back to step ${index + 1}"
+                                        restoreHistoryStep(index)
                                     }
                             ) {
                                 Text(
@@ -3253,7 +3676,11 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             modifier = Modifier
                                 .testTag("timeline_roll_forward")
                                 .clickable {
-                                    rollbackPos = -1
+                                    if (historySnapshots.isNotEmpty()) {
+                                        restoreHistoryStep(historySnapshots.lastIndex)
+                                    } else {
+                                        rollbackPos = -1
+                                    }
                                     featureStatusText = "Timeline rolled forward (Latest state)"
                                 }
                         ) {
@@ -3465,6 +3892,8 @@ fun buildNativeSketchFromEntities(sketch: NativeSketch, entities: List<SketchEnt
     val rects = entities.filterIsInstance<SketchEntity.Rectangle>()
     val circles = entities.filterIsInstance<SketchEntity.Circle>()
     val lines = entities.filterIsInstance<SketchEntity.Line>()
+    val polygons = entities.filterIsInstance<SketchEntity.Polygon>()
+    val slots = entities.filterIsInstance<SketchEntity.Slot>()
 
     for (rect in rects) {
         sketch.addRectangle(rect.minX.toDouble(), rect.minY.toDouble(), rect.width.toDouble(), rect.height.toDouble())
@@ -3478,6 +3907,34 @@ fun buildNativeSketchFromEntities(sketch: NativeSketch, entities: List<SketchEnt
         val p2 = getOrCreatePoint(l.endX.toDouble(), l.endY.toDouble())
         if (p1 != p2) {
             sketch.addLine(p1, p2)
+        }
+    }
+    for (poly in polygons) {
+        val pts = poly.toVertices()
+        if (pts.size >= 3) {
+            for (i in pts.indices) {
+                val a = pts[i]
+                val b = pts[(i + 1) % pts.size]
+                val p1 = getOrCreatePoint(a.first.toDouble(), a.second.toDouble())
+                val p2 = getOrCreatePoint(b.first.toDouble(), b.second.toDouble())
+                if (p1 != p2) {
+                    sketch.addLine(p1, p2)
+                }
+            }
+        }
+    }
+    for (slot in slots) {
+        val pts = slot.toOutlinePoints(10)
+        if (pts.size >= 3) {
+            for (i in pts.indices) {
+                val a = pts[i]
+                val b = pts[(i + 1) % pts.size]
+                val p1 = getOrCreatePoint(a.first.toDouble(), a.second.toDouble())
+                val p2 = getOrCreatePoint(b.first.toDouble(), b.second.toDouble())
+                if (p1 != p2) {
+                    sketch.addLine(p1, p2)
+                }
+            }
         }
     }
 }
@@ -3508,6 +3965,19 @@ fun calculateSketchBounds(entities: List<SketchEntity>): Triple<Double, Double, 
                 maxX = maxOf(maxX, e.startX.toDouble(), e.endX.toDouble())
                 minY = minOf(minY, e.startY.toDouble(), e.endY.toDouble())
                 maxY = maxOf(maxY, e.startY.toDouble(), e.endY.toDouble())
+            }
+            is SketchEntity.Polygon -> {
+                minX = minOf(minX, (e.centerX - e.radius).toDouble())
+                maxX = maxOf(maxX, (e.centerX + e.radius).toDouble())
+                minY = minOf(minY, (e.centerY - e.radius).toDouble())
+                maxY = maxOf(maxY, (e.centerY + e.radius).toDouble())
+            }
+            is SketchEntity.Slot -> {
+                val r = e.radius.toDouble()
+                minX = minOf(minX, e.x1.toDouble() - r, e.x2.toDouble() - r)
+                maxX = maxOf(maxX, e.x1.toDouble() + r, e.x2.toDouble() + r)
+                minY = minOf(minY, e.y1.toDouble() - r, e.y2.toDouble() - r)
+                maxY = maxOf(maxY, e.y1.toDouble() + r, e.y2.toDouble() + r)
             }
         }
     }
@@ -3762,6 +4232,9 @@ fun getToolTestTag(tool: String): String {
     return when (tool) {
         "Box" -> "tool_Box"
         "Cylinder" -> "tool_Cylinder"
+        "Sphere" -> "tool_Sphere"
+        "Torus" -> "tool_Torus"
+        "Cone" -> "tool_Cone"
         "Extrude" -> "tool_Extrude"
         "Revolve" -> "tool_Revolve"
         "Fillet" -> "tool_Fillet"
@@ -3769,6 +4242,7 @@ fun getToolTestTag(tool: String): String {
         "Hole" -> "tool_Hole"
         "Shell" -> "tool_Shell"
         "Combine" -> "tool_Combine"
+        "Move/Rotate" -> "tool_MoveRotate"
         "Rect Pattern" -> "tool_RectPattern"
         "Circular Pattern" -> "tool_CircularPattern"
         "Mirror" -> "tool_Mirror"
@@ -3778,6 +4252,9 @@ fun getToolTestTag(tool: String): String {
         "Rectangle" -> "tool_Rectangle"
         "Line" -> "tool_Line"
         "Circle" -> "tool_Circle"
+        "Polygon" -> "tool_Polygon"
+        "Slot" -> "tool_Slot"
+        "Offset" -> "tool_Offset"
         "B-Spline" -> "tool_BSpline"
         "Project Edge" -> "tool_ProjectEdge"
         "Dimension" -> "tool_Dimension"
@@ -3789,6 +4266,8 @@ fun getToolTestTag(tool: String): String {
         "Export STL" -> "tool_ExportSTL"
         "Import STL" -> "tool_ImportSTL"
         "Loft" -> "tool_Loft"
+        "Sweep Pipe" -> "tool_SweepPipe"
+        "Split Body" -> "tool_SplitBody"
         "Press-Pull (+10)" -> "tool_PressPull_Plus10"
         "Press-Pull (-5)" -> "tool_PressPull_Minus5"
         "Thicken (5mm)" -> "tool_Thicken5"
@@ -3848,6 +4327,9 @@ fun getToolIconRes(tool: String): Int {
     return when {
         tool == "Box" -> R.drawable.ic_box
         tool == "Cylinder" -> R.drawable.ic_extrude
+        tool == "Sphere" -> R.drawable.ic_revolve
+        tool == "Torus" -> R.drawable.ic_revolve
+        tool == "Cone" -> R.drawable.ic_extrude
         tool == "Extrude" -> R.drawable.ic_extrude
         tool == "Revolve" -> R.drawable.ic_revolve
         tool == "Fillet" -> R.drawable.ic_fillet
@@ -3855,19 +4337,21 @@ fun getToolIconRes(tool: String): Int {
         tool == "Hole" -> R.drawable.ic_hole
         tool == "Shell" -> R.drawable.ic_shell
         tool == "Combine" -> R.drawable.ic_combine
+        tool == "Move/Rotate" -> R.drawable.ic_assembly
         tool.contains("Rect Pattern") -> R.drawable.ic_pattern_rectangular
         tool.contains("Circular Pattern") -> R.drawable.ic_pattern_circular
         tool.contains("Mirror") -> R.drawable.ic_mirror
         tool.contains("Draft Angle") -> R.drawable.ic_draft_angle
         tool.contains("ISO Hole") || tool.contains("Counterbore") -> R.drawable.ic_fastener_counterbore
         tool.contains("Threaded Bolt") -> R.drawable.ic_thread_helical
-        tool in listOf("Rectangle", "Line", "Circle") -> R.drawable.ic_sketch
+        tool in listOf("Rectangle", "Line", "Circle", "Polygon", "Slot", "Offset") -> R.drawable.ic_sketch
         tool == "B-Spline" -> R.drawable.ic_bspline_curve
         tool == "Project Edge" -> R.drawable.ic_sketch_projection
         tool in listOf("Dimension", "Constraints") -> R.drawable.ic_dimension_linear
         tool in listOf("Save", "Open", "Export STEP", "Import STEP", "Export STL", "Import STL") -> R.drawable.ic_drawing_view
         tool == "Loft" -> R.drawable.ic_loft
-        tool == "Sweep" -> R.drawable.ic_sweep
+        tool.contains("Sweep") -> R.drawable.ic_sweep
+        tool.contains("Split Body") -> R.drawable.ic_section_view
         tool.contains("Press-Pull") -> R.drawable.ic_press_pull
         tool.contains("Thicken") -> R.drawable.ic_shell
         tool.contains("U-Bracket") -> R.drawable.ic_flange

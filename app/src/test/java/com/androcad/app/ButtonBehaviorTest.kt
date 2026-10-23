@@ -9,13 +9,15 @@ class ButtonBehaviorTest {
 
     private val allRegisteredTools = listOf(
         // Solid
-        "Box", "Cylinder", "Extrude", "Revolve", "Fillet", "Chamfer", "Hole", "Shell",
-        "Combine", "Rect Pattern", "Circular Pattern", "Mirror", "Draft Angle",
+        "Box", "Cylinder", "Sphere", "Torus", "Cone",
+        "Extrude", "Revolve", "Fillet", "Chamfer", "Hole", "Shell",
+        "Combine", "Move/Rotate", "Rect Pattern", "Circular Pattern", "Mirror", "Draft Angle",
         "ISO Hole (M6 CB)", "Threaded Bolt (M8)",
         // Sketch
-        "Rectangle", "Line", "Circle", "B-Spline", "Project Edge", "Dimension", "Constraints",
+        "Rectangle", "Line", "Circle", "Polygon", "Slot", "Offset",
+        "B-Spline", "Project Edge", "Dimension", "Constraints",
         // Surface
-        "Loft", "Press-Pull (+10)", "Press-Pull (-5)", "Thicken (5mm)",
+        "Loft", "Sweep Pipe", "Split Body", "Press-Pull (+10)", "Press-Pull (-5)", "Thicken (5mm)",
         // Sheet Metal
         "U-Bracket", "Unfold Pattern", "Export DXF",
         // Drawing
@@ -53,6 +55,8 @@ class ButtonBehaviorTest {
                     iconRes
                 )
             }
+            val tag = getToolTestTag(tool)
+            assertTrue("Test tag for '$tool' should start with tool_", tag.startsWith("tool_"))
         }
     }
 }

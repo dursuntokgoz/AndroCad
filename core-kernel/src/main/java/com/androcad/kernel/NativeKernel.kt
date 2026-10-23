@@ -115,6 +115,19 @@ data class BoxMeshResult(
     fun thicken(thickness: Double): BoxMeshResult =
         NativeKernel.thicken(this, thickness)
 
+    fun transform(
+        tx: Double = 0.0, ty: Double = 0.0, tz: Double = 0.0,
+        rxDeg: Double = 0.0, ryDeg: Double = 0.0, rzDeg: Double = 0.0,
+        scaleFactor: Double = 1.0
+    ): BoxMeshResult =
+        NativeKernel.transformSolid(this, tx, ty, tz, rxDeg, ryDeg, rzDeg, scaleFactor)
+
+    fun splitByPlane(
+        ox: Double, oy: Double, oz: Double,
+        nx: Double, ny: Double, nz: Double
+    ): BoxMeshResult =
+        NativeKernel.splitSolidByPlane(this, ox, oy, oz, nx, ny, nz)
+
     /**
      * Calculates the geometric center and average outward normal of a specific faceId
      * directly from the tessellated vertex buffer (stride: 28 bytes = pos(12) + normal(12) + faceId(4)).
@@ -1018,18 +1031,40 @@ object NativeKernel {
     }
 
     /**
-     * Constructs a solid cylinder with given radius and height.
+     * Constructs a solid cylinder with given radius and height at optional 3D origin and normal.
      */
     fun createCylinder(
         radius: Double,
-        height: Double
+        height: Double,
+        ox: Double = 0.0,
+        oy: Double = 0.0,
+        oz: Double = 0.0,
+        nx: Double = 0.0,
+        ny: Double = 0.0,
+        nz: Double = 1.0
     ): BoxMeshResult {
         if (isLoaded) {
             try {
-                val sketch = createSketch()
+                // Compute orthogonal basis (U, V) for normal (nx, ny, nz)
+                val nLen = Math.sqrt(nx * nx + ny * ny + nz * nz).coerceAtLeast(1e-6)
+                val nX = nx / nLen; val nY = ny / nLen; val nZ = nz / nLen
+                val ux: Double; val uy: Double; val uz: Double
+                if (Math.abs(nX) < 0.9 && Math.abs(nY) < 0.9) {
+                    val tx = 1.0 - nX * nX; val ty = -nX * nY; val tz = -nX * nZ
+                    val tLen = Math.sqrt(tx * tx + ty * ty + tz * tz).coerceAtLeast(1e-6)
+                    ux = tx / tLen; uy = ty / tLen; uz = tz / tLen
+                } else {
+                    val lx = -nY; val ly = nX
+                    val lLen = Math.sqrt(lx * lx + ly * ly).coerceAtLeast(1e-6)
+                    ux = lx / lLen; uy = ly / lLen; uz = 0.0
+                }
+                val vx = nY * uz - nZ * uy
+                val vy = nZ * ux - nX * uz
+                val vz = nX * uy - nY * ux
+                val sketch = createSketch(ox, oy, oz, ux, uy, uz, vx, vy, vz, nX, nY, nZ)
                 val p = sketch.addPoint(0.0, 0.0)
                 sketch.addCircle(p, radius)
-                val solid = sketch.extrude(0.0, 0.0, height)
+                val solid = sketch.extrude(nX * height, nY * height, nZ * height)
                 sketch.close()
                 if (solid.success && solid.nativeHandle > 1000L) return solid
             } catch (t: Throwable) {
@@ -1037,6 +1072,151 @@ object NativeKernel {
             }
         }
         return createFallbackBox(radius * 2.0, radius * 2.0, height)
+    }
+
+    /**
+     * Constructs an analytical 3D sphere centered at (cx, cy, cz).
+     */
+    fun createSphere(
+        radius: Double,
+        cx: Double = 0.0,
+        cy: Double = 0.0,
+        cz: Double = 0.0,
+        linearDeflection: Double = 0.1,
+        angularDeflection: Double = 0.5
+    ): BoxMeshResult {
+        if (isLoaded) {
+            val handle = try {
+                nativeCreateSphere(cx, cy, cz, radius, linearDeflection, angularDeflection)
+            } catch (t: Throwable) { 0L }
+            val res = buildMeshResult(handle)
+            if (res.success) return res
+        }
+        return createFallbackBox(radius * 2.0, radius * 2.0, radius * 2.0)
+    }
+
+    /**
+     * Constructs an analytical 3D torus centered at (cx, cy, cz) along normal (nx, ny, nz).
+     */
+    fun createTorus(
+        majorRadius: Double,
+        minorRadius: Double,
+        cx: Double = 0.0,
+        cy: Double = 0.0,
+        cz: Double = 0.0,
+        nx: Double = 0.0,
+        ny: Double = 0.0,
+        nz: Double = 1.0,
+        linearDeflection: Double = 0.1,
+        angularDeflection: Double = 0.5
+    ): BoxMeshResult {
+        if (isLoaded) {
+            val handle = try {
+                nativeCreateTorus(cx, cy, cz, nx, ny, nz, majorRadius, minorRadius, linearDeflection, angularDeflection)
+            } catch (t: Throwable) { 0L }
+            val res = buildMeshResult(handle)
+            if (res.success) return res
+        }
+        val d = (majorRadius + minorRadius) * 2.0
+        return createFallbackBox(d, d, minorRadius * 2.0)
+    }
+
+    /**
+     * Constructs an analytical 3D cone / frustum at (cx, cy, cz) along normal (nx, ny, nz).
+     */
+    fun createCone(
+        bottomRadius: Double,
+        topRadius: Double,
+        height: Double,
+        cx: Double = 0.0,
+        cy: Double = 0.0,
+        cz: Double = 0.0,
+        nx: Double = 0.0,
+        ny: Double = 0.0,
+        nz: Double = 1.0,
+        linearDeflection: Double = 0.1,
+        angularDeflection: Double = 0.5
+    ): BoxMeshResult {
+        if (isLoaded) {
+            val handle = try {
+                nativeCreateCone(cx, cy, cz, nx, ny, nz, bottomRadius, topRadius, height, linearDeflection, angularDeflection)
+            } catch (t: Throwable) { 0L }
+            val res = buildMeshResult(handle)
+            if (res.success) return res
+        }
+        val maxD = maxOf(bottomRadius, topRadius) * 2.0
+        return createFallbackBox(maxD, maxD, height)
+    }
+
+    /**
+     * Transforms a 3D solid (Move / Rotate / Scale).
+     */
+    fun transformSolid(
+        solid: BoxMeshResult,
+        tx: Double = 0.0,
+        ty: Double = 0.0,
+        tz: Double = 0.0,
+        rxDeg: Double = 0.0,
+        ryDeg: Double = 0.0,
+        rzDeg: Double = 0.0,
+        scaleFactor: Double = 1.0,
+        linearDeflection: Double = 0.1,
+        angularDeflection: Double = 0.5
+    ): BoxMeshResult {
+        if (solid.nativeHandle > 1000L && solid.success && isLoaded) {
+            val handle = try {
+                nativeTransformSolid(solid.nativeHandle, tx, ty, tz, rxDeg, ryDeg, rzDeg, scaleFactor, linearDeflection, angularDeflection)
+            } catch (t: Throwable) { 0L }
+            val res = buildMeshResult(handle)
+            if (res.success) return res
+        }
+        val bbox = solid.boundingBox
+        return createFallbackBox(
+            (bbox.sizeX * scaleFactor).coerceAtLeast(5.0),
+            (bbox.sizeY * scaleFactor).coerceAtLeast(5.0),
+            (bbox.sizeZ * scaleFactor).coerceAtLeast(5.0)
+        )
+    }
+
+    /**
+     * Splits a 3D solid by cutting away the +normal half-space of plane (ox,oy,oz, nx,ny,nz).
+     */
+    fun splitSolidByPlane(
+        solid: BoxMeshResult,
+        ox: Double, oy: Double, oz: Double,
+        nx: Double, ny: Double, nz: Double,
+        linearDeflection: Double = 0.1,
+        angularDeflection: Double = 0.5
+    ): BoxMeshResult {
+        if (solid.nativeHandle > 1000L && solid.success && isLoaded) {
+            val handle = try {
+                nativeSplitSolidByPlane(solid.nativeHandle, ox, oy, oz, nx, ny, nz, linearDeflection, angularDeflection)
+            } catch (t: Throwable) { 0L }
+            val res = buildMeshResult(handle)
+            if (res.success) return res
+        }
+        val bbox = solid.boundingBox
+        return createFallbackBox((bbox.sizeX * 0.5).coerceAtLeast(5.0), bbox.sizeY.toDouble(), bbox.sizeZ.toDouble())
+    }
+
+    /**
+     * Sweeps a circular pipe section along a rectangular loop path.
+     */
+    fun createSweepPipe(
+        pathWidth: Double = 60.0,
+        pathHeight: Double = 40.0,
+        pipeRadius: Double = 5.0,
+        linearDeflection: Double = 0.1,
+        angularDeflection: Double = 0.5
+    ): BoxMeshResult {
+        if (isLoaded) {
+            val handle = try {
+                nativeCreateSweepPipe(pathWidth, pathHeight, pipeRadius, linearDeflection, angularDeflection)
+            } catch (t: Throwable) { 0L }
+            val res = buildMeshResult(handle)
+            if (res.success) return res
+        }
+        return createFallbackBox(pathWidth, pathHeight, pipeRadius * 2.0)
     }
 
     /**
@@ -2759,4 +2939,47 @@ object NativeKernel {
         secondaryDatum: String,
         tertiaryDatum: String
     ): String
+
+    // Milestone 21 JNI Declarations (Sphere, Torus, Cone, Transform, Split, Sweep Pipe)
+    external fun nativeCreateSphere(
+        cx: Double, cy: Double, cz: Double,
+        radius: Double,
+        linearDeflection: Double, angularDeflection: Double
+    ): Long
+
+    external fun nativeCreateTorus(
+        cx: Double, cy: Double, cz: Double,
+        nx: Double, ny: Double, nz: Double,
+        majorRadius: Double, minorRadius: Double,
+        linearDeflection: Double, angularDeflection: Double
+    ): Long
+
+    external fun nativeCreateCone(
+        cx: Double, cy: Double, cz: Double,
+        nx: Double, ny: Double, nz: Double,
+        bottomRadius: Double, topRadius: Double, height: Double,
+        linearDeflection: Double, angularDeflection: Double
+    ): Long
+
+    external fun nativeTransformSolid(
+        solidHandle: Long,
+        tx: Double, ty: Double, tz: Double,
+        rxDeg: Double, ryDeg: Double, rzDeg: Double,
+        scaleFactor: Double,
+        linearDeflection: Double, angularDeflection: Double
+    ): Long
+
+    external fun nativeSplitSolidByPlane(
+        solidHandle: Long,
+        ox: Double, oy: Double, oz: Double,
+        nx: Double, ny: Double, nz: Double,
+        linearDeflection: Double, angularDeflection: Double
+    ): Long
+
+    external fun nativeCreateSweepPipe(
+        pathWidth: Double,
+        pathHeight: Double,
+        pipeRadius: Double,
+        linearDeflection: Double, angularDeflection: Double
+    ): Long
 }
