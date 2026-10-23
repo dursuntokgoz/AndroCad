@@ -769,8 +769,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m49_tablet.png`) and phone (`docs/screenshots/m49_phone.png`) screenshots.
   - Release: `v1.19.0`.
 * **Acceptance Tests:** IGES 5.3 exporter and reader round-trip B-Rep geometry with valid 80-column fixed-format section records and preserved bounding box.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

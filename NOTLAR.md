@@ -59,3 +59,4 @@
 | **M46** | `v1.16.0` | ✅ Done | Surface Inspection: Gaussian, Mean & Principal Curvature Comb Analyzer — CTest (`[PASS] M46 Gaussian & Mean Curvature Comb Analyzer`) & Screenshots (`t_lum=34.3`, `p_lum=33.3`) doğrulandı. |
 | **M47** | `v1.17.0` | ✅ Done | Surface Inspection: Zebra Stripes & G0/G1/G2 Continuity Inspector — CTest (`[PASS] M47 Zebra Stripes & G0/G1/G2 Continuity Inspector`) & Screenshots (`t_lum=36.2`, `p_lum=36.6`) doğrulandı. |
 | **M48** | `v1.18.0` | ✅ Done | Surface Inspection: Raycast Wall Thickness & Minimum Clearance Analyzer — CTest (`[PASS] M48 Raycast Wall Thickness & Clearance Analyzer`) & Screenshots (`t_lum=36.7`, `p_lum=37.7`) doğrulandı. |
+| **M49** | `v1.19.0` | ✅ Done | Data Exchange: IGES 5.3 NURBS Surface & Solid Import/Export — CTest (`[PASS] M49 IGES 5.3 NURBS & Solid Import/Export`) & Screenshots (`t_lum=36.2`, `p_lum=36.6`) doğrulandı. |

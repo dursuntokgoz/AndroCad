@@ -1,0 +1,10 @@
+{
+  "milestone": "M49",
+  "title": "Data Exchange: IGES 5.3 NURBS Surface & Solid Import/Export",
+  "version": "v1.19.0",
+  "apkArtifact": "AndroCAD-v1.19.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m49_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m49_phone.png"
+}
