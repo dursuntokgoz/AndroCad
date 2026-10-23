@@ -1,0 +1,10 @@
+{
+  "milestone": "M22",
+  "title": "EGL/GL Thread Safety & Render Context Guard",
+  "version": "v1.0.13",
+  "apkArtifact": "AndroCAD-v1.0.13-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m22_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m22_phone.png"
+}

@@ -392,8 +392,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m22_tablet.png`) and phone (`docs/screenshots/m22_phone.png`) screenshots.
   - Release: `v1.0.13`.
 * **Acceptance Tests:** Zero GL buffer or shader operations execute outside the bound render thread under 1,000 concurrent UI mutation events.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 
