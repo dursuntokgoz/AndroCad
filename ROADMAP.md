@@ -1061,7 +1061,7 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m70_tablet.png`) and phone (`docs/screenshots/m70_phone.png`) screenshots.
   - Release: `v1.40.0`.
 * **Acceptance Tests:** All 70 milestones (M1–M70) pass CTest, manifest audit, 16KB page-size linker check, and screenshot verification.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
