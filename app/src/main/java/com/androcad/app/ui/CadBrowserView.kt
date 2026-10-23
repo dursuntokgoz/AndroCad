@@ -208,12 +208,12 @@ fun CadBrowserView(
                                     color = textMuted,
                                     fontSize = 10.sp,
                                     modifier = Modifier
+                                        .padding(horizontal = 4.dp)
                                         .clickable {
                                             renameTargetId = body.id
                                             renameText = body.name
                                         }
                                         .testTag("browser_rename_${body.id}")
-                                        .padding(horizontal = 4.dp)
                                 )
                                 // Delete
                                 Text(
@@ -221,9 +221,9 @@ fun CadBrowserView(
                                     color = Color(0xFFFF5252),
                                     fontSize = 10.sp,
                                     modifier = Modifier
+                                        .padding(horizontal = 4.dp)
                                         .clickable { onDeleteBody(body.id) }
                                         .testTag("browser_delete_${body.id}")
-                                        .padding(horizontal = 4.dp)
                                 )
                             }
                         }
