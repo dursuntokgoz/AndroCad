@@ -369,8 +369,8 @@ class InteractiveSketchExtrudeTest {
         setContentForTest()
 
         // Verify Undo and Redo buttons are displayed in top toolbar
-        composeTestRule.onNodeWithTag("btn_undo").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("btn_redo").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("btn_undo").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithTag("btn_redo").performScrollTo().assertIsDisplayed()
 
         // Switch to Sketch tab, create preset rectangle, and activate Dimension tool
         composeTestRule.onNodeWithTag("tab_Sketch").performClick()
