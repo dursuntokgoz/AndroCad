@@ -1,0 +1,10 @@
+{
+  "milestone": "M47",
+  "title": "Surface Inspection: Zebra Stripes & G0/G1/G2 Continuity Inspector",
+  "version": "v1.17.0",
+  "apkArtifact": "AndroCAD-v1.17.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m47_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m47_phone.png"
+}

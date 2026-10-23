@@ -741,8 +741,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m47_tablet.png`) and phone (`docs/screenshots/m47_phone.png`) screenshots.
   - Release: `v1.17.0`.
 * **Acceptance Tests:** Continuity analyzer accurately classifies $G_0$, $G_1$, and $G_2$ boundary edges and renders high-contrast reflection zebra bands.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 
