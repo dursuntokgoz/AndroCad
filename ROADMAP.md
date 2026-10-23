@@ -839,8 +839,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m54_tablet.png`) and phone (`docs/screenshots/m54_phone.png`) screenshots.
   - Release: `v1.24.0`.
 * **Acceptance Tests:** 100% of workspace tabs, tool names, and inspector labels resolve in TR, EN, DE, JA, and AR without fallback placeholders.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

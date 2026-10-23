@@ -1,0 +1,10 @@
+{
+  "milestone": "M54",
+  "title": "Multi-Language Localization (i18n): TR, EN, DE, JA & AR (RTL) Support",
+  "version": "v1.24.0",
+  "apkArtifact": "AndroCAD-v1.24.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m54_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m54_phone.png"
+}
