@@ -26,8 +26,11 @@ jobs:
 
       - name: Install Host OCCT and Build Tools
         run: |
+          sudo apt-get remove -y man-db || true
+          export DEBIAN_FRONTEND=noninteractive
+          export NEEDRESTART_MODE=a
           sudo apt-get update
-          sudo apt-get install -y \
+          sudo apt-get install -y --no-install-recommends \
             cmake ninja-build g++ \
             libtbb-dev \
             libocct-foundation-dev \
