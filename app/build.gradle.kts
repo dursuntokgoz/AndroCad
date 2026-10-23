@@ -12,8 +12,8 @@ android {
         applicationId = "com.androcad.app"
         minSdk = 24
         targetSdk = 34
-        versionCode = 8
-        versionName = "1.0.7"
+        versionCode = 9
+        versionName = "1.0.8"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -25,9 +25,25 @@ android {
         }
     }
 
+    signingConfigs {
+        create("distribution") {
+            storeFile = rootProject.file("keystore/androcad-distribution.keystore")
+            storePassword = "androcad"
+            keyAlias = "androcad"
+            keyPassword = "androcad"
+            enableV1Signing = true
+            enableV2Signing = true
+            enableV3Signing = true
+        }
+    }
+
     buildTypes {
+        debug {
+            signingConfig = signingConfigs.getByName("distribution")
+        }
         release {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("distribution")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
