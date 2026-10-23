@@ -1,0 +1,10 @@
+{
+  "milestone": "M61",
+  "title": "Plastic Enclosure Features: Snap-Fit Cantilever Hook, Mounting Boss & Rib Network",
+  "version": "v1.31.0",
+  "apkArtifact": "AndroCAD-v1.31.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m61_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m61_phone.png"
+}

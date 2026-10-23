@@ -71,3 +71,4 @@
 | **M58** | `v1.28.0` | ✅ Done | Mechanical Spur, Helical & Internal Gear Generator (Involute Mathematics) — CTest (`[PASS] M58 Involute Spur & Helical Gear Generator`) & Screenshots (`t_lum=34.8`, `p_lum=34.3`) doğrulandı. |
 | **M59** | `v1.29.0` | ✅ Done | 3D Piping, Tubing & Harness Routing Engine — CTest (`[PASS] M59 3D Piping, Tubing & Harness Routing`) & Screenshots (`t_lum=36.2`, `p_lum=36.9`) doğrulandı. |
 | **M60** | `v1.30.0` | ✅ Done | Sheet Metal Expansion: Rolled Hem, Lofted Flange & Ventilation Louver — CTest (`[PASS] M60 Sheet Metal Hem, Lofted Flange & Louver`) & Screenshots (`t_lum=36.2`, `p_lum=36.5`) doğrulandı. |
+| **M61** | `v1.31.0` | ✅ Done | Plastic Enclosure Features: Snap-Fit Cantilever Hook, Mounting Boss & Rib Network — CTest (`[PASS] M61 Plastic Snap-Fit, Boss & Rib Features`) & Screenshots (`t_lum=36.1`, `p_lum=36.8`) doğrulandı. |
