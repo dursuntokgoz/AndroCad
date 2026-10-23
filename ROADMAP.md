@@ -1048,8 +1048,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m69_tablet.png`) and phone (`docs/screenshots/m69_phone.png`) screenshots.
   - Release: `v1.39.0`.
 * **Acceptance Tests:** Relink audit confirms 100% dynamic `.so` separation for LGPL libraries, zero static archive embedding of OCCT in proprietary code, and zero GPL files.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

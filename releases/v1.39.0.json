@@ -1,0 +1,10 @@
+{
+  "milestone": "M69",
+  "title": "LGPL v2.1 Section 6 Dynamic Relinking Verification Kit",
+  "version": "v1.39.0",
+  "apkArtifact": "AndroCAD-v1.39.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m69_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m69_phone.png"
+}
