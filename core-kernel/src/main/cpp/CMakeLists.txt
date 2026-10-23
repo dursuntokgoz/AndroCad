@@ -47,6 +47,7 @@ if(ANDROID)
         src/TNPResolver.cpp
         src/TimelineDAG.cpp
         src/ProjectIO.cpp
+        src/Phase3Engine.cpp
         src/native_kernel_jni.cpp
     )
 
@@ -695,4 +696,11 @@ else()
     )
 
     add_test(NAME GDTBOMDraftingTest COMMAND androcad_gdt_bom_drafting_test)
+
+    add_executable(androcad_faz3_suite_test
+        src/Phase3Engine.cpp
+        tests/test_faz3_suite.cpp
+    )
+
+    add_test(NAME Faz3SuiteTest COMMAND androcad_faz3_suite_test)
 endif()

@@ -2982,4 +2982,11 @@ object NativeKernel {
         pipeRadius: Double,
         linearDeflection: Double, angularDeflection: Double
     ): Long
+
+    external fun nativeExecutePhase3Operation(
+        milestoneId: Int,
+        paramA: Double,
+        paramB: Double,
+        paramC: Double
+    ): String
 }

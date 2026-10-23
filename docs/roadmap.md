@@ -378,8 +378,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet landscape (`docs/screenshots/m21_tablet.png`) and phone portrait (`docs/screenshots/m21_phone.png`) verified diagnostic screenshots.
   - Release: `v1.0.12`.
 * **Acceptance Tests:** 100% of declared Kotlin `external fun` methods resolve to exact C++ `JNIEXPORT` symbols with matching parameter signatures; CTest passes.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

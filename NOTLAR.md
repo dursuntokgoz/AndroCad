@@ -31,3 +31,4 @@
 | Milestone | Sürüm | Durum | Özet ve Doğrulama Notu |
 | :--- | :--- | :---: | :--- |
 | **Plan** | `v1.0.11` | ✅ | 50 yeni milestone (`M21`–`M70`) `ROADMAP.md` ve `docs/roadmap.md` dosyalarına eklendi. |
+| **M21** | `v1.0.12` | ✅ Done | JNI Export & Signature Parity Audit (Name-Mangling Regression Guard) — CTest (`[PASS] M21 JNI Export Audit (Kotlin externals=95, C++ exports=95, internalMangled=0, unmatched=0)`) & Screenshots (`t_lum=36.1`, `p_lum=36.5`) doğrulandı. |

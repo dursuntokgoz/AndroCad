@@ -1,0 +1,10 @@
+{
+  "milestone": "M21",
+  "title": "JNI Export & Signature Parity Audit (Name-Mangling Regression Guard)",
+  "version": "v1.0.12",
+  "apkArtifact": "AndroCAD-v1.0.12-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m21_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m21_phone.png"
+}

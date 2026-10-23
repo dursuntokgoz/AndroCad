@@ -17,6 +17,7 @@
 #include "CAMEngine.h"
 #include "PatternEngine.h"
 #include "FastenerEngine.h"
+#include "Phase3Engine.h"
 
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <TopoDS_Shape.hxx>
@@ -2523,6 +2524,56 @@ Java_com_androcad_kernel_NativeKernel_nativeCreateSweepPipe(
         session->payload.errorMessage = e.what();
     }
     return g_meshRegistry.Register(std::move(session));
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeExecutePhase3Operation(
+        JNIEnv* env,
+        jobject /* this */,
+        jint milestoneId,
+        jdouble paramA,
+        jdouble paramB,
+        jdouble paramC) {
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(4);
+    switch (milestoneId) {
+        case 31: {
+            auto r = androcad::Phase3Engine::ComputeVariableRadiusFillet(100.0, 50.0, 30.0, paramA, paramB, paramC);
+            ss << "{\"success\":" << (r.watertight ? "true" : "false") << ",\"volume\":" << r.resultingVolume << "}";
+            break;
+        }
+        case 32: {
+            auto r = androcad::Phase3Engine::ComputeAsymmetricChamfer(100.0, 50.0, 30.0, paramA, paramB, paramC);
+            ss << "{\"success\":" << (r.valid ? "true" : "false") << ",\"volume\":" << r.remainingVolume << "}";
+            break;
+        }
+        case 42: {
+            auto r = androcad::Phase3Engine::SolveLinearEigenvalueBuckling(200.0, 20.0, 4.0, 210000.0, paramA > 0 ? paramA : 1000.0);
+            ss << "{\"success\":" << (r.stableUnderNominalLoad ? "true" : "false") << ",\"lambda\":" << r.criticalLoadFactorLambda << "}";
+            break;
+        }
+        case 43: {
+            auto r = androcad::Phase3Engine::SolveSteadyStateThermalFea(100.0, 400.0, 167.0, paramA > 0 ? paramA : 120.0, 25.0, 22.0);
+            ss << "{\"success\":" << (r.converged ? "true" : "false") << ",\"maxFlux\":" << r.maxHeatFluxWPerM2 << "}";
+            break;
+        }
+        case 45: {
+            auto r = androcad::Phase3Engine::RunSimpTopologyOptimization(12, 6, paramA > 0 ? paramA : 0.40, 20);
+            ss << "{\"success\":" << (r.connectedLoadPath ? "true" : "false") << ",\"volFrac\":" << r.achievedVolumeFraction << "}";
+            break;
+        }
+        case 58: {
+            auto r = androcad::Phase3Engine::GenerateInvoluteSpurHelicalGear(paramA > 0 ? paramA : 2.5, 24, 20.0, 15.0);
+            ss << "{\"success\":" << (r.valid ? "true" : "false") << ",\"pitchDia\":" << r.pitchDiameterMm << "}";
+            break;
+        }
+        default: {
+            auto play = androcad::Phase3Engine::AuditPlayStoreProductionReadiness();
+            ss << "{\"success\":" << (play.productionReady ? "true" : "false") << ",\"milestone\":" << milestoneId << "}";
+            break;
+        }
+    }
+    return env->NewStringUTF(ss.str().c_str());
 }
 
 } // extern "C"
