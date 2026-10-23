@@ -895,8 +895,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m58_tablet.png`) and phone (`docs/screenshots/m58_phone.png`) screenshots.
   - Release: `v1.28.0`.
 * **Acceptance Tests:** Generated involute gear teeth satisfy conjugate meshing geometry with exact pitch diameter $d = m z$ and watertight solid topology.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

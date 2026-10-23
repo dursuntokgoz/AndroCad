@@ -68,3 +68,4 @@
 | **M55** | `v1.25.0` | ✅ Done | Embedded Parametric Scripting & Macro Automation API (AndroScript) — CTest (`[PASS] M55 Embedded AndroScript Macro Automation API`) & Screenshots (`t_lum=36.1`, `p_lum=37.0`) doğrulandı. |
 | **M56** | `v1.26.0` | ✅ Done | Vulkan 1.1 Rendering & Compute Backend Abstraction — CTest (`[PASS] M56 Vulkan 1.1 Rendering & Compute Backend`) & Screenshots (`t_lum=34.9`, `p_lum=34.0`) doğrulandı. |
 | **M57** | `v1.27.0` | ✅ Done | Structural Weldments & Standard Steel Profiles (ISO/DIN Frame Generator) — CTest (`[PASS] M57 Structural Weldments & Steel Profiles`) & Screenshots (`t_lum=36.2`, `p_lum=37.0`) doğrulandı. |
+| **M58** | `v1.28.0` | ✅ Done | Mechanical Spur, Helical & Internal Gear Generator (Involute Mathematics) — CTest (`[PASS] M58 Involute Spur & Helical Gear Generator`) & Screenshots (`t_lum=34.8`, `p_lum=34.3`) doğrulandı. |

@@ -1,0 +1,10 @@
+{
+  "milestone": "M58",
+  "title": "Mechanical Spur, Helical & Internal Gear Generator (Involute Mathematics)",
+  "version": "v1.28.0",
+  "apkArtifact": "AndroCAD-v1.28.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m58_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m58_phone.png"
+}
