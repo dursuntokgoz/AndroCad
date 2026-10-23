@@ -867,8 +867,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m56_tablet.png`) and phone (`docs/screenshots/m56_phone.png`) screenshots.
   - Release: `v1.26.0`.
 * **Acceptance Tests:** Vulkan pipeline descriptor sets and 16-byte std140 uniform buffers validate with zero alignment gaps and clean GLES fallback.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

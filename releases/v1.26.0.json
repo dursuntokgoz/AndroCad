@@ -1,0 +1,10 @@
+{
+  "milestone": "M56",
+  "title": "Vulkan 1.1 Rendering & Compute Backend Abstraction",
+  "version": "v1.26.0",
+  "apkArtifact": "AndroCAD-v1.26.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m56_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m56_phone.png"
+}
