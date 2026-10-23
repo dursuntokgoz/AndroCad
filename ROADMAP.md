@@ -588,8 +588,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m36_tablet.png`) and phone (`docs/screenshots/m36_phone.png`) screenshots.
   - Release: `v1.6.0`.
 * **Acceptance Tests:** Core and Cavity mold halves partition the mold block with exact volumetric conservation and zero interpenetration.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

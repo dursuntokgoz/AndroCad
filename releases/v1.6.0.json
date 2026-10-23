@@ -1,0 +1,10 @@
+{
+  "milestone": "M36",
+  "title": "Injection Mold Design: Automated Core, Cavity & Shrinkage Tooling Split",
+  "version": "v1.6.0",
+  "apkArtifact": "AndroCAD-v1.6.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m36_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m36_phone.png"
+}
