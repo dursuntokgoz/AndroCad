@@ -8,7 +8,7 @@
 [![UI Tests](https://github.com/dursuntokgoz/AndroCad/actions/workflows/ui-tests.yml/badge.svg)](https://github.com/dursuntokgoz/AndroCad/actions/workflows/ui-tests.yml)
 [![OCCT Build](https://github.com/dursuntokgoz/AndroCad/actions/workflows/occt-build.yml/badge.svg)](https://github.com/dursuntokgoz/AndroCad/actions/workflows/occt-build.yml)
 
-An original, professional parametric 3D CAD application engineered for Android tablets and smartphones, powered by Open CASCADE Technology (OCCT 7.8.0) and the PlaneGCS constraint solver.
+An original, professional parametric 3D CAD application engineered for Android tablets and smartphones, powered by Open CASCADE Technology (OCCT 8.0.1) and the PlaneGCS constraint solver.
 
 ---
 
@@ -110,5 +110,5 @@ In accordance with project policy, AndroCAD utilizes a strictly automated cloud 
   No permission is granted to use, copy, modify, merge, publish, distribute, sublicense, or sell copies of this proprietary software without the prior written permission of the copyright holder.
 
 * **Third-Party Open-Source Components:**  
-  Third-party components, including Open CASCADE Technology (OCCT 7.8.0), PlaneGCS, Eigen 3, and Boost, are licensed under their respective open-source licenses. OCCT and PlaneGCS are dynamically linked as standalone shared libraries (`.so`).  
+  Third-party components, including Open CASCADE Technology (OCCT 8.0.1), PlaneGCS, Eigen 3, and Boost, are licensed under their respective open-source licenses. OCCT and PlaneGCS are dynamically linked as standalone shared libraries (`.so`).  
   For complete licensing terms, notices, and dynamic relinking instructions satisfying LGPL 2.1 Section 6, please refer to [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md) and [`docs/licenses.md`](./docs/licenses.md).

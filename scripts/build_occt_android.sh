@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Copyright (c) 2026 dursuntokgoz. All rights reserved.
-# Build pruned Open CASCADE Technology (OCCT) 7.8.0 for Android arm64-v8a / x86_64
+# Build pruned Open CASCADE Technology (OCCT) 8.0.1 for Android arm64-v8a / x86_64
 set -euo pipefail
 
-OCCT_VERSION="V7_8_0"
+OCCT_VERSION="V8_0_1"
 TARGET_ABI="${1:-arm64-v8a}"
 ANDROID_API="${2:-24}"
 BUILD_DIR="build-occt-${TARGET_ABI}"
@@ -69,7 +69,11 @@ cmake -B "${BUILD_DIR}" -S occt-src -G Ninja \
   -DUSE_VTK=OFF \
   -DUSE_OPENVR=OFF \
   -DUSE_DRACO=OFF \
-  -DCMAKE_CXX_FLAGS_RELEASE="-O2 -ffunction-sections -fdata-sections" \
+  -DUSE_RAPIDJSON=OFF \
+  -DUSE_EIGEN=OFF \
+  -DBUILD_GTEST=OFF \
+  -DBUILD_USE_PCH=OFF \
+  -DCMAKE_CXX_FLAGS_RELEASE="-O2 -ffunction-sections -fdata-sections -Wno-deprecated-declarations" \
   -DCMAKE_SHARED_LINKER_FLAGS_RELEASE="-Wl,--gc-sections" \
   -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}"
 CMAKE_RES=$?
@@ -99,7 +103,11 @@ if [ ${CMAKE_RES} -ne 0 ]; then
     -DUSE_VTK=OFF \
     -DUSE_OPENVR=OFF \
     -DUSE_DRACO=OFF \
-    -DCMAKE_CXX_FLAGS_RELEASE="-O2 -ffunction-sections -fdata-sections" \
+    -DUSE_RAPIDJSON=OFF \
+    -DUSE_EIGEN=OFF \
+    -DBUILD_GTEST=OFF \
+    -DBUILD_USE_PCH=OFF \
+    -DCMAKE_CXX_FLAGS_RELEASE="-O2 -ffunction-sections -fdata-sections -Wno-deprecated-declarations" \
     -DCMAKE_SHARED_LINKER_FLAGS_RELEASE="-Wl,--gc-sections" \
     -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}"
 fi

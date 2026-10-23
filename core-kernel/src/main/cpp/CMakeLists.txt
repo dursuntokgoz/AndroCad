@@ -53,7 +53,7 @@ if(ANDROID)
     )
 
     target_compile_options(androcad_kernel PRIVATE
-        -O2 -flto -ffunction-sections -fdata-sections -fvisibility=hidden
+        -O2 -flto -ffunction-sections -fdata-sections -fvisibility=hidden -Wno-deprecated-declarations
     )
 
     target_link_options(androcad_kernel PRIVATE
@@ -70,11 +70,13 @@ if(ANDROID)
         TKBRep
         TKTopAlgo
         TKPrim
+        TKShHealing
         TKBO
         TKBool
         TKFillet
         TKOffset
         TKMesh
+        TKDE
         TKDESTEP
         TKDESTL
         TKXSBase

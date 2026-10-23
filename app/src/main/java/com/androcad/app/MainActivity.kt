@@ -3675,7 +3675,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 
                         if (activeSolid != null && activeSolid!!.success) {
                             Text(text = "Solid: Active Body", color = textColor, fontSize = 12.sp)
-                            Text(text = "Kernel: OCCT 7.8.0", color = textMuted, fontSize = 11.sp)
+                            Text(text = "Kernel: OCCT 8.0.1", color = textMuted, fontSize = 11.sp)
                             Text(text = "Solver: PlaneGCS (LGPL)", color = textMuted, fontSize = 11.sp)
                             Text(text = "Status: $featureStatusText", color = accentBlue, fontSize = 11.sp)
                             Spacer(modifier = Modifier.height(6.dp))

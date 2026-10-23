@@ -65,7 +65,7 @@ fun EmptyStateView(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Mobile-native 3D Parametric CAD with Open CASCADE 7.8.0 & PlaneGCS solver.",
+                    text = "Mobile-native 3D Parametric CAD with Open CASCADE 8.0.1 & PlaneGCS solver.",
                     color = textMuted,
                     fontSize = 12.sp,
                     textAlign = TextAlign.Center

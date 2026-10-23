@@ -6,8 +6,8 @@ This document tracks development milestones, architectural decisions, and open r
 
 ## Architectural Decisions
 
-1. **OCCT Version Selection: Pinned to OCCT 7.8.0**
-   * *Comparison (7.8.0 vs 7.9.2):* Both versions are distributed under `LGPL-2.1-only WITH OCCT-exception-1.0` on dev.opencascade.org. OCCT 7.8.0 established the modularized Data Exchange (`TKDESTEP`, `TKDESTL`) while maintaining long-term stability and verified Android NDK r25b/r26 toolchain compatibility. OCCT 7.9.2 introduced transitional changes to internal numerical headers that require additional CMake adjustments on mobile Clang. Therefore, **OCCT 7.8.0** is pinned as the primary target for reproducibility and stability.
+1. **OCCT Version Selection: Upgraded to OCCT 8.0.1 (`V8_0_1`)**
+   * *Comparison (7.8.0 vs 8.0.1):* Open CASCADE Technology was originally pinned to `V7_8_0` and is now upgraded to **`V8_0_1` (OCCT 8.0.1)** (`LGPL-2.1-only WITH OCCT-exception-1.0`), incorporating C++17 `occ::handle` / `NCollection` modernizations and modular Data Exchange (`TKDE`, `TKDESTEP`, `TKDESTL`, `TKXSBase`) on Android NDK r26d (`arm64-v8a`, 16 KB page alignment).
 2. **Sketch Constraint Solver: PlaneGCS**
    * *Selection:* FreeCAD's PlaneGCS solver (`LGPL-2.1-or-later`) written in C++. It uses Levenberg-Marquardt and Dogleg nonlinear solvers, compiles with the same Android NDK toolchain, and covers all required 2D sketch constraints. SolveSpace (`libslvs`) was strictly rejected due to its copyleft `GPL-3.0-or-later` license.
 3. **Rendering Architecture: Native C++ OpenGL ES 3.x First (Vulkan Backend Follow-up)**
