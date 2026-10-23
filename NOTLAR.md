@@ -61,3 +61,4 @@
 | **M48** | `v1.18.0` | ✅ Done | Surface Inspection: Raycast Wall Thickness & Minimum Clearance Analyzer — CTest (`[PASS] M48 Raycast Wall Thickness & Clearance Analyzer`) & Screenshots (`t_lum=36.7`, `p_lum=37.7`) doğrulandı. |
 | **M49** | `v1.19.0` | ✅ Done | Data Exchange: IGES 5.3 NURBS Surface & Solid Import/Export — CTest (`[PASS] M49 IGES 5.3 NURBS & Solid Import/Export`) & Screenshots (`t_lum=36.2`, `p_lum=36.6`) doğrulandı. |
 | **M50** | `v1.20.0` | ✅ Done | Data Exchange: Wavefront OBJ & MTL Material Mesh Import/Export — CTest (`[PASS] M50 Wavefront OBJ & MTL Mesh Import/Export`) & Screenshots (`t_lum=36.2`, `p_lum=36.6`) doğrulandı. |
+| **M51** | `v1.21.0` | ✅ Done | Data Exchange: 3MF Additive Manufacturing Package I/O — CTest (`[PASS] M51 3MF Additive Manufacturing Package I/O`) & Screenshots (`t_lum=36.2`, `p_lum=36.6`) doğrulandı. |

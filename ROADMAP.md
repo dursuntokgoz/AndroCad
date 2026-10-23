@@ -797,8 +797,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m51_tablet.png`) and phone (`docs/screenshots/m51_phone.png`) screenshots.
   - Release: `v1.21.0`.
 * **Acceptance Tests:** 3MF round-trip preserves 100% of mesh vertices, manifold triangle connectivity, and build transform matrices.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

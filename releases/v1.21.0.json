@@ -1,0 +1,10 @@
+{
+  "milestone": "M51",
+  "title": "Data Exchange: 3MF Additive Manufacturing Package I/O",
+  "version": "v1.21.0",
+  "apkArtifact": "AndroCAD-v1.21.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m51_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m51_phone.png"
+}
