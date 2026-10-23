@@ -13,13 +13,12 @@
 #include <BRepCheck_Analyzer.hxx>
 #include <BRepGProp.hxx>
 #include <GProp_GProps.hxx>
-#include <ShapeAnalysis_FreeBounds.hxx>
-#include <TopTools_HSequenceOfShape.hxx>
 #include <TopoDS.hxx>
 #include <Standard_Failure.hxx>
 
 #include <iostream>
 #include <cmath>
+#include <vector>
 
 namespace androcad {
 
@@ -124,7 +123,14 @@ SketchResult Sketcher::BuildProfileFace() {
     }
 
     try {
-        Handle(TopTools_HSequenceOfShape) edgeSeq = new TopTools_HSequenceOfShape();
+        struct LineEdgeItem {
+            TopoDS_Edge edge;
+            gp_Pnt p1;
+            gp_Pnt p2;
+            bool used = false;
+        };
+        std::vector<LineEdgeItem> lineEdges;
+        std::vector<TopoDS_Wire> candidateWires;
 
         for (const auto& curve : curves) {
             if (curve.type == CurveType::Line) {
@@ -140,7 +146,7 @@ SketchResult Sketcher::BuildProfileFace() {
 
                 Handle(Geom_TrimmedCurve) seg = GC_MakeSegment(wStart, wEnd).Value();
                 TopoDS_Edge edge = BRepBuilderAPI_MakeEdge(seg);
-                edgeSeq->Append(edge);
+                lineEdges.push_back(LineEdgeItem{edge, wStart, wEnd, false});
 
             } else if (curve.type == CurveType::Circle) {
                 auto pCenter = solver.GetPoint(curve.p1);
@@ -158,25 +164,73 @@ SketchResult Sketcher::BuildProfileFace() {
                 gp_Circ circle(axis, r);
 
                 TopoDS_Edge edge = BRepBuilderAPI_MakeEdge(circle);
-                edgeSeq->Append(edge);
+                BRepBuilderAPI_MakeWire cw(edge);
+                if (cw.IsDone()) {
+                    candidateWires.push_back(cw.Wire());
+                }
             }
         }
 
-        if (edgeSeq->IsEmpty()) {
+        // Chain connected line edges regardless of drawing order
+        const double snapTol = 1e-2;
+        for (size_t i = 0; i < lineEdges.size(); ++i) {
+            if (lineEdges[i].used) continue;
+            lineEdges[i].used = true;
+
+            BRepBuilderAPI_MakeWire wireMaker;
+            wireMaker.Add(lineEdges[i].edge);
+            gp_Pnt chainHead = lineEdges[i].p1;
+            gp_Pnt chainTail = lineEdges[i].p2;
+
+            bool progress = true;
+            while (progress) {
+                progress = false;
+                for (size_t j = 0; j < lineEdges.size(); ++j) {
+                    if (lineEdges[j].used) continue;
+                    if (lineEdges[j].p1.Distance(chainTail) <= snapTol) {
+                        wireMaker.Add(lineEdges[j].edge);
+                        chainTail = lineEdges[j].p2;
+                        lineEdges[j].used = true;
+                        progress = true;
+                        break;
+                    } else if (lineEdges[j].p2.Distance(chainTail) <= snapTol) {
+                        wireMaker.Add(lineEdges[j].edge);
+                        chainTail = lineEdges[j].p1;
+                        lineEdges[j].used = true;
+                        progress = true;
+                        break;
+                    } else if (lineEdges[j].p2.Distance(chainHead) <= snapTol) {
+                        wireMaker.Add(lineEdges[j].edge);
+                        chainHead = lineEdges[j].p1;
+                        lineEdges[j].used = true;
+                        progress = true;
+                        break;
+                    } else if (lineEdges[j].p1.Distance(chainHead) <= snapTol) {
+                        wireMaker.Add(lineEdges[j].edge);
+                        chainHead = lineEdges[j].p2;
+                        lineEdges[j].used = true;
+                        progress = true;
+                        break;
+                    }
+                }
+            }
+
+            if (wireMaker.IsDone()) {
+                candidateWires.push_back(wireMaker.Wire());
+            }
+        }
+
+        if (candidateWires.empty()) {
             result.errorMessage = "Failed to assemble sketch wire (no valid edges).";
             return result;
         }
-
-        Handle(TopTools_HSequenceOfShape) wireSeq = new TopTools_HSequenceOfShape();
-        ShapeAnalysis_FreeBounds::ConnectEdgesToWires(edgeSeq, 1e-3, Standard_False, wireSeq);
 
         TopoDS_Wire wire;
         bool foundClosed = false;
         double maxWireArea = -1.0;
         gp_Pln occtPlane(gp_Pnt(plane.ox, plane.oy, plane.oz), gp_Dir(plane.nx, plane.ny, plane.nz));
 
-        for (int i = 1; i <= wireSeq->Length(); ++i) {
-            TopoDS_Wire candidate = TopoDS::Wire(wireSeq->Value(i));
+        for (const auto& candidate : candidateWires) {
             if (candidate.Closed()) {
                 BRepBuilderAPI_MakeFace testFace(occtPlane, candidate, Standard_True);
                 if (testFace.IsDone()) {
@@ -197,21 +251,8 @@ SketchResult Sketcher::BuildProfileFace() {
             }
         }
 
-        if (wire.IsNull()) {
-            BRepBuilderAPI_MakeWire wireMaker;
-            for (int i = 1; i <= edgeSeq->Length(); ++i) {
-                wireMaker.Add(TopoDS::Edge(edgeSeq->Value(i)));
-            }
-            if (!wireMaker.IsDone()) {
-                result.errorMessage = "Failed to assemble sketch wire.";
-                return result;
-            }
-            wire = wireMaker.Wire();
-            foundClosed = wire.Closed();
-        }
-
         result.wire = wire;
-        result.isClosedProfile = foundClosed || wire.Closed();
+        result.isClosedProfile = foundClosed || (!wire.IsNull() && wire.Closed());
 
         if (!result.isClosedProfile) {
             result.errorMessage = "Sketch profile is open (not closed).";
@@ -228,9 +269,8 @@ SketchResult Sketcher::BuildProfileFace() {
 
         TopoDS_Face face = faceMaker.Face();
         // Add inner wires (holes inside sketch, e.g., circle inside rectangle) if any
-        if (wireSeq->Length() > 1) {
-            for (int i = 1; i <= wireSeq->Length(); ++i) {
-                TopoDS_Wire innerCandidate = TopoDS::Wire(wireSeq->Value(i));
+        if (candidateWires.size() > 1) {
+            for (const auto& innerCandidate : candidateWires) {
                 if (innerCandidate.Closed() && !innerCandidate.IsSame(wire)) {
                     TopoDS_Wire reversedInner = TopoDS::Wire(innerCandidate.Reversed());
                     BRepBuilderAPI_MakeFace withHole(face, reversedInner);
