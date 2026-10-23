@@ -532,8 +532,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m32_tablet.png`) and phone (`docs/screenshots/m32_phone.png`) screenshots.
   - Release: `v1.2.0`.
 * **Acceptance Tests:** Asymmetric chamfer volume matches analytical wedge subtraction within $0.1\%$ across rectangular and cylindrical edges.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

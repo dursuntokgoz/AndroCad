@@ -42,3 +42,4 @@
 | **M29** | `v1.0.20` | ✅ Done | SAF Content-URI Torture & Corrupt CAD File Resilience — CTest (`[PASS] M29 Corrupt CAD I/O Fuzz & SAF Torture Suite`) & Screenshots (`t_lum=36.2`, `p_lum=36.7`) doğrulandı. |
 | **M30** | `v1.0.21` | ✅ Done | Topological Naming (TNP) Deep History & Upstream Mutation Hardening — CTest (`[PASS] M30 TNP 15-Step Deep History Stress Test`) & Screenshots (`t_lum=36.1`, `p_lum=36.9`) doğrulandı. |
 | **M31** | `v1.1.0` | ✅ Done | Variable-Radius Fillet Engine (ChFi3d Spine Law) — CTest (`[PASS] M31 Variable-Radius Fillet Engine`) & Screenshots (`t_lum=36.1`, `p_lum=37.0`) doğrulandı. |
+| **M32** | `v1.2.0` | ✅ Done | Asymmetric Two-Distance & Distance-Angle Chamfer — CTest (`[PASS] M32 Asymmetric & Distance-Angle Chamfer`) & Screenshots (`t_lum=36.1`, `p_lum=36.8`) doğrulandı. |
