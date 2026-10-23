@@ -12,7 +12,8 @@ class CadBodyItem(
     isVisible: Boolean = true,
     isSelected: Boolean = false,
     val faceCount: Int = 6,
-    val volume: Double = 100000.0
+    val volume: Double = 100000.0,
+    var solid: com.androcad.kernel.BoxMeshResult? = null
 ) {
     var name by mutableStateOf(name)
     var isVisible by mutableStateOf(isVisible)

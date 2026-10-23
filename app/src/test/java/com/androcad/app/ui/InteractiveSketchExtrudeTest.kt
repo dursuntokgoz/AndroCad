@@ -243,4 +243,60 @@ class InteractiveSketchExtrudeTest {
         composeTestRule.onNodeWithTag("btn_extrude_ok").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("extrude_inspector_card").assertDoesNotExist()
     }
+
+    @Test
+    @Config(qualifiers = "w800dp-h1024dp")
+    fun testBrowserDeleteBodyClearsMeshAndEmptiesPlateTablet() {
+        setContentForTest()
+
+        // Verify initial body exists in browser
+        composeTestRule.onNodeWithTag("browser_item_body_1").assertIsDisplayed()
+
+        // Delete body_1 from Browser
+        composeTestRule.onNodeWithTag("browser_delete_body_1").performClick()
+
+        // Verify body item is removed from tree
+        composeTestRule.onNodeWithTag("browser_item_body_1").assertDoesNotExist()
+
+        // When all bodies are deleted, EmptyStateView appears
+        composeTestRule.onNodeWithTag("empty_state_view").assertIsDisplayed()
+    }
+
+    @Test
+    @Config(qualifiers = "w360dp-h640dp")
+    fun testBrowserDeleteBodyClearsMeshAndEmptiesPlatePhone() {
+        setContentForTest()
+
+        // Open tree bottom sheet
+        composeTestRule.onNodeWithTag("phone_nav_tree").performClick()
+
+        // Verify initial body exists in browser
+        composeTestRule.onNodeWithTag("browser_item_body_1").assertIsDisplayed()
+
+        // Delete body_1 from Browser
+        composeTestRule.onNodeWithTag("browser_delete_body_1").performClick()
+
+        // Verify body item is removed from tree
+        composeTestRule.onNodeWithTag("browser_item_body_1").assertDoesNotExist()
+
+        // EmptyStateView appears
+        composeTestRule.onNodeWithTag("empty_state_view").assertIsDisplayed()
+    }
+
+    @Test
+    @Config(qualifiers = "w800dp-h1024dp")
+    fun testFilletDoesNotSpawnRandomBoxWhenPlateIsEmpty() {
+        setContentForTest()
+
+        // Delete initial body
+        composeTestRule.onNodeWithTag("browser_delete_body_1").performClick()
+        composeTestRule.onNodeWithTag("empty_state_view").assertIsDisplayed()
+
+        // Click Fillet tool
+        composeTestRule.onNodeWithTag("tab_Solid").performClick()
+        composeTestRule.onNodeWithTag("tool_Fillet").performScrollTo().performClick()
+
+        // Fillet inspector dialog should NOT open because there is no active solid
+        composeTestRule.onNodeWithTag("fillet_inspector_card").assertDoesNotExist()
+    }
 }
