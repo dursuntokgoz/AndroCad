@@ -546,8 +546,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m33_tablet.png`) and phone (`docs/screenshots/m33_phone.png`) screenshots.
   - Release: `v1.3.0`.
 * **Acceptance Tests:** Switching configurations updates all driven dimensions, suppresses/unsuppresses tagged features, and recomputes exact B-Rep volumes deterministically.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 
