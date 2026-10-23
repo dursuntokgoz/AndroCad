@@ -35,3 +35,4 @@
 | **M22** | `v1.0.13` | ✅ Done | EGL/GL Thread Safety & Render Context Guard — CTest (`[PASS] M22 EGL/GL Thread Safety Guard`) & Screenshots (`t_lum=36.2`, `p_lum=36.6`) doğrulandı. |
 | **M23** | `v1.0.14` | ✅ Done | Multi-ABI Native Library Loader & Missing .so Dependency Verifier — CTest (`[PASS] M23 Multi-ABI Native Library Load Order (3 ABIs, 49 libs)`) & Screenshots (`t_lum=36.1`, `p_lum=36.5`) doğrulandı. |
 | **M24** | `v1.0.15` | ✅ Done | Multi-Form-Factor Responsive UI Matrix (Small Phone, Foldable, Tablet) — CTest (`[PASS] M24 Multi-Form-Factor Responsive UI Matrix`) & Screenshots (`t_lum=36.2`, `p_lum=36.9`) doğrulandı. |
+| **M25** | `v1.0.16` | ✅ Done | Automated Viewport Black-Screen & Blank-Render Diagnostics — CTest (`[PASS] M25 Viewport Black-Screen & Blank-Render Diagnostics`) & Screenshots (`t_lum=34.9`, `p_lum=33.9`) doğrulandı. |

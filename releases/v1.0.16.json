@@ -1,0 +1,10 @@
+{
+  "milestone": "M25",
+  "title": "Automated Viewport Black-Screen & Blank-Render Diagnostics",
+  "version": "v1.0.16",
+  "apkArtifact": "AndroCAD-v1.0.16-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m25_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m25_phone.png"
+}
