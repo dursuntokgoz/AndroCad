@@ -1,0 +1,10 @@
+{
+  "milestone": "M48",
+  "title": "Surface Inspection: Raycast Wall Thickness & Minimum Clearance Analyzer",
+  "version": "v1.18.0",
+  "apkArtifact": "AndroCAD-v1.18.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m48_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m48_phone.png"
+}

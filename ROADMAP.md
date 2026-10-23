@@ -755,8 +755,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m48_tablet.png`) and phone (`docs/screenshots/m48_phone.png`) screenshots.
   - Release: `v1.18.0`.
 * **Acceptance Tests:** Measured local wall thickness matches analytical shell thickness within $0.05\text{ mm}$ across all faces.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 
