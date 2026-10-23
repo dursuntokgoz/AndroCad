@@ -259,7 +259,7 @@ class InteractiveSketchExtrudeTest {
         composeTestRule.onNodeWithTag("browser_item_body_1").assertDoesNotExist()
 
         // When all bodies are deleted, EmptyStateView appears
-        composeTestRule.onNodeWithTag("empty_state_view").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("empty_state_screen").assertIsDisplayed()
     }
 
     @Test
@@ -271,16 +271,16 @@ class InteractiveSketchExtrudeTest {
         composeTestRule.onNodeWithTag("phone_nav_tree").performClick()
 
         // Verify initial body exists in browser
-        composeTestRule.onNodeWithTag("browser_item_body_1").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("browser_item_body_1").performScrollTo().assertIsDisplayed()
 
         // Delete body_1 from Browser
-        composeTestRule.onNodeWithTag("browser_delete_body_1").performClick()
+        composeTestRule.onNodeWithTag("browser_delete_body_1").performScrollTo().performClick()
 
         // Verify body item is removed from tree
         composeTestRule.onNodeWithTag("browser_item_body_1").assertDoesNotExist()
 
         // EmptyStateView appears
-        composeTestRule.onNodeWithTag("empty_state_view").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("empty_state_screen").assertIsDisplayed()
     }
 
     @Test
@@ -290,7 +290,7 @@ class InteractiveSketchExtrudeTest {
 
         // Delete initial body
         composeTestRule.onNodeWithTag("browser_delete_body_1").performClick()
-        composeTestRule.onNodeWithTag("empty_state_view").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("empty_state_screen").assertIsDisplayed()
 
         // Click Fillet tool
         composeTestRule.onNodeWithTag("tab_Solid").performClick()
