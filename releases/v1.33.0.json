@@ -1,0 +1,10 @@
+{
+  "milestone": "M63",
+  "title": "Assembly Exploded View Generator & Explosion Trail Lines",
+  "version": "v1.33.0",
+  "apkArtifact": "AndroCAD-v1.33.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m63_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m63_phone.png"
+}

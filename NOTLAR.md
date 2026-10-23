@@ -73,3 +73,4 @@
 | **M60** | `v1.30.0` | ✅ Done | Sheet Metal Expansion: Rolled Hem, Lofted Flange & Ventilation Louver — CTest (`[PASS] M60 Sheet Metal Hem, Lofted Flange & Louver`) & Screenshots (`t_lum=36.2`, `p_lum=36.5`) doğrulandı. |
 | **M61** | `v1.31.0` | ✅ Done | Plastic Enclosure Features: Snap-Fit Cantilever Hook, Mounting Boss & Rib Network — CTest (`[PASS] M61 Plastic Snap-Fit, Boss & Rib Features`) & Screenshots (`t_lum=36.1`, `p_lum=36.8`) doğrulandı. |
 | **M62** | `v1.32.0` | ✅ Done | 3D Emboss, Deboss & Cylindrical Wrap Engraving — CTest (`[PASS] M62 3D Emboss, Deboss & Cylindrical Wrap`) & Screenshots (`t_lum=36.1`, `p_lum=36.8`) doğrulandı. |
+| **M63** | `v1.33.0` | ✅ Done | Assembly Exploded View Generator & Explosion Trail Lines — CTest (`[PASS] M63 Assembly Exploded View & Trail Lines`) & Screenshots (`t_lum=36.2`, `p_lum=36.6`) doğrulandı. |

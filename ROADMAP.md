@@ -965,8 +965,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m63_tablet.png`) and phone (`docs/screenshots/m63_phone.png`) screenshots.
   - Release: `v1.33.0`.
 * **Acceptance Tests:** At $t=1.0$, all assembly components achieve zero bounding-box overlap and generate continuous trail vectors back to their assembled origins.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 
