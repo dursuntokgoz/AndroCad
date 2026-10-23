@@ -1,0 +1,10 @@
+{
+  "milestone": "M59",
+  "title": "3D Piping, Tubing & Harness Routing Engine",
+  "version": "v1.29.0",
+  "apkArtifact": "AndroCAD-v1.29.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m59_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m59_phone.png"
+}

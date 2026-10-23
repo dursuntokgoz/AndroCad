@@ -909,8 +909,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m59_tablet.png`) and phone (`docs/screenshots/m59_phone.png`) screenshots.
   - Release: `v1.29.0`.
 * **Acceptance Tests:** 3D pipe route enforces minimum bend radius on all turns, generates hollow wall thickness, and computes exact route length and fluid volume.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 
