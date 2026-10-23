@@ -1,0 +1,10 @@
+{
+  "milestone": "M57",
+  "title": "Structural Weldments & Standard Steel Profiles (ISO/DIN Frame Generator)",
+  "version": "v1.27.0",
+  "apkArtifact": "AndroCAD-v1.27.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m57_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m57_phone.png"
+}

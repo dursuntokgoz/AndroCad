@@ -881,8 +881,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m57_tablet.png`) and phone (`docs/screenshots/m57_phone.png`) screenshots.
   - Release: `v1.27.0`.
 * **Acceptance Tests:** Weldment frame generator produces exact ISO profile cross-sections, watertight mitered corners, and accurate cut-list lengths.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 
