@@ -64,6 +64,61 @@ class NativeKernelTest {
         )
         assertTrue(pickEdge.isEdge)
         assertEquals(7, pickEdge.entityId)
+
+        val pickWithNormal = PickResult(
+            hit = true,
+            entityId = 4,
+            isEdge = false,
+            distance = 10f,
+            hitX = 50f,
+            hitY = 25f,
+            hitZ = 20f,
+            normalX = 0f,
+            normalY = 0f,
+            normalZ = 1f
+        )
+        assertEquals(0f, pickWithNormal.normalX, 1e-4f)
+        assertEquals(0f, pickWithNormal.normalY, 1e-4f)
+        assertEquals(1f, pickWithNormal.normalZ, 1e-4f)
+    }
+
+    @Test
+    fun testGetFaceCenterAndNormal() {
+        val stride = 28
+        val buf = java.nio.ByteBuffer.allocateDirect(stride * 2).order(java.nio.ByteOrder.nativeOrder())
+        // Vertex 1: faceId 1, pos (10, 20, 30), normal (0, 0, 1)
+        buf.putFloat(10f); buf.putFloat(20f); buf.putFloat(30f)
+        buf.putFloat(0f); buf.putFloat(0f); buf.putFloat(1f)
+        buf.putInt(1)
+
+        // Vertex 2: faceId 1, pos (30, 40, 50), normal (0, 0, 1)
+        buf.putFloat(30f); buf.putFloat(40f); buf.putFloat(50f)
+        buf.putFloat(0f); buf.putFloat(0f); buf.putFloat(1f)
+        buf.putInt(1)
+        buf.position(0)
+
+        val mesh = BoxMeshResult(
+            success = true,
+            volume = 1000.0,
+            faceCount = 1,
+            edgeCount = 4,
+            triangleCount = 1,
+            vertexBuffer = buf,
+            indexBuffer = null,
+            edgeVertexBuffer = null,
+            boundingBox = BoundingBox(0f, 0f, 0f, 40f, 40f, 60f)
+        )
+
+        val centerNorm = mesh.getFaceCenterAndNormal(1)
+        assertNotNull(centerNorm)
+        assertEquals(20f, centerNorm!!.first.first, 1e-4f)
+        assertEquals(30f, centerNorm.first.second, 1e-4f)
+        assertEquals(40f, centerNorm.first.third, 1e-4f)
+        assertEquals(0f, centerNorm.second.first, 1e-4f)
+        assertEquals(0f, centerNorm.second.second, 1e-4f)
+        assertEquals(1f, centerNorm.second.third, 1e-4f)
+
+        assertNull(mesh.getFaceCenterAndNormal(999))
     }
 
     @Test

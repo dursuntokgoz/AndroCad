@@ -50,6 +50,17 @@ fun SketchCanvasOverlay(
     var dragStart by remember { mutableStateOf<Offset?>(null) }
     var dragCurrent by remember { mutableStateOf<Offset?>(null) }
     var isDragging by remember { mutableStateOf(false) }
+    var lastPolylinePoint by remember { mutableStateOf<Pair<Float, Float>?>(null) }
+
+    LaunchedEffect(activeTool) {
+        lastPolylinePoint = null
+    }
+
+    LaunchedEffect(sketchEntities.size) {
+        if (sketchEntities.isEmpty()) {
+            lastPolylinePoint = null
+        }
+    }
 
     val currentProfile = remember(sketchEntities) {
         SketchMath.evaluateProfile(sketchEntities)
@@ -72,7 +83,7 @@ fun SketchCanvasOverlay(
 
         val density = LocalDensity.current
 
-        fun findNearbyVertex(xMm: Float, yMm: Float, entities: List<SketchEntity>, toleranceMm: Float = 7.0f): Pair<Float, Float>? {
+        fun findNearbyVertex(xMm: Float, yMm: Float, entities: List<SketchEntity>, toleranceMm: Float = 10.0f): Pair<Float, Float>? {
             var closestDist = Float.MAX_VALUE
             var closestVertex: Pair<Float, Float>? = null
 
@@ -177,7 +188,32 @@ fun SketchCanvasOverlay(
                                     }
                                     "Line" -> {
                                         val length = hypot(eX - sX, eY - sY)
-                                        if (length >= 3f) {
+                                        if (length < 3f) {
+                                            // Tap to draw / Polyline chaining mode
+                                            val prev = lastPolylinePoint
+                                            if (prev != null) {
+                                                val distFromPrev = hypot(sX - prev.first, sY - prev.second)
+                                                if (distFromPrev >= 3f) {
+                                                    val line = SketchEntity.Line(
+                                                        id = "line_${System.currentTimeMillis()}",
+                                                        startX = prev.first,
+                                                        startY = prev.second,
+                                                        endX = sX,
+                                                        endY = sY
+                                                    )
+                                                    onEntitiesChanged(sketchEntities + line)
+                                                    val closeTarget = findNearbyVertex(sX, sY, sketchEntities, toleranceMm = 10f)
+                                                    if (closeTarget != null && closeTarget != prev) {
+                                                        lastPolylinePoint = null
+                                                    } else {
+                                                        lastPolylinePoint = Pair(sX, sY)
+                                                    }
+                                                }
+                                            } else {
+                                                lastPolylinePoint = Pair(sX, sY)
+                                            }
+                                        } else {
+                                            // Drag to draw line
                                             val line = SketchEntity.Line(
                                                 id = "line_${System.currentTimeMillis()}",
                                                 startX = sX,
@@ -186,6 +222,7 @@ fun SketchCanvasOverlay(
                                                 endY = eY
                                             )
                                             onEntitiesChanged(sketchEntities + line)
+                                            lastPolylinePoint = Pair(eX, eY)
                                         }
                                     }
                                 }
@@ -338,6 +375,15 @@ fun SketchCanvasOverlay(
                         drawCircle(color = strokeColor, radius = 4f, center = p2)
                         drawCircle(color = handleColor, radius = 2.5f, center = p2)
                     }
+                }
+            }
+
+            // Active Polyline Node Indicator
+            if (activeTool == "Line") {
+                lastPolylinePoint?.let { pt ->
+                    val nodePx = Offset(toPxX(pt.first), toPxY(pt.second))
+                    drawCircle(color = Color(0xFFFFB300), radius = 8f, center = nodePx, style = Stroke(width = 2.5f))
+                    drawCircle(color = Color(0xFFFFD54F), radius = 4f, center = nodePx)
                 }
             }
 

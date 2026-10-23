@@ -312,6 +312,9 @@ PickResult AndroCadKernel::PickEntityByRay(const MeshPayload& payload, const Ray
     result.hitPoint[0] = 0.0f;
     result.hitPoint[1] = 0.0f;
     result.hitPoint[2] = 0.0f;
+    result.normal[0] = 0.0f;
+    result.normal[1] = 0.0f;
+    result.normal[2] = 1.0f;
 
     if (!payload.success) return result;
 
@@ -341,6 +344,7 @@ PickResult AndroCadKernel::PickEntityByRay(const MeshPayload& payload, const Ray
     float closestFaceDist = 1e9f;
     uint32_t closestFaceId = 0;
     float closestFacePoint[3] = {0.0f, 0.0f, 0.0f};
+    float closestFaceNormal[3] = {0.0f, 0.0f, 1.0f};
 
     for (size_t i = 0; i + 2 < payload.indices.size(); i += 3) {
         uint32_t idx0 = payload.indices[i];
@@ -364,6 +368,22 @@ PickResult AndroCadKernel::PickEntityByRay(const MeshPayload& payload, const Ray
                 closestFacePoint[0] = pt[0];
                 closestFacePoint[1] = pt[1];
                 closestFacePoint[2] = pt[2];
+
+                float ax = v1.x - v0.x, ay = v1.y - v0.y, az = v1.z - v0.z;
+                float bx = v2.x - v0.x, by = v2.y - v0.y, bz = v2.z - v0.z;
+                float nx = ay * bz - az * by;
+                float ny = az * bx - ax * bz;
+                float nz = ax * by - ay * bx;
+                float len = std::sqrt(nx * nx + ny * ny + nz * nz);
+                if (len > 1e-6f) {
+                    closestFaceNormal[0] = nx / len;
+                    closestFaceNormal[1] = ny / len;
+                    closestFaceNormal[2] = nz / len;
+                } else {
+                    closestFaceNormal[0] = v0.nx;
+                    closestFaceNormal[1] = v0.ny;
+                    closestFaceNormal[2] = v0.nz;
+                }
             }
         }
     }
@@ -377,6 +397,9 @@ PickResult AndroCadKernel::PickEntityByRay(const MeshPayload& payload, const Ray
         result.hitPoint[0] = closestEdgePoint[0];
         result.hitPoint[1] = closestEdgePoint[1];
         result.hitPoint[2] = closestEdgePoint[2];
+        result.normal[0] = 0.0f;
+        result.normal[1] = 0.0f;
+        result.normal[2] = 1.0f;
         return result;
     }
 
@@ -388,6 +411,9 @@ PickResult AndroCadKernel::PickEntityByRay(const MeshPayload& payload, const Ray
         result.hitPoint[0] = closestFacePoint[0];
         result.hitPoint[1] = closestFacePoint[1];
         result.hitPoint[2] = closestFacePoint[2];
+        result.normal[0] = closestFaceNormal[0];
+        result.normal[1] = closestFaceNormal[1];
+        result.normal[2] = closestFaceNormal[2];
         return result;
     }
 

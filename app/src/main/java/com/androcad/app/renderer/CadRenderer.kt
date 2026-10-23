@@ -83,6 +83,15 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
     private var pendingPickRequest: Pair<Float, Float>? = null
     var onPickResultListener: ((PickResult?) -> Unit)? = null
 
+    var selectedHitPoint: FloatArray? = null
+        private set
+    var selectedFaceNormal: FloatArray? = null
+        private set
+
+    private var targetMarkerVao = 0
+    private var targetMarkerVbo = 0
+    private var markerVertexCount = 0
+
     @Volatile
     private var pendingMesh: BoxMeshResult? = null
     @Volatile
@@ -399,8 +408,16 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
             edgeVao = 0
         }
 
-        val currentMesh = meshResult ?: return
-        if (!currentMesh.success) return
+        val currentMesh = meshResult
+        if (currentMesh == null || !currentMesh.success) {
+            triangleIndexCount = 0
+            edgeVertexCount = 0
+            selectedFaceId = 0
+            selectedEdgeId = 0
+            selectedHitPoint = null
+            selectedFaceNormal = null
+            return
+        }
 
         // 1. Setup Face Buffers
         val vBuf = currentMesh.vertexBuffer
@@ -608,10 +625,165 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
             GLES30.glDrawArrays(GLES30.GL_LINES, 0, edgeVertexCount)
             GLES30.glBindVertexArray(0)
         }
+
+        // Draw 3D Target Marker at tapped coordinates if an entity is selected
+        if (targetMarkerVao != 0 && markerVertexCount > 0 && selectedHitPoint != null) {
+            GLES30.glUseProgram(gridProgram)
+            GLES30.glUniformMatrix4fv(GLES30.glGetUniformLocation(gridProgram, "uMVPMatrix"), 1, false, mvpMatrix, 0)
+            GLES30.glLineWidth(3.5f)
+            GLES30.glBindVertexArray(targetMarkerVao)
+            GLES30.glDrawArrays(GLES30.GL_LINES, 0, markerVertexCount)
+            GLES30.glBindVertexArray(0)
+        }
+    }
+
+    fun screenToRay(touchX: Float, touchY: Float): Pair<FloatArray, FloatArray>? {
+        if (viewportWidth <= 0 || viewportHeight <= 0) return null
+        val invMVP = FloatArray(16)
+        if (!Matrix.invertM(invMVP, 0, mvpMatrix, 0)) return null
+
+        val ndcX = (touchX / viewportWidth.toFloat()) * 2f - 1f
+        val ndcY = 1f - (touchY / viewportHeight.toFloat()) * 2f
+
+        val nearPointHomo = FloatArray(4)
+        val farPointHomo = FloatArray(4)
+        val nearInput = floatArrayOf(ndcX, ndcY, -1f, 1f)
+        val farInput = floatArrayOf(ndcX, ndcY, 1f, 1f)
+
+        Matrix.multiplyMV(nearPointHomo, 0, invMVP, 0, nearInput, 0)
+        Matrix.multiplyMV(farPointHomo, 0, invMVP, 0, farInput, 0)
+
+        if (nearPointHomo[3] == 0f || farPointHomo[3] == 0f) return null
+
+        val near = FloatArray(3) { nearPointHomo[it] / nearPointHomo[3] }
+        val far = FloatArray(3) { farPointHomo[it] / farPointHomo[3] }
+
+        val dir = FloatArray(3) { far[it] - near[it] }
+        val len = sqrt((dir[0] * dir[0] + dir[1] * dir[1] + dir[2] * dir[2]).toDouble()).toFloat()
+        if (len < 1e-6f) return null
+        dir[0] /= len
+        dir[1] /= len
+        dir[2] /= len
+
+        return Pair(near, dir)
+    }
+
+    private fun updateTargetMarker() {
+        val pt = selectedHitPoint ?: return
+        val normal = selectedFaceNormal ?: floatArrayOf(0f, 0f, 1f)
+
+        val nx = normal[0]
+        val ny = normal[1]
+        val nz = normal[2]
+
+        val ux: Float
+        val uy: Float
+        val uz: Float
+        if (abs(nz) < 0.9f) {
+            val lx = -ny
+            val ly = nx
+            val lz = 0f
+            val len = sqrt((lx * lx + ly * ly).toDouble()).toFloat().coerceAtLeast(1e-4f)
+            ux = lx / len
+            uy = ly / len
+            uz = 0f
+        } else {
+            val lx = 0f
+            val ly = -nz
+            val lz = ny
+            val len = sqrt((ly * ly + lz * lz).toDouble()).toFloat().coerceAtLeast(1e-4f)
+            ux = 0f
+            uy = ly / len
+            uz = lz / len
+        }
+
+        val vx = ny * uz - nz * uy
+        val vy = nz * ux - nx * uz
+        val vz = nx * uy - ny * ux
+
+        val radius = 4.0f
+        val segments = 16
+        val lines = ArrayList<Float>()
+
+        val colR = 0.0f
+        val colG = 0.9f
+        val colB = 1.0f
+        val colA = 1.0f
+
+        for (i in 0 until segments) {
+            val angle1 = (2.0 * Math.PI * i / segments).toFloat()
+            val angle2 = (2.0 * Math.PI * (i + 1) / segments).toFloat()
+
+            val p1x = pt[0] + radius * (cos(angle1) * ux + sin(angle1) * vx) + nx * 0.15f
+            val p1y = pt[1] + radius * (cos(angle1) * uy + sin(angle1) * vy) + ny * 0.15f
+            val p1z = pt[2] + radius * (cos(angle1) * uz + sin(angle1) * vz) + nz * 0.15f
+
+            val p2x = pt[0] + radius * (cos(angle2) * ux + sin(angle2) * vx) + nx * 0.15f
+            val p2y = pt[1] + radius * (cos(angle2) * uy + sin(angle2) * vy) + ny * 0.15f
+            val p2z = pt[2] + radius * (cos(angle2) * uz + sin(angle2) * vz) + nz * 0.15f
+
+            lines.add(p1x); lines.add(p1y); lines.add(p1z)
+            lines.add(colR); lines.add(colG); lines.add(colB); lines.add(colA)
+            lines.add(p2x); lines.add(p2y); lines.add(p2z)
+            lines.add(colR); lines.add(colG); lines.add(colB); lines.add(colA)
+        }
+
+        val c1x = pt[0] - radius * 1.3f * ux + nx * 0.15f
+        val c1y = pt[1] - radius * 1.3f * uy + ny * 0.15f
+        val c1z = pt[2] - radius * 1.3f * uz + nz * 0.15f
+        val c2x = pt[0] + radius * 1.3f * ux + nx * 0.15f
+        val c2y = pt[1] + radius * 1.3f * uy + ny * 0.15f
+        val c2z = pt[2] + radius * 1.3f * uz + nz * 0.15f
+        lines.add(c1x); lines.add(c1y); lines.add(c1z); lines.add(colR); lines.add(colG); lines.add(colB); lines.add(colA)
+        lines.add(c2x); lines.add(c2y); lines.add(c2z); lines.add(colR); lines.add(colG); lines.add(colB); lines.add(colA)
+
+        val d1x = pt[0] - radius * 1.3f * vx + nx * 0.15f
+        val d1y = pt[1] - radius * 1.3f * vy + ny * 0.15f
+        val d1z = pt[2] - radius * 1.3f * vz + nz * 0.15f
+        val d2x = pt[0] + radius * 1.3f * vx + nx * 0.15f
+        val d2y = pt[1] + radius * 1.3f * vy + ny * 0.15f
+        val d2z = pt[2] + radius * 1.3f * vz + nz * 0.15f
+        lines.add(d1x); lines.add(d1y); lines.add(d1z); lines.add(colR); lines.add(colG); lines.add(colB); lines.add(colA)
+        lines.add(d2x); lines.add(d2y); lines.add(d2z); lines.add(colR); lines.add(colG); lines.add(colB); lines.add(colA)
+
+        markerVertexCount = lines.size / 7
+        val markerBuf = ByteBuffer.allocateDirect(lines.size * 4)
+            .order(ByteOrder.nativeOrder())
+            .asFloatBuffer()
+        for (f in lines) markerBuf.put(f)
+        markerBuf.position(0)
+
+        if (targetMarkerVao == 0) {
+            val vaos = IntArray(1)
+            val vbos = IntArray(1)
+            GLES30.glGenVertexArrays(1, vaos, 0)
+            GLES30.glGenBuffers(1, vbos, 0)
+            targetMarkerVao = vaos[0]
+            targetMarkerVbo = vbos[0]
+        }
+
+        GLES30.glBindVertexArray(targetMarkerVao)
+        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, targetMarkerVbo)
+        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, lines.size * 4, markerBuf, GLES30.GL_DYNAMIC_DRAW)
+        GLES30.glEnableVertexAttribArray(0)
+        GLES30.glVertexAttribPointer(0, 3, GLES30.GL_FLOAT, false, 7 * 4, 0)
+        GLES30.glEnableVertexAttribArray(1)
+        GLES30.glVertexAttribPointer(1, 4, GLES30.GL_FLOAT, false, 7 * 4, 3 * 4)
+        GLES30.glBindVertexArray(0)
     }
 
     private fun executePickingPass(touchX: Float, touchY: Float) {
         if (pickingFbo == 0) return
+
+        val curMesh = meshResult
+        if (curMesh == null || !curMesh.success) {
+            selectedFaceId = 0
+            selectedEdgeId = 0
+            selectedHitPoint = null
+            selectedFaceNormal = null
+            onPickResultListener?.invoke(null)
+            return
+        }
 
         GLES30.glBindFramebuffer(GLES30.GL_FRAMEBUFFER, pickingFbo)
         GLES30.glViewport(0, 0, viewportWidth, viewportHeight)
@@ -652,19 +824,69 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
         val b = pixel.get(2).toInt() and 0xFF
 
         val rawId = r or (g shl 8) or (b shl 16)
-        val hit = (rawId != 0)
-        val isEdge = (rawId and 0x800000) != 0
-        val entityId = rawId and 0x7FFFFF
+        val gpuHit = (rawId != 0)
+        val gpuIsEdge = (rawId and 0x800000) != 0
+        val gpuEntityId = rawId and 0x7FFFFF
 
-        val result = if (hit) {
-            PickResult(
-                hit = true,
-                entityId = entityId,
-                isEdge = isEdge,
-                distance = 0f,
-                hitX = 0f, hitY = 0f, hitZ = 0f
-            )
+        val ray = screenToRay(touchX, touchY)
+        val rayPick = if (ray != null) {
+            curMesh.pickByRay(ray.first[0], ray.first[1], ray.first[2], ray.second[0], ray.second[1], ray.second[2])
         } else null
+
+        val result: PickResult? = when {
+            rayPick != null && rayPick.hit -> {
+                val finalEntityId = if (gpuHit && !gpuIsEdge) gpuEntityId else rayPick.entityId
+                val finalIsEdge = if (gpuHit) gpuIsEdge else rayPick.isEdge
+                selectedHitPoint = floatArrayOf(rayPick.hitX, rayPick.hitY, rayPick.hitZ)
+                selectedFaceNormal = floatArrayOf(rayPick.normalX, rayPick.normalY, rayPick.normalZ)
+                PickResult(
+                    hit = true,
+                    entityId = finalEntityId,
+                    isEdge = finalIsEdge,
+                    distance = rayPick.distance,
+                    hitX = rayPick.hitX,
+                    hitY = rayPick.hitY,
+                    hitZ = rayPick.hitZ,
+                    normalX = rayPick.normalX,
+                    normalY = rayPick.normalY,
+                    normalZ = rayPick.normalZ
+                )
+            }
+            gpuHit -> {
+                var hx = 0f
+                var hy = 0f
+                var hz = 0f
+                var nx = 0f
+                var ny = 0f
+                var nz = 1f
+                if (!gpuIsEdge) {
+                    val centerNorm = curMesh.getFaceCenterAndNormal(gpuEntityId)
+                    if (centerNorm != null) {
+                        hx = centerNorm.first.first
+                        hy = centerNorm.first.second
+                        hz = centerNorm.first.third
+                        nx = centerNorm.second.first
+                        ny = centerNorm.second.second
+                        nz = centerNorm.second.third
+                    }
+                }
+                selectedHitPoint = floatArrayOf(hx, hy, hz)
+                selectedFaceNormal = floatArrayOf(nx, ny, nz)
+                PickResult(
+                    hit = true,
+                    entityId = gpuEntityId,
+                    isEdge = gpuIsEdge,
+                    distance = 0f,
+                    hitX = hx, hitY = hy, hitZ = hz,
+                    normalX = nx, normalY = ny, normalZ = nz
+                )
+            }
+            else -> {
+                selectedHitPoint = null
+                selectedFaceNormal = null
+                null
+            }
+        }
 
         if (result != null) {
             if (result.isEdge) {
@@ -674,9 +896,12 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
                 selectedFaceId = result.entityId
                 selectedEdgeId = 0
             }
+            updateTargetMarker()
         } else {
             selectedFaceId = 0
             selectedEdgeId = 0
+            selectedHitPoint = null
+            selectedFaceNormal = null
         }
 
         onPickResultListener?.invoke(result)
