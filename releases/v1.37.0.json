@@ -1,0 +1,10 @@
+{
+  "milestone": "M67",
+  "title": "Git-Friendly Parametric CAD Diff, Branching & Conflict-Free Merge Engine",
+  "version": "v1.37.0",
+  "apkArtifact": "AndroCAD-v1.37.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m67_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m67_phone.png"
+}

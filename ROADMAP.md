@@ -1021,8 +1021,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m67_tablet.png`) and phone (`docs/screenshots/m67_phone.png`) screenshots.
   - Release: `v1.37.0`.
 * **Acceptance Tests:** 3-way DAG merge cleanly combines non-overlapping feature edits and accurately isolates conflicting edits on the same parameter.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 
