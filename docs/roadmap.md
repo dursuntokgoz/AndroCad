@@ -351,3 +351,717 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
 * **Status:** Done
 * **Finish Date:** 2026-10-22
 
+
+---
+
+### Release v1.0.4 – v1.0.11: Interactive Touch Modeling, Face Targeting & Fusion 360 / SolidWorks Parity
+* **Goal:** Deliver interactive touch sketch drawing, magnetic vertex snapping, 3D face/edge ray-picking, multi-body OpenGL rendering, real Undo/Redo mesh snapshots, Polygon/Slot/Offset sketch tools with Smart Dimension bar, and interactive parameter inspectors (`Box`, `Cylinder`, `Sphere`, `Torus`, `Cone`, `Extrude`, `Revolve`, `Fillet`, `Chamfer`, `Hole`, `Shell`, `Combine`, `Move/Rotate`, `Sweep Pipe`, `Split Body`).
+* **Deliverables:**
+  - Persistent distribution keystore (`androcad-distribution.keystore`) with V1/V2/V3 signing across upgrades (`versionCode = 12`).
+  - True 3D face-normal plane positioning for Sketch, Extrude, Revolve, Hole, and Cylinder operations.
+  - Multi-body OpenGL ES 3.0 rendering (`updateSecondaryMeshes`) and Browser tree synchronization.
+  - Real mesh snapshot history (`historySnapshots`) with top-bar `↶ UNDO` / `↷ REDO` and timeline rollback.
+  - **Release:** v1.0.11.
+* **Status:** Done
+* **Finish Date:** 2026-10-23
+
+---
+
+## Faz 3: Post-1.0 Hardening & Expansion
+
+### Milestone 21: JNI Export & Signature Parity Audit (Name-Mangling Regression Guard)
+* **Goal:** Prevent Kotlin `internal external fun` bytecode name-mangling and missing C++ `JNIEXPORT` symbols (v1.0.2 device crash class) via static and runtime JNI symbol table verification.
+* **Deliverables:**
+  - Automated C++ and Kotlin JNI signature parser (`JniSymbolAuditor`) verifying 1:1 correspondence between `NativeKernel.kt` `external fun` declarations and `native_kernel_jni.cpp` `Java_com_androcad_kernel_NativeKernel_*` exports.
+  - Zero `internal external fun` enforcement check preventing `$core_kernel_debug` symbol mangling.
+  - Host CTest executable `androcad_faz3_m21_test` and JUnit test `JniExportAuditTest`.
+  - Tablet landscape (`docs/screenshots/m21_tablet.png`) and phone portrait (`docs/screenshots/m21_phone.png`) verified diagnostic screenshots.
+  - Release: `v1.0.12`.
+* **Acceptance Tests:** 100% of declared Kotlin `external fun` methods resolve to exact C++ `JNIEXPORT` symbols with matching parameter signatures; CTest passes.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 22: EGL/GL Thread Safety & Render Context Guard
+* **Goal:** Prevent UI-thread OpenGL ES calls (`GL_INVALID_OPERATION` black viewport regression from v1.0.1 on Xiaomi Pad 6) through compile-time and runtime thread-affinity guards.
+* **Deliverables:**
+  - `GlThreadGuard` engine tracking thread IDs of EGLContext creation vs. VBO/shader upload calls and enforcing deferred command queue execution on the GL thread.
+  - Thread-safe ring-buffer command queue for mesh upload, secondary body buffers, and camera state mutations in `CadRenderer.kt`.
+  - Host CTest executable `androcad_faz3_m22_test` simulating concurrent UI-thread mesh updates and GL-thread frame draws.
+  - Tablet (`docs/screenshots/m22_tablet.png`) and phone (`docs/screenshots/m22_phone.png`) screenshots.
+  - Release: `v1.0.13`.
+* **Acceptance Tests:** Zero GL buffer or shader operations execute outside the bound render thread under 1,000 concurrent UI mutation events.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 23: Multi-ABI Native Library Loader & Missing .so Dependency Verifier
+* **Goal:** Eliminate `UnsatisfiedLinkError` on launch (v1.0.1 Xiaomi 15T Pro crash class) by validating topological ELF `DT_NEEDED` dependency ordering across `arm64-v8a`, `armeabi-v7a`, and `x86_64`.
+* **Deliverables:**
+  - `SoDependencyGraph` C++ analyzer validating topological load order of `libc++_shared.so`, 48 OCCT toolkits, and `libandrocad_kernel.so` across all 3 Android ABIs.
+  - Cycle detector and missing transitive symbol verifier prior to `System.loadLibrary` invocation.
+  - Host CTest `androcad_faz3_m23_test` verifying topological sort invariants for all 49 shared libraries.
+  - Tablet (`docs/screenshots/m23_tablet.png`) and phone (`docs/screenshots/m23_phone.png`) screenshots.
+  - Release: `v1.0.14`.
+* **Acceptance Tests:** Every `.so` library in the 49-library graph loads only after 100% of its `DT_NEEDED` prerequisites are satisfied across `arm64-v8a`, `armeabi-v7a`, and `x86_64`.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 24: Multi-Form-Factor Responsive UI Matrix (Small Phone, Foldable, Tablet)
+* **Goal:** Prevent toolbar clipping, button text truncation, and dialog overflow (v1.0.1 tablet clipping class) across small phones (`320x568dp`), standard phones (`393x852dp`), foldables (`673x841dp`), and tablets (`1280x800dp`).
+* **Deliverables:**
+  - `ResponsiveLayoutVerifier` calculating viewport-to-chrome ratios, scroll container bounds, and touch target minimums (>= 48dp) across 4 device form factors.
+  - Adaptive foldable 2-pane posture mode and compact phone inspector scroll guards.
+  - Host CTest `androcad_faz3_m24_test` and multi-screen layout verification tests.
+  - Tablet (`docs/screenshots/m24_tablet.png`) and phone (`docs/screenshots/m24_phone.png`) screenshots.
+  - Release: `v1.0.15`.
+* **Acceptance Tests:** Zero clipped controls or unreachable buttons across 320dp, 393dp, 673dp, and 1280dp screen widths; 3D viewport retains >= 55% screen area.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 25: Automated Viewport Black-Screen & Blank-Render Diagnostics
+* **Goal:** Automatically detect black, blank, or degenerate 3D viewports (v1.0.1/v1.0.2 black screen class) via statistical pixel luminance, edge gradient, and silhouette coverage analysis.
+* **Deliverables:**
+  - `ViewportRenderDiagnostic` C++ & Python image analyzer computing mean luminance, standard deviation, CAD model pixel ratio, and ground grid line presence.
+  - Automated pre-commit screenshot gate rejecting any milestone screenshot with blank/black viewport.
+  - Host CTest `androcad_faz3_m25_test` validating synthetic black/corrupt frame detection vs. valid shaded B-Rep frames.
+  - Tablet (`docs/screenshots/m25_tablet.png`) and phone (`docs/screenshots/m25_phone.png`) screenshots.
+  - Release: `v1.0.16`.
+* **Acceptance Tests:** Diagnostic engine achieves 100% detection of all-black, single-color, and missing-geometry framebuffers while passing valid shaded+edges CAD renders.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 26: Memory Budget & High-Poly Performance Profiler (Low-RAM Guard)
+* **Goal:** Enforce strict native heap and GPU VBO memory budgets on 2GB/4GB low-RAM Android devices when handling 50,000+ triangle B-Rep tessellations.
+* **Deliverables:**
+  - `MemoryBudgetProfiler` tracking native `MeshPayload` allocations, VBO byte footprints, and automatic adaptive deflection (`linearDeflection` scaling) when approaching memory ceilings.
+  - RAII handle leak detector ensuring `releaseMesh` reclaims 100% of native memory on body deletion and undo history pruning.
+  - Host CTest `androcad_faz3_m26_test` benchmarking 100k-triangle allocation, LOD decimation, and zero-leak cleanup.
+  - Tablet (`docs/screenshots/m26_tablet.png`) and phone (`docs/screenshots/m26_phone.png`) screenshots.
+  - Release: `v1.0.17`.
+* **Acceptance Tests:** Peak native mesh memory stays under 64 MB budget during 100k-triangle stress test with zero leaked handles after scope teardown.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 27: Privacy-First Opt-In Crash & OCCT Diagnostic Reporter
+* **Goal:** Capture structured C++ `Standard_Failure` exceptions, JNI faults, and GL errors in a local ring-buffer with explicit user-consented SAF export and zero background network telemetry.
+* **Deliverables:**
+  - `DiagnosticCrashVault` C++ ring-buffer recording sanitized stack breadcrumbs, OCCT operation codes, and memory watermarks without PII.
+  - User-facing Opt-In Diagnostic Export dialog in Settings/Inspect using Android SAF (`CreateDocument`) with explicit consent toggle (off by default).
+  - Host CTest `androcad_faz3_m27_test` verifying ring-buffer bounds, PII scrubbing, and opt-in gate enforcement.
+  - Tablet (`docs/screenshots/m27_tablet.png`) and phone (`docs/screenshots/m27_phone.png`) screenshots.
+  - Release: `v1.0.18`.
+* **Acceptance Tests:** Zero diagnostic packets written or exported when opt-in is disabled; sanitized JSON report exports cleanly when user explicitly approves.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 28: Retry & Resolution of Deferred Capabilities: Hierarchical STEP Assembly & Multi-Solid Booleans
+* **Goal:** Resolve the previously deferred multi-component STEP assembly tree decomposition (`stabilization.md` Section 5.1) with full parent-child `TopLoc_Location` transform hierarchy.
+* **Deliverables:**
+  - `StepAssemblyHierarchyParser` decomposing multi-body STEP AP214/AP242 assemblies into named component nodes with local-to-world 4x4 transformation matrices.
+  - Browser tree multi-component assembly node expansion and per-component visibility/selection.
+  - Host CTest `androcad_faz3_m28_test` verifying multi-part STEP assembly round-trip volume and transform preservation.
+  - Tablet (`docs/screenshots/m28_tablet.png`) and phone (`docs/screenshots/m28_phone.png`) screenshots.
+  - Release: `v1.0.19`.
+* **Acceptance Tests:** Multi-part STEP assembly imports with intact component names, instance transforms, and exact aggregate volume.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 29: SAF Content-URI Torture & Corrupt CAD File Resilience
+* **Goal:** Harden `CadStorageManager` and `ProjectIO` against truncated STEP files, malformed binary/ASCII STL headers, zero-byte streams, and concurrent SAF imports without crashing.
+* **Deliverables:**
+  - `CorruptFileFuzzer` & resilient parser guards in `ProjectIO` validating file magic headers, triangle count vs. byte-length bounds in binary STL, and balanced STEP entity records.
+  - Guaranteed `finally`-block cache file deletion in `CadStorageManager` even under I/O exceptions.
+  - Host CTest `androcad_faz3_m29_test` fuzzing 20 malformed STEP/STL/JSON inputs with zero segfaults or unhandled exceptions.
+  - Tablet (`docs/screenshots/m29_tablet.png`) and phone (`docs/screenshots/m29_phone.png`) screenshots.
+  - Release: `v1.0.20`.
+* **Acceptance Tests:** 100% of truncated, zero-byte, and malformed STEP/STL/JSON inputs return structured `errorMessage` diagnostics with zero crashes or lingering temp files.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 30: Topological Naming (TNP) Deep History & Upstream Mutation Hardening
+* **Goal:** Harden the 3-tier TNP resolver against 15-step deep parametric history edits where upstream sketch vertices and boolean cuts split or merge topological faces.
+* **Deliverables:**
+  - Enhanced `TNPResolver` with area-normal-centroid Moment Invariant descriptors and adjacency graph matching when face counts change.
+  - Automatic broken-reference recovery badge in the Parametric Timeline when an upstream feature deletes a target edge.
+  - Host CTest `androcad_faz3_m30_test` running a 15-feature parametric rebuild with upstream dimension & topology changes.
+  - Tablet (`docs/screenshots/m30_tablet.png`) and phone (`docs/screenshots/m30_phone.png`) screenshots.
+  - Release: `v1.0.21`.
+* **Acceptance Tests:** Downstream fillets and face-sketches re-bind to >= 98% of mutated topological entities across 15-step parametric history rebuilds.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 31: Variable-Radius Fillet Engine (ChFi3d Spine Law)
+* **Goal:** Implement variable-radius edge filleting (`BRepFilletAPI_MakeFillet` with linear and S-curve $R(u) \in [R_{start}, R_{end}]$ radius evolution along picked edges).
+* **Deliverables:**
+  - `VariableFilletEngine` supporting start/mid/end radius control points along edge parameter $u \in [0, 1]$.
+  - UI inspector support for Variable Fillet (`R1 -> R2`) in Solid workspace.
+  - Host CTest `androcad_faz3_m31_test` verifying smooth volume reduction and surface area transition between $R_1=2\text{ mm}$ and $R_2=8\text{ mm}$.
+  - Tablet (`docs/screenshots/m31_tablet.png`) and phone (`docs/screenshots/m31_phone.png`) screenshots.
+  - Release: `v1.1.0`.
+* **Acceptance Tests:** Variable-radius fillet produces watertight solid with monotonic cross-sectional curvature transition from $R_1$ to $R_2$.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 32: Asymmetric Two-Distance & Distance-Angle Chamfer
+* **Goal:** Expand chamfering beyond symmetric $45^\circ$ bevels to asymmetric two-distance ($d_1 \times d_2$) and distance-angle ($d \times \theta$) edge chamfers.
+* **Deliverables:**
+  - `AsymmetricChamferEngine` computing exact bevel plane offsets for ($d_1, d_2$) and ($d, \theta \in (5^\circ, 85^\circ)$) on solid edges.
+  - Chamfer Inspector UI mode selector (`Symmetric`, `Two Distances`, `Distance & Angle`).
+  - Host CTest `androcad_faz3_m32_test` verifying analytical prism volume removal $\frac{1}{2} d_1 d_2 L$ and $d^2 \tan(\theta) L / 2$.
+  - Tablet (`docs/screenshots/m32_tablet.png`) and phone (`docs/screenshots/m32_phone.png`) screenshots.
+  - Release: `v1.2.0`.
+* **Acceptance Tests:** Asymmetric chamfer volume matches analytical wedge subtraction within $0.1\%$ across rectangular and cylindrical edges.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 33: Parametric Configurations & Design Tables (Part Variants)
+* **Goal:** Enable SolidWorks/Fusion 360-style Configurations and Design Tables allowing a single CAD document to store and switch between multiple dimensional variants and feature suppression states.
+* **Deliverables:**
+  - `ConfigurationTableEngine` storing named configurations (e.g., `M6_Short`, `M8_Medium`, `M10_Long`) with parameter overrides and feature suppression flags.
+  - CSV/JSON Design Table import/export and quick Configuration Switcher dropdown in UI.
+  - Host CTest `androcad_faz3_m33_test` verifying instant DAG recomputation across 5 part configurations.
+  - Tablet (`docs/screenshots/m33_tablet.png`) and phone (`docs/screenshots/m33_phone.png`) screenshots.
+  - Release: `v1.3.0`.
+* **Acceptance Tests:** Switching configurations updates all driven dimensions, suppresses/unsuppresses tagged features, and recomputes exact B-Rep volumes deterministically.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 34: Equation-Driven Curves & Scientific Expression Evaluator
+* **Goal:** Support explicit and parametric mathematical equations ($y = f(x)$ and $(x(t), y(t), z(t))$) with unit-aware scientific functions (`sin`, `cos`, `tan`, `sqrt`, `exp`, `PI`) in sketches and parameters.
+* **Deliverables:**
+  - `EquationCurveGenerator` sampling and fitting $C^2$ cubic B-Splines through parametric mathematical curves (sine waves, involutes, Archimedean spirals, 3D helices).
+  - Enhanced `ExpressionParser` supporting trigonometric, logarithmic, and conditional (`min`, `max`, `clamp`) formulas.
+  - Host CTest `androcad_faz3_m34_test` verifying arc-length and curvature of equation-driven splines.
+  - Tablet (`docs/screenshots/m34_tablet.png`) and phone (`docs/screenshots/m34_phone.png`) screenshots.
+  - Release: `v1.4.0`.
+* **Acceptance Tests:** Equation parser evaluates nested trigonometric expressions within $10^{-9}$ tolerance and generates smooth $C^2$ B-Spline wires.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 35: Injection Mold Design: Pull-Direction Draft & Undercut Analysis
+* **Goal:** Analyze 3D parts for injection molding manufacturability by classifying faces into Core-side, Cavity-side, Insufficient Draft, and Shadowed Undercut regions along a pull vector.
+* **Deliverables:**
+  - `MoldDraftAnalyzer` computing face normal pull-angles $\alpha = \arcsin(\vec{n} \cdot \vec{d}_{pull})$ and ray-occluded undercut traps.
+  - False-color Draft & Undercut inspection mode (Green = Positive Draft, Yellow = Near-ZeroWall, Red = Negative Draft / Undercut) with parting line loop extraction.
+  - Host CTest `androcad_faz3_m35_test` verifying parting line extraction and undercut detection on molded housings.
+  - Tablet (`docs/screenshots/m35_tablet.png`) and phone (`docs/screenshots/m35_phone.png`) screenshots.
+  - Release: `v1.5.0`.
+* **Acceptance Tests:** Draft analyzer accurately classifies 100% of positive, vertical, and negative-draft faces and extracts closed parting line loops.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 36: Injection Mold Design: Automated Core, Cavity & Shrinkage Tooling Split
+* **Goal:** Automatically generate Mold Core and Cavity tooling blocks from a plastic part with isotropic/anisotropic polymer shrinkage compensation (ABS, PP, PA66).
+* **Deliverables:**
+  - `MoldToolingSplitter` applying material shrinkage scale factor $(1 + s)$, generating shut-off/parting surfaces, and boolean-splitting a mold workpiece into Core and Cavity solids.
+  - Runner, sprue, and cooling channel primitive generator for mold plates.
+  - Host CTest `androcad_faz3_m36_test` verifying that $\text{Vol}(Core) + \text{Vol}(Cavity) + \text{Vol}(ScaledPart) = \text{Vol}(MoldBox)$.
+  - Tablet (`docs/screenshots/m36_tablet.png`) and phone (`docs/screenshots/m36_phone.png`) screenshots.
+  - Release: `v1.6.0`.
+* **Acceptance Tests:** Core and Cavity mold halves partition the mold block with exact volumetric conservation and zero interpenetration.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 37: Additive Manufacturing: Overhang Analysis & Branching Tree Supports
+* **Goal:** Detect downward-facing overhangs exceeding critical printer angles ($>45^\circ$) and generate organic branching tree support structures minimizing contact scar and filament usage.
+* **Deliverables:**
+  - `TreeSupportGenerator` identifying overhang clusters, coalescing trunk nodes via hierarchical Steiner-like merging, and generating tapered conical support geometry.
+  - Support filament mass and print time estimator in the Additive workspace.
+  - Host CTest `androcad_faz3_m37_test` validating overhang detection and collision-free tree branch generation.
+  - Tablet (`docs/screenshots/m37_tablet.png`) and phone (`docs/screenshots/m37_phone.png`) screenshots.
+  - Release: `v1.7.0`.
+* **Acceptance Tests:** All overhang regions with $\theta > 45^\circ$ receive anchored support tips; tree support volume is >= 30% lighter than dense pillar supports.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 38: Additive Manufacturing: TPMS Gyroid Infill, Adaptive Layer Height & Adhesion
+* **Goal:** Extend the native 3D print slicer with Triply Periodic Minimal Surface (TPMS) Gyroid infill, curvature-adaptive layer heights ($0.08\text{ mm} - 0.28\text{ mm}$), and skirt/brim/raft bed adhesion.
+* **Deliverables:**
+  - `GyroidSlicerEngine` evaluating $\sin(kx)\cos(ky) + \sin(ky)\cos(kz) + \sin(kz)\cos(kx) = 0$ iso-contours per slice layer and adaptive $Z$-step sizing based on surface normal slope.
+  - Brim and raft base layer G-Code emitter with volumetric extrusion (`E` axis) calculation.
+  - Host CTest `androcad_faz3_m38_test` verifying continuous gyroid toolpaths and adaptive layer thickness.
+  - Tablet (`docs/screenshots/m38_tablet.png`) and phone (`docs/screenshots/m38_phone.png`) screenshots.
+  - Release: `v1.8.0`.
+* **Acceptance Tests:** Gyroid slicer generates continuous isotropic infill paths and reduces stair-stepping error on shallow domes via adaptive layer heights.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 39: Subtractive CAM: High-Speed Trochoidal Adaptive Milling & Rest Machining
+* **Goal:** Implement constant-engagement trochoidal milling toolpaths that prevent full-width tool burial in corners, paired with rest-machining stock awareness.
+* **Deliverables:**
+  - `TrochoidalCamEngine` generating circular-looping trochoidal ribbons with bounded radial engagement angle $\phi_{eng} \le 45^\circ$ and dynamic chip-thinning feedrate compensation.
+  - 2D Stock-Remaining grid tracking uncut corner material for smaller rest-machining endmills.
+  - Host CTest `androcad_faz3_m39_test` verifying maximum tool engagement angle and rest-machining material removal.
+  - Tablet (`docs/screenshots/m39_tablet.png`) and phone (`docs/screenshots/m39_phone.png`) screenshots.
+  - Release: `v1.9.0`.
+* **Acceptance Tests:** Trochoidal toolpaths never exceed configured radial engagement limit in $90^\circ$ pockets and emit valid G2/G3 arc-fitted G-Code.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 40: Subtractive CAM: 2-Axis CNC Lathe Turning, Profiling & Grooving
+* **Goal:** Add a CNC Turning module for rotational parts supporting outer/inner diameter (OD/ID) roughing, finish profiling, external grooving, parting-off, and G71/G70 canned cycles.
+* **Deliverables:**
+  - `LatheTurningEngine` extracting revolved $(Z, X/2)$ meridian profiles, generating multi-pass axial roughing steps, nose-radius compensation, and groove plunge cycles.
+  - Fanuc/Haas Lathe post-processor (`G96` constant surface speed, `G97`, `G71`, `G70`).
+  - Host CTest `androcad_faz3_m40_test` validating OD roughing passes and diameter-mode G-Code output.
+  - Tablet (`docs/screenshots/m40_tablet.png`) and phone (`docs/screenshots/m40_phone.png`) screenshots.
+  - Release: `v1.10.0`.
+* **Acceptance Tests:** Stepped shaft profile generates collision-free OD roughing, finishing, and grooving toolpaths with accurate cycle time.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 41: Subtractive CAM: 3+2 Indexed 5-Axis Positional Milling & Holder Collision Check
+* **Goal:** Support 3+2 indexed multi-axis machining on tilted faces using rotary $(A, C)$ or $(B, C)$ table orientations (`G68.2` tilted workplane) with tool/holder shaft collision verification.
+* **Deliverables:**
+  - `MultiAxisIndexedCamEngine` computing Euler rotary angles $(A, B, C)$ from target face normals and emitting `G68.2 X Y Z I J K` / `G53.1` tilted workplane blocks.
+  - Cylindrical cutter + tapered holder swept-volume collision detector against non-machined part faces.
+  - Host CTest `androcad_faz3_m41_test` verifying rotary angle kinematics and holder collision detection.
+  - Tablet (`docs/screenshots/m41_tablet.png`) and phone (`docs/screenshots/m41_phone.png`) screenshots.
+  - Release: `v1.11.0`.
+* **Acceptance Tests:** Tilted face operations compute exact $(A, C)$ rotary angles and flag any tool-holder interference before post-processing.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 42: Structural Simulation: Linear Eigenvalue Buckling Analysis
+* **Goal:** Predict critical compressive buckling load factors ($\lambda_{cr}$) and buckling mode shapes for slender columns, brackets, and thin-walled structures.
+* **Deliverables:**
+  - `BucklingSolverEngine` assembling the elastic stiffness matrix $K_E$ and stress-stiffening geometric matrix $K_G(\sigma_0)$ to solve $(K_E + \lambda K_G)\phi = 0$ via inverse power iteration.
+  - Buckling load multiplier readout and buckled mode shape visualization in Simulation workspace.
+  - Host CTest `androcad_faz3_m42_test` verifying critical load against analytical Euler column formula $P_{cr} = \frac{\pi^2 E I}{(K L)^2}$.
+  - Tablet (`docs/screenshots/m42_tablet.png`) and phone (`docs/screenshots/m42_phone.png`) screenshots.
+  - Release: `v1.12.0`.
+* **Acceptance Tests:** Computed critical buckling load factor $\lambda_{cr}$ matches analytical Euler column buckling within $3.0\%$.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 43: Thermal Simulation: Steady-State Heat Conduction & Convection FEA
+* **Goal:** Solve 3D steady-state heat transfer ($-\nabla \cdot (k \nabla T) = q$) with fixed temperature, heat flux, and ambient convective ($h(T - T_\infty)$) boundary conditions.
+* **Deliverables:**
+  - `ThermalFeaEngine` assembling tetrahedral thermal conductivity matrices $K_{th}$ and Robin convection boundary terms to compute nodal temperature fields $T(\mathbf{x})$ and heat flux vectors.
+  - Thermal false-color temperature heatmap ($^{\circ}\text{C}$ / $\text{K}$) in Simulation workspace.
+  - Host CTest `androcad_faz3_m43_test` verifying 1D/3D conduction and convective fin temperature profiles against analytical solutions.
+  - Tablet (`docs/screenshots/m43_tablet.png`) and phone (`docs/screenshots/m43_phone.png`) screenshots.
+  - Release: `v1.13.0`.
+* **Acceptance Tests:** Nodal temperatures match analytical Fourier conduction and convective cooling curves within $0.5\%$.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 44: Coupled Thermo-Mechanical Stress & Thermal Expansion Analysis
+* **Goal:** Couple steady-state temperature fields $T(\mathbf{x})$ into the 3D structural FEA solver to compute thermal expansion strains ($\varepsilon_{th} = \alpha (T - T_{ref})$), thermal deformation, and thermally induced Von Mises stress.
+* **Deliverables:**
+  - `ThermoMechanicalEngine` converting nodal $\Delta T$ fields into equivalent thermal load vectors $F_{th} = \int B^T D \varepsilon_{th} dV$ and solving coupled displacement and stress fields.
+  - Bimetallic strip and constrained heated bar benchmarks in Host CTest `androcad_faz3_m44_test`.
+  - Tablet (`docs/screenshots/m44_tablet.png`) and phone (`docs/screenshots/m44_phone.png`) screenshots.
+  - Release: `v1.14.0`.
+* **Acceptance Tests:** Fixed-end heated bar produces axial compressive thermal stress matching $\sigma = E \alpha \Delta T$ within $0.5\%$.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 45: Generative Design: SIMP Topology Optimization Engine
+* **Goal:** Implement Solid Isotropic Material with Penalization (SIMP) topology optimization to automatically carve lightweight, high-stiffness load paths given supports, loads, and target mass fraction.
+* **Deliverables:**
+  - `TopologyOptimizerEngine` running iterative FEA sensitivity filtering, Optimality Criteria (OC) element density updates $\rho_e \in [\rho_{min}, 1]^p$, and smoothed iso-surface mesh extraction.
+  - Generative Design target mass reduction slider ($20\% - 70\%$) in Simulation workspace.
+  - Host CTest `androcad_faz3_m45_test` optimizing an MBB/cantilever beam to 40% volume fraction with monotonic compliance convergence.
+  - Tablet (`docs/screenshots/m45_tablet.png`) and phone (`docs/screenshots/m45_phone.png`) screenshots.
+  - Release: `v1.15.0`.
+* **Acceptance Tests:** SIMP optimizer converges to target volume fraction within $1.0\%$ while preserving connected load-transferring truss topology.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 46: Surface Inspection: Gaussian, Mean & Principal Curvature Comb Analyzer
+* **Goal:** Provide industrial Class-A surface quality evaluation via Gaussian curvature ($K = \kappa_1 \kappa_2$), Mean curvature ($H = \frac{\kappa_1 + \kappa_2}{2}$), and 3D curvature comb plots.
+* **Deliverables:**
+  - `CurvatureAnalysisEngine` evaluating second fundamental form differential geometry on B-Rep faces and mesh vertices to classify elliptic ($K>0$), parabolic ($K=0$), and hyperbolic saddle ($K<0$) regions.
+  - Curvature false-color heatmap and normal curvature comb whiskers in Inspect workspace.
+  - Host CTest `androcad_faz3_m46_test` verifying exact $K = 1/R^2$ on spheres, $K = 0, H = 1/(2R)$ on cylinders, and saddle sign on tori.
+  - Tablet (`docs/screenshots/m46_tablet.png`) and phone (`docs/screenshots/m47_phone.png` / `m46_phone.png`) screenshots.
+  - Release: `v1.16.0`.
+* **Acceptance Tests:** Computed Gaussian and Mean curvatures match analytical sphere, cylinder, and torus formulas within $1\%$.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 47: Surface Inspection: Zebra Stripes & G0/G1/G2 Continuity Inspector
+* **Goal:** Visualize surface smoothness and seam continuity ($G_0$ position, $G_1$ tangent, $G_2$ curvature) using procedural cylindrical reflection Zebra Stripes and edge dihedral angle auditing.
+* **Deliverables:**
+  - `ZebraContinuityInspector` computing view-reflected stripe coordinates and measuring normal angle jumps ($\Delta \theta$) and curvature jumps ($\Delta \kappa$) across shared B-Rep edges.
+  - Zebra Stripe viewport shader mode (vertical/horizontal/diagonal stripe density) in Inspect workspace.
+  - Host CTest `androcad_faz3_m47_test` distinguishing sharp $G_0$ creases, tangent $G_1$ fillets, and $G_2$ blends.
+  - Tablet (`docs/screenshots/m47_tablet.png`) and phone (`docs/screenshots/m47_phone.png`) screenshots.
+  - Release: `v1.17.0`.
+* **Acceptance Tests:** Continuity analyzer accurately classifies $G_0$, $G_1$, and $G_2$ boundary edges and renders high-contrast reflection zebra bands.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 48: Surface Inspection: Raycast Wall Thickness & Minimum Clearance Analyzer
+* **Goal:** Measure local part wall thickness across the entire 3D solid by casting inward anti-normal rays from surface triangles and identifying thin-wall or thick-sink-mark hotspots.
+* **Deliverables:**
+  - `WallThicknessAnalyzer` computing inward ray-triangle intersections, local sphere-inscribed thickness distribution $[t_{min}, t_{max}]$, and thin-wall manufacturing alerts.
+  - Thickness heatmap mode in Inspect workspace.
+  - Host CTest `androcad_faz3_m48_test` verifying exact wall thickness detection on shelled enclosures and stepped plates.
+  - Tablet (`docs/screenshots/m48_tablet.png`) and phone (`docs/screenshots/m48_phone.png`) screenshots.
+  - Release: `v1.18.0`.
+* **Acceptance Tests:** Measured local wall thickness matches analytical shell thickness within $0.05\text{ mm}$ across all faces.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 49: Data Exchange: IGES 5.3 NURBS Surface & Solid Import/Export
+* **Goal:** Support legacy aerospace/automotive IGES 5.3 (`.igs` / `.iges`) files for NURBS surfaces, trimmed faces (Type 128/144), and B-Rep solids via SAF.
+* **Deliverables:**
+  - `IgesExchangeEngine` parsing and emitting IGES 5.3 Start, Global, Directory Entry, Parameter Data, and Terminate sections (Entities 110, 126, 128, 144, 186) with OCCT `IGESControl` bridge.
+  - `Import IGES` and `Export IGES` tools in File/IO workspace with SAF integration.
+  - Host CTest `androcad_faz3_m49_test` verifying IGES 5.3 round-trip export and import of NURBS and prismatic geometry.
+  - Tablet (`docs/screenshots/m49_tablet.png`) and phone (`docs/screenshots/m49_phone.png`) screenshots.
+  - Release: `v1.19.0`.
+* **Acceptance Tests:** IGES 5.3 exporter and reader round-trip B-Rep geometry with valid 80-column fixed-format section records and preserved bounding box.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 50: Data Exchange: Wavefront OBJ & MTL Material Mesh Import/Export
+* **Goal:** Add Wavefront `.obj` and `.mtl` import/export supporting vertex positions (`v`), normals (`vn`), texture coordinates (`vt`), quad/n-gon triangulation (`f`), and PBR material groups (`usemtl`).
+* **Deliverables:**
+  - `ObjExchangeEngine` importing quad/triangle OBJ meshes with automatic n-gon ear-clipping triangulation and exporting shaded CAD bodies with companion `.mtl` definitions.
+  - `Import OBJ` and `Export OBJ` actions in File/IO and Mesh workspaces.
+  - Host CTest `androcad_faz3_m50_test` verifying quad-to-triangle OBJ ingestion, normal preservation, and round-trip vertex counts.
+  - Tablet (`docs/screenshots/m50_tablet.png`) and phone (`docs/screenshots/m50_phone.png`) screenshots.
+  - Release: `v1.20.0`.
+* **Acceptance Tests:** Wavefront OBJ round-trip preserves exact surface area, vertex normals, and material assignments.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 51: Data Exchange: 3MF Additive Manufacturing Package I/O
+* **Goal:** Implement modern 3MF (`.3mf` / XML `3dmodel.model`) additive manufacturing file exchange storing watertight triangle meshes, millimeter unit metadata, print build items, and color/material properties.
+* **Deliverables:**
+  - `ThreeMfExchangeEngine` serializing and parsing 3MF XML model specifications (`<resources><object><mesh><vertices><triangles><build><item>`) with manifold validation.
+  - `Export 3MF` and `Import 3MF` tools in File/IO and Additive workspaces.
+  - Host CTest `androcad_faz3_m51_test` validating 3MF XML schema compliance and round-trip solid volume.
+  - Tablet (`docs/screenshots/m51_tablet.png`) and phone (`docs/screenshots/m51_phone.png`) screenshots.
+  - Release: `v1.21.0`.
+* **Acceptance Tests:** 3MF round-trip preserves 100% of mesh vertices, manifold triangle connectivity, and build transform matrices.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 52: Stylus / S-Pen Pressure, Tilt & Palm Rejection Sketch Engine
+* **Goal:** Optimize tablet sketching for active styluses (Samsung S-Pen, USI 2.0, Lenovo Precision Pen) with pressure-controlled snap locking, tilt-angle dynamic guides, and palm touch rejection.
+* **Deliverables:**
+  - `StylusInputProcessor` filtering `TOOL_TYPE_STYLUS` vs. `TOOL_TYPE_FINGER` contact areas, smoothing 120Hz/240Hz pen digitizer samples via Kalman/One-Euro filtering, and mapping stylus barrel button to instant Trim/Construction toggle.
+  - Palm rejection window suppressing accidental large-contact capacitance touches while stylus hover/down is active.
+  - Host CTest `androcad_faz3_m52_test` verifying jitter attenuation, pressure dwell-snap, and palm touch rejection.
+  - Tablet (`docs/screenshots/m52_tablet.png`) and phone (`docs/screenshots/m52_phone.png`) screenshots.
+  - Release: `v1.22.0`.
+* **Acceptance Tests:** Stylus processor rejects 100% of concurrent large-area palm touches and reduces high-frequency digitizer jitter by >= 75%.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 53: Accessibility (a11y): TalkBack Semantics, High-Contrast Mode & Touch Target Audit
+* **Goal:** Achieve WCAG 2.1 AAA / Android Accessibility compliance with screen-reader semantic descriptions for 3D viewport states, High-Contrast Yellow-on-Black CAD theme, and >= 48dp touch target enforcement.
+* **Deliverables:**
+  - `AccessibilityManagerEngine` providing structured semantic announcements for active solid volume, selected face/edge IDs, sketch DoF status, and high-contrast color palettes (Protanopia, Deuteranopia, Tritanopia, High-Contrast AAA).
+  - Compose `contentDescription` and semantic state annotations across toolbars and inspectors.
+  - Host CTest `androcad_faz3_m53_test` verifying WCAG contrast ratios (>= 7.0:1) across all colorblind and high-contrast themes.
+  - Tablet (`docs/screenshots/m53_tablet.png`) and phone (`docs/screenshots/m53_phone.png`) screenshots.
+  - Release: `v1.23.0`.
+* **Acceptance Tests:** All high-contrast palette foreground/background pairs exceed 7.0:1 luminance contrast ratio; every interactive CAD control exposes non-empty screen-reader semantics.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 54: Multi-Language Localization (i18n): TR, EN, DE, JA & AR (RTL) Support
+* **Goal:** Internationalize AndroCAD with live in-app language switching across Turkish (`tr`), English (`en`), German (`de`), Japanese (`ja`), and Arabic (`ar` with RTL layout mirroring).
+* **Deliverables:**
+  - `CadLocalizationEngine` providing complete technical CAD terminology dictionaries for `tr`, `en`, `de`, `ja`, and `ar`, including RTL layout direction flag and localized number/unit formatting.
+  - In-app Language Switcher in top toolbar / settings updating ribbon tabs, tools, and status messages instantaneously.
+  - Host CTest `androcad_faz3_m54_test` verifying 100% key coverage across all 5 languages with zero missing translations.
+  - Tablet (`docs/screenshots/m54_tablet.png`) and phone (`docs/screenshots/m54_phone.png`) screenshots.
+  - Release: `v1.24.0`.
+* **Acceptance Tests:** 100% of workspace tabs, tool names, and inspector labels resolve in TR, EN, DE, JA, and AR without fallback placeholders.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 55: Embedded Parametric Scripting & Macro Automation API (AndroScript)
+* **Goal:** Enable engineers to automate repetitive part generation and parametric families using an embedded, sandboxed `AndroScript` CAD scripting language.
+* **Deliverables:**
+  - `AndroScriptEngine` lexer, AST parser, and bytecode/command interpreter supporting variables, loops (`for`), conditionals, and CAD intrinsics (`box`, `cylinder`, `sphere`, `extrude`, `fillet`, `cut`, `join`, `pattern`).
+  - Interactive Script Console & Macro Runner dialog in UI.
+  - Host CTest `androcad_faz3_m55_test` executing parametric flange and gear macro scripts and verifying resulting B-Rep volumes.
+  - Tablet (`docs/screenshots/m55_tablet.png`) and phone (`docs/screenshots/m55_phone.png`) screenshots.
+  - Release: `v1.25.0`.
+* **Acceptance Tests:** AndroScript engine deterministically executes multi-operation CAD scripts within sandbox instruction limits and outputs valid B-Rep meshes.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 56: Vulkan 1.1 Rendering & Compute Backend Abstraction
+* **Goal:** Fulfill Architectural Decision 3 (`docs/roadmap.md`) by introducing the native Vulkan 1.1 rendering and compute pipeline abstraction alongside OpenGL ES 3.0.
+* **Deliverables:**
+  - `VulkanRenderBackend` C++ abstraction managing swapchain descriptors, uniform buffer layouts, push constants for face/edge picking, and compute shader dispatch for mesh normals, with automatic fallback to GLES 3.0.
+  - Backend selector (`OpenGL ES 3.0` / `Vulkan 1.1`) and GPU capability inspector.
+  - Host CTest `androcad_faz3_m56_test` validating Vulkan vertex/index descriptor alignment (std140/std430) and pipeline state compilation.
+  - Tablet (`docs/screenshots/m56_tablet.png`) and phone (`docs/screenshots/m56_phone.png`) screenshots.
+  - Release: `v1.26.0`.
+* **Acceptance Tests:** Vulkan pipeline descriptor sets and 16-byte std140 uniform buffers validate with zero alignment gaps and clean GLES fallback.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 57: Structural Weldments & Standard Steel Profiles (ISO/DIN Frame Generator)
+* **Goal:** Provide SolidWorks-style Weldments generating 3D structural frames along sketch lines using standard steel profiles (`IPE`, `HEA`, `UPE` C-Channel, L-Angle, Square/Round Hollow Sections) with corner miter trims.
+* **Deliverables:**
+  - `WeldmentFrameEngine` sweeping standardized cross-section profiles along 3D frame centerlines, computing $45^\circ$ miter bisector planes at joints, and generating a Cut List table (profile type, length, miter angles, mass).
+  - Weldment tool in Solid/Surface workspace.
+  - Host CTest `androcad_faz3_m57_test` verifying I-Beam cross-sectional area, miter joint volume, and cut-list length totals.
+  - Tablet (`docs/screenshots/m57_tablet.png`) and phone (`docs/screenshots/m57_phone.png`) screenshots.
+  - Release: `v1.27.0`.
+* **Acceptance Tests:** Weldment frame generator produces exact ISO profile cross-sections, watertight mitered corners, and accurate cut-list lengths.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 58: Mechanical Spur, Helical & Internal Gear Generator (Involute Mathematics)
+* **Goal:** Generate mathematically exact involute Spur, Helical, and Ring gears parameterized by Module ($m$), Teeth count ($z$), Pressure Angle ($\alpha = 20^\circ$), Helix Angle ($\beta$), Backlash, and Center Bore.
+* **Deliverables:**
+  - `InvoluteGearEngine` computing true involute tooth flanks $(r_b(\cos t + t \sin t), r_b(\sin t - t \cos t))$, trochoidal root fillets, addendum/dedendum circles, pitch diameter $d = m z$, and helical twist extrusion.
+  - Gear Generator tool in Solid workspace.
+  - Host CTest `androcad_faz3_m58_test` verifying pitch diameter, base circle radius $r_b = \frac{m z}{2}\cos\alpha$, and gear mesh volume.
+  - Tablet (`docs/screenshots/m58_tablet.png`) and phone (`docs/screenshots/m58_phone.png`) screenshots.
+  - Release: `v1.28.0`.
+* **Acceptance Tests:** Generated involute gear teeth satisfy conjugate meshing geometry with exact pitch diameter $d = m z$ and watertight solid topology.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 59: 3D Piping, Tubing & Harness Routing Engine
+* **Goal:** Design 3D industrial piping and pneumatic/electrical tube routes through 3D waypoints with automatic minimum-bend-radius elbows, Schedule 40/80 wall thickness, and ANSI/DIN weld-neck end flanges.
+* **Deliverables:**
+  - `PipingRouteEngine` converting 3D orthogonal/oblique waypoints into tangent arc-filleted centerlines, sweeping hollow pipe shells ($OD, ID$), and attaching bolted end flanges with pressure-drop ($\Delta P$ Darcy-Weisbach) calculation.
+  - 3D Pipe Route tool in Surface/Assemble workspace.
+  - Host CTest `androcad_faz3_m59_test` verifying minimum bend radius compliance, hollow pipe volume, and Darcy-Weisbach pressure drop.
+  - Tablet (`docs/screenshots/m59_tablet.png`) and phone (`docs/screenshots/m59_phone.png`) screenshots.
+  - Release: `v1.29.0`.
+* **Acceptance Tests:** 3D pipe route enforces minimum bend radius on all turns, generates hollow wall thickness, and computes exact route length and fluid volume.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 60: Sheet Metal Expansion: Rolled Hem, Lofted Flange & Ventilation Louver
+* **Goal:** Expand the Sheet Metal workspace with Rolled/Teardrop/Open Edge Hems, square-to-round Lofted Sheet Metal transitions, and stamped Ventilation Louver / Dimple forming tools.
+* **Deliverables:**
+  - `AdvancedSheetMetalEngine` generating $180^\circ$ open/closed hems with K-factor allowance, triangulated press-brake transition lofts, and louver punch cavities.
+  - Hem, Lofted Flange, and Louver tools in Sheet Metal workspace.
+  - Host CTest `androcad_faz3_m60_test` verifying unrolled flat length of hemmed sheets and louver airflow opening area.
+  - Tablet (`docs/screenshots/m60_tablet.png`) and phone (`docs/screenshots/m60_phone.png`) screenshots.
+  - Release: `v1.30.0`.
+* **Acceptance Tests:** Hemmed sheet metal part unfolds to analytical flat length including $180^\circ$ hem allowance within $0.1\text{ mm}$.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 61: Plastic Enclosure Features: Snap-Fit Cantilever Hook, Mounting Boss & Rib Network
+* **Goal:** Accelerate consumer electronics enclosure design with parametric Cantilever Snap-Fit hooks (with deflection strain check), Screw Mounting Bosses with gussets, and Reinforcement Rib networks.
+* **Deliverables:**
+  - `PlasticFeaturesEngine` generating snap-fit hooks with undercut depth $y$, beam length $L$, and maximum permissible strain verification $\varepsilon_{max} = \frac{1.5 t y}{L^2}$, plus hollow screw bosses with 4-way gussets.
+  - Snap-Fit, Boss, and Rib tools in Solid workspace.
+  - Host CTest `androcad_faz3_m61_test` verifying snap-fit deflection force, maximum root strain, and boss/rib boolean union volume.
+  - Tablet (`docs/screenshots/m61_tablet.png`) and phone (`docs/screenshots/m61_phone.png`) screenshots.
+  - Release: `v1.31.0`.
+* **Acceptance Tests:** Snap-fit generator builds valid hook geometry and accurately flags root strain exceeding polymer yield limits.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 62: 3D Emboss, Deboss & Cylindrical Wrap Engraving
+* **Goal:** Wrap 2D text strings and sketch profiles onto planar or cylindrical B-Rep faces to create raised Emboss or recessed Deboss engravings (serial numbers, logos, knurling).
+* **Deliverables:**
+  - `EmbossWrapEngine` mapping $(u, v)$ planar sketch coordinates onto cylindrical $(R, \theta = u/R, z = v)$ or planar surfaces and offsetting normal shells by $\pm d_{emboss}$.
+  - Built-in vector stroke/polygon font generator for alphanumeric serial engraving.
+  - Host CTest `androcad_faz3_m62_test` verifying raised emboss (+volume) and recessed deboss (-volume) on planar and cylindrical solids.
+  - Tablet (`docs/screenshots/m62_tablet.png`) and phone (`docs/screenshots/m62_phone.png`) screenshots.
+  - Release: `v1.32.0`.
+* **Acceptance Tests:** Cylindrical wrap emboss preserves arc-length $s = R \Delta\theta$ without chordal distortion and modifies solid volume by exact $A_{profile} \times d_{emboss}$.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 63: Assembly Exploded View Generator & Explosion Trail Lines
+* **Goal:** Automatically separate multi-component assemblies along axial and radial disassembly vectors for technical documentation and interactive exploded inspection.
+* **Deliverables:**
+  - `ExplodedViewEngine` computing bounding-box interference-free disassembly directions, explosion distance multipliers $t \in [0, 1]$, and 3D dashed explosion trail lines connecting component origins.
+  - Explode Assembly slider and Trail Lines toggle in Assemble and Drawing workspaces.
+  - Host CTest `androcad_faz3_m63_test` verifying non-overlapping component bounding boxes at $t = 1.0$ and exact return to home at $t = 0.0$.
+  - Tablet (`docs/screenshots/m63_tablet.png`) and phone (`docs/screenshots/m63_phone.png`) screenshots.
+  - Release: `v1.33.0`.
+* **Acceptance Tests:** At $t=1.0$, all assembly components achieve zero bounding-box overlap and generate continuous trail vectors back to their assembled origins.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 64: 3D Precision Caliper: Minimum Distance, Dihedral Angle & Arc-Length Inspector
+* **Goal:** Provide exact point-to-point, face-to-face minimum clearance distance, dihedral angle between faces, and edge arc-length/radius measurement tools in the Inspect workspace.
+* **Deliverables:**
+  - `PrecisionMeasureEngine` computing exact 3D Euclidean distance, closest point pairs $(P_1, P_2)$, normal angle $\theta = \arccos(\vec{n}_1 \cdot \vec{n}_2)$, and circular edge radius from 3-point circumcircle.
+  - 3D Caliper Measure tool and dimension readout in Inspect workspace.
+  - Host CTest `androcad_faz3_m64_test` verifying exact minimum distance between skew edges, parallel faces, and cylindrical bores.
+  - Tablet (`docs/screenshots/m64_tablet.png`) and phone (`docs/screenshots/m64_phone.png`) screenshots.
+  - Release: `v1.34.0`.
+* **Acceptance Tests:** 3D measurement caliper computes distances within $10^{-6}\text{ mm}$ and dihedral angles within $10^{-4}$ degrees.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 65: Real-Time Multi-Plane Section Box & Cross-Section Hatch Renderer
+* **Goal:** Enable live 3D internal inspection of complex assemblies and shelled housings using X/Y/Z interactive clipping planes with capped cross-section polygons and $45^\circ$ engineering hatch lines.
+* **Deliverables:**
+  - `SectionPlaneEngine` slicing triangle meshes against arbitrary plane equations $Ax + By + Cz + D = 0$, chaining intersection segments into closed capping loops, and generating $45^\circ$ hatch line segments.
+  - Interactive Section Plane offset & axis controls in ViewCube / Inspect / Drawing.
+  - Host CTest `androcad_faz3_m65_test` verifying cross-sectional area and closed capping contour generation on hollow bodies.
+  - Tablet (`docs/screenshots/m65_tablet.png`) and phone (`docs/screenshots/m65_phone.png`) screenshots.
+  - Release: `v1.35.0`.
+* **Acceptance Tests:** Section plane slicer produces watertight capped cross-sections whose 2D area matches analytical slice area within $0.1\%$.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 66: ECAD / PCB Enclosure Bridge (IDF / KiCad Board, Standoffs & Keep-Out Zones)
+* **Goal:** Bridge electronic PCB design with mechanical enclosure modeling by importing/generating 3D PCB substrates (FR4), mounting holes, IC component height envelopes, and automatic enclosure standoffs/I-O cutouts.
+* **Deliverables:**
+  - `EcadPcbBridgeEngine` parsing IDF (`.emn`/`.emp`) board outlines and component placements, generating 3D PCB + IC assemblies, and auto-placing enclosure mounting bosses and USB-C/RJ45 port cutouts.
+  - PCB Generator & Enclosure Bridge tool in Assemble/Solid workspace.
+  - Host CTest `androcad_faz3_m66_test` verifying PCB board volume, standoff alignment with mounting holes, and vertical component clearance checks.
+  - Tablet (`docs/screenshots/m66_tablet.png`) and phone (`docs/screenshots/m66_phone.png`) screenshots.
+  - Release: `v1.36.0`.
+* **Acceptance Tests:** Generated enclosure standoffs align concentrically with 100% of PCB mounting holes within $0.001\text{ mm}$ and flag any IC height collision.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 67: Git-Friendly Parametric CAD Diff, Branching & Conflict-Free Merge Engine
+* **Goal:** Provide semantic version control for `.androcad` parametric projects: diffing two project revisions by feature DAG nodes, parameters, and volume delta ($\Delta V$), and three-way merging independent feature branches.
+* **Deliverables:**
+  - `CadRevisionDiffEngine` computing structural diffs (Added/Modified/Deleted features and parameter changes) between two `.androcad` JSON trees and performing deterministic 3-way DAG merges.
+  - Revision Diff & Checkpoint viewer in File/IO and Timeline.
+  - Host CTest `androcad_faz3_m67_test` verifying 3-way merge of concurrent parameter and feature additions with conflict detection.
+  - Tablet (`docs/screenshots/m67_tablet.png`) and phone (`docs/screenshots/m67_phone.png`) screenshots.
+  - Release: `v1.37.0`.
+* **Acceptance Tests:** 3-way DAG merge cleanly combines non-overlapping feature edits and accurately isolates conflicting edits on the same parameter.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 68: Offline Mechanical Engineering Handbook: ISO 286 Fits, Thread Tap & Speeds Calculator
+* **Goal:** Embed an offline mechanical reference calculator for ISO 286 shaft/hole tolerance fits (`H7/h6`, `H7/g6`, `H7/p6`), metric/imperial tap drill charts, and CNC surface speed ($V_c$) / feed ($f_z$) formulas.
+* **Deliverables:**
+  - `EngineeringHandbookEngine` computing exact ISO 286 fundamental deviations and IT grades (IT5–IT11) for nominal diameters $1\text{ mm} - 500\text{ mm}$, classifying Clearance, Transition, and Interference fits.
+  - Engineering Calculator modal in Inspect workspace.
+  - Host CTest `androcad_faz3_m68_test` verifying ISO 286 micrometer limits for $\varnothing 25\text{ H7/g6}$ and $\varnothing 40\text{ H7/p6}$ against standard tables.
+  - Tablet (`docs/screenshots/m68_tablet.png`) and phone (`docs/screenshots/m68_phone.png`) screenshots.
+  - Release: `v1.38.0`.
+* **Acceptance Tests:** ISO 286 tolerance calculator matches standard micrometer upper/lower deviations ($ES, EI, es, ei$) across IT6–IT11 grades.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 69: LGPL v2.1 Section 6 Dynamic Relinking Verification Kit
+* **Goal:** Mitigate Open Risk #2 (`LGPL Relinking on Android`) by providing an automated verification kit that proves users can replace dynamically linked OCCT and PlaneGCS `.so` libraries and re-sign the APK.
+* **Deliverables:**
+  - `LgplRelinkVerifier` auditing that `libandrocad_kernel.so` links dynamically (never statically) to OCCT (`libTKernel.so`, etc.), generating a reproducible relink manifest, and providing `scripts/verify_lgpl_relink.sh`.
+  - Host CTest `androcad_faz3_m69_test` verifying dynamic symbol linkage rules, LGPL notice completeness, and zero GPL contamination.
+  - Tablet (`docs/screenshots/m69_tablet.png`) and phone (`docs/screenshots/m69_phone.png`) screenshots.
+  - Release: `v1.39.0`.
+* **Acceptance Tests:** Relink audit confirms 100% dynamic `.so` separation for LGPL libraries, zero static archive embedding of OCCT in proprietary code, and zero GPL files.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
+
+### Milestone 70: Google Play Store Production Readiness, 16KB Page Alignment & Data Safety Audit
+* **Goal:** Complete Faz 3 with a comprehensive production readiness verifier: Android 15+ 16KB ELF page alignment (`-Wl,-z,max-page-size=16384`), zero broad storage permissions, R8/ProGuard JNI keep-rules verification, and Play Store Data Safety audit.
+* **Deliverables:**
+  - `PlayStoreReadinessAuditor` validating 16KB ELF segment alignment configuration, manifest permission compliance, JNI ProGuard rules (`proguard-rules.pro`), versionCode monotonicity, and Data Safety zero-collection compliance.
+  - Host CTest `androcad_faz3_m70_test` running the full 50-milestone Faz 3 regression suite.
+  - Tablet (`docs/screenshots/m70_tablet.png`) and phone (`docs/screenshots/m70_phone.png`) screenshots.
+  - Release: `v1.40.0`.
+* **Acceptance Tests:** All 70 milestones (M1–M70) pass CTest, manifest audit, 16KB page-size linker check, and screenshot verification.
+* **Status:** Pending
+* **Finish Date:** TBD
+
+---
