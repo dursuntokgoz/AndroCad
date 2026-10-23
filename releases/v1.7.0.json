@@ -1,0 +1,10 @@
+{
+  "milestone": "M37",
+  "title": "Additive Manufacturing: Overhang Analysis & Branching Tree Supports",
+  "version": "v1.7.0",
+  "apkArtifact": "AndroCAD-v1.7.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m37_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m37_phone.png"
+}

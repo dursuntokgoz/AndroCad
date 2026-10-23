@@ -47,3 +47,4 @@
 | **M34** | `v1.4.0` | ✅ Done | Equation-Driven Curves & Scientific Expression Evaluator — CTest (`[PASS] M34 Equation-Driven Curves & Expression Evaluator`) & Screenshots (`t_lum=36.2`, `p_lum=36.9`) doğrulandı. |
 | **M35** | `v1.5.0` | ✅ Done | Injection Mold Design: Pull-Direction Draft & Undercut Analysis — CTest (`[PASS] M35 Injection Mold Draft & Undercut Analysis`) & Screenshots (`t_lum=36.6`, `p_lum=37.7`) doğrulandı. |
 | **M36** | `v1.6.0` | ✅ Done | Injection Mold Design: Automated Core, Cavity & Shrinkage Tooling Split — CTest (`[PASS] M36 Injection Mold Core & Cavity Split`) & Screenshots (`t_lum=36.1`, `p_lum=36.9`) doğrulandı. |
+| **M37** | `v1.7.0` | ✅ Done | Additive Manufacturing: Overhang Analysis & Branching Tree Supports — CTest (`[PASS] M37 Additive Overhang & Branching Tree Supports`) & Screenshots (`t_lum=36.2`, `p_lum=36.6`) doğrulandı. |

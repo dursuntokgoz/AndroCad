@@ -602,8 +602,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m37_tablet.png`) and phone (`docs/screenshots/m37_phone.png`) screenshots.
   - Release: `v1.7.0`.
 * **Acceptance Tests:** All overhang regions with $\theta > 45^\circ$ receive anchored support tips; tree support volume is >= 30% lighter than dense pillar supports.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 
