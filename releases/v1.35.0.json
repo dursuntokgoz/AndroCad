@@ -1,0 +1,10 @@
+{
+  "milestone": "M65",
+  "title": "Real-Time Multi-Plane Section Box & Cross-Section Hatch Renderer",
+  "version": "v1.35.0",
+  "apkArtifact": "AndroCAD-v1.35.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m65_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m65_phone.png"
+}

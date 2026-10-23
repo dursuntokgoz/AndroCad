@@ -993,8 +993,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m65_tablet.png`) and phone (`docs/screenshots/m65_phone.png`) screenshots.
   - Release: `v1.35.0`.
 * **Acceptance Tests:** Section plane slicer produces watertight capped cross-sections whose 2D area matches analytical slice area within $0.1\%$.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 
