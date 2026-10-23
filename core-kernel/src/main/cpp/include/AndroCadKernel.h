@@ -37,6 +37,7 @@ struct PickResult {
     bool isEdge;       // true if edge was picked, false if face
     float distance;
     float hitPoint[3];
+    float normal[3];
 };
 
 struct MeshPayload {

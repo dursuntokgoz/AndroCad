@@ -265,7 +265,8 @@ Java_com_androcad_kernel_NativeKernel_nativePickByRay(
     androcad::PickResult pick = androcad::AndroCadKernel::PickEntityByRay(session->payload, ray, edgeTol);
 
     if (outResult) {
-        jfloat buf[7];
+        jsize len = env->GetArrayLength(outResult);
+        jfloat buf[10];
         buf[0] = pick.hit ? 1.0f : 0.0f;
         buf[1] = static_cast<jfloat>(pick.entityId);
         buf[2] = pick.isEdge ? 1.0f : 0.0f;
@@ -273,7 +274,10 @@ Java_com_androcad_kernel_NativeKernel_nativePickByRay(
         buf[4] = pick.hitPoint[0];
         buf[5] = pick.hitPoint[1];
         buf[6] = pick.hitPoint[2];
-        env->SetFloatArrayRegion(outResult, 0, 7, buf);
+        buf[7] = pick.normal[0];
+        buf[8] = pick.normal[1];
+        buf[9] = pick.normal[2];
+        env->SetFloatArrayRegion(outResult, 0, std::min<jsize>(len, 10), buf);
     }
 
     return pick.hit ? JNI_TRUE : JNI_FALSE;

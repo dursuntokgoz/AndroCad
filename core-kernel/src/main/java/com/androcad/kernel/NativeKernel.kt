@@ -36,7 +36,10 @@ data class PickResult(
     val distance: Float,
     val hitX: Float,
     val hitY: Float,
-    val hitZ: Float
+    val hitZ: Float,
+    val normalX: Float = 0f,
+    val normalY: Float = 0f,
+    val normalZ: Float = 1f
 )
 
 enum class BooleanType(val id: Int) {
@@ -111,6 +114,46 @@ data class BoxMeshResult(
 
     fun thicken(thickness: Double): BoxMeshResult =
         NativeKernel.thicken(this, thickness)
+
+    /**
+     * Calculates the geometric center and average outward normal of a specific faceId
+     * directly from the tessellated vertex buffer (stride: 28 bytes = pos(12) + normal(12) + faceId(4)).
+     */
+    fun getFaceCenterAndNormal(faceId: Int): Pair<Triple<Float, Float, Float>, Triple<Float, Float, Float>>? {
+        val buf = vertexBuffer ?: return null
+        val dup = buf.duplicate().order(ByteOrder.nativeOrder())
+        val capacity = dup.capacity()
+        val stride = 28
+        var count = 0
+        var sumX = 0.0
+        var sumY = 0.0
+        var sumZ = 0.0
+        var normX = 0.0
+        var normY = 0.0
+        var normZ = 0.0
+
+        for (offset in 0 until capacity - stride + 1 step stride) {
+            val fId = dup.getInt(offset + 24)
+            if (fId == faceId) {
+                sumX += dup.getFloat(offset + 0)
+                sumY += dup.getFloat(offset + 4)
+                sumZ += dup.getFloat(offset + 8)
+                normX += dup.getFloat(offset + 12)
+                normY += dup.getFloat(offset + 16)
+                normZ += dup.getFloat(offset + 20)
+                count++
+            }
+        }
+        if (count == 0) return null
+        val len = Math.sqrt(normX * normX + normY * normY + normZ * normZ)
+        val nX = if (len > 1e-6) (normX / len).toFloat() else 0f
+        val nY = if (len > 1e-6) (normY / len).toFloat() else 0f
+        val nZ = if (len > 1e-6) (normZ / len).toFloat() else 1f
+        return Pair(
+            Triple((sumX / count).toFloat(), (sumY / count).toFloat(), (sumZ / count).toFloat()),
+            Triple(nX, nY, nZ)
+        )
+    }
 
     override fun close() {
         if (nativeHandle > 1000L) {
@@ -1226,7 +1269,7 @@ object NativeKernel {
         dx: Float, dy: Float, dz: Float,
         edgeTolerance: Float = 1.5f
     ): PickResult? {
-        val result = FloatArray(7)
+        val result = FloatArray(10)
         val hit = nativePickByRay(handle, ox, oy, oz, dx, dy, dz, edgeTolerance, result)
         if (!hit || result[0] == 0.0f) return null
 
@@ -1237,7 +1280,10 @@ object NativeKernel {
             distance = result[3],
             hitX = result[4],
             hitY = result[5],
-            hitZ = result[6]
+            hitZ = result[6],
+            normalX = if (result.size > 7) result[7] else 0f,
+            normalY = if (result.size > 8) result[8] else 0f,
+            normalZ = if (result.size > 9) result[9] else 1f
         )
     }
 

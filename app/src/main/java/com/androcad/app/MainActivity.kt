@@ -147,6 +147,8 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
     var selectedEntityInfo by remember { mutableStateOf("No entity selected (tap face/edge)") }
     var selectedType by remember { mutableStateOf<String?>(null) }
     var selectedId by remember { mutableStateOf(0) }
+    var selectedHitPoint by remember { mutableStateOf<Triple<Float, Float, Float>?>(null) }
+    var selectedFaceNormal by remember { mutableStateOf<Triple<Float, Float, Float>?>(null) }
 
     // Milestone 3, 4, 5, 6: Parametric solid features, timeline, and sketch
     var activeSolid by remember { mutableStateOf(meshResult) }
@@ -363,21 +365,28 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
         }
     }
 
-    // Register callback for GPU color picking
+    // Register callback for GPU color picking and ray intersection
     LaunchedEffect(renderer) {
         renderer?.onPickResultListener = { pick ->
             if (pick != null && pick.hit) {
                 selectedId = pick.entityId
+                selectedHitPoint = Triple(pick.hitX, pick.hitY, pick.hitZ)
+                selectedFaceNormal = Triple(pick.normalX, pick.normalY, pick.normalZ)
                 if (pick.isEdge) {
                     selectedType = "Edge"
-                    selectedEntityInfo = "Edge #$selectedId (Length: ~50.0 mm)"
+                    selectedEntityInfo = "Edge #$selectedId (X:${pick.hitX.toInt()}, Y:${pick.hitY.toInt()}, Z:${pick.hitZ.toInt()})"
                 } else {
                     selectedType = "Face"
-                    selectedEntityInfo = "Face #$selectedId (Normal: Planar)"
+                    val nxStr = String.format(java.util.Locale.US, "%.1f", pick.normalX)
+                    val nyStr = String.format(java.util.Locale.US, "%.1f", pick.normalY)
+                    val nzStr = String.format(java.util.Locale.US, "%.1f", pick.normalZ)
+                    selectedEntityInfo = "Face #$selectedId (X:${pick.hitX.toInt()}, Y:${pick.hitY.toInt()}, Z:${pick.hitZ.toInt()} • N:[$nxStr, $nyStr, $nzStr])"
                 }
             } else {
                 selectedType = null
                 selectedId = 0
+                selectedHitPoint = null
+                selectedFaceNormal = null
                 selectedEntityInfo = "No entity selected (tap face/edge)"
             }
         }
@@ -1809,12 +1818,21 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     featureStatusText = "Cylinder: R=25 mm, H=50 mm (Adjust or tap OK)"
                                                 }
                                                 "Extrude" -> {
-                                                    val currentProf = SketchMath.evaluateProfile(sketchEntities)
-                                                    activeExtrudeProfile = currentProf ?: SketchClosedProfile(true, 5000.0, "Rectangle (100 × 50 mm)", 1)
-                                                    showExtrudeDialog = true
-                                                    val extrudeSolid = extrudeSketchEntities(sketchEntities, 25.0)
-                                                    renderer?.updateMesh(extrudeSolid)
-                                                    featureStatusText = "Extrude Inspector: adjust depth with slider or tap OK"
+                                                    if (sketchEntities.isNotEmpty()) {
+                                                        val currentProf = SketchMath.evaluateProfile(sketchEntities)
+                                                        activeExtrudeProfile = currentProf ?: SketchClosedProfile(true, 5000.0, "Sketch Profile", 1)
+                                                        showExtrudeDialog = true
+                                                        val extrudeSolid = extrudeSketchEntities(sketchEntities, 25.0)
+                                                        renderer?.updateMesh(extrudeSolid)
+                                                        featureStatusText = "Extrude Inspector: adjust depth with slider or tap OK"
+                                                    } else if (activeSolid != null) {
+                                                        val targetFace = if (selectedType == "Face" && selectedId > 0) selectedId else 1
+                                                        activeExtrudeProfile = SketchClosedProfile(true, 1000.0, "Face #$targetFace Extrude", 1)
+                                                        showExtrudeDialog = true
+                                                        featureStatusText = "Press-Pull Face #$targetFace: adjust depth or tap OK"
+                                                    } else {
+                                                        featureStatusText = "Extrude: Tap a 3D face to push/pull, or switch to Sketch tab to draw"
+                                                    }
                                                 }
                                                 "Revolve" -> {
                                                     val revSolid = try {
@@ -2212,8 +2230,10 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
             val handleDeleteBody: (String) -> Unit = { id ->
                 val bodyToDelete = browserState.value.bodies.find { it.id == id }
                 val bodyName = bodyToDelete?.name ?: id
-                val isDeletingActive = (bodyToDelete?.solid != null && bodyToDelete.solid == activeSolid) ||
-                                       (browserState.value.bodies.size <= 1)
+                val wasActive = (bodyToDelete?.isSelected == true) ||
+                                (browserState.value.selectedEntityId == id) ||
+                                (bodyToDelete?.solid == activeSolid) ||
+                                (browserState.value.bodies.size <= 1)
 
                 browserState.value.deleteBody(id)
 
@@ -2226,7 +2246,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     }
                 }
 
-                if (isDeletingActive) {
+                if (wasActive || browserState.value.bodies.isEmpty()) {
                     val nextBody = browserState.value.bodies.firstOrNull { it.isVisible && it.solid != null && it.solid!!.success }
                     if (nextBody != null) {
                         browserState.value.selectItem(nextBody.id)
@@ -2310,35 +2330,74 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 
                     // Floating Extrude Inspector Dialog
                     if (showExtrudeDialog) {
-                        val prof = activeExtrudeProfile ?: SketchClosedProfile(true, 5000.0, "Rectangle (100 × 50 mm)", 1)
+                        val prof = activeExtrudeProfile ?: SketchClosedProfile(true, 5000.0, "Profile", 1)
                         ExtrudeInspectorDialog(
                             profileDescription = prof.description,
                             profileArea = prof.area,
                             initialDepth = 25f,
                             onDepthChanged = { depth, isSymmetric ->
-                                val extrudeSolid = extrudeSketchEntities(sketchEntities, depth.toDouble())
-                                renderer?.updateMesh(extrudeSolid)
+                                if (sketchEntities.isNotEmpty()) {
+                                    val extrudeSolid = extrudeSketchEntities(sketchEntities, depth.toDouble())
+                                    renderer?.updateMesh(extrudeSolid)
+                                } else if (activeSolid != null) {
+                                    val targetFace = if (selectedType == "Face" && selectedId > 0) selectedId else 1
+                                    val preview = try {
+                                        val res = activeSolid!!.pressPull(depth.toDouble(), targetFace)
+                                        if (res.success && res.nativeHandle > 1000L) res else null
+                                    } catch (t: Throwable) {
+                                        null
+                                    }
+                                    if (preview != null) {
+                                        renderer?.updateMesh(preview)
+                                    }
+                                }
                             },
                             onConfirm = { depth, isSymmetric ->
-                                val extrudeSolid = extrudeSketchEntities(sketchEntities, depth.toDouble())
-                                activeSolid?.close()
-                                activeSolid = extrudeSolid
-                                renderer?.updateMesh(extrudeSolid)
-                                val bodyName = "Extruded Body ${browserState.value.bodies.size + 1}"
-                                val newBody = CadBodyItem(
-                                    id = "body_${System.currentTimeMillis()}",
-                                    name = bodyName,
-                                    isVisible = true,
-                                    isSelected = true,
-                                    faceCount = extrudeSolid.faceCount,
-                                    volume = extrudeSolid.volume,
-                                    solid = extrudeSolid
-                                )
-                                browserState.value.addBody(newBody)
-                                browserState.value.selectItem(newBody.id)
-                                showEmptyState = false
-                                timelineItems = (timelineItems + "${timelineItems.size + 1}. Extrude (${depth.toInt()} mm)").toMutableList()
-                                featureStatusText = "Extruded $bodyName: ${extrudeSolid.volume.toInt()} mm³"
+                                if (sketchEntities.isNotEmpty()) {
+                                    val extrudeSolid = extrudeSketchEntities(sketchEntities, depth.toDouble())
+                                    activeSolid?.close()
+                                    activeSolid = extrudeSolid
+                                    renderer?.updateMesh(extrudeSolid)
+                                    val bodyName = "Extruded Body ${browserState.value.bodies.size + 1}"
+                                    val newBody = CadBodyItem(
+                                        id = "body_${System.currentTimeMillis()}",
+                                        name = bodyName,
+                                        isVisible = true,
+                                        isSelected = true,
+                                        faceCount = extrudeSolid.faceCount,
+                                        volume = extrudeSolid.volume,
+                                        solid = extrudeSolid
+                                    )
+                                    browserState.value.addBody(newBody)
+                                    browserState.value.selectItem(newBody.id)
+                                    showEmptyState = false
+                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Extrude (${depth.toInt()} mm)").toMutableList()
+                                    featureStatusText = "Extruded $bodyName: ${extrudeSolid.volume.toInt()} mm³"
+                                } else if (activeSolid != null) {
+                                    val targetFace = if (selectedType == "Face" && selectedId > 0) selectedId else 1
+                                    val pulled = try {
+                                        val res = activeSolid!!.pressPull(depth.toDouble(), targetFace)
+                                        if (res.success && res.nativeHandle > 1000L) res else null
+                                    } catch (t: Throwable) {
+                                        null
+                                    }
+                                    if (pulled != null && pulled.success) {
+                                        activeSolid?.close()
+                                        activeSolid = pulled
+                                        renderer?.updateMesh(pulled)
+                                        val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                        if (selectedBody != null) {
+                                            selectedBody.solid = pulled
+                                            selectedBody.volume = pulled.volume
+                                            selectedBody.faceCount = pulled.faceCount
+                                        }
+                                        timelineItems = (timelineItems + "${timelineItems.size + 1}. Press-Pull Face #$targetFace (+${depth.toInt()} mm)").toMutableList()
+                                        featureStatusText = "Press-Pull Face #$targetFace: ${pulled.volume.toInt()} mm³"
+                                    } else {
+                                        featureStatusText = "Press-Pull failed on Face #$targetFace"
+                                        renderer?.updateMesh(activeSolid)
+                                    }
+                                }
                                 showExtrudeDialog = false
                             },
                             onDismiss = {
@@ -2482,16 +2541,6 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                     }
                                     timelineItems = (timelineItems + "${timelineItems.size + 1}. Fillet (R: ${r.toInt()} mm)").toMutableList()
                                     featureStatusText = "Fillet (R: ${r.toInt()} mm) applied"
-                                } else if (solid.nativeHandle <= 1000L) {
-                                    val mockRes = NativeKernel.createFallbackBox(98.0, 48.0, 20.0)
-                                    activeSolid = mockRes
-                                    renderer?.updateMesh(mockRes)
-                                    val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
-                                    if (selectedBody != null) {
-                                        selectedBody.solid = mockRes
-                                    }
-                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Fillet (R: ${r.toInt()} mm)").toMutableList()
-                                    featureStatusText = "Fillet (R: ${r.toInt()} mm) applied"
                                 } else {
                                     featureStatusText = "Fillet failed: radius ${r.toInt()} mm may be too large for edge #$edge"
                                     renderer?.updateMesh(solid)
@@ -2554,16 +2603,6 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                     }
                                     timelineItems = (timelineItems + "${timelineItems.size + 1}. Chamfer (D: ${d.toInt()} mm)").toMutableList()
                                     featureStatusText = "Chamfer (D: ${d.toInt()} mm) applied"
-                                } else if (solid.nativeHandle <= 1000L) {
-                                    val mockRes = NativeKernel.createFallbackBox(96.0, 46.0, 20.0)
-                                    activeSolid = mockRes
-                                    renderer?.updateMesh(mockRes)
-                                    val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
-                                    if (selectedBody != null) {
-                                        selectedBody.solid = mockRes
-                                    }
-                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Chamfer (D: ${d.toInt()} mm)").toMutableList()
-                                    featureStatusText = "Chamfer (D: ${d.toInt()} mm) applied"
                                 } else {
                                     featureStatusText = "Chamfer failed: distance ${d.toInt()} mm exceeds edge #$edge limit"
                                     renderer?.updateMesh(solid)
@@ -2582,15 +2621,52 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 
                     // Floating Hole Inspector Dialog
                     if (showHoleDialog) {
+                        fun getHoleTarget(solid: BoxMeshResult): Triple<Triple<Double, Double, Double>, Triple<Double, Double, Double>, String> {
+                            selectedHitPoint?.let { pt ->
+                                val norm = selectedFaceNormal ?: Triple(0f, 0f, 1f)
+                                val dx = -norm.first.toDouble()
+                                val dy = -norm.second.toDouble()
+                                val dz = -norm.third.toDouble()
+                                val len = Math.sqrt(dx * dx + dy * dy + dz * dz).coerceAtLeast(1e-4)
+                                return Triple(
+                                    Triple(pt.first.toDouble(), pt.second.toDouble(), pt.third.toDouble()),
+                                    Triple(dx / len, dy / len, dz / len),
+                                    "Tap (${pt.first.toInt()}, ${pt.second.toInt()}, ${pt.third.toInt()})"
+                                )
+                            }
+                            if (selectedType == "Face" && selectedId > 0) {
+                                val centerNorm = solid.getFaceCenterAndNormal(selectedId)
+                                if (centerNorm != null) {
+                                    val (c, n) = centerNorm
+                                    val dx = -n.first.toDouble()
+                                    val dy = -n.second.toDouble()
+                                    val dz = -n.third.toDouble()
+                                    val len = Math.sqrt(dx * dx + dy * dy + dz * dz).coerceAtLeast(1e-4)
+                                    return Triple(
+                                        Triple(c.first.toDouble(), c.second.toDouble(), c.third.toDouble()),
+                                        Triple(dx / len, dy / len, dz / len),
+                                        "Face #$selectedId Center"
+                                    )
+                                }
+                            }
+                            val bbox = solid.boundingBox
+                            return Triple(
+                                Triple(bbox.centerX.toDouble(), bbox.centerY.toDouble(), bbox.maxZ.toDouble()),
+                                Triple(0.0, 0.0, -1.0),
+                                "Top Face"
+                            )
+                        }
+
                         HoleInspectorDialog(
                             initialDiameter = 10f,
                             initialDepth = 20f,
                             onHoleChanged = { diam, depth ->
                                 val solid = activeSolid ?: return@HoleInspectorDialog
                                 if (solid.nativeHandle > 1000L && solid.success) {
+                                    val (pos, dir, _) = getHoleTarget(solid)
                                     val preview = try {
-                                        val res = solid.hole(50.0, 25.0, 0.0, 0.0, 0.0, 1.0, diam.toDouble(), depth.toDouble())
-                                        if (res.success) res else null
+                                        val res = solid.hole(pos.first, pos.second, pos.third, dir.first, dir.second, dir.third, (diam * 0.5f).toDouble(), depth.toDouble())
+                                        if (res.success && res.nativeHandle > 1000L) res else null
                                     } catch (t: Throwable) {
                                         null
                                     }
@@ -2606,9 +2682,10 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                     showHoleDialog = false
                                     return@HoleInspectorDialog
                                 }
+                                val (pos, dir, targetDesc) = getHoleTarget(solid)
                                 val holed = try {
-                                    val res = solid.hole(50.0, 25.0, 0.0, 0.0, 0.0, 1.0, diam.toDouble(), depth.toDouble())
-                                    if (res.success) res else null
+                                    val res = solid.hole(pos.first, pos.second, pos.third, dir.first, dir.second, dir.third, (diam * 0.5f).toDouble(), depth.toDouble())
+                                    if (res.success && res.nativeHandle > 1000L) res else null
                                 } catch (t: Throwable) {
                                     null
                                 }
@@ -2623,20 +2700,10 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                         selectedBody.volume = holed.volume
                                         selectedBody.faceCount = holed.faceCount
                                     }
-                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Hole (Ø${diam.toInt()} x ${depth.toInt()} mm)").toMutableList()
-                                    featureStatusText = "Hole (Ø${diam.toInt()} x ${depth.toInt()} mm) cut"
-                                } else if (solid.nativeHandle <= 1000L) {
-                                    val mockRes = NativeKernel.createFallbackBox(100.0, 50.0, 20.0)
-                                    activeSolid = mockRes
-                                    renderer?.updateMesh(mockRes)
-                                    val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
-                                    if (selectedBody != null) {
-                                        selectedBody.solid = mockRes
-                                    }
-                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Hole (Ø${diam.toInt()} x ${depth.toInt()} mm)").toMutableList()
-                                    featureStatusText = "Hole (Ø${diam.toInt()} x ${depth.toInt()} mm) cut"
+                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Hole (Ø${diam.toInt()} at $targetDesc)").toMutableList()
+                                    featureStatusText = "Hole (Ø${diam.toInt()} x ${depth.toInt()} mm) cut at $targetDesc"
                                 } else {
-                                    featureStatusText = "Hole cut failed: check hole dimensions"
+                                    featureStatusText = "Hole cut failed at $targetDesc: verify position & diameter"
                                     renderer?.updateMesh(solid)
                                 }
                                 showHoleDialog = false
@@ -3196,12 +3263,18 @@ fun buildNativeSketchFromEntities(sketch: NativeSketch, entities: List<SketchEnt
         return
     }
 
-    val pointMap = mutableMapOf<Pair<Long, Long>, Int>()
+    val existingPoints = mutableListOf<Triple<Double, Double, Int>>() // u, v, ptId
     fun getOrCreatePoint(u: Double, v: Double): Int {
-        val key = Pair(Math.round(u * 5.0), Math.round(v * 5.0))
-        return pointMap.getOrPut(key) {
-            sketch.addPoint(u, v)
+        for (pt in existingPoints) {
+            val du = pt.first - u
+            val dv = pt.second - v
+            if (du * du + dv * dv <= 6.25) { // 2.5 mm spatial snap tolerance
+                return pt.third
+            }
         }
+        val ptId = sketch.addPoint(u, v)
+        existingPoints.add(Triple(u, v, ptId))
+        return ptId
     }
 
     val rects = entities.filterIsInstance<SketchEntity.Rectangle>()
