@@ -574,8 +574,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m35_tablet.png`) and phone (`docs/screenshots/m35_phone.png`) screenshots.
   - Release: `v1.5.0`.
 * **Acceptance Tests:** Draft analyzer accurately classifies 100% of positive, vertical, and negative-draft faces and extracts closed parting line loops.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

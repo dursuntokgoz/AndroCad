@@ -45,3 +45,4 @@
 | **M32** | `v1.2.0` | ✅ Done | Asymmetric Two-Distance & Distance-Angle Chamfer — CTest (`[PASS] M32 Asymmetric & Distance-Angle Chamfer`) & Screenshots (`t_lum=36.1`, `p_lum=36.8`) doğrulandı. |
 | **M33** | `v1.3.0` | ✅ Done | Parametric Configurations & Design Tables (Part Variants) — CTest (`[PASS] M33 Parametric Configurations & Design Tables`) & Screenshots (`t_lum=36.1`, `p_lum=36.8`) doğrulandı. |
 | **M34** | `v1.4.0` | ✅ Done | Equation-Driven Curves & Scientific Expression Evaluator — CTest (`[PASS] M34 Equation-Driven Curves & Expression Evaluator`) & Screenshots (`t_lum=36.2`, `p_lum=36.9`) doğrulandı. |
+| **M35** | `v1.5.0` | ✅ Done | Injection Mold Design: Pull-Direction Draft & Undercut Analysis — CTest (`[PASS] M35 Injection Mold Draft & Undercut Analysis`) & Screenshots (`t_lum=36.6`, `p_lum=37.7`) doğrulandı. |
