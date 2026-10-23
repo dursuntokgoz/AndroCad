@@ -1,0 +1,10 @@
+{
+  "milestone": "M194",
+  "title": "Bolt Preload & Contact Pressure Frictional Joint Clamping Analysis",
+  "version": "v1.149.0",
+  "apkArtifact": "AndroCAD-v1.149.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m194_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m194_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M259",
+  "title": "ARCore 1:1 Tabletop Placement Anchor & Real-World Scale Calibration Matrix",
+  "version": "v1.214.0",
+  "apkArtifact": "AndroCAD-v1.214.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m259_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m259_phone.png"
+}

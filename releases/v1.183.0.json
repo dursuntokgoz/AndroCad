@@ -1,0 +1,10 @@
+{
+  "milestone": "M228",
+  "title": "SLA/DLP Tree Support & Cone Contact Tip Generator with Suction Cup Drain Hole Check",
+  "version": "v1.183.0",
+  "apkArtifact": "AndroCAD-v1.183.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m228_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m228_phone.png"
+}

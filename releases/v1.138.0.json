@@ -1,0 +1,10 @@
+{
+  "milestone": "M183",
+  "title": "1D/3D Worst-Case & RSS (Root-Sum-Square) Tolerance Stackup Analyzer",
+  "version": "v1.138.0",
+  "apkArtifact": "AndroCAD-v1.138.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m183_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m183_phone.png"
+}

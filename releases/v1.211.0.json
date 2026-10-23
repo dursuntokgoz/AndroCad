@@ -1,0 +1,10 @@
+{
+  "milestone": "M256",
+  "title": "Frustum Culling & Hierarchical BVH (Bounding Volume Hierarchy) Octree Ray Accelerator",
+  "version": "v1.211.0",
+  "apkArtifact": "AndroCAD-v1.211.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m256_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m256_phone.png"
+}

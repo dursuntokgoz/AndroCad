@@ -1,0 +1,10 @@
+{
+  "milestone": "M181",
+  "title": "Swept Volume Envelope & Moving Mechanism Clearance Verification",
+  "version": "v1.136.0",
+  "apkArtifact": "AndroCAD-v1.136.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m181_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m181_phone.png"
+}

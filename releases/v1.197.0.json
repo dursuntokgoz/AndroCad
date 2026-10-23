@@ -1,0 +1,10 @@
+{
+  "milestone": "M242",
+  "title": "SVG Technical Illustration Exporter with Line-Weight Hierarchy & Isometric Shading",
+  "version": "v1.197.0",
+  "apkArtifact": "AndroCAD-v1.197.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m242_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m242_phone.png"
+}

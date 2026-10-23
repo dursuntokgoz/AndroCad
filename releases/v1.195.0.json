@@ -1,0 +1,10 @@
+{
+  "milestone": "M240",
+  "title": "glTF 2.0 / GLB PBR Metallic-Roughness Scene & Binary Buffer Exporter",
+  "version": "v1.195.0",
+  "apkArtifact": "AndroCAD-v1.195.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m240_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m240_phone.png"
+}

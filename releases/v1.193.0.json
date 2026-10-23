@@ -1,0 +1,10 @@
+{
+  "milestone": "M238",
+  "title": "Broken-Out Section & Foreshortened Long-Shaft Break View Projection",
+  "version": "v1.193.0",
+  "apkArtifact": "AndroCAD-v1.193.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m238_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m238_phone.png"
+}

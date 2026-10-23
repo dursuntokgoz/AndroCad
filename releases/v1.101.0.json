@@ -1,0 +1,10 @@
+{
+  "milestone": "M146",
+  "title": "Mesh Deviation Color Map & Hausdorff Distance Metrology Inspector",
+  "version": "v1.101.0",
+  "apkArtifact": "AndroCAD-v1.101.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m146_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m146_phone.png"
+}

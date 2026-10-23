@@ -1,0 +1,10 @@
+{
+  "milestone": "M220",
+  "title": "Mill-Turn C-Axis Polar (G12.1) & Y-Axis Off-Center Cross-Milling Post-Processor",
+  "version": "v1.175.0",
+  "apkArtifact": "AndroCAD-v1.175.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m220_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m220_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M100",
+  "title": "Sketch Chamfer & Corner Trim/Extend Dynamic Intersection Solver",
+  "version": "v1.55.0",
+  "apkArtifact": "AndroCAD-v1.55.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m100_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m100_phone.png"
+}

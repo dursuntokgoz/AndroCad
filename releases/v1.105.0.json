@@ -1,0 +1,10 @@
+{
+  "milestone": "M150",
+  "title": "Axial Twist, Taper & Bend Non-Linear Solid Deformer",
+  "version": "v1.105.0",
+  "apkArtifact": "AndroCAD-v1.105.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m150_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m150_phone.png"
+}

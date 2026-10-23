@@ -1,0 +1,10 @@
+{
+  "milestone": "M227",
+  "title": "SLA/MSLA Resin Vat Photopolymerization Slicer (Cross-Section Exposure & Peel Lift)",
+  "version": "v1.182.0",
+  "apkArtifact": "AndroCAD-v1.182.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m227_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m227_phone.png"
+}

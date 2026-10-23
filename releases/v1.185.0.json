@@ -1,0 +1,10 @@
+{
+  "milestone": "M230",
+  "title": "Multi-Material Toolchange Purge Tower & Soluble Support Interface Slicer",
+  "version": "v1.185.0",
+  "apkArtifact": "AndroCAD-v1.185.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m230_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m230_phone.png"
+}

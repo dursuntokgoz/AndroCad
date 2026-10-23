@@ -1,0 +1,10 @@
+{
+  "milestone": "M166",
+  "title": "Flexible Hose & Hydraulic Tube Minimum Bend Radius Violation Checker",
+  "version": "v1.121.0",
+  "apkArtifact": "AndroCAD-v1.121.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m166_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m166_phone.png"
+}

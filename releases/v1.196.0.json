@@ -1,0 +1,10 @@
+{
+  "milestone": "M241",
+  "title": "DXF R2018 AutoCAD 2D/3D Polyline, Spline, Hatch & Dimension Entity Parser/Writer",
+  "version": "v1.196.0",
+  "apkArtifact": "AndroCAD-v1.196.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m241_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m241_phone.png"
+}

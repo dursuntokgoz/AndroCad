@@ -1,0 +1,10 @@
+{
+  "milestone": "M89",
+  "title": "Target-Aware ISO M8 Threaded Bolt Placement & Transformation at Tapped 3D Coordinates",
+  "version": "v1.44.4",
+  "apkArtifact": "AndroCAD-v1.44.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m89_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m89_phone.png"
+}

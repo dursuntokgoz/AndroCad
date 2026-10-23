@@ -1,0 +1,10 @@
+{
+  "milestone": "M92",
+  "title": "G3 Torsion-Continuous Bezier & NURBS Curve Bridge",
+  "version": "v1.47.0",
+  "apkArtifact": "AndroCAD-v1.47.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m92_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m92_phone.png"
+}

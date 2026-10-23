@@ -1,0 +1,10 @@
+{
+  "milestone": "M185",
+  "title": "Smart Fastener Auto-Populator (Hole Diameter Recognition to ISO Bolt/Washer/Nut Stack)",
+  "version": "v1.140.0",
+  "apkArtifact": "AndroCAD-v1.140.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m185_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m185_phone.png"
+}

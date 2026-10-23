@@ -271,7 +271,7 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
         out vec2 vWorldPos;
         void main() {
             gl_Position = uMVPMatrix * vec4(aPosition, 1.0);
-            vWorldPos = aPosition.xz;
+            vWorldPos = aPosition.xy;
         }
     """.trimIndent()
 
@@ -321,30 +321,30 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
 
         var x = -extent
         while (x <= extent + 0.1f) {
-            val isZAxis = abs(x) < 0.1f
+            val isYAxis = abs(x) < 0.1f
             val isMajor = abs(x % 50.0f) < 0.1f
             val (r, g, b, a) = when {
-                isZAxis -> floatArrayOf(0.25f, 0.55f, 0.95f, 0.95f) // Blue Z-axis
+                isYAxis -> floatArrayOf(0.25f, 0.78f, 0.38f, 0.95f) // Green Y-axis
                 isMajor -> floatArrayOf(0.40f, 0.44f, 0.50f, 0.70f)
                 else -> floatArrayOf(0.26f, 0.29f, 0.34f, 0.40f)
             }
-            addV(x, 0.001f, -extent, r, g, b, a)
-            addV(x, 0.001f, extent, r, g, b, a)
+            addV(x, -extent, 0.001f, r, g, b, a)
+            addV(x, extent, 0.001f, r, g, b, a)
             x += step
         }
 
-        var z = -extent
-        while (z <= extent + 0.1f) {
-            val isXAxis = abs(z) < 0.1f
-            val isMajor = abs(z % 50.0f) < 0.1f
+        var y = -extent
+        while (y <= extent + 0.1f) {
+            val isXAxis = abs(y) < 0.1f
+            val isMajor = abs(y % 50.0f) < 0.1f
             val (r, g, b, a) = when {
                 isXAxis -> floatArrayOf(0.88f, 0.22f, 0.22f, 0.95f) // Red X-axis
                 isMajor -> floatArrayOf(0.40f, 0.44f, 0.50f, 0.70f)
                 else -> floatArrayOf(0.26f, 0.29f, 0.34f, 0.40f)
             }
-            addV(-extent, 0.001f, z, r, g, b, a)
-            addV(extent, 0.001f, z, r, g, b, a)
-            z += step
+            addV(-extent, y, 0.001f, r, g, b, a)
+            addV(extent, y, 0.001f, r, g, b, a)
+            y += step
         }
 
         gridVertexCount = lines.size / 7
@@ -370,15 +370,15 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
         GLES30.glVertexAttribPointer(1, 4, GLES30.GL_FLOAT, false, 7 * 4, 3 * 4)
         GLES30.glBindVertexArray(0)
 
-        // Floor Quad (6 vertices covering [-extent, extent] in X and Z)
+        // Floor Quad (6 vertices covering [-extent, extent] in X and Y, Z=0 ground plane)
         val floorVertices = floatArrayOf(
-            -extent, 0.0f, -extent,
-             extent, 0.0f, -extent,
-             extent, 0.0f,  extent,
+            -extent, -extent, 0.0f,
+             extent, -extent, 0.0f,
+             extent,  extent, 0.0f,
 
-            -extent, 0.0f, -extent,
-             extent, 0.0f,  extent,
-            -extent, 0.0f,  extent
+            -extent, -extent, 0.0f,
+             extent,  extent, 0.0f,
+            -extent,  extent, 0.0f
         )
         val floorBuffer = ByteBuffer.allocateDirect(floorVertices.size * 4)
             .order(ByteOrder.nativeOrder())
@@ -664,15 +664,15 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
         GLES30.glViewport(0, 0, viewportWidth, viewportHeight)
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT or GLES30.GL_DEPTH_BUFFER_BIT)
 
-        // Draw CAD Floor Tiles & Coordinate Grid (Zemin Karoları ve Izgara)
+        // Draw CAD Floor Tiles & Coordinate Grid (Zemin Karoları ve Izgara in XY plane, Z=groundZ)
         if (floorVao != 0 || gridVao != 0) {
             val gridMVP = FloatArray(16)
             val gridModel = FloatArray(16)
             Matrix.setIdentityM(gridModel, 0)
-            val groundY = meshResult?.let {
-                if (it.success) it.boundingBox.minY.coerceAtMost(0.0f) else 0.0f
+            val groundZ = meshResult?.let {
+                if (it.success) it.boundingBox.minZ.coerceAtMost(0.0f) else 0.0f
             } ?: 0.0f
-            Matrix.translateM(gridModel, 0, 0.0f, groundY, 0.0f)
+            Matrix.translateM(gridModel, 0, 0.0f, 0.0f, groundZ)
             Matrix.multiplyMM(gridMVP, 0, viewMatrix, 0, gridModel, 0)
             Matrix.multiplyMM(gridMVP, 0, projectionMatrix, 0, gridMVP, 0)
 
@@ -959,15 +959,25 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
         val gpuIsEdge = (rawId and 0x800000) != 0
         val gpuEntityId = rawId and 0x7FFFFF
 
+        val dynamicEdgeTol = (distance * 0.025f).coerceIn(2.5f, 8.0f)
         val ray = screenToRay(touchX, touchY)
         val rayPick = if (ray != null) {
-            curMesh.pickByRay(ray.first[0], ray.first[1], ray.first[2], ray.second[0], ray.second[1], ray.second[2])
+            curMesh.pickByRay(
+                ray.first[0], ray.first[1], ray.first[2],
+                ray.second[0], ray.second[1], ray.second[2],
+                edgeTolerance = dynamicEdgeTol
+            )
         } else null
 
         val result: PickResult? = when {
             rayPick != null && rayPick.hit -> {
-                val finalEntityId = if (gpuHit && !gpuIsEdge) gpuEntityId else rayPick.entityId
-                val finalIsEdge = if (gpuHit) gpuIsEdge else rayPick.isEdge
+                val finalIsEdge = rayPick.isEdge || (gpuHit && gpuIsEdge)
+                val finalEntityId = when {
+                    rayPick.isEdge -> rayPick.entityId
+                    gpuHit && gpuIsEdge -> gpuEntityId
+                    gpuHit && !gpuIsEdge -> gpuEntityId
+                    else -> rayPick.entityId
+                }
                 selectedHitPoint = floatArrayOf(rayPick.hitX, rayPick.hitY, rayPick.hitZ)
                 selectedFaceNormal = floatArrayOf(rayPick.normalX, rayPick.normalY, rayPick.normalZ)
                 PickResult(
@@ -1048,16 +1058,20 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
         val cosAzim = cos(radAzim)
         val sinAzim = sin(radAzim)
 
-        // Spherical camera position relative to target
+        // Z-up CAD spherical camera position relative to target (XY is floor, +Z is UP)
         cameraPos[0] = targetX + distance * cosElev * sinAzim
-        cameraPos[1] = targetY + distance * sinElev
-        cameraPos[2] = targetZ + distance * cosElev * cosAzim
+        cameraPos[1] = targetY - distance * cosElev * cosAzim
+        cameraPos[2] = targetZ + distance * sinElev
+
+        val upX = -sinElev * sinAzim
+        val upY = sinElev * cosAzim
+        val upZ = cosElev
 
         Matrix.setLookAtM(
             viewMatrix, 0,
             cameraPos[0], cameraPos[1], cameraPos[2],
             targetX, targetY, targetZ,
-            0f, 1f, 0f
+            upX, upY, upZ
         )
 
         Matrix.setIdentityM(modelMatrix, 0)
@@ -1073,13 +1087,22 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
 
     fun pan(deltaX: Float, deltaY: Float) {
         val factor = (distance / 800f).coerceAtLeast(0.05f)
+        val radElev = Math.toRadians(elevation.toDouble()).toFloat()
         val radAzim = Math.toRadians(azimuth.toDouble()).toFloat()
-        val rightX = cos(radAzim)
-        val rightZ = -sin(radAzim)
+        val sinElev = sin(radElev)
+        val cosElev = cos(radElev)
+        val cosAzim = cos(radAzim)
+        val sinAzim = sin(radAzim)
 
-        targetX -= rightX * deltaX * factor
-        targetZ -= rightZ * deltaX * factor
-        targetY += deltaY * factor
+        val rightX = cosAzim
+        val rightY = sinAzim
+        val upX = -sinElev * sinAzim
+        val upY = sinElev * cosAzim
+        val upZ = cosElev
+
+        targetX += (-rightX * deltaX + upX * deltaY) * factor
+        targetY += (-rightY * deltaX + upY * deltaY) * factor
+        targetZ += (upZ * deltaY) * factor
     }
 
     fun zoom(scaleFactor: Float) {

@@ -1,0 +1,10 @@
+{
+  "milestone": "M239",
+  "title": "3MF (3D Manufacturing Format) XML Mesh, Material & Color Archive Writer/Reader",
+  "version": "v1.194.0",
+  "apkArtifact": "AndroCAD-v1.194.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m239_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m239_phone.png"
+}

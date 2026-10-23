@@ -1,0 +1,10 @@
+{
+  "milestone": "M77",
+  "title": "Instant Live 3D Preview on Inspector Dialog Open (Fillet, Chamfer, Hole, Revolve, Shell)",
+  "version": "v1.42.2",
+  "apkArtifact": "AndroCAD-v1.42.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m77_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m77_phone.png"
+}

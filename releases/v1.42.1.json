@@ -1,0 +1,10 @@
+{
+  "milestone": "M76",
+  "title": "Topmost-Z Edge & Face Default Fallback for Fillet, Chamfer, and Shell Operations",
+  "version": "v1.42.1",
+  "apkArtifact": "AndroCAD-v1.42.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m76_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m76_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M253",
+  "title": "Environment Cubemap IBL (Image-Based Lighting) & Studio Brushed-Metal Shader Model",
+  "version": "v1.208.0",
+  "apkArtifact": "AndroCAD-v1.208.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m253_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m253_phone.png"
+}

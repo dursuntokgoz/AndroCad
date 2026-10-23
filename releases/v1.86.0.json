@@ -1,0 +1,10 @@
+{
+  "milestone": "M131",
+  "title": "Catmull-Clark Subdivision Surface Cage to Exact Bicubic NURBS Patch Converter",
+  "version": "v1.86.0",
+  "apkArtifact": "AndroCAD-v1.86.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m131_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m131_phone.png"
+}

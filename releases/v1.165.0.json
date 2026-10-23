@@ -1,0 +1,10 @@
+{
+  "milestone": "M210",
+  "title": "Multi-Objective Pareto Front Design Explorer (Mass vs. Stiffness vs. Manufacturing Cost)",
+  "version": "v1.165.0",
+  "apkArtifact": "AndroCAD-v1.165.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m210_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m210_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M153",
+  "title": "Sheet Metal Jog & Offset Z-Bend with Automatic Flange Compensation",
+  "version": "v1.108.0",
+  "apkArtifact": "AndroCAD-v1.108.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m153_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m153_phone.png"
+}

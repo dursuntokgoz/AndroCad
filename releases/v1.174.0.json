@@ -1,0 +1,10 @@
+{
+  "milestone": "M219",
+  "title": "Engraving & V-Bit Chamfer Constant-Width Medial-Axis Corner Sharpening",
+  "version": "v1.174.0",
+  "apkArtifact": "AndroCAD-v1.174.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m219_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m219_phone.png"
+}

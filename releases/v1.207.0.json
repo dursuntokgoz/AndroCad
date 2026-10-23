@@ -1,0 +1,10 @@
+{
+  "milestone": "M252",
+  "title": "Real-Time Planar Ground Shadow & Contact Softening Attenuation",
+  "version": "v1.207.0",
+  "apkArtifact": "AndroCAD-v1.207.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m252_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m252_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M93",
+  "title": "3D Sketch Routing on Non-Planar B-Rep Faces (Curves on Surface)",
+  "version": "v1.48.0",
+  "apkArtifact": "AndroCAD-v1.48.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m93_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m93_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M78",
+  "title": "Multi-Face Solid Thicken via Top/Selected Face Offset (PressPullFace Dispatch)",
+  "version": "v1.42.3",
+  "apkArtifact": "AndroCAD-v1.42.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m78_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m78_phone.png"
+}

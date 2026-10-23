@@ -1,0 +1,10 @@
+{
+  "milestone": "M141",
+  "title": "Decal & Label Conform Mapping with Minimal Shear Distortion",
+  "version": "v1.96.0",
+  "apkArtifact": "AndroCAD-v1.96.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m141_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m141_phone.png"
+}

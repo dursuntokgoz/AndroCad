@@ -1,0 +1,10 @@
+{
+  "milestone": "M91",
+  "title": "Conic Section Sketcher (Ellipses, Parabolas, Hyperbolas with Rho Parameter)",
+  "version": "v1.46.0",
+  "apkArtifact": "AndroCAD-v1.46.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m91_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m91_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M233",
+  "title": "True Position Bonus Tolerance Calculator for MMC (M) and LMC (L) Feature Size",
+  "version": "v1.188.0",
+  "apkArtifact": "AndroCAD-v1.188.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m233_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m233_phone.png"
+}

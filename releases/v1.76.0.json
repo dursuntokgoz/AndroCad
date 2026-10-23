@@ -1,0 +1,10 @@
+{
+  "milestone": "M121",
+  "title": "Multi-Thickness Variable Wall Shelling (Per-Face Thickness Overrides)",
+  "version": "v1.76.0",
+  "apkArtifact": "AndroCAD-v1.76.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m121_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m121_phone.png"
+}

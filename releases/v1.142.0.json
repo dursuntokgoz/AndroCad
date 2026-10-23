@@ -1,0 +1,10 @@
+{
+  "milestone": "M187",
+  "title": "Assembly Symmetry Mirror with Automatic Handed Component Detection",
+  "version": "v1.142.0",
+  "apkArtifact": "AndroCAD-v1.142.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m187_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m187_phone.png"
+}

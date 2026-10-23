@@ -1,0 +1,10 @@
+{
+  "milestone": "M176",
+  "title": "Universal Joint (Cardan) & Constant-Velocity (CV) Kinematic Coupling",
+  "version": "v1.131.0",
+  "apkArtifact": "AndroCAD-v1.131.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m176_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m176_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M246",
+  "title": "Should-Cost Manufacturing Estimator (CNC, Injection Molding, Sheet Metal, 3D Print)",
+  "version": "v1.201.0",
+  "apkArtifact": "AndroCAD-v1.201.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m246_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m246_phone.png"
+}

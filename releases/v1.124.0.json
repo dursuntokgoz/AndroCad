@@ -1,0 +1,10 @@
+{
+  "milestone": "M169",
+  "title": "Electrical Wire Harness & Cable Bundle Nailboard Flattening",
+  "version": "v1.124.0",
+  "apkArtifact": "AndroCAD-v1.124.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m169_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m169_phone.png"
+}

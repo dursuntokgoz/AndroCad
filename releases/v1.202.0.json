@@ -1,0 +1,10 @@
+{
+  "milestone": "M247",
+  "title": "Life-Cycle Assessment (LCA) Embodied Energy (MJ) & Carbon Footprint (kg CO2e) Calculator",
+  "version": "v1.202.0",
+  "apkArtifact": "AndroCAD-v1.202.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m247_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m247_phone.png"
+}

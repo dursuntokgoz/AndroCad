@@ -1,0 +1,10 @@
+{
+  "milestone": "M122",
+  "title": "Lip, Groove & Ultrasonic Weld Joint Enclosure Feature Generator",
+  "version": "v1.77.0",
+  "apkArtifact": "AndroCAD-v1.77.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m122_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m122_phone.png"
+}

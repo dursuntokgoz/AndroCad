@@ -1,0 +1,10 @@
+{
+  "milestone": "M202",
+  "title": "Surface-to-Surface Gray-Body Thermal Radiation View Factor & Stefan-Boltzmann Solver",
+  "version": "v1.157.0",
+  "apkArtifact": "AndroCAD-v1.157.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m202_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m202_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M115",
+  "title": "Direct Modeling Move Face with Automatic Adjacent Fillet Re-Blend",
+  "version": "v1.70.0",
+  "apkArtifact": "AndroCAD-v1.70.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m115_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m115_phone.png"
+}

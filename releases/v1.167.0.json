@@ -1,0 +1,10 @@
+{
+  "milestone": "M212",
+  "title": "Simultaneous 5-Axis Swarf Flank Milling Toolpath (Ruled Wall Synchronization)",
+  "version": "v1.167.0",
+  "apkArtifact": "AndroCAD-v1.167.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m212_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m212_phone.png"
+}

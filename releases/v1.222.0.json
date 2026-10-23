@@ -1,0 +1,10 @@
+{
+  "milestone": "M267",
+  "title": "Encrypted .androcad Project Container (AES-256-GCM Authenticated Header & Integrity Check)",
+  "version": "v1.222.0",
+  "apkArtifact": "AndroCAD-v1.222.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m267_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m267_phone.png"
+}

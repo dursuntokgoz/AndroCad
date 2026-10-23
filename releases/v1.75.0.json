@@ -1,0 +1,10 @@
+{
+  "milestone": "M120",
+  "title": "Centerline Loft & Area-Law Guided Multi-Section Solid Transition",
+  "version": "v1.75.0",
+  "apkArtifact": "AndroCAD-v1.75.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m120_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m120_phone.png"
+}

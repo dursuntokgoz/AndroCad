@@ -1,0 +1,10 @@
+{
+  "milestone": "M161",
+  "title": "Frame Corner Miter, Butt, and Coped/Notched Tube Joint Trimmer",
+  "version": "v1.116.0",
+  "apkArtifact": "AndroCAD-v1.116.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m161_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m161_phone.png"
+}

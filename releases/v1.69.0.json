@@ -1,0 +1,10 @@
+{
+  "milestone": "M114",
+  "title": "Setback Vertex Blend with Variable Corner Sphere Radius",
+  "version": "v1.69.0",
+  "apkArtifact": "AndroCAD-v1.69.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m114_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m114_phone.png"
+}

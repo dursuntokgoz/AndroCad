@@ -1,0 +1,10 @@
+{
+  "milestone": "M229",
+  "title": "TPMS Lattice Infill Generator (Schwarz-P, Diamond, Lidinoid Implicit Surfaces)",
+  "version": "v1.184.0",
+  "apkArtifact": "AndroCAD-v1.184.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m229_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m229_phone.png"
+}

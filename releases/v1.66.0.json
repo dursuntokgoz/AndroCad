@@ -1,0 +1,10 @@
+{
+  "milestone": "M111",
+  "title": "Emboss & Deboss Wrapped Sketch Profiles onto Cylindrical/Conical Faces",
+  "version": "v1.66.0",
+  "apkArtifact": "AndroCAD-v1.66.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m111_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m111_phone.png"
+}

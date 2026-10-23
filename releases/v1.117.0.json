@@ -1,0 +1,10 @@
+{
+  "milestone": "M162",
+  "title": "Structural Gusset, End-Cap & Base Plate Stiffener Generator",
+  "version": "v1.117.0",
+  "apkArtifact": "AndroCAD-v1.117.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m162_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m162_phone.png"
+}

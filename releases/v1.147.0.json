@@ -1,0 +1,10 @@
+{
+  "milestone": "M192",
+  "title": "Hyperelastic Elastomer Material Model (Mooney-Rivlin & Ogden Strain Energy)",
+  "version": "v1.147.0",
+  "apkArtifact": "AndroCAD-v1.147.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m192_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m192_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M211",
+  "title": "3+2 Indexed Positional 5-Axis Tilted Workplane (G68.2 / CYCLE800) Generator",
+  "version": "v1.166.0",
+  "apkArtifact": "AndroCAD-v1.166.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m211_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m211_phone.png"
+}

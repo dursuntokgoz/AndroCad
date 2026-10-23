@@ -1,0 +1,10 @@
+{
+  "milestone": "M217",
+  "title": "Trochoidal Slot Milling with Dynamic Feedrate Optimization Based on Engagement Angle",
+  "version": "v1.172.0",
+  "apkArtifact": "AndroCAD-v1.172.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m217_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m217_phone.png"
+}

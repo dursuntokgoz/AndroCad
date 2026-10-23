@@ -1,0 +1,10 @@
+{
+  "milestone": "M75",
+  "title": "Face-Perimeter Loop Fillet & Chamfer (targetEdgeId <= -1000 Multi-Edge Boundary Loop Support)",
+  "version": "v1.42.0",
+  "apkArtifact": "AndroCAD-v1.42.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m75_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m75_phone.png"
+}

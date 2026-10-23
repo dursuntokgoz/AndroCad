@@ -1,0 +1,10 @@
+{
+  "milestone": "M85",
+  "title": "Active Solid Bounding-Box Driven CAM Stock & Toolpath Generation (Facing, Pocket, Contour, Drill)",
+  "version": "v1.44.0",
+  "apkArtifact": "AndroCAD-v1.44.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m85_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m85_phone.png"
+}

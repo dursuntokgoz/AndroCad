@@ -48,6 +48,7 @@ if(ANDROID)
         src/TimelineDAG.cpp
         src/ProjectIO.cpp
         src/Phase3Engine.cpp
+        src/Phase4Engine.cpp
         src/native_kernel_jni.cpp
     )
 
@@ -703,4 +704,11 @@ else()
     )
 
     add_test(NAME Faz3SuiteTest COMMAND androcad_faz3_suite_test)
+
+    add_executable(androcad_faz4_suite_test
+        src/Phase4Engine.cpp
+        tests/test_faz4_suite.cpp
+    )
+
+    add_test(NAME Faz4SuiteTest COMMAND androcad_faz4_suite_test)
 endif()

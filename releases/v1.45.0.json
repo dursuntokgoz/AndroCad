@@ -1,0 +1,10 @@
+{
+  "milestone": "M90",
+  "title": "Comprehensive 90-Button End-to-End 3D Model Mutation & Picking Verification Suite",
+  "version": "v1.45.0",
+  "apkArtifact": "AndroCAD-v1.45.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m90_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m90_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M117",
+  "title": "Direct Modeling Delete Face & Automatic Gap Healing (Cap/Extend)",
+  "version": "v1.72.0",
+  "apkArtifact": "AndroCAD-v1.72.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m117_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m117_phone.png"
+}

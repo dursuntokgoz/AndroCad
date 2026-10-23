@@ -1,0 +1,10 @@
+{
+  "milestone": "M106",
+  "title": "Intersection Curve Extraction Between Active Sketch Plane and Multi-Body Solids",
+  "version": "v1.61.0",
+  "apkArtifact": "AndroCAD-v1.61.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m106_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m106_phone.png"
+}

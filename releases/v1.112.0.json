@@ -1,0 +1,10 @@
+{
+  "milestone": "M157",
+  "title": "Forming Tool Punch Stamp (Louver, Lance, Bridge, Dimple, Extruded Hole)",
+  "version": "v1.112.0",
+  "apkArtifact": "AndroCAD-v1.112.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m157_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m157_phone.png"
+}

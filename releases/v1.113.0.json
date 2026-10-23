@@ -1,0 +1,10 @@
+{
+  "milestone": "M158",
+  "title": "Punch Table & CNC Turret Press Tool ID Schedule Generator",
+  "version": "v1.113.0",
+  "apkArtifact": "AndroCAD-v1.113.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m158_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m158_phone.png"
+}

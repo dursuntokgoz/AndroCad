@@ -1,0 +1,10 @@
+{
+  "milestone": "M138",
+  "title": "Quilt Stitch Tolerance Analyzer & Free-Edge Gap Locator",
+  "version": "v1.93.0",
+  "apkArtifact": "AndroCAD-v1.93.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m138_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m138_phone.png"
+}

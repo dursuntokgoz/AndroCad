@@ -1,0 +1,10 @@
+{
+  "milestone": "M87",
+  "title": "Active Solid Bounding-Box Driven Cantilever, Tet10, and Modal FEA Simulation",
+  "version": "v1.44.2",
+  "apkArtifact": "AndroCAD-v1.44.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m87_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m87_phone.png"
+}

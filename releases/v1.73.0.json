@@ -1,0 +1,10 @@
+{
+  "milestone": "M118",
+  "title": "Direct Modeling Replace Face with Freeform NURBS Surface Target",
+  "version": "v1.73.0",
+  "apkArtifact": "AndroCAD-v1.73.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m118_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m118_phone.png"
+}

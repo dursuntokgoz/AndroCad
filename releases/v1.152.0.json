@@ -1,0 +1,10 @@
+{
+  "milestone": "M197",
+  "title": "Harmonic Frequency Response Analysis (Steady-State Sinusoidal Excitation & Damping)",
+  "version": "v1.152.0",
+  "apkArtifact": "AndroCAD-v1.152.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m197_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m197_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M83",
+  "title": "Target-Aware Mirror Plane Construction Across Tapped Face or Bounding Box Datum",
+  "version": "v1.43.3",
+  "apkArtifact": "AndroCAD-v1.43.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m83_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m83_phone.png"
+}

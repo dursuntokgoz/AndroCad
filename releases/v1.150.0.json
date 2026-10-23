@@ -1,0 +1,10 @@
+{
+  "milestone": "M195",
+  "title": "High-Cycle & Low-Cycle Fatigue Life Estimator (S-N Goodman/Gerber & Miner's Rule)",
+  "version": "v1.150.0",
+  "apkArtifact": "AndroCAD-v1.150.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m195_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m195_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M123",
+  "title": "Snap-Fit Cantilever Hook & Annular Deflection Feature Calculator",
+  "version": "v1.78.0",
+  "apkArtifact": "AndroCAD-v1.78.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m123_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m123_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M156",
+  "title": "Corner Relief (Circular, Tear, Obround, Rectangular) & 3-Bend Intersection Miter",
+  "version": "v1.111.0",
+  "apkArtifact": "AndroCAD-v1.111.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m156_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m156_phone.png"
+}

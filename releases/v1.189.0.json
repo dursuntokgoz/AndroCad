@@ -1,0 +1,10 @@
+{
+  "milestone": "M234",
+  "title": "Surface Texture Symbol (ISO 1302 / ASME Y14.36 Ra, Rz, Machining Allowance) Formatter",
+  "version": "v1.189.0",
+  "apkArtifact": "AndroCAD-v1.189.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m234_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m234_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M222",
+  "title": "4-Axis Wire EDM (UV Taper XY-UV Synchronization & Skim Pass Offset Generator)",
+  "version": "v1.177.0",
+  "apkArtifact": "AndroCAD-v1.177.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m222_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m222_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M119",
+  "title": "Solid Sweep with Guide Rail & Twist Angle Law Along 3D Spine",
+  "version": "v1.74.0",
+  "apkArtifact": "AndroCAD-v1.74.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m119_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m119_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M73",
+  "title": "3D HitPoint-to-Edge Closest Segment Resolver (resolveTargetEdgeId Eliminating Bottom Edge #1 Fallback)",
+  "version": "v1.41.2",
+  "apkArtifact": "AndroCAD-v1.41.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m73_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m73_phone.png"
+}

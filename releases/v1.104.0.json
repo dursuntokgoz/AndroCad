@@ -1,0 +1,10 @@
+{
+  "milestone": "M149",
+  "title": "Global Space Deformation (Freeform Lattice Cage FFD 3x3x3 Bernstein Tensor)",
+  "version": "v1.104.0",
+  "apkArtifact": "AndroCAD-v1.104.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m149_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m149_phone.png"
+}

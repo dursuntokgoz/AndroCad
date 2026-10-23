@@ -1,0 +1,10 @@
+{
+  "milestone": "M231",
+  "title": "3D PMI (Product Manufacturing Information) Semantic Annotation Attachment to B-Rep Faces",
+  "version": "v1.186.0",
+  "apkArtifact": "AndroCAD-v1.186.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m231_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m231_phone.png"
+}

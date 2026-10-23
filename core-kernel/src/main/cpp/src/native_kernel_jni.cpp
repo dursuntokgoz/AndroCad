@@ -18,6 +18,7 @@
 #include "PatternEngine.h"
 #include "FastenerEngine.h"
 #include "Phase3Engine.h"
+#include "Phase4Engine.h"
 
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <TopoDS_Shape.hxx>
@@ -2573,6 +2574,24 @@ Java_com_androcad_kernel_NativeKernel_nativeExecutePhase3Operation(
             break;
         }
     }
+    return env->NewStringUTF(ss.str().c_str());
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_androcad_kernel_NativeKernel_nativeExecutePhase4Milestone(
+        JNIEnv* env,
+        jobject /* this */,
+        jint milestoneId) {
+    auto status = androcad::Phase4Engine::ExecuteMilestone(milestoneId);
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(4);
+    ss << "{\"success\":" << (status.verified ? "true" : "false")
+       << ",\"milestone\":" << status.milestoneNumber
+       << ",\"domain\":\"" << status.domainName << "\""
+       << ",\"title\":\"" << status.title << "\""
+       << ",\"primaryMetric\":" << status.primaryMetric
+       << ",\"secondaryMetric\":" << status.secondaryMetric
+       << ",\"summary\":\"" << status.diagnosticSummary << "\"}";
     return env->NewStringUTF(ss.str().c_str());
 }
 

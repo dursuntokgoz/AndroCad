@@ -1,0 +1,10 @@
+{
+  "milestone": "M251",
+  "title": "Screen-Space Ambient Occlusion (SSAO Hemisphere Kernel) & Cavity Shading Math",
+  "version": "v1.206.0",
+  "apkArtifact": "AndroCAD-v1.206.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m251_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m251_phone.png"
+}

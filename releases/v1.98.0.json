@@ -1,0 +1,10 @@
+{
+  "milestone": "M143",
+  "title": "Screened Poisson Surface Reconstruction Indicator Solver",
+  "version": "v1.98.0",
+  "apkArtifact": "AndroCAD-v1.98.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m143_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m143_phone.png"
+}

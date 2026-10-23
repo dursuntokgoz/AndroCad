@@ -1,0 +1,10 @@
+{
+  "milestone": "M235",
+  "title": "Welding Symbol (ISO 2553 / AWS A2.4 Arrow/Other Side, All-Around, Field Weld) Generator",
+  "version": "v1.190.0",
+  "apkArtifact": "AndroCAD-v1.190.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m235_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m235_phone.png"
+}

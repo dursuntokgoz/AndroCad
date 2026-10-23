@@ -1,0 +1,10 @@
+{
+  "milestone": "M105",
+  "title": "Silhouette Curve Projection from Arbitrary 3D View Vector",
+  "version": "v1.60.0",
+  "apkArtifact": "AndroCAD-v1.60.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m105_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m105_phone.png"
+}

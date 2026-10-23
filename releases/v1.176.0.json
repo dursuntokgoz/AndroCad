@@ -1,0 +1,10 @@
+{
+  "milestone": "M221",
+  "title": "Swiss-Type Lathe Guide Bushing Synchronization & Sub-Spindle Part-Off Transfer",
+  "version": "v1.176.0",
+  "apkArtifact": "AndroCAD-v1.176.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m221_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m221_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M142",
+  "title": "Point Cloud Normal Estimation via Local PCA Covariance Eigen-Analysis",
+  "version": "v1.97.0",
+  "apkArtifact": "AndroCAD-v1.97.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m142_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m142_phone.png"
+}

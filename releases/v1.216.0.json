@@ -1,0 +1,10 @@
+{
+  "milestone": "M261",
+  "title": "Haptic Feedback Pulse Profile Generator for Snap Points, Constraints & Collisions",
+  "version": "v1.216.0",
+  "apkArtifact": "AndroCAD-v1.216.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m261_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m261_phone.png"
+}

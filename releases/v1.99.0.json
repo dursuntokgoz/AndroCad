@@ -1,0 +1,10 @@
+{
+  "milestone": "M144",
+  "title": "RANSAC Primitive Shape Detection (Planes, Cylinders, Spheres, Cones from Scan Data)",
+  "version": "v1.99.0",
+  "apkArtifact": "AndroCAD-v1.99.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m144_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m144_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M140",
+  "title": "UV Parameterization Flattening & Distortion Energy Minimizer (ARAP)",
+  "version": "v1.95.0",
+  "apkArtifact": "AndroCAD-v1.95.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m140_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m140_phone.png"
+}

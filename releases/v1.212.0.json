@@ -1,0 +1,10 @@
+{
+  "milestone": "M257",
+  "title": "Mesh LOD (Level-of-Detail) Screen-Space Pixel Error Selector for 60 FPS Mobile Viewport",
+  "version": "v1.212.0",
+  "apkArtifact": "AndroCAD-v1.212.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m257_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m257_phone.png"
+}

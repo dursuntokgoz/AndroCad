@@ -1,0 +1,10 @@
+{
+  "milestone": "M208",
+  "title": "Injection Molding Volumetric Shrinkage & Warpage Deflection Estimator",
+  "version": "v1.163.0",
+  "apkArtifact": "AndroCAD-v1.163.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m208_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m208_phone.png"
+}

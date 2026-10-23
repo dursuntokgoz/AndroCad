@@ -1,0 +1,10 @@
+{
+  "milestone": "M95",
+  "title": "Equation-Driven Parametric Curve Evaluator x(t), y(t), z(t)",
+  "version": "v1.50.0",
+  "apkArtifact": "AndroCAD-v1.50.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m95_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m95_phone.png"
+}

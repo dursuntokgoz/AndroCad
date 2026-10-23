@@ -1,0 +1,10 @@
+{
+  "milestone": "M147",
+  "title": "Reflection Line, Isophote & Horizon Curvature Continuity Inspector",
+  "version": "v1.102.0",
+  "apkArtifact": "AndroCAD-v1.102.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m147_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m147_phone.png"
+}

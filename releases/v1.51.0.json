@@ -1,0 +1,10 @@
+{
+  "milestone": "M96",
+  "title": "Automatic Sketch Profile Doctor (Gap Closing, Self-Intersection & Overlap Repair)",
+  "version": "v1.51.0",
+  "apkArtifact": "AndroCAD-v1.51.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m96_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m96_phone.png"
+}

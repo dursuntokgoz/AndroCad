@@ -1,0 +1,10 @@
+{
+  "milestone": "M113",
+  "title": "Full-Round Tri-Tangent Fillet Across Three Adjacent Faces",
+  "version": "v1.68.0",
+  "apkArtifact": "AndroCAD-v1.68.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m113_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m113_phone.png"
+}

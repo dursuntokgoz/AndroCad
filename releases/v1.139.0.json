@@ -1,0 +1,10 @@
+{
+  "milestone": "M184",
+  "title": "Monte Carlo Statistical Tolerance Simulation (Cp, Cpk, DPMO Defect Rate)",
+  "version": "v1.139.0",
+  "apkArtifact": "AndroCAD-v1.139.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m184_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m184_phone.png"
+}

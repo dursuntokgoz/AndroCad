@@ -1,0 +1,10 @@
+{
+  "milestone": "M171",
+  "title": "Gear Mate (Spur, Helical, Bevel, Worm) Coupled Velocity Ratio Constraint",
+  "version": "v1.126.0",
+  "apkArtifact": "AndroCAD-v1.126.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m171_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m171_phone.png"
+}

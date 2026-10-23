@@ -1,0 +1,10 @@
+{
+  "milestone": "M130",
+  "title": "Boundary Fill Volume Cell Selector (Fluid Internal Void Volume Extraction)",
+  "version": "v1.85.0",
+  "apkArtifact": "AndroCAD-v1.85.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m130_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m130_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M250",
+  "title": "ERP/PLM JSON/CSV Bill-of-Materials & Routing Operation Export Bridge",
+  "version": "v1.205.0",
+  "apkArtifact": "AndroCAD-v1.205.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m250_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m250_phone.png"
+}

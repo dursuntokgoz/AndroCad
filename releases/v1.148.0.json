@@ -1,0 +1,10 @@
+{
+  "milestone": "M193",
+  "title": "Geometric Non-Linearity (Large Deflection Updated-Lagrangian Stiffness)",
+  "version": "v1.148.0",
+  "apkArtifact": "AndroCAD-v1.148.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m193_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m193_phone.png"
+}

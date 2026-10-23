@@ -1,0 +1,10 @@
+{
+  "milestone": "M134",
+  "title": "Coons Bilinear & Gordon Curve-Network Surface Interpolation",
+  "version": "v1.89.0",
+  "apkArtifact": "AndroCAD-v1.89.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m134_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m134_phone.png"
+}

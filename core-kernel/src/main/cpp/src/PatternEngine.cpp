@@ -282,7 +282,6 @@ PatternResult PatternEngine::ApplyDraft(
                     if (std::abs(fNorm.Dot(pullDirection)) < 0.2) {
                         drafter.Add(face, pullDirection, angleRad, neutralPlane);
                         addedAny = true;
-                        break;
                     }
                 }
             }

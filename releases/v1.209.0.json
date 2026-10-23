@@ -1,0 +1,10 @@
+{
+  "milestone": "M254",
+  "title": "Order-Independent Transparency (Weighted Blended OIT) for X-Ray & Glass Assemblies",
+  "version": "v1.209.0",
+  "apkArtifact": "AndroCAD-v1.209.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m254_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m254_phone.png"
+}

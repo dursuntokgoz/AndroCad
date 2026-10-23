@@ -1,0 +1,10 @@
+{
+  "milestone": "M268",
+  "title": "Digital Watermarking & Cryptographic SHA-256 Provenance Signature for B-Rep Solids",
+  "version": "v1.223.0",
+  "apkArtifact": "AndroCAD-v1.223.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m268_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m268_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M225",
+  "title": "Siemens Sinumerik 840D & Heidenhain TNC Conversational Post-Processor Dialects",
+  "version": "v1.180.0",
+  "apkArtifact": "AndroCAD-v1.180.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m225_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m225_phone.png"
+}

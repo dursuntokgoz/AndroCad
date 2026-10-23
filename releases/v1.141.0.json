@@ -1,0 +1,10 @@
+{
+  "milestone": "M186",
+  "title": "Envelope Simplification & Lightweight Bounding Proxy Representation for Large Assemblies",
+  "version": "v1.141.0",
+  "apkArtifact": "AndroCAD-v1.141.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m186_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m186_phone.png"
+}

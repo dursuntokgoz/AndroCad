@@ -1,0 +1,10 @@
+{
+  "milestone": "M168",
+  "title": "Pipe Flange (ASME B16.5 / EN 1092) Bolt Circle & Gasket Seating Generator",
+  "version": "v1.123.0",
+  "apkArtifact": "AndroCAD-v1.123.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m168_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m168_phone.png"
+}

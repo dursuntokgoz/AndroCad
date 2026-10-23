@@ -1,0 +1,10 @@
+{
+  "milestone": "M226",
+  "title": "Material Removal Voxel Dexel Stock Verification & Gouge/Excess Material Detector",
+  "version": "v1.181.0",
+  "apkArtifact": "AndroCAD-v1.181.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m226_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m226_phone.png"
+}

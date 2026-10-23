@@ -1,0 +1,10 @@
+{
+  "milestone": "M126",
+  "title": "Custom Thread Profile Sweep (Acme, Buttress, Trapezoidal TR, NPT Pipe Taper)",
+  "version": "v1.81.0",
+  "apkArtifact": "AndroCAD-v1.81.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m126_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m126_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M127",
+  "title": "Solid Body Defeaturing (Automated Small Hole, Fillet & Boss Removal for CAE)",
+  "version": "v1.82.0",
+  "apkArtifact": "AndroCAD-v1.82.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m127_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m127_phone.png"
+}

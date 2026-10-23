@@ -1,0 +1,10 @@
+{
+  "milestone": "M74",
+  "title": "3D HitPoint-to-Face Centroid & Normal Alignment Resolver (resolveTargetFaceId)",
+  "version": "v1.41.3",
+  "apkArtifact": "AndroCAD-v1.41.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m74_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m74_phone.png"
+}

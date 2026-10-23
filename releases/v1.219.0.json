@@ -1,0 +1,10 @@
+{
+  "milestone": "M264",
+  "title": "Auto-Constraint & Feature Recognition Engine (Extracts Features from Dumb Imported B-Rep)",
+  "version": "v1.219.0",
+  "apkArtifact": "AndroCAD-v1.219.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m264_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m264_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M199",
+  "title": "Drop Test & Explicit Dynamic Impact Peak Deceleration (G-Load) Solver",
+  "version": "v1.154.0",
+  "apkArtifact": "AndroCAD-v1.154.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m199_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m199_phone.png"
+}

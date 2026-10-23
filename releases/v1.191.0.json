@@ -1,0 +1,10 @@
+{
+  "milestone": "M236",
+  "title": "Automated Hole Table (X, Y Coordinates from Datum Origin + Diameter/Depth Schedule)",
+  "version": "v1.191.0",
+  "apkArtifact": "AndroCAD-v1.191.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m236_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m236_phone.png"
+}

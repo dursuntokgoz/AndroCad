@@ -1,0 +1,10 @@
+{
+  "milestone": "M182",
+  "title": "Center-of-Mass Trajectory, Velocity & Acceleration Kinematic Trace",
+  "version": "v1.137.0",
+  "apkArtifact": "AndroCAD-v1.137.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m182_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m182_phone.png"
+}

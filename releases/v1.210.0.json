@@ -1,0 +1,10 @@
+{
+  "milestone": "M255",
+  "title": "Dynamic Clipping Cap Plane with Real-Time Stencil Cross-Hatching",
+  "version": "v1.210.0",
+  "apkArtifact": "AndroCAD-v1.210.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m255_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m255_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M266",
+  "title": "Collaborative CRDT (Conflict-Free Replicated Data Type) Parametric Feature Log Merger",
+  "version": "v1.221.0",
+  "apkArtifact": "AndroCAD-v1.221.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m266_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m266_phone.png"
+}

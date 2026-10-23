@@ -1,0 +1,10 @@
+{
+  "milestone": "M148",
+  "title": "Minimum Radius of Curvature & Tool Gouge Accessibility Surface Check",
+  "version": "v1.103.0",
+  "apkArtifact": "AndroCAD-v1.103.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m148_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m148_phone.png"
+}

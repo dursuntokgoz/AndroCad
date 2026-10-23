@@ -1,0 +1,10 @@
+{
+  "milestone": "M159",
+  "title": "2D Sheet Metal Nesting & True-Shape Guillotine/Strip Packing Optimizer",
+  "version": "v1.114.0",
+  "apkArtifact": "AndroCAD-v1.114.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m159_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m159_phone.png"
+}

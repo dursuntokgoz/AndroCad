@@ -1,0 +1,10 @@
+{
+  "milestone": "M163",
+  "title": "Weldment Cut List with Exact Saw Length & Miter Angles (theta1, theta2)",
+  "version": "v1.118.0",
+  "apkArtifact": "AndroCAD-v1.118.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m163_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m163_phone.png"
+}

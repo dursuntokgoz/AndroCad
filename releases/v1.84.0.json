@@ -1,0 +1,10 @@
+{
+  "milestone": "M129",
+  "title": "Variable Pitch Pattern Along 3D Curve with Orientation Alignment",
+  "version": "v1.84.0",
+  "apkArtifact": "AndroCAD-v1.84.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m129_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m129_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M107",
+  "title": "Point Cloud 2D Cross-Section Least-Squares Line/Arc Fitting",
+  "version": "v1.62.0",
+  "apkArtifact": "AndroCAD-v1.62.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m107_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m107_phone.png"
+}

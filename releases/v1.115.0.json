@@ -1,0 +1,10 @@
+{
+  "milestone": "M160",
+  "title": "Structural Frame Profile Library (ISO/DIN/AISC I-Beam, C-Channel, Angle, RHS/SHS Tube)",
+  "version": "v1.115.0",
+  "apkArtifact": "AndroCAD-v1.115.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m160_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m160_phone.png"
+}

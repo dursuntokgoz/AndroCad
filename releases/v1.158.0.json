@@ -1,0 +1,10 @@
+{
+  "milestone": "M203",
+  "title": "Joule Heating (Electro-Thermal Coupled Resistive Voltage Drop & Temperature Rise)",
+  "version": "v1.158.0",
+  "apkArtifact": "AndroCAD-v1.158.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m203_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m203_phone.png"
+}

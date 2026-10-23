@@ -1,0 +1,10 @@
+{
+  "milestone": "M258",
+  "title": "Temporal Anti-Aliasing (TAA) & MSAA 4x Edge Silhouette Smoothing Evaluator",
+  "version": "v1.213.0",
+  "apkArtifact": "AndroCAD-v1.213.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m258_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m258_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M177",
+  "title": "Inverse Kinematics (IK) Damped Least-Squares (Levenberg-Marquardt Jacobian) Solver",
+  "version": "v1.132.0",
+  "apkArtifact": "AndroCAD-v1.132.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m177_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m177_phone.png"
+}

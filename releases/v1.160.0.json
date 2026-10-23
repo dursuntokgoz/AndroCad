@@ -1,0 +1,10 @@
+{
+  "milestone": "M205",
+  "title": "External Aerodynamic Drag & Lift Coefficient Estimator (Potential/Boundary Layer Solver)",
+  "version": "v1.160.0",
+  "apkArtifact": "AndroCAD-v1.160.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m205_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m205_phone.png"
+}

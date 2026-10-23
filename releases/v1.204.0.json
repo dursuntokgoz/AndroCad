@@ -1,0 +1,10 @@
+{
+  "milestone": "M249",
+  "title": "PDM Revision Control, Branching, Visual 3D B-Rep Diff & Where-Used Dependency Tracker",
+  "version": "v1.204.0",
+  "apkArtifact": "AndroCAD-v1.204.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m249_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m249_phone.png"
+}

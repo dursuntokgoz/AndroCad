@@ -1,0 +1,10 @@
+{
+  "milestone": "M137",
+  "title": "Surface Trim & Untrim (Restore Natural UV Domain Boundaries)",
+  "version": "v1.92.0",
+  "apkArtifact": "AndroCAD-v1.92.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m137_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m137_phone.png"
+}

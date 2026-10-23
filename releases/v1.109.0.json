@@ -1,0 +1,10 @@
+{
+  "milestone": "M154",
+  "title": "Lofted Sheet Metal Transition (Square-to-Round HVAC Duct Press-Brake)",
+  "version": "v1.109.0",
+  "apkArtifact": "AndroCAD-v1.109.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m154_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m154_phone.png"
+}

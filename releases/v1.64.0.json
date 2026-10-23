@@ -1,0 +1,10 @@
+{
+  "milestone": "M109",
+  "title": "Cam Follower Displacement Law Profile Generator (Cycloidal, Harmonic, Polynomial)",
+  "version": "v1.64.0",
+  "apkArtifact": "AndroCAD-v1.64.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m109_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m109_phone.png"
+}

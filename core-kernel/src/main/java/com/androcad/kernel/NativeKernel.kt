@@ -168,6 +168,215 @@ data class BoxMeshResult(
         )
     }
 
+    /**
+     * Resolves the exact 1-based Edge ID closest to the user's 3D tap point, or the topmost edge (highest Z)
+     * when no point is selected. Never falls back to bottom Edge #1 unless explicitly tapped.
+     */
+    fun resolveTargetEdgeId(
+        selectedType: String?,
+        selectedId: Int,
+        hitPoint: Triple<Float, Float, Float>?
+    ): Int {
+        if (selectedType == "Edge" && selectedId in 1..edgeCount.coerceAtLeast(1)) {
+            return selectedId
+        }
+        val eBuf = edgeVertexBuffer
+        if (eBuf != null && eBuf.capacity() >= 32) {
+            val dup = eBuf.duplicate().order(ByteOrder.nativeOrder())
+            val cap = dup.capacity()
+            val segmentStride = 32 // 2 EdgeVertex structs * 16 bytes (x,y,z,edgeId)
+            if (hitPoint != null) {
+                val hx = hitPoint.first
+                val hy = hitPoint.second
+                val hz = hitPoint.third
+                var bestEdgeId = 1
+                var bestDistSq = Float.MAX_VALUE
+                var offset = 0
+                while (offset + segmentStride <= cap) {
+                    val x0 = dup.getFloat(offset + 0)
+                    val y0 = dup.getFloat(offset + 4)
+                    val z0 = dup.getFloat(offset + 8)
+                    val eId = dup.getInt(offset + 12)
+                    val x1 = dup.getFloat(offset + 16)
+                    val y1 = dup.getFloat(offset + 20)
+                    val z1 = dup.getFloat(offset + 24)
+
+                    val vx = x1 - x0
+                    val vy = y1 - y0
+                    val vz = z1 - z0
+                    val lenSq = vx * vx + vy * vy + vz * vz
+                    val t = if (lenSq > 1e-6f) {
+                        (((hx - x0) * vx + (hy - y0) * vy + (hz - z0) * vz) / lenSq).coerceIn(0f, 1f)
+                    } else 0f
+                    val px = x0 + t * vx
+                    val py = y0 + t * vy
+                    val pz = z0 + t * vz
+                    val distSq = (hx - px) * (hx - px) + (hy - py) * (hy - py) + (hz - pz) * (hz - pz)
+                    if (eId > 0 && distSq < bestDistSq) {
+                        bestDistSq = distSq
+                        bestEdgeId = eId
+                    }
+                    offset += segmentStride
+                }
+                return bestEdgeId
+            } else {
+                // Default to topmost front edge (highest Z, then minimum Y facing front camera)
+                var bestEdgeId = 1
+                var bestScore = -Float.MAX_VALUE
+                var offset = 0
+                while (offset + segmentStride <= cap) {
+                    val x0 = dup.getFloat(offset + 0)
+                    val y0 = dup.getFloat(offset + 4)
+                    val z0 = dup.getFloat(offset + 8)
+                    val eId = dup.getInt(offset + 12)
+                    val x1 = dup.getFloat(offset + 16)
+                    val y1 = dup.getFloat(offset + 20)
+                    val z1 = dup.getFloat(offset + 24)
+                    val midZ = 0.5f * (z0 + z1)
+                    val midY = 0.5f * (y0 + y1)
+                    val score = midZ * 100f - midY * 0.1f + 0.01f * (x0 + x1)
+                    if (eId > 0 && score > bestScore) {
+                        bestScore = score
+                        bestEdgeId = eId
+                    }
+                    offset += segmentStride
+                }
+                return bestEdgeId
+            }
+        }
+        return if (selectedId > 0) selectedId else 1
+    }
+
+    /**
+     * Resolves the optimal target for Fillet / Chamfer:
+     * - If an Edge is selected or the tap point is within 12mm of an edge, returns that exact 1-based Edge ID.
+     * - If the user tapped near the center of a Face (> 12mm from any edge), returns (-1000 - faceId) to fillet/chamfer all edges of that Face.
+     */
+    fun resolveFilletChamferTarget(
+        selectedType: String?,
+        selectedId: Int,
+        hitPoint: Triple<Float, Float, Float>?,
+        faceNormal: Triple<Float, Float, Float>? = null
+    ): Int {
+        if (selectedType == "Edge" && selectedId in 1..edgeCount.coerceAtLeast(1)) {
+            return selectedId
+        }
+        val eBuf = edgeVertexBuffer
+        if (hitPoint != null && eBuf != null && eBuf.capacity() >= 32) {
+            val dup = eBuf.duplicate().order(ByteOrder.nativeOrder())
+            val cap = dup.capacity()
+            val segmentStride = 32
+            val hx = hitPoint.first
+            val hy = hitPoint.second
+            val hz = hitPoint.third
+            var bestEdgeId = 1
+            var bestDistSq = Float.MAX_VALUE
+            var offset = 0
+            while (offset + segmentStride <= cap) {
+                val x0 = dup.getFloat(offset + 0)
+                val y0 = dup.getFloat(offset + 4)
+                val z0 = dup.getFloat(offset + 8)
+                val eId = dup.getInt(offset + 12)
+                val x1 = dup.getFloat(offset + 16)
+                val y1 = dup.getFloat(offset + 20)
+                val z1 = dup.getFloat(offset + 24)
+
+                val vx = x1 - x0
+                val vy = y1 - y0
+                val vz = z1 - z0
+                val lenSq = vx * vx + vy * vy + vz * vz
+                val t = if (lenSq > 1e-6f) {
+                    (((hx - x0) * vx + (hy - y0) * vy + (hz - z0) * vz) / lenSq).coerceIn(0f, 1f)
+                } else 0f
+                val px = x0 + t * vx
+                val py = y0 + t * vy
+                val pz = z0 + t * vz
+                val distSq = (hx - px) * (hx - px) + (hy - py) * (hy - py) + (hz - pz) * (hz - pz)
+                if (eId > 0 && distSq < bestDistSq) {
+                    bestDistSq = distSq
+                    bestEdgeId = eId
+                }
+                offset += segmentStride
+            }
+            if (selectedType == "Face" && bestDistSq > 144.0f) {
+                val fId = resolveTargetFaceId(selectedType, selectedId, hitPoint, faceNormal)
+                return -1000 - fId
+            }
+            return bestEdgeId
+        }
+        if (selectedType == "Face" && selectedId in 1..faceCount.coerceAtLeast(1)) {
+            return -1000 - selectedId
+        }
+        return resolveTargetEdgeId(selectedType, selectedId, hitPoint)
+    }
+
+    /**
+     * Resolves the exact 1-based Face ID at the user's 3D tap point and normal, or the topmost face (+Z)
+     * when no face is selected. Never falls back to arbitrary side Face #1 unless explicitly tapped.
+     */
+    fun resolveTargetFaceId(
+        selectedType: String?,
+        selectedId: Int,
+        hitPoint: Triple<Float, Float, Float>?,
+        faceNormal: Triple<Float, Float, Float>? = null
+    ): Int {
+        if (selectedType == "Face" && selectedId in 1..faceCount.coerceAtLeast(1)) {
+            return selectedId
+        }
+        val vBuf = vertexBuffer
+        if (vBuf != null && vBuf.capacity() >= 28) {
+            val dup = vBuf.duplicate().order(ByteOrder.nativeOrder())
+            val cap = dup.capacity()
+            val stride = 28
+            if (hitPoint != null) {
+                val hx = hitPoint.first
+                val hy = hitPoint.second
+                val hz = hitPoint.third
+                var bestFaceId = 1
+                var bestScore = Float.MAX_VALUE
+                var offset = 0
+                while (offset + stride <= cap) {
+                    val vx = dup.getFloat(offset + 0)
+                    val vy = dup.getFloat(offset + 4)
+                    val vz = dup.getFloat(offset + 8)
+                    val nx = dup.getFloat(offset + 12)
+                    val ny = dup.getFloat(offset + 16)
+                    val nz = dup.getFloat(offset + 20)
+                    val fId = dup.getInt(offset + 24)
+                    val distSq = (hx - vx) * (hx - vx) + (hy - vy) * (hy - vy) + (hz - vz) * (hz - vz)
+                    val normalPenalty = if (faceNormal != null) {
+                        val dot = nx * faceNormal.first + ny * faceNormal.second + nz * faceNormal.third
+                        (1f - dot) * 50f
+                    } else {
+                        (1f - nz) * 10f // Prefer upward-facing face on tie at top edge
+                    }
+                    val score = distSq + normalPenalty
+                    if (fId > 0 && score < bestScore) {
+                        bestScore = score
+                        bestFaceId = fId
+                    }
+                    offset += stride
+                }
+                return bestFaceId
+            } else {
+                // Find face with highest Z centroid and +Z normal (Top Face)
+                var bestFaceId = 1
+                var bestScore = -Double.MAX_VALUE
+                val maxF = faceCount.coerceAtLeast(6)
+                for (fId in 1..maxF) {
+                    val cn = getFaceCenterAndNormal(fId) ?: continue
+                    val score = cn.first.third.toDouble() + cn.second.third.toDouble() * 50.0
+                    if (score > bestScore) {
+                        bestScore = score
+                        bestFaceId = fId
+                    }
+                }
+                return bestFaceId
+            }
+        }
+        return if (selectedId > 0) selectedId else 6
+    }
+
     override fun close() {
         if (nativeHandle > 1000L) {
             NativeKernel.releaseMesh(nativeHandle)
@@ -2988,5 +3197,9 @@ object NativeKernel {
         paramA: Double,
         paramB: Double,
         paramC: Double
+    ): String
+
+    external fun nativeExecutePhase4Milestone(
+        milestoneId: Int
     ): String
 }

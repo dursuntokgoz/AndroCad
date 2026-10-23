@@ -1,0 +1,10 @@
+{
+  "milestone": "M263",
+  "title": "Natural Language Prompt-to-Parametric-Feature Intent Parser (Offline AI CAD Copilot)",
+  "version": "v1.218.0",
+  "apkArtifact": "AndroCAD-v1.218.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m263_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m263_phone.png"
+}

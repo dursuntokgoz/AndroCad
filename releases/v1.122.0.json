@@ -1,0 +1,10 @@
+{
+  "milestone": "M167",
+  "title": "Pressure Vessel ASME Section VIII Hoop & Longitudinal Thickness Calculator",
+  "version": "v1.122.0",
+  "apkArtifact": "AndroCAD-v1.122.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m167_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m167_phone.png"
+}

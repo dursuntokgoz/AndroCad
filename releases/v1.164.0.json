@@ -1,0 +1,10 @@
+{
+  "milestone": "M209",
+  "title": "Generative Design Obstacle/Preserve Region Strut Synthesis & Load Path Optimization",
+  "version": "v1.164.0",
+  "apkArtifact": "AndroCAD-v1.164.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m209_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m209_phone.png"
+}

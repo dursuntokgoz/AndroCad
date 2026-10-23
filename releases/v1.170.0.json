@@ -1,0 +1,10 @@
+{
+  "milestone": "M215",
+  "title": "Rest Machining (Previous Larger Tool Remaining Stock Detection & Pencil Milling)",
+  "version": "v1.170.0",
+  "apkArtifact": "AndroCAD-v1.170.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m215_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m215_phone.png"
+}

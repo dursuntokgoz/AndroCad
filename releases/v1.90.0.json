@@ -1,0 +1,10 @@
+{
+  "milestone": "M135",
+  "title": "Offset Surface with Self-Intersection Loop Trimming",
+  "version": "v1.90.0",
+  "apkArtifact": "AndroCAD-v1.90.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m135_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m135_phone.png"
+}

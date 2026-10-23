@@ -1,0 +1,10 @@
+{
+  "milestone": "M151",
+  "title": "K-Factor & Bend Allowance Table Lookup by Material, Thickness & Die V-Opening",
+  "version": "v1.106.0",
+  "apkArtifact": "AndroCAD-v1.106.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m151_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m151_phone.png"
+}

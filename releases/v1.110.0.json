@@ -1,0 +1,10 @@
+{
+  "milestone": "M155",
+  "title": "Rip & Seam Gap Insertion for Converting Hollow Solids to Sheet Metal",
+  "version": "v1.110.0",
+  "apkArtifact": "AndroCAD-v1.110.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m155_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m155_phone.png"
+}

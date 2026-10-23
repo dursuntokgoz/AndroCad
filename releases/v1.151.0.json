@@ -1,0 +1,10 @@
+{
+  "milestone": "M196",
+  "title": "Fracture Mechanics Stress Intensity Factor (K_I) & Paris-Law Crack Growth Rate",
+  "version": "v1.151.0",
+  "apkArtifact": "AndroCAD-v1.151.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m196_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m196_phone.png"
+}

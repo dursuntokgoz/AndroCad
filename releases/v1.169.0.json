@@ -1,0 +1,10 @@
+{
+  "milestone": "M214",
+  "title": "Tool Holder & Spindle Head 5-Axis Collision Avoidance Tilt Retraction",
+  "version": "v1.169.0",
+  "apkArtifact": "AndroCAD-v1.169.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m214_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m214_phone.png"
+}

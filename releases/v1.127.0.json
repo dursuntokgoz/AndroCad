@@ -1,0 +1,10 @@
+{
+  "milestone": "M172",
+  "title": "Rack and Pinion & Screw Lead Pitch Coupled Translation-Rotation Mate",
+  "version": "v1.127.0",
+  "apkArtifact": "AndroCAD-v1.127.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m172_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m172_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M245",
+  "title": "Design for Manufacturing (DFM) Automated Rule Checker (Deep Holes, Thin Walls, Sharp Corners)",
+  "version": "v1.200.0",
+  "apkArtifact": "AndroCAD-v1.200.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m245_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m245_phone.png"
+}

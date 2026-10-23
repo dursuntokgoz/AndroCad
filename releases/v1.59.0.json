@@ -1,0 +1,10 @@
+{
+  "milestone": "M104",
+  "title": "Sketch Offset with Automatic Loop Clipping & Degenerate Edge Pruning",
+  "version": "v1.59.0",
+  "apkArtifact": "AndroCAD-v1.59.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m104_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m104_phone.png"
+}

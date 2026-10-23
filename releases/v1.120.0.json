@@ -1,0 +1,10 @@
+{
+  "milestone": "M165",
+  "title": "3D Piping Orthogonal Auto-Router with Minimum Bend Radius & Elbow Fittings",
+  "version": "v1.120.0",
+  "apkArtifact": "AndroCAD-v1.120.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m165_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m165_phone.png"
+}

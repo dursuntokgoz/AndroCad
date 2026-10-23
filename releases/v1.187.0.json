@@ -1,0 +1,10 @@
+{
+  "milestone": "M232",
+  "title": "GPS/ASME Y14.5 Datum Reference Frame (A|B|C) Degree-of-Freedom Constrainer",
+  "version": "v1.187.0",
+  "apkArtifact": "AndroCAD-v1.187.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m232_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m232_phone.png"
+}

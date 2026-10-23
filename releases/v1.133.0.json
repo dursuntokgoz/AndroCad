@@ -1,0 +1,10 @@
+{
+  "milestone": "M178",
+  "title": "Rigid-Body Dynamics (Newton-Euler Equations of Motion & Joint Reaction Forces)",
+  "version": "v1.133.0",
+  "apkArtifact": "AndroCAD-v1.133.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m178_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m178_phone.png"
+}

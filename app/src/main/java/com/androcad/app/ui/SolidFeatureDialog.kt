@@ -257,14 +257,9 @@ fun FilletInspectorDialog(
     modifier: Modifier = Modifier
 ) {
     var radius by remember { mutableStateOf(initialRadius) }
-    var isFirst by remember { mutableStateOf(true) }
 
     LaunchedEffect(radius) {
-        if (isFirst) {
-            isFirst = false
-        } else {
-            onRadiusChanged(radius)
-        }
+        onRadiusChanged(radius)
     }
 
     Surface(
@@ -347,14 +342,9 @@ fun ChamferInspectorDialog(
     modifier: Modifier = Modifier
 ) {
     var distance by remember { mutableStateOf(initialDistance) }
-    var isFirst by remember { mutableStateOf(true) }
 
     LaunchedEffect(distance) {
-        if (isFirst) {
-            isFirst = false
-        } else {
-            onDistanceChanged(distance)
-        }
+        onDistanceChanged(distance)
     }
 
     Surface(
@@ -439,14 +429,9 @@ fun HoleInspectorDialog(
 ) {
     var diameter by remember { mutableStateOf(initialDiameter) }
     var depth by remember { mutableStateOf(initialDepth) }
-    var isFirst by remember { mutableStateOf(true) }
 
     LaunchedEffect(diameter, depth) {
-        if (isFirst) {
-            isFirst = false
-        } else {
-            onHoleChanged(diameter, depth)
-        }
+        onHoleChanged(diameter, depth)
     }
 
     Surface(
@@ -539,14 +524,9 @@ fun RevolveInspectorDialog(
 ) {
     var angleDeg by remember { mutableStateOf(initialAngleDeg) }
     var operation by remember { mutableStateOf("New Body") }
-    var isFirst by remember { mutableStateOf(true) }
 
     LaunchedEffect(angleDeg, operation) {
-        if (isFirst) {
-            isFirst = false
-        } else {
-            onRevolveChanged(angleDeg, operation)
-        }
+        onRevolveChanged(angleDeg, operation)
     }
 
     Surface(
@@ -653,14 +633,9 @@ fun ShellInspectorDialog(
     modifier: Modifier = Modifier
 ) {
     var thickness by remember { mutableStateOf(initialThickness) }
-    var isFirst by remember { mutableStateOf(true) }
 
     LaunchedEffect(thickness) {
-        if (isFirst) {
-            isFirst = false
-        } else {
-            onThicknessChanged(thickness)
-        }
+        onThicknessChanged(thickness)
     }
 
     Surface(

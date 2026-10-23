@@ -1,0 +1,10 @@
+{
+  "milestone": "M216",
+  "title": "Steep and Shallow Hybrid Finishing (Z-Level Contour on Steep + Scallop on Shallow)",
+  "version": "v1.171.0",
+  "apkArtifact": "AndroCAD-v1.171.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m216_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m216_phone.png"
+}

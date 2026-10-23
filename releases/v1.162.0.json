@@ -1,0 +1,10 @@
+{
+  "milestone": "M207",
+  "title": "Injection Molding Melt Front Fill Time, Weld Line & Air Trap Predictor",
+  "version": "v1.162.0",
+  "apkArtifact": "AndroCAD-v1.162.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m207_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m207_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M82",
+  "title": "Target-Aware Split Body Plane Construction Along Tapped Face Normal & HitPoint",
+  "version": "v1.43.2",
+  "apkArtifact": "AndroCAD-v1.43.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m82_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m82_phone.png"
+}

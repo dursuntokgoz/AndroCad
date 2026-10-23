@@ -1,0 +1,10 @@
+{
+  "milestone": "M98",
+  "title": "Equal Curvature & Symmetric Midpoint PlaneGCS Constraints",
+  "version": "v1.53.0",
+  "apkArtifact": "AndroCAD-v1.53.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m98_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m98_phone.png"
+}

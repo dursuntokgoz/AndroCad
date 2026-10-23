@@ -152,6 +152,27 @@ MeshPayload SurfaceOps::MakeThicken(const TopoDS_Shape& surfaceOrShell,
             throw std::runtime_error("No face found in surface to thicken");
         }
 
+        int faceCount = 0;
+        int topFaceId = 1;
+        double bestZ = -1e18;
+        for (TopExp_Explorer exp(surfaceOrShell, TopAbs_FACE); exp.More(); exp.Next()) {
+            ++faceCount;
+            TopoDS_Face f = TopoDS::Face(exp.Current());
+            BRepAdaptor_Surface surf(f);
+            if (surf.GetType() == GeomAbs_Plane) {
+                gp_Dir n = surf.Plane().Axis().Direction();
+                if (f.Orientation() == TopAbs_REVERSED) n.Reverse();
+                if (n.Z() > bestZ) {
+                    bestZ = n.Z();
+                    topFaceId = faceCount;
+                }
+            }
+        }
+
+        if (faceCount > 1) {
+            return PressPullFace(surfaceOrShell, topFaceId, thickness, outSolid, linearDeflection, angularDeflection);
+        }
+
         TopoDS_Face face = TopoDS::Face(faceExp.Current());
         BRepAdaptor_Surface adaptor(face);
 

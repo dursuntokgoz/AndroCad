@@ -1,0 +1,10 @@
+{
+  "milestone": "M139",
+  "title": "Geodesic Shortest Path Solver on Arbitrarily Curved B-Rep Faces",
+  "version": "v1.94.0",
+  "apkArtifact": "AndroCAD-v1.94.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m139_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m139_phone.png"
+}

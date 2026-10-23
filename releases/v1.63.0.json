@@ -1,0 +1,10 @@
+{
+  "milestone": "M108",
+  "title": "Gear Tooth Trochoidal Undercut & Fillet Root Profile Sketcher",
+  "version": "v1.63.0",
+  "apkArtifact": "AndroCAD-v1.63.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m108_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m108_phone.png"
+}

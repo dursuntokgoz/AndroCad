@@ -1,0 +1,10 @@
+{
+  "milestone": "M81",
+  "title": "Target-Aware Inward Normal Hole & ISO Counterbore Drilling on Any Tapped Face (\u00b1X, \u00b1Y, \u00b1Z)",
+  "version": "v1.43.1",
+  "apkArtifact": "AndroCAD-v1.43.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m81_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m81_phone.png"
+}

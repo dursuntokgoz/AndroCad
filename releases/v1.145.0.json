@@ -1,0 +1,10 @@
+{
+  "milestone": "M190",
+  "title": "Bill of Materials Rollup (Cost, Mass, Make/Buy, Lead-Time & Carbon Footprint)",
+  "version": "v1.145.0",
+  "apkArtifact": "AndroCAD-v1.145.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m190_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m190_phone.png"
+}

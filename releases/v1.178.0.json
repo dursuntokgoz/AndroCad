@@ -1,0 +1,10 @@
+{
+  "milestone": "M223",
+  "title": "Laser, Plasma & Waterjet 2D Cutting with Kerf Compensation, Lead-In/Out & Micro-Tabs",
+  "version": "v1.178.0",
+  "apkArtifact": "AndroCAD-v1.178.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m223_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m223_phone.png"
+}

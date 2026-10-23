@@ -1,0 +1,10 @@
+{
+  "milestone": "M164",
+  "title": "Fillet & Groove Weld Bead Volume, Mass, and Electrode Consumption Calculator",
+  "version": "v1.119.0",
+  "apkArtifact": "AndroCAD-v1.119.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m164_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m164_phone.png"
+}

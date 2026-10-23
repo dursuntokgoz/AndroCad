@@ -1,0 +1,10 @@
+{
+  "milestone": "M128",
+  "title": "Silhouette Split Line & Parting Surface Imprint on Solid Faces",
+  "version": "v1.83.0",
+  "apkArtifact": "AndroCAD-v1.83.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m128_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m128_phone.png"
+}

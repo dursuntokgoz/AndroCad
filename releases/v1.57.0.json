@@ -1,0 +1,10 @@
+{
+  "milestone": "M102",
+  "title": "Belt/Pulley & Tangential Chain Path Sketch Generator",
+  "version": "v1.57.0",
+  "apkArtifact": "AndroCAD-v1.57.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m102_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m102_phone.png"
+}

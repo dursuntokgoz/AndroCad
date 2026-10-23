@@ -1,0 +1,10 @@
+{
+  "milestone": "M206",
+  "title": "Electronic Enclosure Heat Sink Fin Efficiency & Thermal Resistance Network",
+  "version": "v1.161.0",
+  "apkArtifact": "AndroCAD-v1.161.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m206_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m206_phone.png"
+}

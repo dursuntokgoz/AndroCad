@@ -1,0 +1,10 @@
+{
+  "milestone": "M125",
+  "title": "Knurling Pattern Generator (Diamond & Straight Knurl Pitch Geometry)",
+  "version": "v1.80.0",
+  "apkArtifact": "AndroCAD-v1.80.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m125_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m125_phone.png"
+}

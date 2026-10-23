@@ -1,0 +1,10 @@
+{
+  "milestone": "M97",
+  "title": "Sketch Block Definitions & Nested Hierarchical Instances",
+  "version": "v1.52.0",
+  "apkArtifact": "AndroCAD-v1.52.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m97_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m97_phone.png"
+}

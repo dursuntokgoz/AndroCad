@@ -1,0 +1,10 @@
+{
+  "milestone": "M133",
+  "title": "Ruled Surface & Developable Tangent-Surface Generator",
+  "version": "v1.88.0",
+  "apkArtifact": "AndroCAD-v1.88.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m133_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m133_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M179",
+  "title": "Spring-Damper & Torsional Actuator Force Element Integrator (RK4)",
+  "version": "v1.134.0",
+  "apkArtifact": "AndroCAD-v1.134.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m179_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m179_phone.png"
+}

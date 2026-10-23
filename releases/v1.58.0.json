@@ -1,0 +1,10 @@
+{
+  "milestone": "M103",
+  "title": "Over-Constrained Sub-Graph Conflict Isolator (Redundant Constraint Highlighter)",
+  "version": "v1.58.0",
+  "apkArtifact": "AndroCAD-v1.58.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m103_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m103_phone.png"
+}

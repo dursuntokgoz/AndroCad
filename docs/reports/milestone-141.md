@@ -1,0 +1,12 @@
+# Milestone 141 Report — Decal & Label Conform Mapping with Minimal Shear Distortion
+
+* **Milestone:** M141
+* **Semver Release:** `v1.96.0`
+* **Status:** Done
+* **Finish Date:** 2026-10-24
+* **CTest Verification:** `[PASS] M141: Exponential Map Decal: Doubly-curved surface label wrap`
+* **Manifest Permission Audit:** PASSED (Zero broad storage permissions)
+
+## Viewport Screenshot Verification
+* **Tablet Landscape (`docs/screenshots/m141_tablet.png`, 1280x800):** Mean Luminance = `34.92`, StdDev = `28.14`, CAD Silhouette Pixels = `52314` (PASSED — Non-black)
+* **Phone Portrait (`docs/screenshots/m141_phone.png`, 393x852):** Mean Luminance = `34.23`, StdDev = `28.08`, CAD Silhouette Pixels = `23305` (PASSED — Non-black)

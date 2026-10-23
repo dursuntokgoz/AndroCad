@@ -1,0 +1,10 @@
+{
+  "milestone": "M174",
+  "title": "Slot & Path Mate with Percent-Arc-Length and Free/Tangent Orientation",
+  "version": "v1.129.0",
+  "apkArtifact": "AndroCAD-v1.129.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m174_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m174_phone.png"
+}

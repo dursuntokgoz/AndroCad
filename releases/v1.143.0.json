@@ -1,0 +1,10 @@
+{
+  "milestone": "M188",
+  "title": "Exploded View Multi-Stage Trail Line & Sequence Animator",
+  "version": "v1.143.0",
+  "apkArtifact": "AndroCAD-v1.143.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m188_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m188_phone.png"
+}

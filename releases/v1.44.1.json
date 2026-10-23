@@ -1,0 +1,10 @@
+{
+  "milestone": "M86",
+  "title": "Active Solid Bounding-Box Driven FDM Slicer & Infill Volume Calculation",
+  "version": "v1.44.1",
+  "apkArtifact": "AndroCAD-v1.44.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m86_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m86_phone.png"
+}

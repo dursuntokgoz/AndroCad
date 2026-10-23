@@ -1,0 +1,10 @@
+{
+  "milestone": "M112",
+  "title": "Rib & Structural Web Network Generator with Draft & Boss Extensions",
+  "version": "v1.67.0",
+  "apkArtifact": "AndroCAD-v1.67.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m112_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m112_phone.png"
+}

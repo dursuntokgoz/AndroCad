@@ -1,0 +1,10 @@
+{
+  "milestone": "M132",
+  "title": "T-Junction Local Subdivision Refinement & Crease Weight Control",
+  "version": "v1.87.0",
+  "apkArtifact": "AndroCAD-v1.87.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m132_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m132_phone.png"
+}

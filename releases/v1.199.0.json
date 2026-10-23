@@ -1,0 +1,10 @@
+{
+  "milestone": "M244",
+  "title": "First Article Inspection Report (FAIR AS9102 Form 1/2/3 Balloon Characteristic Table)",
+  "version": "v1.199.0",
+  "apkArtifact": "AndroCAD-v1.199.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m244_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m244_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M110",
+  "title": "Multi-Region Nested Island Profile Selection & Area Centroid Solver",
+  "version": "v1.65.0",
+  "apkArtifact": "AndroCAD-v1.65.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m110_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m110_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M145",
+  "title": "Quad-Dominant Remeshing & Isotropic Edge Length Optimization",
+  "version": "v1.100.0",
+  "apkArtifact": "AndroCAD-v1.100.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m145_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m145_phone.png"
+}

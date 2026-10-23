@@ -1,0 +1,10 @@
+{
+  "milestone": "M243",
+  "title": "CMM Inspection Path Planner & DMIS / QIF Metrology Feature Export",
+  "version": "v1.198.0",
+  "apkArtifact": "AndroCAD-v1.198.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m243_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m243_phone.png"
+}

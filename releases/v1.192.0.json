@@ -1,0 +1,10 @@
+{
+  "milestone": "M237",
+  "title": "Automated Bend Table & Revision Cloud Delta Comparison Block on 2D Sheets",
+  "version": "v1.192.0",
+  "apkArtifact": "AndroCAD-v1.192.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m237_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m237_phone.png"
+}

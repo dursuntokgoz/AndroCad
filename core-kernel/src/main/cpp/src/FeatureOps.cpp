@@ -328,6 +328,24 @@ MeshPayload FeatureOps::MakeFillet(const TopoDS_Shape& solid,
             if (!edge.IsNull()) {
                 mkFillet.Add(radius, edge);
             }
+        } else if (targetEdgeId <= -1000) {
+            int targetFaceId = -targetEdgeId - 1000;
+            TopTools_IndexedMapOfShape faceMap;
+            TopExp::MapShapes(solid, TopAbs_FACE, faceMap);
+            if (targetFaceId >= 1 && targetFaceId <= faceMap.Extent()) {
+                const TopoDS_Face& face = TopoDS::Face(faceMap(targetFaceId));
+                for (TopExp_Explorer exp(face, TopAbs_EDGE); exp.More(); exp.Next()) {
+                    const TopoDS_Edge& edge = TopoDS::Edge(exp.Current());
+                    if (!edge.IsNull()) {
+                        mkFillet.Add(radius, edge);
+                    }
+                }
+            } else {
+                for (int i = 1; i <= edgeMap.Extent(); ++i) {
+                    const TopoDS_Edge& edge = TopoDS::Edge(edgeMap(i));
+                    if (!edge.IsNull()) mkFillet.Add(radius, edge);
+                }
+            }
         } else {
             // Apply to all valid edges
             for (int i = 1; i <= edgeMap.Extent(); ++i) {
@@ -378,26 +396,63 @@ MeshPayload FeatureOps::MakeChamfer(const TopoDS_Shape& solid,
             return err;
         }
 
-        int edgeIdx = (targetEdgeId > 0 && targetEdgeId <= edgeMap.Extent()) ? targetEdgeId : 1;
-        const TopoDS_Edge& edge = TopoDS::Edge(edgeMap(edgeIdx));
-        if (edge.IsNull()) {
-            MeshPayload err; err.success = false; err.errorMessage = "Selected edge is null.";
-            return err;
-        }
-
         BRepFilletAPI_MakeChamfer mkChamfer(solid);
-
         TopTools_IndexedDataMapOfShapeListOfShape edgeFaceMap;
         TopExp::MapShapesAndAncestors(solid, TopAbs_EDGE, TopAbs_FACE, edgeFaceMap);
-        if (edgeFaceMap.Contains(edge) && !edgeFaceMap.FindFromKey(edge).IsEmpty()) {
-            const TopoDS_Face& face = TopoDS::Face(edgeFaceMap.FindFromKey(edge).First());
-            if (!face.IsNull()) {
-                mkChamfer.Add(distance, distance, edge, face);
+
+        auto addEdgeToChamfer = [&](const TopoDS_Edge& edge) {
+            if (edge.IsNull()) return;
+            if (edgeFaceMap.Contains(edge) && !edgeFaceMap.FindFromKey(edge).IsEmpty()) {
+                const TopoDS_Face& face = TopoDS::Face(edgeFaceMap.FindFromKey(edge).First());
+                if (!face.IsNull()) {
+                    mkChamfer.Add(distance, distance, edge, face);
+                } else {
+                    mkChamfer.Add(distance, edge);
+                }
             } else {
                 mkChamfer.Add(distance, edge);
             }
+        };
+
+        if (targetEdgeId <= -1000) {
+            int targetFaceId = -targetEdgeId - 1000;
+            TopTools_IndexedMapOfShape faceMap;
+            TopExp::MapShapes(solid, TopAbs_FACE, faceMap);
+            if (targetFaceId >= 1 && targetFaceId <= faceMap.Extent()) {
+                const TopoDS_Face& face = TopoDS::Face(faceMap(targetFaceId));
+                for (TopExp_Explorer exp(face, TopAbs_EDGE); exp.More(); exp.Next()) {
+                    const TopoDS_Edge& edge = TopoDS::Edge(exp.Current());
+                    if (!edge.IsNull()) {
+                        mkChamfer.Add(distance, distance, edge, face);
+                    }
+                }
+            } else {
+                addEdgeToChamfer(TopoDS::Edge(edgeMap(1)));
+            }
         } else {
-            mkChamfer.Add(distance, edge);
+            int bestEdgeIdx = 1;
+            if (targetEdgeId > 0 && targetEdgeId <= edgeMap.Extent()) {
+                bestEdgeIdx = targetEdgeId;
+            } else {
+                // Default to topmost edge (highest Z midpoint) rather than bottom edge #1
+                double bestZ = -1e18;
+                for (int i = 1; i <= edgeMap.Extent(); ++i) {
+                    const TopoDS_Edge& e = TopoDS::Edge(edgeMap(i));
+                    if (e.IsNull()) continue;
+                    BRepAdaptor_Curve c(e);
+                    gp_Pnt pMid = c.Value(0.5 * (c.FirstParameter() + c.LastParameter()));
+                    if (pMid.Z() > bestZ) {
+                        bestZ = pMid.Z();
+                        bestEdgeIdx = i;
+                    }
+                }
+            }
+            const TopoDS_Edge& edge = TopoDS::Edge(edgeMap(bestEdgeIdx));
+            if (edge.IsNull()) {
+                MeshPayload err; err.success = false; err.errorMessage = "Selected edge is null.";
+                return err;
+            }
+            addEdgeToChamfer(edge);
         }
 
         mkChamfer.Build();
@@ -486,7 +541,19 @@ MeshPayload FeatureOps::MakeShell(const TopoDS_Shape& solid,
         if (removeFaceId > 0 && removeFaceId <= faceMap.Extent()) {
             facesToRemove.Append(faceMap(removeFaceId));
         } else if (!faceMap.IsEmpty()) {
-            facesToRemove.Append(faceMap(1));
+            // Default to topmost face (highest Z centroid) instead of arbitrary Face #1
+            int bestFaceIdx = 1;
+            double bestZ = -1e18;
+            for (int i = 1; i <= faceMap.Extent(); ++i) {
+                GProp_GProps fProps;
+                BRepGProp::SurfaceProperties(faceMap(i), fProps);
+                gp_Pnt cog = fProps.CentreOfMass();
+                if (cog.Z() > bestZ) {
+                    bestZ = cog.Z();
+                    bestFaceIdx = i;
+                }
+            }
+            facesToRemove.Append(faceMap(bestFaceIdx));
         }
 
         BRepOffsetAPI_MakeThickSolid thickSolid;

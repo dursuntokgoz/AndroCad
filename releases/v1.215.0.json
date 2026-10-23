@@ -1,0 +1,10 @@
+{
+  "milestone": "M260",
+  "title": "Stereoscopic Side-by-Side (VR/XR Headset) Asymmetric Frustum Projection Generator",
+  "version": "v1.215.0",
+  "apkArtifact": "AndroCAD-v1.215.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m260_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m260_phone.png"
+}

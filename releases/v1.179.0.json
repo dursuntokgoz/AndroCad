@@ -1,0 +1,10 @@
+{
+  "milestone": "M224",
+  "title": "On-Machine Touch Probe Inspection (Renishaw G65 Bore, Boss, Web & Corner Cycles)",
+  "version": "v1.179.0",
+  "apkArtifact": "AndroCAD-v1.179.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m224_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m224_phone.png"
+}

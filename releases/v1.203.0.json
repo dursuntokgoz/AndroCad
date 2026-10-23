@@ -1,0 +1,10 @@
+{
+  "milestone": "M248",
+  "title": "RoHS / REACH Restricted Material Compliance & Recyclability Index Auditor",
+  "version": "v1.203.0",
+  "apkArtifact": "AndroCAD-v1.203.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m248_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m248_phone.png"
+}

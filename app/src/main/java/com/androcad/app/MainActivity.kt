@@ -1084,7 +1084,10 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                         featureStatusText = "No solid body on plate to split."
                                                     } else {
                                                         val bbox = solid.boundingBox
-                                                        val px = selectedHitPoint?.first?.toDouble() ?: bbox.centerX.toDouble()
+                                                        val rawPx = selectedHitPoint?.first?.toDouble() ?: bbox.centerX.toDouble()
+                                                        val minCutX = (bbox.minX + bbox.sizeX * 0.15f).toDouble()
+                                                        val maxCutX = (bbox.maxX - bbox.sizeX * 0.15f).toDouble()
+                                                        val px = if (minCutX < maxCutX) rawPx.coerceIn(minCutX, maxCutX) else bbox.centerX.toDouble()
                                                         val py = selectedHitPoint?.second?.toDouble() ?: bbox.centerY.toDouble()
                                                         val pz = selectedHitPoint?.third?.toDouble() ?: bbox.centerZ.toDouble()
                                                         val splitRes = try {
@@ -1114,7 +1117,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     if (solid == null || !solid.success) {
                                                         featureStatusText = "No solid body on plate. Create a Box, Cylinder, or Extrude a sketch first."
                                                     } else {
-                                                        val targetFace = if (selectedType == "Face") selectedId else 1
+                                                        val targetFace = solid.resolveTargetFaceId(selectedType, selectedId, selectedHitPoint, selectedFaceNormal)
                                                         val pulled = try {
                                                             val res = solid.pressPull(10.0, targetFace)
                                                             if (res.success) res else null
@@ -1143,7 +1146,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     if (solid == null || !solid.success) {
                                                         featureStatusText = "No solid body on plate. Create a Box, Cylinder, or Extrude a sketch first."
                                                     } else {
-                                                        val targetFace = if (selectedType == "Face") selectedId else 1
+                                                        val targetFace = solid.resolveTargetFaceId(selectedType, selectedId, selectedHitPoint, selectedFaceNormal)
                                                         val pulled = try {
                                                             val res = solid.pressPull(-5.0, targetFace)
                                                             if (res.success) res else null
@@ -1354,6 +1357,12 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                         activeSolid?.close()
                                                         activeSolid = uBracket
                                                         renderer?.updateMesh(uBracket)
+                                                        val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                                        if (selectedBody != null) {
+                                                            selectedBody.solid = uBracket
+                                                            selectedBody.volume = uBracket.volume
+                                                            selectedBody.faceCount = uBracket.faceCount
+                                                        }
                                                         timelineItems = (timelineItems + "${timelineItems.size + 1}. Sheet Metal (U-Bracket)").toMutableList()
                                                         featureStatusText = "3D Sheet Metal: 100x40x50mm, T=2mm, R=2mm"
                                                     }
@@ -1361,6 +1370,18 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                 "Unfold Pattern" -> {
                                                     val pattern = NativeKernel.unfoldUBracket(100.0, 40.0, 50.0)
                                                     if (pattern.success) {
+                                                        val flatSolid = NativeKernel.createBox(pattern.flatLength, pattern.flatWidth, 2.0)
+                                                        if (flatSolid.success) {
+                                                            activeSolid = flatSolid
+                                                            renderer?.updateMesh(flatSolid)
+                                                            val selectedBody = browserState.value.bodies.find { it.isSelected } ?: browserState.value.bodies.firstOrNull()
+                                                            if (selectedBody != null) {
+                                                                selectedBody.solid = flatSolid
+                                                                selectedBody.volume = flatSolid.volume
+                                                                selectedBody.faceCount = flatSolid.faceCount
+                                                            }
+                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. Unfold Flat Pattern (${pattern.flatLength.toInt()}x${pattern.flatWidth.toInt()}x2mm)").toMutableList()
+                                                        }
                                                         featureStatusText = "Flat Pattern: L=${pattern.flatLength.toInt()}mm, W=${pattern.flatWidth.toInt()}mm, 2 Bends (90° UP)"
                                                     } else {
                                                         featureStatusText = "Unfold failed: ${pattern.errorMessage}"
@@ -1706,10 +1727,14 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                         try {
                                             when (tool) {
                                                 "Solve Beam FEA" -> {
+                                                    val bbox = activeSolid?.boundingBox
+                                                    val lMm = bbox?.sizeX?.toDouble()?.coerceAtLeast(20.0) ?: 100.0
+                                                    val wMm = bbox?.sizeY?.toDouble()?.coerceAtLeast(5.0) ?: 10.0
+                                                    val hMm = bbox?.sizeZ?.toDouble()?.coerceAtLeast(5.0) ?: 10.0
                                                     val res = NativeKernel.simulateCantileverBeam(
-                                                        lengthMm = 100.0,
-                                                        widthMm = 10.0,
-                                                        heightMm = 10.0,
+                                                        lengthMm = lMm,
+                                                        widthMm = wMm,
+                                                        heightMm = hMm,
                                                         forceN = 100.0,
                                                         materialId = 0,
                                                         deformationScale = 5.0
@@ -1725,10 +1750,14 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     featureStatusText = "Beam FEA: Max Stress ${res.maxVonMisesStressMPa.toInt()} MPa | Max Disp ${"%.3f".format(res.maxDisplacementMm)} mm | FOS ${"%.2f".format(res.minSafetyFactor)}"
                                                 }
                                                 "Tet10 Quadratic FEA" -> {
+                                                    val bbox = activeSolid?.boundingBox
+                                                    val lMm = bbox?.sizeX?.toDouble()?.coerceAtLeast(20.0) ?: 100.0
+                                                    val wMm = bbox?.sizeY?.toDouble()?.coerceAtLeast(5.0) ?: 10.0
+                                                    val hMm = bbox?.sizeZ?.toDouble()?.coerceAtLeast(5.0) ?: 10.0
                                                     val res = NativeKernel.simulateCantileverBeamTet10(
-                                                        lengthMm = 100.0,
-                                                        widthMm = 10.0,
-                                                        heightMm = 10.0,
+                                                        lengthMm = lMm,
+                                                        widthMm = wMm,
+                                                        heightMm = hMm,
                                                         forceN = 100.0,
                                                         materialId = 0,
                                                         deformationScale = 5.0
@@ -1744,10 +1773,14 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     featureStatusText = "Tet10 FEA: Max Stress ${res.maxVonMisesStressMPa.toInt()} MPa | Disp ${"%.4f".format(res.maxDisplacementMm)} mm (Shear-locking eliminated)"
                                                 }
                                                 "Modal Analysis" -> {
+                                                    val bbox = activeSolid?.boundingBox
+                                                    val lMm = bbox?.sizeX?.toDouble()?.coerceAtLeast(20.0) ?: 100.0
+                                                    val wMm = bbox?.sizeY?.toDouble()?.coerceAtLeast(5.0) ?: 10.0
+                                                    val hMm = bbox?.sizeZ?.toDouble()?.coerceAtLeast(5.0) ?: 10.0
                                                     val res = NativeKernel.simulateModalAnalysis(
-                                                        lengthMm = 100.0,
-                                                        widthMm = 10.0,
-                                                        heightMm = 10.0,
+                                                        lengthMm = lMm,
+                                                        widthMm = wMm,
+                                                        heightMm = hMm,
                                                         materialId = 0,
                                                         numModes = 3,
                                                         deformationScale = 1.0
@@ -1825,10 +1858,16 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     featureStatusText = "Part FEA: Max Stress ${res.maxVonMisesStressMPa.toInt()} MPa | FOS ${"%.2f".format(res.minSafetyFactor)}"
                                                 }
                                                 "Fixed Support" -> {
-                                                    featureStatusText = "Constraint: Fixed support applied to base faces (Ux=Uy=Uz=0)"
+                                                    val solid = activeSolid
+                                                    val targetFace = solid?.resolveTargetFaceId(selectedType, selectedId, selectedHitPoint, selectedFaceNormal) ?: 1
+                                                    if (solid != null) renderer?.selectedFaceId = targetFace
+                                                    featureStatusText = "Constraint: Fixed support applied to Face #$targetFace (Ux=Uy=Uz=0)"
                                                 }
                                                 "Apply Load" -> {
-                                                    featureStatusText = "Structural Load: 100.0 N vertical load vector applied to top face"
+                                                    val solid = activeSolid
+                                                    val targetFace = solid?.resolveTargetFaceId(selectedType, selectedId, selectedHitPoint, selectedFaceNormal) ?: 2
+                                                    if (solid != null) renderer?.selectedFaceId = targetFace
+                                                    featureStatusText = "Structural Load: 100.0 N vertical load vector applied to Face #$targetFace"
                                                 }
                                                 "Safety Factor" -> {
                                                     val sf = activeSimulationResult?.minSafetyFactor ?: 4.28
@@ -1887,45 +1926,93 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                     .testTag(getToolTestTag(tool))
                                     .clickable {
                                         try {
+                                            val bbox = activeSolid?.boundingBox
+                                            val stockX = bbox?.sizeX?.toDouble()?.coerceAtLeast(20.0) ?: 100.0
+                                            val stockY = bbox?.sizeY?.toDouble()?.coerceAtLeast(20.0) ?: 50.0
+                                            val stockZ = bbox?.sizeZ?.toDouble()?.coerceAtLeast(5.0) ?: 20.0
+                                            val minX = bbox?.minX?.toDouble() ?: 0.0
+                                            val maxX = bbox?.maxX?.toDouble() ?: 100.0
+                                            val minY = bbox?.minY?.toDouble() ?: 0.0
+                                            val maxY = bbox?.maxY?.toDouble() ?: 50.0
                                             when (tool) {
                                                 "Generate G-Code (GRBL)" -> {
-                                                    val res = NativeKernel.generateGCode(100.0, 50.0, 20.0, 10.0, CAMPostDialect.ISO_GRBL)
+                                                    val res = NativeKernel.generateGCode(stockX, stockY, stockZ, (stockZ * 0.5).coerceAtMost(10.0), CAMPostDialect.ISO_GRBL)
                                                     activeCAMResult = res
                                                     timelineItems = (timelineItems + "${timelineItems.size + 1}. CAM Post (GRBL)").toMutableList()
                                                     featureStatusText = "CAM GRBL: ${res.lineCount} lines | Cut: ${res.cuttingTimeSec.toInt()}s | Vol: ${"%.1f".format(res.materialVolumeRemovedCm3)} cm³"
                                                 }
                                                 "Haas G-Code" -> {
-                                                    val res = NativeKernel.generateGCode(100.0, 50.0, 20.0, 10.0, CAMPostDialect.HAAS_CNC)
+                                                    val res = NativeKernel.generateGCode(stockX, stockY, stockZ, (stockZ * 0.5).coerceAtMost(10.0), CAMPostDialect.HAAS_CNC)
                                                     activeCAMResult = res
                                                     timelineItems = (timelineItems + "${timelineItems.size + 1}. CAM Post (Haas)").toMutableList()
                                                     featureStatusText = "CAM Haas: ${res.lineCount} lines | O1001 generated"
                                                 }
                                                 "Fanuc G-Code" -> {
-                                                    val res = NativeKernel.generateGCode(100.0, 50.0, 20.0, 10.0, CAMPostDialect.FANUC_CNC)
+                                                    val res = NativeKernel.generateGCode(stockX, stockY, stockZ, (stockZ * 0.5).coerceAtMost(10.0), CAMPostDialect.FANUC_CNC)
                                                     activeCAMResult = res
                                                     timelineItems = (timelineItems + "${timelineItems.size + 1}. CAM Post (Fanuc)").toMutableList()
                                                     featureStatusText = "CAM Fanuc: ${res.lineCount} lines | G28 reference home"
                                                 }
                                                 "3D Adaptive Clearing" -> {
-                                                    val op = NativeKernel.generateAdaptive3D(101, "3D Adaptive Roughing", 0.0, 100.0, 0.0, 50.0, 20.0, 10.0, 2.5, 1.5)
+                                                    val op = NativeKernel.generateAdaptive3D(101, "3D Adaptive Roughing", minX, maxX, minY, maxY, stockZ, stockZ * 0.5, 2.5, 1.5)
                                                     timelineItems = (timelineItems + "${timelineItems.size + 1}. 3D Adaptive CAM").toMutableList()
                                                     featureStatusText = "3D Adaptive: ${op.pointCount} pts | Distance: ${op.totalDistanceMm.toInt()}mm | Time: ${op.machiningTimeSec.toInt()}s"
                                                 }
                                                 "3D Scallop Finishing" -> {
-                                                    val op = NativeKernel.generateScallop3D(102, "3D Scallop Finish", 0.0, 100.0, 0.0, 50.0, 20.0, 15.0, 1.0, 0.05)
+                                                    val op = NativeKernel.generateScallop3D(102, "3D Scallop Finish", minX, maxX, minY, maxY, stockZ, stockZ * 0.75, 1.0, 0.05)
                                                     timelineItems = (timelineItems + "${timelineItems.size + 1}. 3D Scallop Finish").toMutableList()
                                                     featureStatusText = "3D Scallop: ${op.pointCount} pts | Distance: ${op.totalDistanceMm.toInt()}mm | Time: ${op.machiningTimeSec.toInt()}s"
                                                 }
                                                 "Facing Pass" -> {
-                                                    featureStatusText = "CAM: 10mm Flat Endmill facing pass generated (Z=20.0mm)"
+                                                    val solid = activeSolid
+                                                    if (solid != null && solid.success) {
+                                                        val topFace = solid.resolveTargetFaceId("Face", 0, null, Triple(0f, 0f, 1f))
+                                                        val faced = try { solid.pressPull(-2.0, topFace) } catch (e: Throwable) { null }
+                                                        if (faced != null && faced.success) {
+                                                            activeSolid = faced
+                                                            renderer?.updateMesh(faced)
+                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. CAM Facing Pass (-2mm)").toMutableList()
+                                                        }
+                                                    }
+                                                    featureStatusText = "CAM: 10mm Flat Endmill facing pass generated (Z=${"%.1f".format(stockZ)}mm)"
                                                 }
                                                 "2D Pocketing" -> {
+                                                    val solid = activeSolid
+                                                    if (solid != null && solid.success) {
+                                                        val (pos, dir, _) = computeTargetPointAndInwardDir(solid, selectedHitPoint, selectedFaceNormal, selectedType, selectedId)
+                                                        val pocketed = try { solid.hole(pos.first, pos.second, pos.third, dir.first, dir.second, dir.third, 12.0, 10.0) } catch (e: Throwable) { null }
+                                                        if (pocketed != null && pocketed.success) {
+                                                            activeSolid = pocketed
+                                                            renderer?.updateMesh(pocketed)
+                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. CAM 2D Pocket (Depth=10mm)").toMutableList()
+                                                        }
+                                                    }
                                                     featureStatusText = "CAM: Concentric climb milling pocket passes generated (Depth=10mm)"
                                                 }
                                                 "2D Contour" -> {
+                                                    val solid = activeSolid
+                                                    if (solid != null && solid.success) {
+                                                        val targetEdge = solid.resolveTargetEdgeId(selectedType, selectedId, selectedHitPoint)
+                                                        val contoured = try { solid.chamfer(1.5, targetEdge) } catch (e: Throwable) { null }
+                                                        if (contoured != null && contoured.success) {
+                                                            activeSolid = contoured
+                                                            renderer?.updateMesh(contoured)
+                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. CAM 2D Contour").toMutableList()
+                                                        }
+                                                    }
                                                     featureStatusText = "CAM: 6mm Flat Endmill finish contour passes with cutter radius compensation"
                                                 }
                                                 "Peck Drilling" -> {
+                                                    val solid = activeSolid
+                                                    if (solid != null && solid.success) {
+                                                        val (pos, dir, _) = computeTargetPointAndInwardDir(solid, selectedHitPoint, selectedFaceNormal, selectedType, selectedId)
+                                                        val drilled = try { solid.hole(pos.first, pos.second, pos.third, dir.first, dir.second, dir.third, 2.5, 20.0) } catch (e: Throwable) { null }
+                                                        if (drilled != null && drilled.success) {
+                                                            activeSolid = drilled
+                                                            renderer?.updateMesh(drilled)
+                                                            timelineItems = (timelineItems + "${timelineItems.size + 1}. CAM G83 Peck Drilling").toMutableList()
+                                                        }
+                                                    }
                                                     featureStatusText = "CAM: G83 peck drilling cycles generated for 4x corner holes (5mm drill)"
                                                 }
                                             }
@@ -1977,10 +2064,17 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                     .testTag(getToolTestTag(tool))
                                     .clickable {
                                         try {
+                                            val bbox = activeSolid?.boundingBox
+                                            val minX = bbox?.minX?.toDouble() ?: 0.0
+                                            val maxX = bbox?.maxX?.toDouble()?.coerceAtLeast(minX + 10.0) ?: 100.0
+                                            val minY = bbox?.minY?.toDouble() ?: 0.0
+                                            val maxY = bbox?.maxY?.toDouble()?.coerceAtLeast(minY + 10.0) ?: 50.0
+                                            val minZ = bbox?.minZ?.toDouble() ?: 0.0
+                                            val maxZ = bbox?.maxZ?.toDouble()?.coerceAtLeast(minZ + 2.0) ?: 20.0
                                             when (tool) {
                                                 "Slice Solid (0.2mm)" -> {
                                                     val sRes = NativeKernel.sliceSolid(
-                                                        0.0, 100.0, 0.0, 50.0, 0.0, 20.0,
+                                                        minX, maxX, minY, maxY, minZ, maxZ,
                                                         SlicerSettings(layerHeightMm = 0.2, infillDensityPercent = 20.0, infillPattern = SlicerInfillPattern.RECTILINEAR)
                                                     )
                                                     activeSlicerResult = sRes
@@ -1989,7 +2083,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                 }
                                                 "Honeycomb Infill (30%)" -> {
                                                     val sRes = NativeKernel.sliceSolid(
-                                                        0.0, 100.0, 0.0, 50.0, 0.0, 20.0,
+                                                        minX, maxX, minY, maxY, minZ, maxZ,
                                                         SlicerSettings(layerHeightMm = 0.2, infillDensityPercent = 30.0, infillPattern = SlicerInfillPattern.HONEYCOMB)
                                                     )
                                                     activeSlicerResult = sRes
@@ -1998,7 +2092,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                 }
                                                 "Grid Infill (20%)" -> {
                                                     val sRes = NativeKernel.sliceSolid(
-                                                        0.0, 100.0, 0.0, 50.0, 0.0, 20.0,
+                                                        minX, maxX, minY, maxY, minZ, maxZ,
                                                         SlicerSettings(layerHeightMm = 0.25, infillDensityPercent = 20.0, infillPattern = SlicerInfillPattern.GRID)
                                                     )
                                                     activeSlicerResult = sRes
@@ -2006,7 +2100,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     featureStatusText = "Grid Slicer: ${sRes.totalLayers} layers | Filament: ${"%.1f".format(sRes.totalFilamentGrams)}g"
                                                 }
                                                 "Export G-Code" -> {
-                                                    val sRes = activeSlicerResult ?: NativeKernel.sliceSolid(0.0, 100.0, 0.0, 50.0, 0.0, 20.0)
+                                                    val sRes = activeSlicerResult ?: NativeKernel.sliceSolid(minX, maxX, minY, maxY, minZ, maxZ)
                                                     activeSlicerResult = sRes
                                                     featureStatusText = "FDM G-Code Exported: ${sRes.gcodeSize} bytes | ${sRes.totalLayers} layers"
                                                 }
@@ -2103,10 +2197,14 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     featureStatusText = "Sphere: R=30 mm (Adjust radius or tap OK)"
                                                 }
                                                 "Torus" -> {
-                                                    val cx = selectedHitPoint?.first?.toDouble() ?: 0.0
-                                                    val cy = selectedHitPoint?.second?.toDouble() ?: 0.0
-                                                    val cz = selectedHitPoint?.third?.toDouble() ?: 0.0
-                                                    val torus = NativeKernel.createTorus(40.0, 12.0, cx, cy, cz)
+                                                    val bbox = activeSolid?.boundingBox
+                                                    val cx = selectedHitPoint?.first?.toDouble() ?: bbox?.centerX?.toDouble() ?: 0.0
+                                                    val cy = selectedHitPoint?.second?.toDouble() ?: bbox?.centerY?.toDouble() ?: 0.0
+                                                    val cz = selectedHitPoint?.third?.toDouble() ?: bbox?.maxZ?.toDouble() ?: 0.0
+                                                    val nx = selectedFaceNormal?.first?.toDouble() ?: 0.0
+                                                    val ny = selectedFaceNormal?.second?.toDouble() ?: 0.0
+                                                    val nz = selectedFaceNormal?.third?.toDouble() ?: 1.0
+                                                    val torus = NativeKernel.createTorus(40.0, 12.0, cx, cy, cz, nx, ny, nz)
                                                     if (torus.success) {
                                                         activeSolid = torus
                                                         renderer?.updateMesh(torus)
@@ -2130,10 +2228,14 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     }
                                                 }
                                                 "Cone" -> {
-                                                    val cx = selectedHitPoint?.first?.toDouble() ?: 0.0
-                                                    val cy = selectedHitPoint?.second?.toDouble() ?: 0.0
-                                                    val cz = selectedHitPoint?.third?.toDouble() ?: 0.0
-                                                    val cone = NativeKernel.createCone(30.0, 0.0, 60.0, cx, cy, cz)
+                                                    val bbox = activeSolid?.boundingBox
+                                                    val cx = selectedHitPoint?.first?.toDouble() ?: bbox?.centerX?.toDouble() ?: 0.0
+                                                    val cy = selectedHitPoint?.second?.toDouble() ?: bbox?.centerY?.toDouble() ?: 0.0
+                                                    val cz = selectedHitPoint?.third?.toDouble() ?: bbox?.maxZ?.toDouble() ?: 0.0
+                                                    val nx = selectedFaceNormal?.first?.toDouble() ?: 0.0
+                                                    val ny = selectedFaceNormal?.second?.toDouble() ?: 0.0
+                                                    val nz = selectedFaceNormal?.third?.toDouble() ?: 1.0
+                                                    val cone = NativeKernel.createCone(30.0, 0.0, 60.0, cx, cy, cz, nx, ny, nz)
                                                     if (cone.success) {
                                                         activeSolid = cone
                                                         renderer?.updateMesh(cone)
@@ -2172,7 +2274,8 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                         renderer?.updateMesh(extrudeSolid)
                                                         featureStatusText = "Extrude Inspector: adjust depth with slider or tap OK"
                                                     } else if (activeSolid != null) {
-                                                        val targetFace = if (selectedType == "Face" && selectedId > 0) selectedId else 1
+                                                        val targetFace = activeSolid!!.resolveTargetFaceId(selectedType, selectedId, selectedHitPoint, selectedFaceNormal)
+                                                        renderer?.selectedFaceId = targetFace
                                                         activeExtrudeProfile = SketchClosedProfile(true, 1000.0, "Face #$targetFace Extrude", 1)
                                                         showExtrudeDialog = true
                                                         featureStatusText = "Press-Pull Face #$targetFace: adjust depth or tap OK"
@@ -2185,19 +2288,25 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     featureStatusText = "Revolve Inspector: adjust angle (15°..360°) or tap OK"
                                                 }
                                                 "Fillet" -> {
-                                                    if (activeSolid == null || !activeSolid!!.success) {
+                                                    val solid = activeSolid
+                                                    if (solid == null || !solid.success) {
                                                         featureStatusText = "No solid body on plate. Create a Box, Cylinder, or Extrude a sketch first."
                                                     } else {
+                                                        val targetEdge = solid.resolveTargetEdgeId(selectedType, selectedId, selectedHitPoint)
+                                                        renderer?.selectedEdgeId = targetEdge
                                                         showFilletDialog = true
-                                                        featureStatusText = "Fillet inspector open"
+                                                        featureStatusText = "Fillet inspector open (Edge #$targetEdge)"
                                                     }
                                                 }
                                                 "Chamfer" -> {
-                                                    if (activeSolid == null || !activeSolid!!.success) {
+                                                    val solid = activeSolid
+                                                    if (solid == null || !solid.success) {
                                                         featureStatusText = "No solid body on plate. Create a Box, Cylinder, or Extrude a sketch first."
                                                     } else {
+                                                        val targetEdge = solid.resolveTargetEdgeId(selectedType, selectedId, selectedHitPoint)
+                                                        renderer?.selectedEdgeId = targetEdge
                                                         showChamferDialog = true
-                                                        featureStatusText = "Chamfer inspector open"
+                                                        featureStatusText = "Chamfer inspector open (Edge #$targetEdge)"
                                                     }
                                                 }
                                                 "Hole" -> {
@@ -2213,12 +2322,35 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     if (solid == null || !solid.success) {
                                                         featureStatusText = "No solid body on plate. Create a Box, Cylinder, or Extrude a sketch first."
                                                     } else {
+                                                        val targetFace = solid.resolveTargetFaceId(selectedType, selectedId, selectedHitPoint, selectedFaceNormal)
+                                                        renderer?.selectedFaceId = targetFace
                                                         showShellDialog = true
-                                                        featureStatusText = "Shell inspector open: adjust wall thickness or tap OK"
+                                                        featureStatusText = "Shell inspector open on Face #$targetFace: adjust wall thickness or tap OK"
                                                     }
                                                 }
                                                 "Combine" -> {
-                                                    val visibleBodies = browserState.value.bodies.filter { it.isVisible && it.solid != null && it.solid!!.success }
+                                                    var visibleBodies = browserState.value.bodies.filter { it.isVisible && it.solid != null && it.solid!!.success }
+                                                    if (visibleBodies.size < 2 && activeSolid != null && activeSolid!!.success) {
+                                                        val bbox = activeSolid!!.boundingBox
+                                                        val cx = selectedHitPoint?.first?.toDouble() ?: bbox.centerX.toDouble()
+                                                        val cy = selectedHitPoint?.second?.toDouble() ?: bbox.centerY.toDouble()
+                                                        val cz = (bbox.minZ - 2f).toDouble()
+                                                        val toolCyl = NativeKernel.createCylinder(15.0, (bbox.sizeZ + 10f).toDouble(), cx, cy, cz, 0.0, 0.0, 1.0)
+                                                        if (toolCyl.success) {
+                                                            val toolBody = CadBodyItem(
+                                                                id = "body_tool_${System.currentTimeMillis()}",
+                                                                name = "Tool Cylinder",
+                                                                isVisible = true,
+                                                                isSelected = false,
+                                                                faceCount = toolCyl.faceCount,
+                                                                volume = toolCyl.volume,
+                                                                solid = toolCyl
+                                                            )
+                                                            browserState.value.addBody(toolBody)
+                                                            syncSecondaryBodies()
+                                                            visibleBodies = browserState.value.bodies.filter { it.isVisible && it.solid != null && it.solid!!.success }
+                                                        }
+                                                    }
                                                     if (visibleBodies.size < 2) {
                                                         featureStatusText = "Combine requires at least 2 bodies in Browser. Create another body first."
                                                     } else {
@@ -2348,7 +2480,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                     if (base == null || !base.success) {
                                                         featureStatusText = "No solid body on plate. Create a Box, Cylinder, or Extrude a sketch first."
                                                     } else {
-                                                        val targetFace = if (selectedType == "Face") selectedId else 1
+                                                        val targetFace = base.resolveTargetFaceId(selectedType, selectedId, selectedHitPoint, selectedFaceNormal)
                                                         val res = try {
                                                             NativeKernel.applyDraft(
                                                                 solid = base,
@@ -2418,7 +2550,15 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                                             hexHead = true
                                                         )
                                                     } catch (t: Throwable) { null }
-                                                    val resMesh = res?.meshResult
+                                                    var resMesh = res?.meshResult
+                                                    val hp = selectedHitPoint
+                                                    if (resMesh != null && resMesh.success && hp != null && resMesh.nativeHandle > 1000L) {
+                                                        val tr = try { resMesh.transform(hp.first.toDouble(), hp.second.toDouble(), hp.third.toDouble(), 0.0, 0.0, 0.0, 1.0) } catch (e: Throwable) { null }
+                                                        if (tr != null && tr.success) {
+                                                            resMesh.close()
+                                                            resMesh = tr
+                                                        }
+                                                    }
                                                     if (resMesh != null && resMesh.success) {
                                                         activeSolid = resMesh
                                                         renderer?.updateMesh(resMesh)
@@ -2648,7 +2788,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                     )
                                     renderer?.updateMesh(extrudeSolid)
                                 } else if (activeSolid != null) {
-                                    val targetFace = if (selectedType == "Face" && selectedId > 0) selectedId else 1
+                                    val targetFace = activeSolid!!.resolveTargetFaceId(selectedType, selectedId, selectedHitPoint, selectedFaceNormal)
                                     val signedDist = if (operation == "Cut" && depth > 0f) -depth.toDouble() else depth.toDouble()
                                     val preview = try {
                                         val res = activeSolid!!.pressPull(signedDist, targetFace)
@@ -2720,7 +2860,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                         featureStatusText = "Extruded $bodyName: ${extrudeSolid.volume.toInt()} mm³"
                                     }
                                 } else if (activeSolid != null) {
-                                    val targetFace = if (selectedType == "Face" && selectedId > 0) selectedId else 1
+                                    val targetFace = activeSolid!!.resolveTargetFaceId(selectedType, selectedId, selectedHitPoint, selectedFaceNormal)
                                     val signedDist = if (operation == "Cut" && depth > 0f) -depth.toDouble() else depth.toDouble()
                                     val pulled = try {
                                         val res = activeSolid!!.pressPull(signedDist, targetFace)
@@ -2860,8 +3000,12 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 val solid = activeSolid ?: return@FilletInspectorDialog
                                 if (solid.nativeHandle > 1000L && solid.success) {
                                     val preview = try {
-                                        val edge = if (selectedType == "Edge" && selectedId > 0) selectedId else 1
-                                        val res = solid.fillet(r.toDouble(), edge)
+                                        val primaryTarget = solid.resolveFilletChamferTarget(selectedType, selectedId, selectedHitPoint, selectedFaceNormal)
+                                        var res = solid.fillet(r.toDouble(), primaryTarget)
+                                        if (!res.success && primaryTarget <= -1000) {
+                                            val fallbackEdge = solid.resolveTargetEdgeId(selectedType, selectedId, selectedHitPoint)
+                                            res = solid.fillet(r.toDouble(), fallbackEdge)
+                                        }
                                         if (res.success) res else null
                                     } catch (t: Throwable) {
                                         null
@@ -2878,9 +3022,13 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                     showFilletDialog = false
                                     return@FilletInspectorDialog
                                 }
-                                val edge = if (selectedType == "Edge" && selectedId > 0) selectedId else 1
+                                val primaryTarget = solid.resolveFilletChamferTarget(selectedType, selectedId, selectedHitPoint, selectedFaceNormal)
+                                val fallbackEdge = solid.resolveTargetEdgeId(selectedType, selectedId, selectedHitPoint)
                                 val filleted = try {
-                                    val res = solid.fillet(r.toDouble(), edge)
+                                    var res = solid.fillet(r.toDouble(), primaryTarget)
+                                    if (!res.success && primaryTarget <= -1000) {
+                                        res = solid.fillet(r.toDouble(), fallbackEdge)
+                                    }
                                     if (res.success) res else null
                                 } catch (t: Throwable) {
                                     null
@@ -2896,10 +3044,11 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                         selectedBody.volume = filleted.volume
                                         selectedBody.faceCount = filleted.faceCount
                                     }
-                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Fillet (R: ${r.toInt()} mm)").toMutableList()
-                                    featureStatusText = "Fillet (R: ${r.toInt()} mm) applied"
+                                    val targetLabel = if (primaryTarget <= -1000) "Face #${-primaryTarget - 1000}" else "Edge #$primaryTarget"
+                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Fillet (R: ${r.toInt()} mm on $targetLabel)").toMutableList()
+                                    featureStatusText = "Fillet (R: ${r.toInt()} mm) applied on $targetLabel"
                                 } else {
-                                    featureStatusText = "Fillet failed: radius ${r.toInt()} mm may be too large for edge #$edge"
+                                    featureStatusText = "Fillet failed: radius ${r.toInt()} mm may be too large for Edge #$fallbackEdge"
                                     renderer?.updateMesh(solid)
                                 }
                                 showFilletDialog = false
@@ -2922,8 +3071,12 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 val solid = activeSolid ?: return@ChamferInspectorDialog
                                 if (solid.nativeHandle > 1000L && solid.success) {
                                     val preview = try {
-                                        val edge = if (selectedType == "Edge" && selectedId > 0) selectedId else 1
-                                        val res = solid.chamfer(d.toDouble(), edge)
+                                        val primaryTarget = solid.resolveFilletChamferTarget(selectedType, selectedId, selectedHitPoint, selectedFaceNormal)
+                                        var res = solid.chamfer(d.toDouble(), primaryTarget)
+                                        if (!res.success && primaryTarget <= -1000) {
+                                            val fallbackEdge = solid.resolveTargetEdgeId(selectedType, selectedId, selectedHitPoint)
+                                            res = solid.chamfer(d.toDouble(), fallbackEdge)
+                                        }
                                         if (res.success) res else null
                                     } catch (t: Throwable) {
                                         null
@@ -2940,9 +3093,13 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                     showChamferDialog = false
                                     return@ChamferInspectorDialog
                                 }
-                                val edge = if (selectedType == "Edge" && selectedId > 0) selectedId else 1
+                                val primaryTarget = solid.resolveFilletChamferTarget(selectedType, selectedId, selectedHitPoint, selectedFaceNormal)
+                                val fallbackEdge = solid.resolveTargetEdgeId(selectedType, selectedId, selectedHitPoint)
                                 val chamfered = try {
-                                    val res = solid.chamfer(d.toDouble(), edge)
+                                    var res = solid.chamfer(d.toDouble(), primaryTarget)
+                                    if (!res.success && primaryTarget <= -1000) {
+                                        res = solid.chamfer(d.toDouble(), fallbackEdge)
+                                    }
                                     if (res.success) res else null
                                 } catch (t: Throwable) {
                                     null
@@ -2958,10 +3115,11 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                         selectedBody.volume = chamfered.volume
                                         selectedBody.faceCount = chamfered.faceCount
                                     }
-                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Chamfer (D: ${d.toInt()} mm)").toMutableList()
-                                    featureStatusText = "Chamfer (D: ${d.toInt()} mm) applied"
+                                    val targetLabel = if (primaryTarget <= -1000) "Face #${-primaryTarget - 1000}" else "Edge #$primaryTarget"
+                                    timelineItems = (timelineItems + "${timelineItems.size + 1}. Chamfer (D: ${d.toInt()} mm on $targetLabel)").toMutableList()
+                                    featureStatusText = "Chamfer (D: ${d.toInt()} mm) applied on $targetLabel"
                                 } else {
-                                    featureStatusText = "Chamfer failed: distance ${d.toInt()} mm exceeds edge #$edge limit"
+                                    featureStatusText = "Chamfer failed: distance ${d.toInt()} mm exceeds Edge #$fallbackEdge limit"
                                     renderer?.updateMesh(solid)
                                 }
                                 showChamferDialog = false
@@ -3193,7 +3351,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             onThicknessChanged = { t ->
                                 val solid = activeSolid ?: return@ShellInspectorDialog
                                 if (solid.nativeHandle > 1000L && solid.success) {
-                                    val targetFace = if (selectedType == "Face" && selectedId > 0) selectedId else 1
+                                    val targetFace = solid.resolveTargetFaceId(selectedType, selectedId, selectedHitPoint, selectedFaceNormal)
                                     val preview = try {
                                         val res = solid.shell(t.toDouble(), targetFace)
                                         if (res.success) res else null
@@ -3204,7 +3362,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             onConfirm = { t ->
                                 val solid = activeSolid
                                 if (solid != null && solid.success) {
-                                    val targetFace = if (selectedType == "Face" && selectedId > 0) selectedId else 1
+                                    val targetFace = solid.resolveTargetFaceId(selectedType, selectedId, selectedHitPoint, selectedFaceNormal)
                                     val shelled = try {
                                         val res = solid.shell(t.toDouble(), targetFace)
                                         if (res.success) res else null

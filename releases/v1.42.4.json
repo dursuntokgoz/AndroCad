@@ -1,0 +1,10 @@
+{
+  "milestone": "M79",
+  "title": "All-Vertical-Sidewall Mold Draft Taper Fallback (|fNorm \u00b7 pullDir| < 0.2)",
+  "version": "v1.42.4",
+  "apkArtifact": "AndroCAD-v1.42.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m79_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m79_phone.png"
+}

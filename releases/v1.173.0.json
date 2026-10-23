@@ -1,0 +1,10 @@
+{
+  "milestone": "M218",
+  "title": "Thread Milling Helical Interpolation (G02/G03 XYZ Single-Point & Multi-Tooth)",
+  "version": "v1.173.0",
+  "apkArtifact": "AndroCAD-v1.173.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m218_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m218_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M269",
+  "title": "Plugin SDK Sandboxed Manifest Validator & Resource Quota Enforcer",
+  "version": "v1.224.0",
+  "apkArtifact": "AndroCAD-v1.224.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m269_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m269_phone.png"
+}

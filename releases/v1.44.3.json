@@ -1,0 +1,10 @@
+{
+  "milestone": "M88",
+  "title": "Target-Aware Sheet Metal U-Bracket & Live 3D Unfolded Flat Pattern Solid Replacement",
+  "version": "v1.44.3",
+  "apkArtifact": "AndroCAD-v1.44.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m88_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m88_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M170",
+  "title": "Busbar Copper Bend & Current-Carrying Ampacity Thermal Derating Analyzer",
+  "version": "v1.125.0",
+  "apkArtifact": "AndroCAD-v1.125.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m170_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m170_phone.png"
+}

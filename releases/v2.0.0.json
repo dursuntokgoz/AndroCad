@@ -1,0 +1,10 @@
+{
+  "milestone": "M270",
+  "title": "Faz 4 Full-System 270-Milestone Certification, Zero-Mock 3D Picking Audit & v2.0.0 Release Gate",
+  "version": "v2.0.0",
+  "apkArtifact": "AndroCAD-v2.0.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m270_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m270_phone.png"
+}

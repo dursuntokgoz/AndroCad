@@ -1,0 +1,10 @@
+{
+  "milestone": "M94",
+  "title": "Helical & Spiral 3D Wire Generator (Variable Pitch & Tapered Helix)",
+  "version": "v1.49.0",
+  "apkArtifact": "AndroCAD-v1.49.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m94_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m94_phone.png"
+}

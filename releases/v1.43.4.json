@@ -1,0 +1,10 @@
+{
+  "milestone": "M84",
+  "title": "Target-Aware Combine Automatic Tool Body Placement at Tapped Face Center",
+  "version": "v1.43.4",
+  "apkArtifact": "AndroCAD-v1.43.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m84_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m84_phone.png"
+}

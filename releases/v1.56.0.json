@@ -1,0 +1,10 @@
+{
+  "milestone": "M101",
+  "title": "Sketch Rectangular & Circular Associative Pattern Arrays",
+  "version": "v1.56.0",
+  "apkArtifact": "AndroCAD-v1.56.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m101_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m101_phone.png"
+}

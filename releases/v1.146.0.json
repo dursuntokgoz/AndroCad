@@ -1,0 +1,10 @@
+{
+  "milestone": "M191",
+  "title": "Non-Linear Material Plasticity (Von Mises Yield with Isotropic Bilinear Hardening)",
+  "version": "v1.146.0",
+  "apkArtifact": "AndroCAD-v1.146.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m191_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m191_phone.png"
+}

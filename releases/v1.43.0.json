@@ -1,0 +1,10 @@
+{
+  "milestone": "M80",
+  "title": "Target-Aware 3D Primitive Placement (Box, Cylinder, Sphere, Torus, Cone at selectedHitPoint)",
+  "version": "v1.43.0",
+  "apkArtifact": "AndroCAD-v1.43.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m80_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m80_phone.png"
+}

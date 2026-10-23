@@ -1,0 +1,10 @@
+{
+  "milestone": "M180",
+  "title": "3D Restitution Impulse Contact & Friction Cone Impact Solver",
+  "version": "v1.135.0",
+  "apkArtifact": "AndroCAD-v1.135.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m180_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m180_phone.png"
+}
