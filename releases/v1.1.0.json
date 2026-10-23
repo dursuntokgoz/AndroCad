@@ -1,0 +1,10 @@
+{
+  "milestone": "M31",
+  "title": "Variable-Radius Fillet Engine (ChFi3d Spine Law)",
+  "version": "v1.1.0",
+  "apkArtifact": "AndroCAD-v1.1.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m31_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m31_phone.png"
+}

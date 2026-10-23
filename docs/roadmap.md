@@ -518,8 +518,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m31_tablet.png`) and phone (`docs/screenshots/m31_phone.png`) screenshots.
   - Release: `v1.1.0`.
 * **Acceptance Tests:** Variable-radius fillet produces watertight solid with monotonic cross-sectional curvature transition from $R_1$ to $R_2$.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 
