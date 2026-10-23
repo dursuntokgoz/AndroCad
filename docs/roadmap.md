@@ -644,8 +644,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m40_tablet.png`) and phone (`docs/screenshots/m40_phone.png`) screenshots.
   - Release: `v1.10.0`.
 * **Acceptance Tests:** Stepped shaft profile generates collision-free OD roughing, finishing, and grooving toolpaths with accurate cycle time.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

@@ -1,0 +1,10 @@
+{
+  "milestone": "M40",
+  "title": "Subtractive CAM: 2-Axis CNC Lathe Turning, Profiling & Grooving",
+  "version": "v1.10.0",
+  "apkArtifact": "AndroCAD-v1.10.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m40_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m40_phone.png"
+}
