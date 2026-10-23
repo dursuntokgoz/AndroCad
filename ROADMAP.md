@@ -727,8 +727,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m46_tablet.png`) and phone (`docs/screenshots/m47_phone.png` / `m46_phone.png`) screenshots.
   - Release: `v1.16.0`.
 * **Acceptance Tests:** Computed Gaussian and Mean curvatures match analytical sphere, cylinder, and torus formulas within $1\%$.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 

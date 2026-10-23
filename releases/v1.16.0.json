@@ -1,0 +1,10 @@
+{
+  "milestone": "M46",
+  "title": "Surface Inspection: Gaussian, Mean & Principal Curvature Comb Analyzer",
+  "version": "v1.16.0",
+  "apkArtifact": "AndroCAD-v1.16.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m46_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m46_phone.png"
+}
