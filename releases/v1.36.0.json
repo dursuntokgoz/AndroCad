@@ -1,0 +1,10 @@
+{
+  "milestone": "M66",
+  "title": "ECAD / PCB Enclosure Bridge (IDF / KiCad Board, Standoffs & Keep-Out Zones)",
+  "version": "v1.36.0",
+  "apkArtifact": "AndroCAD-v1.36.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m66_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m66_phone.png"
+}

@@ -1007,8 +1007,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m66_tablet.png`) and phone (`docs/screenshots/m66_phone.png`) screenshots.
   - Release: `v1.36.0`.
 * **Acceptance Tests:** Generated enclosure standoffs align concentrically with 100% of PCB mounting holes within $0.001\text{ mm}$ and flag any IC height collision.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 
