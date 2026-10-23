@@ -1,0 +1,10 @@
+{
+  "milestone": "M26",
+  "title": "Memory Budget & High-Poly Performance Profiler (Low-RAM Guard)",
+  "version": "v1.0.17",
+  "apkArtifact": "AndroCAD-v1.0.17-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m26_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m26_phone.png"
+}

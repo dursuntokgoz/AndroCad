@@ -448,8 +448,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m26_tablet.png`) and phone (`docs/screenshots/m26_phone.png`) screenshots.
   - Release: `v1.0.17`.
 * **Acceptance Tests:** Peak native mesh memory stays under 64 MB budget during 100k-triangle stress test with zero leaked handles after scope teardown.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 
