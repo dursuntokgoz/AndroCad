@@ -63,3 +63,4 @@
 | **M50** | `v1.20.0` | ✅ Done | Data Exchange: Wavefront OBJ & MTL Material Mesh Import/Export — CTest (`[PASS] M50 Wavefront OBJ & MTL Mesh Import/Export`) & Screenshots (`t_lum=36.2`, `p_lum=36.6`) doğrulandı. |
 | **M51** | `v1.21.0` | ✅ Done | Data Exchange: 3MF Additive Manufacturing Package I/O — CTest (`[PASS] M51 3MF Additive Manufacturing Package I/O`) & Screenshots (`t_lum=36.2`, `p_lum=36.6`) doğrulandı. |
 | **M52** | `v1.22.0` | ✅ Done | Stylus / S-Pen Pressure, Tilt & Palm Rejection Sketch Engine — CTest (`[PASS] M52 Stylus / S-Pen Pressure, Tilt & Palm Rejection`) & Screenshots (`t_lum=36.1`, `p_lum=37.0`) doğrulandı. |
+| **M53** | `v1.23.0` | ✅ Done | Accessibility (a11y): TalkBack Semantics, High-Contrast Mode & Touch Target Audit — CTest (`[PASS] M53 WCAG AAA Accessibility & TalkBack Semantics`) & Screenshots (`t_lum=36.2`, `p_lum=36.7`) doğrulandı. |

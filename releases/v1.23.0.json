@@ -1,0 +1,10 @@
+{
+  "milestone": "M53",
+  "title": "Accessibility (a11y): TalkBack Semantics, High-Contrast Mode & Touch Target Audit",
+  "version": "v1.23.0",
+  "apkArtifact": "AndroCAD-v1.23.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m53_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m53_phone.png"
+}

@@ -825,8 +825,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m53_tablet.png`) and phone (`docs/screenshots/m53_phone.png`) screenshots.
   - Release: `v1.23.0`.
 * **Acceptance Tests:** All high-contrast palette foreground/background pairs exceed 7.0:1 luminance contrast ratio; every interactive CAD control exposes non-empty screen-reader semantics.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 
