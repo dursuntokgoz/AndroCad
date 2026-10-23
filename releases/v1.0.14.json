@@ -1,0 +1,10 @@
+{
+  "milestone": "M23",
+  "title": "Multi-ABI Native Library Loader & Missing .so Dependency Verifier",
+  "version": "v1.0.14",
+  "apkArtifact": "AndroCAD-v1.0.14-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m23_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m23_phone.png"
+}
