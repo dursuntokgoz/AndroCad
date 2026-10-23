@@ -52,3 +52,4 @@
 | **M39** | `v1.9.0` | ✅ Done | Subtractive CAM: High-Speed Trochoidal Adaptive Milling & Rest Machining — CTest (`[PASS] M39 High-Speed Trochoidal Adaptive Milling`) & Screenshots (`t_lum=36.1`, `p_lum=36.7`) doğrulandı. |
 | **M40** | `v1.10.0` | ✅ Done | Subtractive CAM: 2-Axis CNC Lathe Turning, Profiling & Grooving — CTest (`[PASS] M40 2-Axis CNC Lathe Turning & Grooving`) & Screenshots (`t_lum=36.1`, `p_lum=36.7`) doğrulandı. |
 | **M41** | `v1.11.0` | ✅ Done | Subtractive CAM: 3+2 Indexed 5-Axis Positional Milling & Holder Collision Check — CTest (`[PASS] M41 3+2 Indexed 5-Axis Positional Milling`) & Screenshots (`t_lum=36.1`, `p_lum=36.7`) doğrulandı. |
+| **M42** | `v1.12.0` | ✅ Done | Structural Simulation: Linear Eigenvalue Buckling Analysis — CTest (`[PASS] M42 Linear Eigenvalue Buckling Analysis`) & Screenshots (`t_lum=36.7`, `p_lum=37.8`) doğrulandı. |

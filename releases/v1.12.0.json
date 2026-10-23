@@ -1,0 +1,10 @@
+{
+  "milestone": "M42",
+  "title": "Structural Simulation: Linear Eigenvalue Buckling Analysis",
+  "version": "v1.12.0",
+  "apkArtifact": "AndroCAD-v1.12.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m42_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m42_phone.png"
+}

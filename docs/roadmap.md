@@ -672,8 +672,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m42_tablet.png`) and phone (`docs/screenshots/m42_phone.png`) screenshots.
   - Release: `v1.12.0`.
 * **Acceptance Tests:** Computed critical buckling load factor $\lambda_{cr}$ matches analytical Euler column buckling within $3.0\%$.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 
