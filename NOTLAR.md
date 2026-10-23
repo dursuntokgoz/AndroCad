@@ -44,3 +44,4 @@
 | **M31** | `v1.1.0` | ✅ Done | Variable-Radius Fillet Engine (ChFi3d Spine Law) — CTest (`[PASS] M31 Variable-Radius Fillet Engine`) & Screenshots (`t_lum=36.1`, `p_lum=37.0`) doğrulandı. |
 | **M32** | `v1.2.0` | ✅ Done | Asymmetric Two-Distance & Distance-Angle Chamfer — CTest (`[PASS] M32 Asymmetric & Distance-Angle Chamfer`) & Screenshots (`t_lum=36.1`, `p_lum=36.8`) doğrulandı. |
 | **M33** | `v1.3.0` | ✅ Done | Parametric Configurations & Design Tables (Part Variants) — CTest (`[PASS] M33 Parametric Configurations & Design Tables`) & Screenshots (`t_lum=36.1`, `p_lum=36.8`) doğrulandı. |
+| **M34** | `v1.4.0` | ✅ Done | Equation-Driven Curves & Scientific Expression Evaluator — CTest (`[PASS] M34 Equation-Driven Curves & Expression Evaluator`) & Screenshots (`t_lum=36.2`, `p_lum=36.9`) doğrulandı. |

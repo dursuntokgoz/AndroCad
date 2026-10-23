@@ -1,0 +1,10 @@
+{
+  "milestone": "M34",
+  "title": "Equation-Driven Curves & Scientific Expression Evaluator",
+  "version": "v1.4.0",
+  "apkArtifact": "AndroCAD-v1.4.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m34_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m34_phone.png"
+}

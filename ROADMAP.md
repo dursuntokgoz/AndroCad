@@ -560,8 +560,8 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
   - Tablet (`docs/screenshots/m34_tablet.png`) and phone (`docs/screenshots/m34_phone.png`) screenshots.
   - Release: `v1.4.0`.
 * **Acceptance Tests:** Equation parser evaluates nested trigonometric expressions within $10^{-9}$ tolerance and generates smooth $C^2$ B-Spline wires.
-* **Status:** Pending
-* **Finish Date:** TBD
+* **Status:** Done
+* **Finish Date:** 2026-10-24
 
 ---
 
