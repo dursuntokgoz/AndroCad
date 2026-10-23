@@ -373,7 +373,7 @@ class InteractiveSketchExtrudeTest {
         composeTestRule.onNodeWithTag("btn_redo").performScrollTo().assertIsDisplayed()
 
         // Switch to Sketch tab, create preset rectangle, and activate Dimension tool
-        composeTestRule.onNodeWithTag("tab_Sketch").performClick()
+        composeTestRule.onNodeWithTag("tab_Sketch").performScrollTo().performClick()
         composeTestRule.onNodeWithTag("btn_sketch_preset").performClick()
         composeTestRule.onNodeWithTag("tool_Dimension").performScrollTo().performClick()
 
