@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <cmath>
+#include <cstdint>
 
 namespace AndroCAD {
 namespace Phase7 {
