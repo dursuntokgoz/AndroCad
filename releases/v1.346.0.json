@@ -1,0 +1,8 @@
+{
+  "milestone": 716,
+  "title": "Dynamic machine tool collision detection against rotary A/B/C tilting axes",
+  "domain": "Precision 5-Axis CAM & Robotic Additive DED",
+  "version": "v1.346.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

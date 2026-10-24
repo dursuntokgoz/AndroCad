@@ -1,0 +1,8 @@
+{
+  "milestone": 693,
+  "title": "Thermal expansion induced thermal stress and displacement tensor field solver",
+  "domain": "Multiphysics Simulation & Coupled Field Solvers",
+  "version": "v1.323.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

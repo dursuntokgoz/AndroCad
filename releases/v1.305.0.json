@@ -1,10 +1,8 @@
 {
-  "milestone": "M666",
-  "title": "Hardware Peripheral Support: Full Desktop Keyboard Shortcuts & Mouse Scroll",
+  "milestone": 675,
+  "title": "Anisotropic short-fiber orientation mapping for polymer 3D printing",
+  "domain": "Generative Design & Topology Synthesis",
   "version": "v1.305.0",
-  "apkArtifact": "AndroCAD-v1.305.0-debug.apk",
-  "ctestPassed": true,
-  "manifestAuditPassed": true,
-  "tabletScreenshot": "docs/screenshots/m666_tablet.png",
-  "phoneScreenshot": "docs/screenshots/m666_phone.png"
+  "date": "2026-10-25",
+  "status": "Done"
 }

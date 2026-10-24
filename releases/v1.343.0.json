@@ -1,0 +1,8 @@
+{
+  "milestone": 713,
+  "title": "Robotic 6-DoF arm inverse kinematics trajectory solver with singularity avoidance",
+  "domain": "Precision 5-Axis CAM & Robotic Additive DED",
+  "version": "v1.343.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

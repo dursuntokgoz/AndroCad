@@ -1,0 +1,8 @@
+{
+  "milestone": 843,
+  "title": "Emissive material light sources with global illumination radiosity bounce",
+  "domain": "Photorealistic Real-Time Ray Tracing & Rendering",
+  "version": "v1.473.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

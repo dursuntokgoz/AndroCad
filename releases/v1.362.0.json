@@ -1,0 +1,8 @@
+{
+  "milestone": 732,
+  "title": "Elimination of simulated UI button offsets ensuring 1:1 model target accuracy",
+  "domain": "Industrial UI/UX Precision & Ray-Picked B-Rep Manipulation",
+  "version": "v1.362.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

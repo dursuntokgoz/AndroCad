@@ -1,0 +1,8 @@
+{
+  "milestone": 694,
+  "title": "Nonlinear hyperelastic material constitutive model (Mooney-Rivlin / Ogden)",
+  "domain": "Multiphysics Simulation & Coupled Field Solvers",
+  "version": "v1.324.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

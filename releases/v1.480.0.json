@@ -1,0 +1,8 @@
+{
+  "milestone": 850,
+  "title": "Rendering benchmark suite verifying sustained 60 FPS viewport interaction",
+  "domain": "Photorealistic Real-Time Ray Tracing & Rendering",
+  "version": "v1.480.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

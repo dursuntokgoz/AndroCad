@@ -32,6 +32,8 @@ An original, professional parametric 3D CAD application engineered for Android t
 | **Assemblies & Kinematic Joints** | ✅ Working | Rigid, revolute, cylindrical, spherical, slider, and universal/Cardan joints with dynamic clearance detection and statistical RSS tolerance stackup analysis. |
 | **Synchronous Technology & Direct Modeling** | ✅ Working | Coaxial & symmetric live face dragging, live pattern recognition, dynamic grouping, and non-history geometry edits. |
 | **Class-A Surfacing & Freeform NURBS** | ✅ Working | Jerk-continuous G3 surfacing, reflection lines, mean/Gaussian curvature diagnostics, and multi-rail sweeps. |
+| **Generative Design & Topology Synthesis** | ✅ Working | BESO evolutionary structural optimization, level-set boundary solver, and additive self-supporting overhang constraints. |
+| **Industry 4.0 Digital Twin & ISO STEP AP242 PMI** | ✅ Working | Real-time OPC-UA / MQTT CNC telemetry sync, semantic GD&T PMI annotation, and Siemens JT / 3MF interoperability. |
 | **Cloud Project Collaboration & Sync** | 📋 Planned | Planned for future release milestones. |
 
 ---

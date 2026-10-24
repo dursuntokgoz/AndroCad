@@ -1,0 +1,8 @@
+{
+  "milestone": 715,
+  "title": "Adaptive multi-axis feedrate scheduling based on tool engagement curvature",
+  "domain": "Precision 5-Axis CAM & Robotic Additive DED",
+  "version": "v1.345.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

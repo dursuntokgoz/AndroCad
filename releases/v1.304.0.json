@@ -1,10 +1,8 @@
 {
-  "milestone": "M661",
-  "title": "UI Touch Target Isolation Audit: Minimum 48dp Interactive Targets",
+  "milestone": 674,
+  "title": "Multi-load case compliance minimization and stiffness-to-weight tuning",
+  "domain": "Generative Design & Topology Synthesis",
   "version": "v1.304.0",
-  "apkArtifact": "AndroCAD-v1.304.0-debug.apk",
-  "ctestPassed": true,
-  "manifestAuditPassed": true,
-  "tabletScreenshot": "docs/screenshots/m661_tablet.png",
-  "phoneScreenshot": "docs/screenshots/m661_phone.png"
+  "date": "2026-10-25",
+  "status": "Done"
 }

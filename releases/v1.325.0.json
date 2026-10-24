@@ -1,0 +1,8 @@
+{
+  "milestone": 695,
+  "title": "Aero-structural surface pressure field interpolation on CAD aerodynamic bodies",
+  "domain": "Multiphysics Simulation & Coupled Field Solvers",
+  "version": "v1.325.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

@@ -1,0 +1,8 @@
+{
+  "milestone": 725,
+  "title": "G-code post-processor for Sinumerik 840D sl and Heidenhain TNC 640 multi-axis CNCs",
+  "domain": "Precision 5-Axis CAM & Robotic Additive DED",
+  "version": "v1.355.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

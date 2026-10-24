@@ -1,0 +1,8 @@
+{
+  "milestone": 687,
+  "title": "Automated design space bounding box and keep-out exclusion volume solver",
+  "domain": "Generative Design & Topology Synthesis",
+  "version": "v1.317.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

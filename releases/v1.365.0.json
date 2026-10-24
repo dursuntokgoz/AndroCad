@@ -1,0 +1,8 @@
+{
+  "milestone": 735,
+  "title": "Precise angular snapping (15, 30, 45, 90 deg) and linear metric grid increments",
+  "domain": "Industrial UI/UX Precision & Ray-Picked B-Rep Manipulation",
+  "version": "v1.365.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

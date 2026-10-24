@@ -1,0 +1,8 @@
+{
+  "milestone": 691,
+  "title": "Coupled steady-state thermal-structural finite element solver integration",
+  "domain": "Multiphysics Simulation & Coupled Field Solvers",
+  "version": "v1.321.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

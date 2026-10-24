@@ -1,0 +1,8 @@
+{
+  "milestone": 840,
+  "title": "Denoiser integration using spatio-temporal variance-guided filtering (SVGF)",
+  "domain": "Photorealistic Real-Time Ray Tracing & Rendering",
+  "version": "v1.470.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

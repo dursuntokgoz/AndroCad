@@ -1,0 +1,8 @@
+{
+  "milestone": 831,
+  "title": "Vulkan-accelerated Bounding Volume Hierarchy (BVH) ray tracing pipeline",
+  "domain": "Photorealistic Real-Time Ray Tracing & Rendering",
+  "version": "v1.461.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

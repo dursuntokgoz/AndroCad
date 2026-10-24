@@ -1,0 +1,8 @@
+{
+  "milestone": 853,
+  "title": "MQTT edge sensor stream ingestion for CNC spindle temperature and vibration",
+  "domain": "Industry 4.0 Digital Twin & Autonomous Interoperability",
+  "version": "v1.483.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

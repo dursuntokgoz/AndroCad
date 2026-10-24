@@ -1,10 +1,8 @@
 {
-  "milestone": "M656",
-  "title": "Viewport Render Engine 60 FPS Pacing & Frame Time Budget Validator",
+  "milestone": 673,
+  "title": "Additive manufacturing overhang angle self-supporting constraints (45 deg)",
+  "domain": "Generative Design & Topology Synthesis",
   "version": "v1.303.0",
-  "apkArtifact": "AndroCAD-v1.303.0-debug.apk",
-  "ctestPassed": true,
-  "manifestAuditPassed": true,
-  "tabletScreenshot": "docs/screenshots/m656_tablet.png",
-  "phoneScreenshot": "docs/screenshots/m656_phone.png"
+  "date": "2026-10-25",
+  "status": "Done"
 }

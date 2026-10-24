@@ -1,0 +1,8 @@
+{
+  "milestone": 720,
+  "title": "Smooth 5-axis tool axis tilting using jerk-bounded quaternion interpolation",
+  "domain": "Precision 5-Axis CAM & Robotic Additive DED",
+  "version": "v1.350.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

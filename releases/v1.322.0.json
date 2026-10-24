@@ -1,0 +1,8 @@
+{
+  "milestone": 692,
+  "title": "Transient heat conduction solver with time-dependent thermal boundary loads",
+  "domain": "Multiphysics Simulation & Coupled Field Solvers",
+  "version": "v1.322.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}
