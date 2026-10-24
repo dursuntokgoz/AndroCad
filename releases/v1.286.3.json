@@ -1,0 +1,10 @@
+{
+  "milestone": "M574",
+  "title": "Viewport Dynamic Pivot Point Setting (Centroid, Vertex, Custom HitPoint)",
+  "version": "v1.286.3",
+  "apkArtifact": "AndroCAD-v1.286.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m574_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m574_phone.png"
+}

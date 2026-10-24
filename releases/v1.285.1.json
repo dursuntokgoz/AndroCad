@@ -1,0 +1,10 @@
+{
+  "milestone": "M567",
+  "title": "Sheet Metal S-Curve Flange with Sequential Alternating Bends",
+  "version": "v1.285.1",
+  "apkArtifact": "AndroCAD-v1.285.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m567_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m567_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M605",
+  "title": "Automated Bill of Materials (BOM) Balloon Callouts on 2D/3D Views",
+  "version": "v1.292.4",
+  "apkArtifact": "AndroCAD-v1.292.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m605_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m605_phone.png"
+}

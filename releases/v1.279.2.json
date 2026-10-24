@@ -1,0 +1,10 @@
+{
+  "milestone": "M538",
+  "title": "Cross-Sectional Slice Plane Fitting to Reverse-Engineered Scans",
+  "version": "v1.279.2",
+  "apkArtifact": "AndroCAD-v1.279.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m538_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m538_phone.png"
+}

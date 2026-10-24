@@ -1,0 +1,10 @@
+{
+  "milestone": "M501",
+  "title": "Sketch Path Text Kerning & TrueType Font Vectorization Engine",
+  "version": "v1.272.0",
+  "apkArtifact": "AndroCAD-v1.272.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m501_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m501_phone.png"
+}

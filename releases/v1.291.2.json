@@ -1,0 +1,10 @@
+{
+  "milestone": "M598",
+  "title": "Real-Time Interference Checking with Highlighted Collision Volumes",
+  "version": "v1.291.2",
+  "apkArtifact": "AndroCAD-v1.291.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m598_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m598_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M494",
+  "title": "PlaneGCS Constraint: Symmetric Spline Tangent Vectors Across Axis",
+  "version": "v1.270.3",
+  "apkArtifact": "AndroCAD-v1.270.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m494_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m494_phone.png"
+}

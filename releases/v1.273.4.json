@@ -1,0 +1,10 @@
+{
+  "milestone": "M510",
+  "title": "Domain 2 High-Order Curve & Sketching Solver Certification Suite",
+  "version": "v1.273.4",
+  "apkArtifact": "AndroCAD-v1.273.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m510_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m510_phone.png"
+}

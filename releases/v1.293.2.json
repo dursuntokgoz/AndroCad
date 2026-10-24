@@ -1,0 +1,10 @@
+{
+  "milestone": "M608",
+  "title": "Multi-Body Kinematic Limit Warnings (Angle & Travel Stop Alerts)",
+  "version": "v1.293.2",
+  "apkArtifact": "AndroCAD-v1.293.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m608_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m608_phone.png"
+}

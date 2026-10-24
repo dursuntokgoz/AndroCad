@@ -1,0 +1,10 @@
+{
+  "milestone": "M473",
+  "title": "Direct Modeling Pattern Instance Editing (Changing Pattern Spacing in Imported Solid)",
+  "version": "v1.266.2",
+  "apkArtifact": "AndroCAD-v1.266.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m473_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m473_phone.png"
+}

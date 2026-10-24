@@ -1,0 +1,10 @@
+{
+  "milestone": "M509",
+  "title": "Sketch Solver Dynamic Memory Cache & Parallel Thread Evaluation",
+  "version": "v1.273.3",
+  "apkArtifact": "AndroCAD-v1.273.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m509_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m509_phone.png"
+}

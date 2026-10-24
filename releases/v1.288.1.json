@@ -1,0 +1,10 @@
+{
+  "milestone": "M582",
+  "title": "Anti-Aliased Wireframe Rendering with GLES Sub-Pixel Smoothing",
+  "version": "v1.288.1",
+  "apkArtifact": "AndroCAD-v1.288.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m582_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m582_phone.png"
+}

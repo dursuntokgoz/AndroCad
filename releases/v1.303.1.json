@@ -1,0 +1,10 @@
+{
+  "milestone": "M657",
+  "title": "Dynamic Memory Trimming & Texture VBO Compaction under Low-RAM Conditions",
+  "version": "v1.303.1",
+  "apkArtifact": "AndroCAD-v1.303.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m657_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m657_phone.png"
+}

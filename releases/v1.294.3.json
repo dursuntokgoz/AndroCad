@@ -1,0 +1,10 @@
+{
+  "milestone": "M614",
+  "title": "Structural Safety Factor (FOS) Heatmap & Critical Region Indicator",
+  "version": "v1.294.3",
+  "apkArtifact": "AndroCAD-v1.294.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m614_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m614_phone.png"
+}

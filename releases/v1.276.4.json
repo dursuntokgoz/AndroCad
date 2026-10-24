@@ -1,0 +1,10 @@
+{
+  "milestone": "M525",
+  "title": "O-Ring Seal Gland Feature (Radial & Axial Face Gland per AS568 Standards)",
+  "version": "v1.276.4",
+  "apkArtifact": "AndroCAD-v1.276.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m525_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m525_phone.png"
+}

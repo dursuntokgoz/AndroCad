@@ -1,0 +1,10 @@
+{
+  "milestone": "M606",
+  "title": "Assembly Center of Gravity (CG) Calculation with Visual 3D Marker",
+  "version": "v1.293.0",
+  "apkArtifact": "AndroCAD-v1.293.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m606_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m606_phone.png"
+}

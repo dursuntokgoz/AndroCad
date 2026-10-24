@@ -1,0 +1,10 @@
+{
+  "milestone": "M527",
+  "title": "Splined Shaft Profile Generator (Involute & Straight-Sided Splines)",
+  "version": "v1.277.1",
+  "apkArtifact": "AndroCAD-v1.277.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m527_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m527_phone.png"
+}

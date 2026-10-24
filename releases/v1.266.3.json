@@ -1,0 +1,10 @@
+{
+  "milestone": "M474",
+  "title": "B-Rep Defeaturer: Automatic Logo & Text Etching Removal for CFD/FEA",
+  "version": "v1.266.3",
+  "apkArtifact": "AndroCAD-v1.266.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m474_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m474_phone.png"
+}

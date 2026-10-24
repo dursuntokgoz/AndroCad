@@ -1,0 +1,10 @@
+{
+  "milestone": "M602",
+  "title": "Automated Thread Engagement Depth Verification for Tapped Holes",
+  "version": "v1.292.1",
+  "apkArtifact": "AndroCAD-v1.292.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m602_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m602_phone.png"
+}

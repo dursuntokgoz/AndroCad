@@ -1,0 +1,10 @@
+{
+  "milestone": "M498",
+  "title": "Associative Curve Offset with Auto-Trimming at Cusps and Self-Intersections",
+  "version": "v1.271.2",
+  "apkArtifact": "AndroCAD-v1.271.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m498_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m498_phone.png"
+}

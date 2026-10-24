@@ -1,0 +1,10 @@
+{
+  "milestone": "M472",
+  "title": "Intelligent Boss & Pocket Auto-Grouping During Direct Drag",
+  "version": "v1.266.1",
+  "apkArtifact": "AndroCAD-v1.266.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m472_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m472_phone.png"
+}

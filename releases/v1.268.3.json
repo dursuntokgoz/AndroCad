@@ -1,0 +1,10 @@
+{
+  "milestone": "M484",
+  "title": "Non-Planar Face Split by Silhouette Projection Along View Direction",
+  "version": "v1.268.3",
+  "apkArtifact": "AndroCAD-v1.268.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m484_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m484_phone.png"
+}

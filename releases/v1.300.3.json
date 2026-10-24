@@ -1,0 +1,10 @@
+{
+  "milestone": "M644",
+  "title": "G-Code Post-Processor Architecture: Haas NGC, Fanuc 31i, Heidenhain TNC7",
+  "version": "v1.300.3",
+  "apkArtifact": "AndroCAD-v1.300.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m644_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m644_phone.png"
+}

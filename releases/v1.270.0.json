@@ -1,0 +1,10 @@
+{
+  "milestone": "M491",
+  "title": "Degree-7 Quintic Hermite Curve Smoothing for High-Speed Aerospace Surfacing",
+  "version": "v1.270.0",
+  "apkArtifact": "AndroCAD-v1.270.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m491_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m491_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M529",
+  "title": "Solid Model Mass Properties Engine: Principal Axes & Inertia Matrix",
+  "version": "v1.277.3",
+  "apkArtifact": "AndroCAD-v1.277.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m529_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m529_phone.png"
+}

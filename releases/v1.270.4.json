@@ -1,0 +1,10 @@
+{
+  "milestone": "M495",
+  "title": "PlaneGCS Constraint: Parallel Curvature Comb Vectors at Curve Endpoints",
+  "version": "v1.270.4",
+  "apkArtifact": "AndroCAD-v1.270.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m495_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m495_phone.png"
+}

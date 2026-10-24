@@ -1,0 +1,10 @@
+{
+  "milestone": "M658",
+  "title": "Atomic Journaling Project Auto-Save & Crash-Resistant Recovery System",
+  "version": "v1.303.2",
+  "apkArtifact": "AndroCAD-v1.303.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m658_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m658_phone.png"
+}

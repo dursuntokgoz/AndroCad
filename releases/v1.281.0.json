@@ -1,0 +1,10 @@
+{
+  "milestone": "M546",
+  "title": "Mid-Surface Extraction for Thin-Walled Solid CAE Shell Modeling",
+  "version": "v1.281.0",
+  "apkArtifact": "AndroCAD-v1.281.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m546_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m546_phone.png"
+}

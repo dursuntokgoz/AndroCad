@@ -1,0 +1,10 @@
+{
+  "milestone": "M554",
+  "title": "Sheet Metal Transition Duct with Round-to-Oval Smooth Bends",
+  "version": "v1.282.3",
+  "apkArtifact": "AndroCAD-v1.282.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m554_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m554_phone.png"
+}

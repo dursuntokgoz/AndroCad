@@ -1,0 +1,10 @@
+{
+  "milestone": "M513",
+  "title": "Advanced Variable Fillet with Asymmetric Left/Right Radius Controls",
+  "version": "v1.274.2",
+  "apkArtifact": "AndroCAD-v1.274.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m513_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m513_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M564",
+  "title": "Minimum Flange Length Verification for Standard V-Die Openings",
+  "version": "v1.284.3",
+  "apkArtifact": "AndroCAD-v1.284.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m564_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m564_phone.png"
+}

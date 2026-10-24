@@ -1,0 +1,10 @@
+{
+  "milestone": "M512",
+  "title": "Multi-Solid Selective Boolean (Selecting Specific Lump Volumes to Keep)",
+  "version": "v1.274.1",
+  "apkArtifact": "AndroCAD-v1.274.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m512_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m512_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M499",
+  "title": "3D Curve Intersection Calculator Between Two Non-Planar Splines",
+  "version": "v1.271.3",
+  "apkArtifact": "AndroCAD-v1.271.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m499_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m499_phone.png"
+}

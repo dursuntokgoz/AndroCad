@@ -1,0 +1,10 @@
+{
+  "milestone": "M550",
+  "title": "Domain 4 Class-A Surfacing & Curvature Inspection Certification Suite",
+  "version": "v1.281.4",
+  "apkArtifact": "AndroCAD-v1.281.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m550_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m550_phone.png"
+}

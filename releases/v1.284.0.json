@@ -1,0 +1,10 @@
+{
+  "milestone": "M561",
+  "title": "Sheet Metal Unfolding with Grain Direction Orientation Alignment",
+  "version": "v1.284.0",
+  "apkArtifact": "AndroCAD-v1.284.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m561_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m561_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M533",
+  "title": "Dynamic Surface Flange & Swept Lip with Draft Angle",
+  "version": "v1.278.2",
+  "apkArtifact": "AndroCAD-v1.278.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m533_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m533_phone.png"
+}

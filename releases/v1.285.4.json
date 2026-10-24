@@ -1,0 +1,10 @@
+{
+  "milestone": "M570",
+  "title": "Domain 5 Precision Sheet Metal & Fabrication Certification Suite",
+  "version": "v1.285.4",
+  "apkArtifact": "AndroCAD-v1.285.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m570_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m570_phone.png"
+}

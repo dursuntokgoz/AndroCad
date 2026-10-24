@@ -1,0 +1,10 @@
+{
+  "milestone": "M519",
+  "title": "Associative Mirror of Multi-Body Assemblies with Dynamic Symmetry Planes",
+  "version": "v1.275.3",
+  "apkArtifact": "AndroCAD-v1.275.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m519_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m519_phone.png"
+}

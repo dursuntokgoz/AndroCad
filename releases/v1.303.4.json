@@ -1,0 +1,10 @@
+{
+  "milestone": "M660",
+  "title": "Lossless 3D Data Exchange: STEP AP242, IGES 5.3, STL, OBJ with High-Fidelity Units",
+  "version": "v1.303.4",
+  "apkArtifact": "AndroCAD-v1.303.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m660_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m660_phone.png"
+}

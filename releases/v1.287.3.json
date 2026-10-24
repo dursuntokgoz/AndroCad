@@ -1,0 +1,10 @@
+{
+  "milestone": "M579",
+  "title": "Viewport Split Screen: Quad-View (Top, Front, Right, Isometric)",
+  "version": "v1.287.3",
+  "apkArtifact": "AndroCAD-v1.287.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m579_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m579_phone.png"
+}

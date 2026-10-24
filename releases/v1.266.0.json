@@ -1,0 +1,10 @@
+{
+  "milestone": "M471",
+  "title": "Synchronous Technology Dynamic Face Recognition (Recognizing Coaxial & Coplanar Sets)",
+  "version": "v1.266.0",
+  "apkArtifact": "AndroCAD-v1.266.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m471_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m471_phone.png"
+}

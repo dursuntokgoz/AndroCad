@@ -1,0 +1,10 @@
+{
+  "milestone": "M482",
+  "title": "Direct Counterbore Depth & Diameter Synchronous Resize",
+  "version": "v1.268.1",
+  "apkArtifact": "AndroCAD-v1.268.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m482_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m482_phone.png"
+}

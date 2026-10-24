@@ -1,0 +1,10 @@
+{
+  "milestone": "M523",
+  "title": "Enclosure Vent Grille Pattern Generator (Slotted, Honeycomb, Circular)",
+  "version": "v1.276.2",
+  "apkArtifact": "AndroCAD-v1.276.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m523_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m523_phone.png"
+}

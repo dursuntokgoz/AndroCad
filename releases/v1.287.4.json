@@ -1,0 +1,10 @@
+{
+  "milestone": "M580",
+  "title": "Real-Time Section Plane with Interactive Translation & Rotation Gizmo",
+  "version": "v1.287.4",
+  "apkArtifact": "AndroCAD-v1.287.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m580_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m580_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M497",
+  "title": "Automatic Dimension Placement with Collision-Free Stacking",
+  "version": "v1.271.1",
+  "apkArtifact": "AndroCAD-v1.271.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m497_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m497_phone.png"
+}

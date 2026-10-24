@@ -1,0 +1,10 @@
+{
+  "milestone": "M547",
+  "title": "Surface Offset Collision Clipper for Highly Curved Radii",
+  "version": "v1.281.1",
+  "apkArtifact": "AndroCAD-v1.281.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m547_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m547_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M548",
+  "title": "Isoparametric Curve Grid Extraction (Iso-U and Iso-V Curves)",
+  "version": "v1.281.2",
+  "apkArtifact": "AndroCAD-v1.281.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m548_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m548_phone.png"
+}

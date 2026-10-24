@@ -1,0 +1,10 @@
+{
+  "milestone": "M651",
+  "title": "OCCT 8.0.1 C++17 Standard Allocator & Memory Consumption Profiler (<100MB)",
+  "version": "v1.302.0",
+  "apkArtifact": "AndroCAD-v1.302.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m651_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m651_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M599",
+  "title": "Contact Physics Simulation with Mass, Friction & Gravity Settling",
+  "version": "v1.291.3",
+  "apkArtifact": "AndroCAD-v1.291.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m599_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m599_phone.png"
+}

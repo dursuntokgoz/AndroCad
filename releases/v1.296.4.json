@@ -1,0 +1,10 @@
+{
+  "milestone": "M625",
+  "title": "Section Plane Stress Probe: Interactive Internal Stress Readout",
+  "version": "v1.296.4",
+  "apkArtifact": "AndroCAD-v1.296.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m625_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m625_phone.png"
+}

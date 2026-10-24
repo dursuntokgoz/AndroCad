@@ -1,0 +1,10 @@
+{
+  "milestone": "M617",
+  "title": "Coupled Thermo-Mechanical Stress Analysis (Thermal Expansion Loads)",
+  "version": "v1.295.1",
+  "apkArtifact": "AndroCAD-v1.295.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m617_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m617_phone.png"
+}

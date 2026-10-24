@@ -1,0 +1,10 @@
+{
+  "milestone": "M515",
+  "title": "Face Draft with Multiple Parting Lines & Step Draft Transition",
+  "version": "v1.274.4",
+  "apkArtifact": "AndroCAD-v1.274.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m515_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m515_phone.png"
+}

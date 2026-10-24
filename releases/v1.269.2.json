@@ -1,0 +1,10 @@
+{
+  "milestone": "M488",
+  "title": "Face Extrude along Custom Vector with Draft & Cap",
+  "version": "v1.269.2",
+  "apkArtifact": "AndroCAD-v1.269.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m488_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m488_phone.png"
+}

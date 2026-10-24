@@ -1,0 +1,10 @@
+{
+  "milestone": "M642",
+  "title": "Rapid Feed (G0) Retract Optimization to Minimum Safe Z-Plane",
+  "version": "v1.300.1",
+  "apkArtifact": "AndroCAD-v1.300.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m642_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m642_phone.png"
+}

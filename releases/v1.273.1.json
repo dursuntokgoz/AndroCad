@@ -1,0 +1,10 @@
+{
+  "milestone": "M507",
+  "title": "Sketch Dimension Mathematical Expression Dependency Engine (Parametric Table)",
+  "version": "v1.273.1",
+  "apkArtifact": "AndroCAD-v1.273.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m507_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m507_phone.png"
+}

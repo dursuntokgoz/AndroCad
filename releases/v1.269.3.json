@@ -1,0 +1,10 @@
+{
+  "milestone": "M489",
+  "title": "Synchronous Body Shell Thickness Uniformization",
+  "version": "v1.269.3",
+  "apkArtifact": "AndroCAD-v1.269.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m489_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m489_phone.png"
+}

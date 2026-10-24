@@ -1,0 +1,10 @@
+{
+  "milestone": "M621",
+  "title": "FEA Boundary Conditions: Fixed Support, Roller, Pin, and Elastic Foundation",
+  "version": "v1.296.0",
+  "apkArtifact": "AndroCAD-v1.296.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m621_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m621_phone.png"
+}

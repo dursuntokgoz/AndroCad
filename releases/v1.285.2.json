@@ -1,0 +1,10 @@
+{
+  "milestone": "M568",
+  "title": "Hem Feature with Hem Gap Auto-Sizing per Sheet Gauge Standard",
+  "version": "v1.285.2",
+  "apkArtifact": "AndroCAD-v1.285.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m568_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m568_phone.png"
+}

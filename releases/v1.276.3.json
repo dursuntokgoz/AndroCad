@@ -1,0 +1,10 @@
+{
+  "milestone": "M524",
+  "title": "Snap-Fit Cantilever Hook with Deflection & Strain Clearance Safety",
+  "version": "v1.276.3",
+  "apkArtifact": "AndroCAD-v1.276.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m524_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m524_phone.png"
+}

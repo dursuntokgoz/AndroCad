@@ -1,0 +1,10 @@
+{
+  "milestone": "M490",
+  "title": "Domain 1 Direct Modeling & Synchronous Technology Certification Suite",
+  "version": "v1.269.4",
+  "apkArtifact": "AndroCAD-v1.269.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m490_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m490_phone.png"
+}

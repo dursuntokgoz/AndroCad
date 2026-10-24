@@ -1,0 +1,10 @@
+{
+  "milestone": "M590",
+  "title": "Domain 6 3D Viewport & Spatial Interaction Certification Suite",
+  "version": "v1.289.4",
+  "apkArtifact": "AndroCAD-v1.289.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m590_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m590_phone.png"
+}

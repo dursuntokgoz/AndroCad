@@ -1,0 +1,10 @@
+{
+  "milestone": "M656",
+  "title": "Viewport Render Engine 60 FPS Pacing & Frame Time Budget Validator",
+  "version": "v1.303.0",
+  "apkArtifact": "AndroCAD-v1.303.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m656_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m656_phone.png"
+}

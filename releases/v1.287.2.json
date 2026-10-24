@@ -1,0 +1,10 @@
+{
+  "milestone": "M578",
+  "title": "Haptic Vibration Pulse Feedback on Successful Snap and Selection",
+  "version": "v1.287.2",
+  "apkArtifact": "AndroCAD-v1.287.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m578_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m578_phone.png"
+}

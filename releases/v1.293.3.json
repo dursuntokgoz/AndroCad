@@ -1,0 +1,10 @@
+{
+  "milestone": "M609",
+  "title": "Mechanical Advantage & Lever Ratio Real-Time Inspector",
+  "version": "v1.293.3",
+  "apkArtifact": "AndroCAD-v1.293.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m609_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m609_phone.png"
+}

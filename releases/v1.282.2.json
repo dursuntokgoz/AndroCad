@@ -1,0 +1,10 @@
+{
+  "milestone": "M553",
+  "title": "Complex Sheet Metal Lofted Bend with Disparate Top/Bottom Profiles",
+  "version": "v1.282.2",
+  "apkArtifact": "AndroCAD-v1.282.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m553_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m553_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M654",
+  "title": "Undo/Redo DAG State Rollback with Instant Delta Restoration (<5ms)",
+  "version": "v1.302.3",
+  "apkArtifact": "AndroCAD-v1.302.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m654_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m654_phone.png"
+}

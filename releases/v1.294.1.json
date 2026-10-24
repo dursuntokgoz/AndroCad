@@ -1,0 +1,10 @@
+{
+  "milestone": "M612",
+  "title": "Static Structural FEA: Linear Elastic Solver for Displacements & Stresses",
+  "version": "v1.294.1",
+  "apkArtifact": "AndroCAD-v1.294.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m612_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m612_phone.png"
+}

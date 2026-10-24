@@ -1,0 +1,10 @@
+{
+  "milestone": "M577",
+  "title": "Touch Pressure-Sensitive Depth Zoom & Pan Speed Regulation",
+  "version": "v1.287.1",
+  "apkArtifact": "AndroCAD-v1.287.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m577_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m577_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M522",
+  "title": "Industrial Heat Sink Fin Array Generator (Pin Fin & Plate Fin with Draft)",
+  "version": "v1.276.1",
+  "apkArtifact": "AndroCAD-v1.276.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m522_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m522_phone.png"
+}

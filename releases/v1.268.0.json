@@ -1,0 +1,10 @@
+{
+  "milestone": "M481",
+  "title": "Automatic Blind Hole to Through Hole Direct Conversion",
+  "version": "v1.268.0",
+  "apkArtifact": "AndroCAD-v1.268.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m481_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m481_phone.png"
+}

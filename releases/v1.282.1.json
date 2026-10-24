@@ -1,0 +1,10 @@
+{
+  "milestone": "M552",
+  "title": "Sheet Metal Swept Flange along Non-Planar Boundary Contours",
+  "version": "v1.282.1",
+  "apkArtifact": "AndroCAD-v1.282.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m552_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m552_phone.png"
+}

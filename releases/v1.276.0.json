@@ -1,0 +1,10 @@
+{
+  "milestone": "M521",
+  "title": "Twisted Wire Rope Geometry Generator (7x7 and 1x19 Strand Models)",
+  "version": "v1.276.0",
+  "apkArtifact": "AndroCAD-v1.276.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m521_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m521_phone.png"
+}

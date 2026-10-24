@@ -1,0 +1,10 @@
+{
+  "milestone": "M622",
+  "title": "FEA Load Types: Point Force, Pressure, Bearing Load, and Centrifugal Force",
+  "version": "v1.296.1",
+  "apkArtifact": "AndroCAD-v1.296.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m622_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m622_phone.png"
+}

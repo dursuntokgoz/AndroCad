@@ -1,0 +1,10 @@
+{
+  "milestone": "M516",
+  "title": "Solid Body Hollow with Selective Wall Thickness (Thick Top, Thin Sides)",
+  "version": "v1.275.0",
+  "apkArtifact": "AndroCAD-v1.275.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m516_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m516_phone.png"
+}

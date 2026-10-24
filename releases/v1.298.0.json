@@ -1,0 +1,10 @@
+{
+  "milestone": "M631",
+  "title": "3D Adaptive Clearing: Radial Engagement Constant Chip Load Trochoidal Path",
+  "version": "v1.298.0",
+  "apkArtifact": "AndroCAD-v1.298.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m631_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m631_phone.png"
+}

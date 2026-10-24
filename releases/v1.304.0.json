@@ -1,0 +1,10 @@
+{
+  "milestone": "M661",
+  "title": "UI Touch Target Isolation Audit: Minimum 48dp Interactive Targets",
+  "version": "v1.304.0",
+  "apkArtifact": "AndroCAD-v1.304.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m661_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m661_phone.png"
+}

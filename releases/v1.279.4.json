@@ -1,0 +1,10 @@
+{
+  "milestone": "M540",
+  "title": "Reflection Line Analysis (Virtual Light Tube Inspection for Surface Flaws)",
+  "version": "v1.279.4",
+  "apkArtifact": "AndroCAD-v1.279.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m540_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m540_phone.png"
+}

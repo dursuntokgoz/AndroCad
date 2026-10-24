@@ -1,0 +1,10 @@
+{
+  "milestone": "M555",
+  "title": "Normal Cut Feature (Cutting Perpendicular to Sheet Thickness Across Bends)",
+  "version": "v1.282.4",
+  "apkArtifact": "AndroCAD-v1.282.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m555_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m555_phone.png"
+}

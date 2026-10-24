@@ -1,0 +1,10 @@
+{
+  "milestone": "M530",
+  "title": "Domain 3 Multi-Solid & Advanced B-Rep Modeling Certification Suite",
+  "version": "v1.277.4",
+  "apkArtifact": "AndroCAD-v1.277.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m530_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m530_phone.png"
+}

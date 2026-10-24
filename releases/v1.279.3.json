@@ -1,0 +1,10 @@
+{
+  "milestone": "M539",
+  "title": "Surface-to-Surface Dynamic Distance Analyzer with Tolerance Flagging",
+  "version": "v1.279.3",
+  "apkArtifact": "AndroCAD-v1.279.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m539_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m539_phone.png"
+}

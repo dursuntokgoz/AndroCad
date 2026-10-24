@@ -1,0 +1,10 @@
+{
+  "milestone": "M649",
+  "title": "Toolpath Verification: Gouge and Shank Collision 100% Zero-Tolerance Check",
+  "version": "v1.301.3",
+  "apkArtifact": "AndroCAD-v1.301.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m649_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m649_phone.png"
+}

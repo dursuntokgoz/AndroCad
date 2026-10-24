@@ -1,0 +1,10 @@
+{
+  "milestone": "M630",
+  "title": "Domain 8 Structural FEA, Thermal & Generative Slicing Certification Suite",
+  "version": "v1.297.4",
+  "apkArtifact": "AndroCAD-v1.297.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m630_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m630_phone.png"
+}

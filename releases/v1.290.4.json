@@ -1,0 +1,10 @@
+{
+  "milestone": "M595",
+  "title": "Kinematic Joint: Four-Bar Linkage with Coupler Curve Visualization",
+  "version": "v1.290.4",
+  "apkArtifact": "AndroCAD-v1.290.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m595_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m595_phone.png"
+}

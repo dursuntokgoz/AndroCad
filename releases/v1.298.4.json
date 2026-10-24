@@ -1,0 +1,10 @@
+{
+  "milestone": "M635",
+  "title": "3D Pencil Tracing with Bi-directional Valley Milling",
+  "version": "v1.298.4",
+  "apkArtifact": "AndroCAD-v1.298.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m635_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m635_phone.png"
+}

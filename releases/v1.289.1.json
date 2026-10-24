@@ -1,0 +1,10 @@
+{
+  "milestone": "M587",
+  "title": "Stylus Barrel Button Detection for Instant Secondary Tool Activation",
+  "version": "v1.289.1",
+  "apkArtifact": "AndroCAD-v1.289.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m587_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m587_phone.png"
+}

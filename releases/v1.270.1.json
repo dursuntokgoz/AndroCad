@@ -1,0 +1,10 @@
+{
+  "milestone": "M492",
+  "title": "Rational Bezier Weight Modulation & Conic Equivalent Extraction",
+  "version": "v1.270.1",
+  "apkArtifact": "AndroCAD-v1.270.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m492_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m492_phone.png"
+}

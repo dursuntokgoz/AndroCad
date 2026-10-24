@@ -1,0 +1,10 @@
+{
+  "milestone": "M493",
+  "title": "PlaneGCS Constraint: Point On Spline at Constant Parameter t",
+  "version": "v1.270.2",
+  "apkArtifact": "AndroCAD-v1.270.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m493_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m493_phone.png"
+}

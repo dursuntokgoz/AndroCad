@@ -1,0 +1,10 @@
+{
+  "milestone": "M613",
+  "title": "Von Mises, Tresca, and Principal Stress Tensor Field Computation",
+  "version": "v1.294.2",
+  "apkArtifact": "AndroCAD-v1.294.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m613_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m613_phone.png"
+}

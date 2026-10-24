@@ -1,0 +1,10 @@
+{
+  "milestone": "M562",
+  "title": "Flat Pattern Export: Multi-Layer DXF (Outer, Bends Up/Down, Tooling)",
+  "version": "v1.284.1",
+  "apkArtifact": "AndroCAD-v1.284.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m562_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m562_phone.png"
+}

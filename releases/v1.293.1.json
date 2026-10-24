@@ -1,0 +1,10 @@
+{
+  "milestone": "M607",
+  "title": "Part Replacement in Assembly with Associative Joint Retention",
+  "version": "v1.293.1",
+  "apkArtifact": "AndroCAD-v1.293.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m607_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m607_phone.png"
+}

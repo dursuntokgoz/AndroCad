@@ -1,0 +1,10 @@
+{
+  "milestone": "M485",
+  "title": "B-Rep Face Stitching with Adaptive Tolerance Expansion (0.001mm to 0.1mm)",
+  "version": "v1.268.4",
+  "apkArtifact": "AndroCAD-v1.268.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m485_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m485_phone.png"
+}

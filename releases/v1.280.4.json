@@ -1,0 +1,10 @@
+{
+  "milestone": "M545",
+  "title": "Surface Ruled Transition with Variable Rail Ratios",
+  "version": "v1.280.4",
+  "apkArtifact": "AndroCAD-v1.280.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m545_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m545_phone.png"
+}

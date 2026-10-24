@@ -1,0 +1,10 @@
+{
+  "milestone": "M601",
+  "title": "Fastener Hardware Library: ISO, DIN, ANSI Standard Hex Bolts & Nuts",
+  "version": "v1.292.0",
+  "apkArtifact": "AndroCAD-v1.292.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m601_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m601_phone.png"
+}

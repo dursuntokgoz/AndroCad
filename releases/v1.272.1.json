@@ -1,0 +1,10 @@
+{
+  "milestone": "M502",
+  "title": "Sketch Involute Gear Tooth Profile Generator (Module, Pressure Angle, Teeth)",
+  "version": "v1.272.1",
+  "apkArtifact": "AndroCAD-v1.272.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m502_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m502_phone.png"
+}

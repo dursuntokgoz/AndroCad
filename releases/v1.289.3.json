@@ -1,0 +1,10 @@
+{
+  "milestone": "M589",
+  "title": "60 FPS Render Loop Stability with Frame Dropping Prevention",
+  "version": "v1.289.3",
+  "apkArtifact": "AndroCAD-v1.289.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m589_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m589_phone.png"
+}

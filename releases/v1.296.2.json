@@ -1,0 +1,10 @@
+{
+  "milestone": "M623",
+  "title": "Mesh Convergence Diagnostic: Automatic H-Refinement on High-Stress Fillets",
+  "version": "v1.296.2",
+  "apkArtifact": "AndroCAD-v1.296.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m623_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m623_phone.png"
+}

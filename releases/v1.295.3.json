@@ -1,0 +1,10 @@
+{
+  "milestone": "M619",
+  "title": "Topology Optimization: Stress-Constrained Mass Reduction Target",
+  "version": "v1.295.3",
+  "apkArtifact": "AndroCAD-v1.295.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m619_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m619_phone.png"
+}

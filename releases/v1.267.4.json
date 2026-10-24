@@ -1,0 +1,10 @@
+{
+  "milestone": "M480",
+  "title": "Direct Modeling Multi-Face Offset with Chamfer Preserving Bounds",
+  "version": "v1.267.4",
+  "apkArtifact": "AndroCAD-v1.267.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m480_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m480_phone.png"
+}

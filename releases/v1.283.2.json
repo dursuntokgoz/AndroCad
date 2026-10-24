@@ -1,0 +1,10 @@
+{
+  "milestone": "M558",
+  "title": "Gusset Stiffener with Depth, Width, and Taper Angle Controls",
+  "version": "v1.283.2",
+  "apkArtifact": "AndroCAD-v1.283.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m558_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m558_phone.png"
+}

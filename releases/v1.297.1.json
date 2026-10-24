@@ -1,0 +1,10 @@
+{
+  "milestone": "M627",
+  "title": "Slicer Cooling Fan Speed Modulation based on Layer Print Time",
+  "version": "v1.297.1",
+  "apkArtifact": "AndroCAD-v1.297.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m627_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m627_phone.png"
+}

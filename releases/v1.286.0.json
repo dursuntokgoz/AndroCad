@@ -1,0 +1,10 @@
+{
+  "milestone": "M571",
+  "title": "High-Precision 3D Ray-to-B-Rep Face Intersection with UV Normal Readout",
+  "version": "v1.286.0",
+  "apkArtifact": "AndroCAD-v1.286.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m571_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m571_phone.png"
+}

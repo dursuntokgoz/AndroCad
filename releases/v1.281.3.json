@@ -1,0 +1,10 @@
+{
+  "milestone": "M549",
+  "title": "Surface Ray Projected Normal Field & Gradient Evaluation",
+  "version": "v1.281.3",
+  "apkArtifact": "AndroCAD-v1.281.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m549_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m549_phone.png"
+}

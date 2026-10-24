@@ -1,0 +1,10 @@
+{
+  "milestone": "M506",
+  "title": "Multi-Loop Sketch Region Decomposition (Automated Profile Island Detection)",
+  "version": "v1.273.0",
+  "apkArtifact": "AndroCAD-v1.273.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m506_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m506_phone.png"
+}

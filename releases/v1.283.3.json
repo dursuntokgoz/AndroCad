@@ -1,0 +1,10 @@
+{
+  "milestone": "M559",
+  "title": "Sheet Metal Tab and Slot Interlocking Assembly Generator",
+  "version": "v1.283.3",
+  "apkArtifact": "AndroCAD-v1.283.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m559_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m559_phone.png"
+}

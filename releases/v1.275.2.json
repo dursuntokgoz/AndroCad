@@ -1,0 +1,10 @@
+{
+  "milestone": "M518",
+  "title": "Parametric Multi-Body Pattern along 3D Space Curve with Normal Alignment",
+  "version": "v1.275.2",
+  "apkArtifact": "AndroCAD-v1.275.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m518_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m518_phone.png"
+}

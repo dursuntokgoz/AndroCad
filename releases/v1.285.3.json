@@ -1,0 +1,10 @@
+{
+  "milestone": "M569",
+  "title": "Automatic Sheet Metal Bending Order Optimization Engine",
+  "version": "v1.285.3",
+  "apkArtifact": "AndroCAD-v1.285.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m569_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m569_phone.png"
+}

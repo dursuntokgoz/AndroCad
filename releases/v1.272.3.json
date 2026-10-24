@@ -1,0 +1,10 @@
+{
+  "milestone": "M504",
+  "title": "Cam Profile Synthesis from Lift-Displacement Harmonic Chart",
+  "version": "v1.272.3",
+  "apkArtifact": "AndroCAD-v1.272.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m504_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m504_phone.png"
+}

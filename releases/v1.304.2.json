@@ -1,0 +1,10 @@
+{
+  "milestone": "M663",
+  "title": "Complete Localization Package: EN, TR, DE, FR, JA with Dynamic Locale Switching",
+  "version": "v1.304.2",
+  "apkArtifact": "AndroCAD-v1.304.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m663_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m663_phone.png"
+}

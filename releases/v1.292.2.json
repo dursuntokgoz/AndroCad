@@ -1,0 +1,10 @@
+{
+  "milestone": "M603",
+  "title": "Sub-Assembly Flexible vs Rigid Toggle for Kinematic Propagation",
+  "version": "v1.292.2",
+  "apkArtifact": "AndroCAD-v1.292.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m603_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m603_phone.png"
+}

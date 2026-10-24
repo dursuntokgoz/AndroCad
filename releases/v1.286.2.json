@@ -1,0 +1,10 @@
+{
+  "milestone": "M573",
+  "title": "Spatial Viewport Gizmo: Unified Multi-Axis Translate, Rotate & Scale",
+  "version": "v1.286.2",
+  "apkArtifact": "AndroCAD-v1.286.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m573_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m573_phone.png"
+}

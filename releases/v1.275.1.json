@@ -1,0 +1,10 @@
+{
+  "milestone": "M517",
+  "title": "Solid Body Intersect Matrix for Multi-Part Interference Clearance",
+  "version": "v1.275.1",
+  "apkArtifact": "AndroCAD-v1.275.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m517_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m517_phone.png"
+}

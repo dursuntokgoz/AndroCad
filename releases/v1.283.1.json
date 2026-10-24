@@ -1,0 +1,10 @@
+{
+  "milestone": "M557",
+  "title": "Custom Punch Tool Library (Bridge Lance, Embossed Countersink, Louver)",
+  "version": "v1.283.1",
+  "apkArtifact": "AndroCAD-v1.283.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m557_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m557_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M479",
+  "title": "Localized Face Chamfer-to-Fillet Dynamic Conversion",
+  "version": "v1.267.3",
+  "apkArtifact": "AndroCAD-v1.267.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m479_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m479_phone.png"
+}

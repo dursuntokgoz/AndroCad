@@ -1,0 +1,10 @@
+{
+  "milestone": "M637",
+  "title": "5-Axis Lead/Tilt Toolpath Smoothing to Prevent Machine Head Acceleration Spikes",
+  "version": "v1.299.1",
+  "apkArtifact": "AndroCAD-v1.299.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m637_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m637_phone.png"
+}

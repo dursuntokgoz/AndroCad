@@ -1,0 +1,10 @@
+{
+  "milestone": "M575",
+  "title": "Snapping to Incremental Grid with Adaptive Metric/Imperial Units",
+  "version": "v1.286.4",
+  "apkArtifact": "AndroCAD-v1.286.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m575_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m575_phone.png"
+}

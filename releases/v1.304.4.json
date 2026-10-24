@@ -1,0 +1,10 @@
+{
+  "milestone": "M665",
+  "title": "Active Stylus Pressure & Tilt Vector Integration for Intuitive Sketching",
+  "version": "v1.304.4",
+  "apkArtifact": "AndroCAD-v1.304.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m665_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m665_phone.png"
+}

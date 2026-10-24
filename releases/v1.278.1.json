@@ -1,0 +1,10 @@
+{
+  "milestone": "M532",
+  "title": "Multi-Sided Patch Blending (N-Sided Gordon Surfaces)",
+  "version": "v1.278.1",
+  "apkArtifact": "AndroCAD-v1.278.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m532_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m532_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M629",
+  "title": "Multi-Extruder Purge Tower & Ooze Shield Slicing Architecture",
+  "version": "v1.297.3",
+  "apkArtifact": "AndroCAD-v1.297.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m629_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m629_phone.png"
+}

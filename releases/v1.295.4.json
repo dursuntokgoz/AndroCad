@@ -1,0 +1,10 @@
+{
+  "milestone": "M620",
+  "title": "Generative Design Infill: TPMS Neovius & Split-P Minimal Surface Lattices",
+  "version": "v1.295.4",
+  "apkArtifact": "AndroCAD-v1.295.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m620_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m620_phone.png"
+}

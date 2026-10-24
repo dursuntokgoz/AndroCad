@@ -1,0 +1,10 @@
+{
+  "milestone": "M615",
+  "title": "Modal Frequency FEA: Eigenvalue Solver for First 6 Natural Modes",
+  "version": "v1.294.4",
+  "apkArtifact": "AndroCAD-v1.294.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m615_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m615_phone.png"
+}

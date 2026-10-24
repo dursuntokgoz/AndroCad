@@ -1,0 +1,10 @@
+{
+  "milestone": "M541",
+  "title": "Porcupine Curvature Combs with Dynamic Density & Scaling",
+  "version": "v1.280.0",
+  "apkArtifact": "AndroCAD-v1.280.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m541_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m541_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M551",
+  "title": "Sheet Metal Closed Corner with Overlap, Underlap, and Miter Welds",
+  "version": "v1.282.0",
+  "apkArtifact": "AndroCAD-v1.282.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m551_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m551_phone.png"
+}

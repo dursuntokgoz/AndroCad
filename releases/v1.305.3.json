@@ -1,0 +1,10 @@
+{
+  "milestone": "M669",
+  "title": "Android App Bundle (AAB) & Release APK Distribution Packaging Audit",
+  "version": "v1.305.3",
+  "apkArtifact": "AndroCAD-v1.305.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m669_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m669_phone.png"
+}

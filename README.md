@@ -29,7 +29,9 @@ An original, professional parametric 3D CAD application engineered for Android t
 | **Linear Static FEA & Modal Analysis** | ✅ Working | Embedded 3D linear elastic solver with 10-node quadratic tetrahedrals (Tet10), Von Mises stress heatmap, and mode shape vibration eigenvalues. |
 | **Subtractive CAM & G-Code Post-Processing**| ✅ Working | 2.5D and 3D adaptive clearing, contouring, peck drilling, and post-processors for GRBL, Haas, and Fanuc. |
 | **Additive Manufacturing (3D Print Slicer)**| ✅ Working | On-device G-code slicing with configurable infill patterns (rectilinear, honeycomb), layer heights, and nozzle temperature control. |
-| **Assemblies & Kinematic Joints** | 🧪 Experimental | Rigid, revolute, cylindrical, and slider joint definitions with collision boundary checks. |
+| **Assemblies & Kinematic Joints** | ✅ Working | Rigid, revolute, cylindrical, spherical, slider, and universal/Cardan joints with dynamic clearance detection and statistical RSS tolerance stackup analysis. |
+| **Synchronous Technology & Direct Modeling** | ✅ Working | Coaxial & symmetric live face dragging, live pattern recognition, dynamic grouping, and non-history geometry edits. |
+| **Class-A Surfacing & Freeform NURBS** | ✅ Working | Jerk-continuous G3 surfacing, reflection lines, mean/Gaussian curvature diagnostics, and multi-rail sweeps. |
 | **Cloud Project Collaboration & Sync** | 📋 Planned | Planned for future release milestones. |
 
 ---

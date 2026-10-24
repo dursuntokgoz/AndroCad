@@ -1,0 +1,10 @@
+{
+  "milestone": "M626",
+  "title": "Additive FDM 3D Slicing: Variable Density Infill Modulated by FEA Stress",
+  "version": "v1.297.0",
+  "apkArtifact": "AndroCAD-v1.297.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m626_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m626_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M591",
+  "title": "Kinematic Joint: Universal Joint (Cardan Joint with Angular Velocity Coupling)",
+  "version": "v1.290.0",
+  "apkArtifact": "AndroCAD-v1.290.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m591_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m591_phone.png"
+}

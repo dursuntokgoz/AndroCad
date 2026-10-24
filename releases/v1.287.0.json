@@ -1,0 +1,10 @@
+{
+  "milestone": "M576",
+  "title": "Object Snap Tracking: Virtual Construction Alignment Rays",
+  "version": "v1.287.0",
+  "apkArtifact": "AndroCAD-v1.287.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m576_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m576_phone.png"
+}

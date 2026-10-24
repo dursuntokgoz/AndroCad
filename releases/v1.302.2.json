@@ -1,0 +1,10 @@
+{
+  "milestone": "M653",
+  "title": "Topological Naming Pipeline (TNP) History DAG Invariant Integrity Verifier",
+  "version": "v1.302.2",
+  "apkArtifact": "AndroCAD-v1.302.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m653_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m653_phone.png"
+}

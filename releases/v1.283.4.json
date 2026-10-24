@@ -1,0 +1,10 @@
+{
+  "milestone": "M560",
+  "title": "K-Factor Adaptive Formula based on Bend Radius / Thickness Ratio",
+  "version": "v1.283.4",
+  "apkArtifact": "AndroCAD-v1.283.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m560_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m560_phone.png"
+}

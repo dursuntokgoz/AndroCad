@@ -1,0 +1,10 @@
+{
+  "milestone": "M534",
+  "title": "Surface Trim Reversal & Boundary Split Repair",
+  "version": "v1.278.3",
+  "apkArtifact": "AndroCAD-v1.278.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m534_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m534_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M646",
+  "title": "Machining Surface Roughness Ra/Rz Prediction from Stepover & Tool Radius",
+  "version": "v1.301.0",
+  "apkArtifact": "AndroCAD-v1.301.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m646_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m646_phone.png"
+}

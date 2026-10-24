@@ -1,0 +1,10 @@
+{
+  "milestone": "M478",
+  "title": "Face Merge with Automatic Surface Boundary Healing",
+  "version": "v1.267.2",
+  "apkArtifact": "AndroCAD-v1.267.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m478_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m478_phone.png"
+}

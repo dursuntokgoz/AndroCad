@@ -1,0 +1,10 @@
+{
+  "milestone": "M596",
+  "title": "Kinematic Joint: Slider-Crank Mechanism with Piston Stroke Readout",
+  "version": "v1.291.0",
+  "apkArtifact": "AndroCAD-v1.291.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m596_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m596_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M536",
+  "title": "Point Cloud to NURBS Surface Fitting with Deviation Heatmap",
+  "version": "v1.279.0",
+  "apkArtifact": "AndroCAD-v1.279.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m536_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m536_phone.png"
+}

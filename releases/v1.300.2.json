@@ -1,0 +1,10 @@
+{
+  "milestone": "M643",
+  "title": "Digital Twin Machine Kinematics Simulation (5-Axis Trunnion Table & Gantry)",
+  "version": "v1.300.2",
+  "apkArtifact": "AndroCAD-v1.300.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m643_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m643_phone.png"
+}

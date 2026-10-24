@@ -1,0 +1,10 @@
+{
+  "milestone": "M670",
+  "title": "Faz 6 Full-System 670-Milestone Certification & v4.0.0 Enterprise Release Gate",
+  "version": "v4.0.0",
+  "apkArtifact": "AndroCAD-v4.0.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m670_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m670_phone.png"
+}

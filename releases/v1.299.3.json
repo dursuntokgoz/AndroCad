@@ -1,0 +1,10 @@
+{
+  "milestone": "M639",
+  "title": "Drilling Cycles: Peck Drilling (G83), Chip Break (G73), Reaming & Tapping (G84)",
+  "version": "v1.299.3",
+  "apkArtifact": "AndroCAD-v1.299.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m639_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m639_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M634",
+  "title": "Horizontal Area Detection & Automated Flat Face Facing Paths",
+  "version": "v1.298.3",
+  "apkArtifact": "AndroCAD-v1.298.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m634_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m634_phone.png"
+}

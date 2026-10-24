@@ -1,0 +1,10 @@
+{
+  "milestone": "M563",
+  "title": "Press Brake Tooling Clash Simulator (Punch, Die, and Backgauge Collision)",
+  "version": "v1.284.2",
+  "apkArtifact": "AndroCAD-v1.284.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m563_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m563_phone.png"
+}

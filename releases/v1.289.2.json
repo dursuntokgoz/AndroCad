@@ -1,0 +1,10 @@
+{
+  "milestone": "M588",
+  "title": "Viewport Perspective Camera Field of View (FOV) Adjuster (15\u00b0 to 90\u00b0)",
+  "version": "v1.289.2",
+  "apkArtifact": "AndroCAD-v1.289.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m588_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m588_phone.png"
+}

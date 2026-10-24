@@ -1,0 +1,10 @@
+{
+  "milestone": "M611",
+  "title": "Quadratic Tetrahedral (Tet10) Finite Element Mesh Generator with Adaptive Sizing",
+  "version": "v1.294.0",
+  "apkArtifact": "AndroCAD-v1.294.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m611_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m611_phone.png"
+}

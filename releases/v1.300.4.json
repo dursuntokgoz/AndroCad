@@ -1,0 +1,10 @@
+{
+  "milestone": "M645",
+  "title": "Volumetric Stock Removal & Tool Wear Estimator",
+  "version": "v1.300.4",
+  "apkArtifact": "AndroCAD-v1.300.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m645_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m645_phone.png"
+}

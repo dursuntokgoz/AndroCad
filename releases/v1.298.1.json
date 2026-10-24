@@ -1,0 +1,10 @@
+{
+  "milestone": "M632",
+  "title": "3D High-Speed Rest Roughing with Small Endmill Corner Recovery",
+  "version": "v1.298.1",
+  "apkArtifact": "AndroCAD-v1.298.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m632_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m632_phone.png"
+}

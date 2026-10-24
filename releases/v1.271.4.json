@@ -1,0 +1,10 @@
+{
+  "milestone": "M500",
+  "title": "Geodesic Curve Routing on Arbitrary B-Rep Faces",
+  "version": "v1.271.4",
+  "apkArtifact": "AndroCAD-v1.271.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m500_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m500_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M618",
+  "title": "Topology Optimization: Multi-Load Case Compliance Minimization",
+  "version": "v1.295.2",
+  "apkArtifact": "AndroCAD-v1.295.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m618_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m618_phone.png"
+}

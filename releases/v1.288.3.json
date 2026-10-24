@@ -1,0 +1,10 @@
+{
+  "milestone": "M584",
+  "title": "Camera Look-At Target Animation with Smooth Damped Springs",
+  "version": "v1.288.3",
+  "apkArtifact": "AndroCAD-v1.288.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m584_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m584_phone.png"
+}

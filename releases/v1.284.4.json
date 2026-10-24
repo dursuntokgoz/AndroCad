@@ -1,0 +1,10 @@
+{
+  "milestone": "M565",
+  "title": "Sheet Metal Nested Layout Optimizer for CNC Laser/Waterjet Cutting",
+  "version": "v1.284.4",
+  "apkArtifact": "AndroCAD-v1.284.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m565_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m565_phone.png"
+}

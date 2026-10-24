@@ -1,0 +1,10 @@
+{
+  "milestone": "M624",
+  "title": "Deformed Shape Visualization with True & Scaled Displacement Toggle",
+  "version": "v1.296.3",
+  "apkArtifact": "AndroCAD-v1.296.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m624_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m624_phone.png"
+}

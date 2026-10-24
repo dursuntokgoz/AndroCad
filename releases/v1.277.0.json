@@ -1,0 +1,10 @@
+{
+  "milestone": "M526",
+  "title": "Keyway and Keyseat Feature per DIN 6885 Metric Drive Standards",
+  "version": "v1.277.0",
+  "apkArtifact": "AndroCAD-v1.277.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m526_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m526_phone.png"
+}

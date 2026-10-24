@@ -1,0 +1,10 @@
+{
+  "milestone": "M650",
+  "title": "Domain 9 Multi-Axis CAM & CNC Digital Twin Certification Suite",
+  "version": "v1.301.4",
+  "apkArtifact": "AndroCAD-v1.301.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m650_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m650_phone.png"
+}

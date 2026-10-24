@@ -1,0 +1,10 @@
+{
+  "milestone": "M535",
+  "title": "Surface Patch Fairing & Energy-Minimization Smoothing",
+  "version": "v1.278.4",
+  "apkArtifact": "AndroCAD-v1.278.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m535_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m535_phone.png"
+}

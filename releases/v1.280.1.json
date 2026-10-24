@@ -1,0 +1,10 @@
+{
+  "milestone": "M542",
+  "title": "Zebra Reflection Map Customization (Stripe Width, Angle, Softness)",
+  "version": "v1.280.1",
+  "apkArtifact": "AndroCAD-v1.280.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m542_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m542_phone.png"
+}

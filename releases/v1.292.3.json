@@ -1,0 +1,10 @@
+{
+  "milestone": "M604",
+  "title": "Assembly Exploded View with Associative Step-by-Step Animation",
+  "version": "v1.292.3",
+  "apkArtifact": "AndroCAD-v1.292.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m604_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m604_phone.png"
+}

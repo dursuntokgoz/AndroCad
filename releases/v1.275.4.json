@@ -1,0 +1,10 @@
+{
+  "milestone": "M520",
+  "title": "Spiral Swept Boss with Dynamic Cross-Section Scaling",
+  "version": "v1.275.4",
+  "apkArtifact": "AndroCAD-v1.275.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m520_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m520_phone.png"
+}

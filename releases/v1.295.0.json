@@ -1,0 +1,10 @@
+{
+  "milestone": "M616",
+  "title": "Steady-State Thermal Conduction FEA: Temperature Gradient Heatmap",
+  "version": "v1.295.0",
+  "apkArtifact": "AndroCAD-v1.295.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m616_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m616_phone.png"
+}

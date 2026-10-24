@@ -1,0 +1,10 @@
+{
+  "milestone": "M477",
+  "title": "Direct Cylinder Axis Re-alignment & Angle Adjustment",
+  "version": "v1.267.1",
+  "apkArtifact": "AndroCAD-v1.267.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m477_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m477_phone.png"
+}

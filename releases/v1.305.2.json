@@ -1,0 +1,10 @@
+{
+  "milestone": "M668",
+  "title": "LGPL-2.1 License Compliance Package: Dynamic Shared Library Relinking Verification",
+  "version": "v1.305.2",
+  "apkArtifact": "AndroCAD-v1.305.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m668_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m668_phone.png"
+}

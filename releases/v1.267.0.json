@@ -1,0 +1,10 @@
+{
+  "milestone": "M476",
+  "title": "Synchronous Symmetric Face Pairing Across Automatic Symmetry Planes",
+  "version": "v1.267.0",
+  "apkArtifact": "AndroCAD-v1.267.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m476_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m476_phone.png"
+}

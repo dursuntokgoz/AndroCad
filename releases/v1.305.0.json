@@ -1,0 +1,10 @@
+{
+  "milestone": "M666",
+  "title": "Hardware Peripheral Support: Full Desktop Keyboard Shortcuts & Mouse Scroll",
+  "version": "v1.305.0",
+  "apkArtifact": "AndroCAD-v1.305.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m666_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m666_phone.png"
+}

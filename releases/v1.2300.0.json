@@ -1,0 +1,10 @@
+{
+  "milestone": "M641",
+  "title": "Lead-In/Lead-Out Arc Transitions with Automatic Collision Clearance",
+  "version": "v1.2300.0",
+  "apkArtifact": "AndroCAD-v1.2300.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m641_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m641_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M592",
+  "title": "Kinematic Joint: Constant Velocity (CV) Joint with Tripod Motion",
+  "version": "v1.290.1",
+  "apkArtifact": "AndroCAD-v1.290.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m592_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m592_phone.png"
+}

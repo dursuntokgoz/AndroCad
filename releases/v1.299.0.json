@@ -1,0 +1,10 @@
+{
+  "milestone": "M636",
+  "title": "Multi-Axis 5-Axis Swarf Milling for Curved Impeller Blades",
+  "version": "v1.299.0",
+  "apkArtifact": "AndroCAD-v1.299.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m636_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m636_phone.png"
+}

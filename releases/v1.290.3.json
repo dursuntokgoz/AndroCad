@@ -1,0 +1,10 @@
+{
+  "milestone": "M594",
+  "title": "Kinematic Joint: Geneva Mechanism Intermittent Rotary Drive",
+  "version": "v1.290.3",
+  "apkArtifact": "AndroCAD-v1.290.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m594_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m594_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M667",
+  "title": "Zero-Mock Button Verification: All 670 Milestones & Viewport Tools Mutate Real B-Rep",
+  "version": "v1.305.1",
+  "apkArtifact": "AndroCAD-v1.305.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m667_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m667_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M593",
+  "title": "Kinematic Joint: Helical Screw with Backlash Allowance",
+  "version": "v1.290.2",
+  "apkArtifact": "AndroCAD-v1.290.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m593_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m593_phone.png"
+}

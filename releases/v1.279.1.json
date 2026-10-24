@@ -1,0 +1,10 @@
+{
+  "milestone": "M537",
+  "title": "STL Mesh Boundary Curve Extraction for Reverse Engineering",
+  "version": "v1.279.1",
+  "apkArtifact": "AndroCAD-v1.279.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m537_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m537_phone.png"
+}

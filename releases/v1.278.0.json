@@ -1,0 +1,10 @@
+{
+  "milestone": "M531",
+  "title": "Class-A Surface G3 Continuity (Jerk-Continuous Curvature Transition)",
+  "version": "v1.278.0",
+  "apkArtifact": "AndroCAD-v1.278.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m531_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m531_phone.png"
+}

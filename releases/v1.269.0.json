@@ -1,0 +1,10 @@
+{
+  "milestone": "M486",
+  "title": "In-Place Face Inversion & Shell Normal Consistency Validator",
+  "version": "v1.269.0",
+  "apkArtifact": "AndroCAD-v1.269.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m486_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m486_phone.png"
+}

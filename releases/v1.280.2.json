@@ -1,0 +1,10 @@
+{
+  "milestone": "M543",
+  "title": "Tangent Surface Fillet with Variable Ball Radius",
+  "version": "v1.280.2",
+  "apkArtifact": "AndroCAD-v1.280.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m543_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m543_phone.png"
+}

@@ -36,3 +36,5 @@ Thumbs.db
 # Caches & temporary files
 *.log
 .cache/
+__pycache__/
+*.py[cod]

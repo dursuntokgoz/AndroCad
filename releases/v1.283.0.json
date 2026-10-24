@@ -1,0 +1,10 @@
+{
+  "milestone": "M556",
+  "title": "Corner Break & Fillet Automatic Rounding during Unfolding",
+  "version": "v1.283.0",
+  "apkArtifact": "AndroCAD-v1.283.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m556_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m556_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M610",
+  "title": "Domain 7 Assembly Kinematics & Dynamic Simulation Certification Suite",
+  "version": "v1.293.4",
+  "apkArtifact": "AndroCAD-v1.293.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m610_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m610_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M662",
+  "title": "Viewport ViewCube Multi-Touch Orbit Navigation with Euler Singularity Avoidance",
+  "version": "v1.304.1",
+  "apkArtifact": "AndroCAD-v1.304.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m662_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m662_phone.png"
+}

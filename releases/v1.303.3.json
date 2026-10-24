@@ -1,0 +1,10 @@
+{
+  "milestone": "M659",
+  "title": "Android Storage Access Framework (SAF) Strict Compliance: Zero Prohibited Permissions",
+  "version": "v1.303.3",
+  "apkArtifact": "AndroCAD-v1.303.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m659_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m659_phone.png"
+}

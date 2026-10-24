@@ -1,0 +1,10 @@
+{
+  "milestone": "M503",
+  "title": "Sketch Cycloidal Gear & Rotor Profile Generator for Hydraulic Pumps",
+  "version": "v1.272.2",
+  "apkArtifact": "AndroCAD-v1.272.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m503_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m503_phone.png"
+}

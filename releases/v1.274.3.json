@@ -1,0 +1,10 @@
+{
+  "milestone": "M514",
+  "title": "Elliptical Cross-Section Fillet for High-Fatigue Strength",
+  "version": "v1.274.3",
+  "apkArtifact": "AndroCAD-v1.274.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m514_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m514_phone.png"
+}

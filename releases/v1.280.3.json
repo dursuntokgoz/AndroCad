@@ -1,0 +1,10 @@
+{
+  "milestone": "M544",
+  "title": "Corner Patch Blending for 4-Sided Transitions with G2 Continuity",
+  "version": "v1.280.3",
+  "apkArtifact": "AndroCAD-v1.280.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m544_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m544_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M628",
+  "title": "3D Print Overhang Slicer: Automated Bridging Speed & Flow Calibration",
+  "version": "v1.297.2",
+  "apkArtifact": "AndroCAD-v1.297.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m628_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m628_phone.png"
+}

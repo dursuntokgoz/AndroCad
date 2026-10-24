@@ -1,0 +1,10 @@
+{
+  "milestone": "M508",
+  "title": "Sketch Interactive Constraint Color Coding (Black=Fully, Blue=Under, Red=Over)",
+  "version": "v1.273.2",
+  "apkArtifact": "AndroCAD-v1.273.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m508_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m508_phone.png"
+}

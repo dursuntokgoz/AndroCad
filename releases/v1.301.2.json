@@ -1,0 +1,10 @@
+{
+  "milestone": "M648",
+  "title": "Feedrate Optimization: Adaptive Slowdown in Acute Tool Direction Changes",
+  "version": "v1.301.2",
+  "apkArtifact": "AndroCAD-v1.301.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m648_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m648_phone.png"
+}

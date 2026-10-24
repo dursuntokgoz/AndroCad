@@ -1,0 +1,10 @@
+{
+  "milestone": "M487",
+  "title": "Direct Modeling Rib Thickness Synchronous Modification",
+  "version": "v1.269.1",
+  "apkArtifact": "AndroCAD-v1.269.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m487_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m487_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M583",
+  "title": "Viewport Color Palettes: Fusion Dark, SolidWorks Blue, Engineering Contrast",
+  "version": "v1.288.2",
+  "apkArtifact": "AndroCAD-v1.288.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m583_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m583_phone.png"
+}

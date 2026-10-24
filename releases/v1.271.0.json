@@ -1,0 +1,10 @@
+{
+  "milestone": "M496",
+  "title": "Sketch Dynamic Constraint Relaxation for Under-Constrained Dragging",
+  "version": "v1.271.0",
+  "apkArtifact": "AndroCAD-v1.271.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m496_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m496_phone.png"
+}

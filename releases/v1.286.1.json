@@ -1,0 +1,10 @@
+{
+  "milestone": "M572",
+  "title": "Ray-to-Curved-Edge Distance Metric for Deterministic Edge Selection",
+  "version": "v1.286.1",
+  "apkArtifact": "AndroCAD-v1.286.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m572_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m572_phone.png"
+}

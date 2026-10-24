@@ -1,0 +1,10 @@
+{
+  "milestone": "M638",
+  "title": "Rotary 4-Axis Continuous Cylindrical Flute & Cam Groove Milling",
+  "version": "v1.299.2",
+  "apkArtifact": "AndroCAD-v1.299.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m638_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m638_phone.png"
+}

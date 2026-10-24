@@ -1,0 +1,10 @@
+{
+  "milestone": "M483",
+  "title": "Direct Thread Pitch & Nominal Diameter Specification on Imported Solid",
+  "version": "v1.268.2",
+  "apkArtifact": "AndroCAD-v1.268.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m483_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m483_phone.png"
+}

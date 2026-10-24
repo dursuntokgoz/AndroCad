@@ -1,0 +1,10 @@
+{
+  "milestone": "M511",
+  "title": "Boolean Common with Tolerance Healing for Coplanar Coincident Faces",
+  "version": "v1.274.0",
+  "apkArtifact": "AndroCAD-v1.274.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m511_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m511_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M528",
+  "title": "Core/Cavity Parting Line Optimizer for Minimum Undercut Mold Design",
+  "version": "v1.277.2",
+  "apkArtifact": "AndroCAD-v1.277.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m528_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m528_phone.png"
+}

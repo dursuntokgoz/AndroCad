@@ -1,0 +1,10 @@
+{
+  "milestone": "M640",
+  "title": "Thread Milling Cycle for Large Internal/External Custom Threads",
+  "version": "v1.299.4",
+  "apkArtifact": "AndroCAD-v1.299.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m640_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m640_phone.png"
+}

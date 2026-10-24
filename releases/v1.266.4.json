@@ -1,0 +1,10 @@
+{
+  "milestone": "M475",
+  "title": "Direct Face Projection onto Target B-Rep Body with Curvature Match",
+  "version": "v1.266.4",
+  "apkArtifact": "AndroCAD-v1.266.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m475_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m475_phone.png"
+}

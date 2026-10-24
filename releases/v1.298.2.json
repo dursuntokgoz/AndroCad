@@ -1,0 +1,10 @@
+{
+  "milestone": "M633",
+  "title": "Constant Scallop 3D Finishing across Steep Walls and Shallow Basins",
+  "version": "v1.298.2",
+  "apkArtifact": "AndroCAD-v1.298.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m633_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m633_phone.png"
+}

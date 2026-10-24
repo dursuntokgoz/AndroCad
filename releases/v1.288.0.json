@@ -1,0 +1,10 @@
+{
+  "milestone": "M581",
+  "title": "Viewport Silhouette Depth Cueing & Edge Outlining",
+  "version": "v1.288.0",
+  "apkArtifact": "AndroCAD-v1.288.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m581_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m581_phone.png"
+}

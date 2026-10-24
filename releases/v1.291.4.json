@@ -1,0 +1,10 @@
+{
+  "milestone": "M600",
+  "title": "Assembly Motion Timeline: Torque & Power Requirement Graphing",
+  "version": "v1.291.4",
+  "apkArtifact": "AndroCAD-v1.291.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m600_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m600_phone.png"
+}

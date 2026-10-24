@@ -1,0 +1,10 @@
+{
+  "milestone": "M647",
+  "title": "Machine Axis Travel Limit Checker with Visual Red Clash Alert",
+  "version": "v1.301.1",
+  "apkArtifact": "AndroCAD-v1.301.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m647_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m647_phone.png"
+}

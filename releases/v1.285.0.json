@@ -1,0 +1,10 @@
+{
+  "milestone": "M566",
+  "title": "Sheet Metal Edge Flange with Negative Bend Angles (-180\u00b0 to +180\u00b0)",
+  "version": "v1.285.0",
+  "apkArtifact": "AndroCAD-v1.285.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m566_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m566_phone.png"
+}

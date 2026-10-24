@@ -1,0 +1,10 @@
+{
+  "milestone": "M505",
+  "title": "Sketch Area & Second Moment of Area (Centroid, Ixx, Iyy, J) Real-Time HUD",
+  "version": "v1.272.4",
+  "apkArtifact": "AndroCAD-v1.272.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m505_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m505_phone.png"
+}

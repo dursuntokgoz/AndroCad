@@ -1,0 +1,10 @@
+{
+  "milestone": "M597",
+  "title": "Assembly 3D Tolerance Stackup Analysis (Worst-Case & RSS Statistical)",
+  "version": "v1.291.1",
+  "apkArtifact": "AndroCAD-v1.291.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m597_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m597_phone.png"
+}
