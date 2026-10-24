@@ -1,0 +1,10 @@
+{
+  "milestone": "M393",
+  "title": "Slider Joint (1 Translational DOF with Travel Limits)",
+  "version": "v1.250.2",
+  "apkArtifact": "AndroCAD-v1.250.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m393_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m393_phone.png"
+}

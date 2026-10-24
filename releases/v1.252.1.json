@@ -1,0 +1,10 @@
+{
+  "milestone": "M402",
+  "title": "B-Rep Real-Time Interference & Collision Detection Between Parts",
+  "version": "v1.252.1",
+  "apkArtifact": "AndroCAD-v1.252.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m402_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m402_phone.png"
+}

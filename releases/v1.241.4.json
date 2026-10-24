@@ -1,0 +1,10 @@
+{
+  "milestone": "M350",
+  "title": "Freeform Surface Engine Full-System Topology Verification",
+  "version": "v1.241.4",
+  "apkArtifact": "AndroCAD-v1.241.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m350_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m350_phone.png"
+}

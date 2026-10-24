@@ -1,0 +1,10 @@
+{
+  "milestone": "M326",
+  "title": "Emboss/Deboss from Vector Path Projected onto Double-Curved Faces",
+  "version": "v1.237.0",
+  "apkArtifact": "AndroCAD-v1.237.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m326_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m326_phone.png"
+}

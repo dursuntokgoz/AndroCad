@@ -1,0 +1,10 @@
+{
+  "milestone": "M447",
+  "title": "Toolpath Feedrate Optimization Based on Chip Load & Engagement",
+  "version": "v1.261.1",
+  "apkArtifact": "AndroCAD-v1.261.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m447_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m447_phone.png"
+}

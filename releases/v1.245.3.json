@@ -1,0 +1,10 @@
+{
+  "milestone": "M369",
+  "title": "Bend Order Sequence Calculator & Press Brake Clash Analyzer",
+  "version": "v1.245.3",
+  "apkArtifact": "AndroCAD-v1.245.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m369_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m369_phone.png"
+}

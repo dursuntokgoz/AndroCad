@@ -1,0 +1,10 @@
+{
+  "milestone": "M415",
+  "title": "Manufacturing Constraint: Additive Overhang Angle Limit (45\u00b0 Rule)",
+  "version": "v1.254.4",
+  "apkArtifact": "AndroCAD-v1.254.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m415_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m415_phone.png"
+}

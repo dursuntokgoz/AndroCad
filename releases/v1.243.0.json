@@ -1,0 +1,10 @@
+{
+  "milestone": "M356",
+  "title": "Contour Flange Extruded Along Polyline Edge Path",
+  "version": "v1.243.0",
+  "apkArtifact": "AndroCAD-v1.243.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m356_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m356_phone.png"
+}

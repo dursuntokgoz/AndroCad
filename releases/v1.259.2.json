@@ -1,0 +1,10 @@
+{
+  "milestone": "M438",
+  "title": "Radial and Concentric Circular Finishing for Circular Cavities",
+  "version": "v1.259.2",
+  "apkArtifact": "AndroCAD-v1.259.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m438_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m438_phone.png"
+}

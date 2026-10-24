@@ -1,0 +1,10 @@
+{
+  "milestone": "M457",
+  "title": "Low-Memory Device Fallback: Dynamic Texture & VBO Compression",
+  "version": "v1.263.1",
+  "apkArtifact": "AndroCAD-v1.263.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m457_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m457_phone.png"
+}

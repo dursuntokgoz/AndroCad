@@ -1,0 +1,10 @@
+{
+  "milestone": "M316",
+  "title": "Setback Corner Blend for 3-Fillet Vertex Intersections",
+  "version": "v1.235.0",
+  "apkArtifact": "AndroCAD-v1.235.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m316_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m316_phone.png"
+}

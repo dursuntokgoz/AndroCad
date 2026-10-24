@@ -1,0 +1,10 @@
+{
+  "milestone": "M273",
+  "title": "Delete Face with Automatic B-Rep Healing & Pocket Removal",
+  "version": "v1.225.2",
+  "apkArtifact": "AndroCAD-v1.225.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m273_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m273_phone.png"
+}

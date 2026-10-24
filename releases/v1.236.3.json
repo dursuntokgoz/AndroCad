@@ -1,0 +1,10 @@
+{
+  "milestone": "M324",
+  "title": "Centerline Sweep with Scale and Twist Angle Parameters",
+  "version": "v1.236.3",
+  "apkArtifact": "AndroCAD-v1.236.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m324_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m324_phone.png"
+}

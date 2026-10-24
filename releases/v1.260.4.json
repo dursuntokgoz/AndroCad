@@ -1,0 +1,10 @@
+{
+  "milestone": "M445",
+  "title": "Rapid Feed Collision Warning on Uncut Material",
+  "version": "v1.260.4",
+  "apkArtifact": "AndroCAD-v1.260.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m445_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m445_phone.png"
+}

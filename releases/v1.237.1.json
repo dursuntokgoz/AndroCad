@@ -1,0 +1,10 @@
+{
+  "milestone": "M327",
+  "title": "Core & Cavity Mold Tooling Split with Parting Surface Extrusion",
+  "version": "v1.237.1",
+  "apkArtifact": "AndroCAD-v1.237.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m327_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m327_phone.png"
+}

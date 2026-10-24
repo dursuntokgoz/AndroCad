@@ -1,0 +1,10 @@
+{
+  "milestone": "M441",
+  "title": "Rotary 4-Axis Continuous Milling Along Cylindrical Stock",
+  "version": "v1.260.0",
+  "apkArtifact": "AndroCAD-v1.260.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m441_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m441_phone.png"
+}

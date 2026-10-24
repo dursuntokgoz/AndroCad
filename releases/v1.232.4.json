@@ -1,0 +1,10 @@
+{
+  "milestone": "M305",
+  "title": "Parametric Polygon Generator (Inscribed & Circumscribed n-gons)",
+  "version": "v1.232.4",
+  "apkArtifact": "AndroCAD-v1.232.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m305_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m305_phone.png"
+}

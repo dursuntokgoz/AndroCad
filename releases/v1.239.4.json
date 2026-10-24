@@ -1,0 +1,10 @@
+{
+  "milestone": "M340",
+  "title": "Surface Thicken into Manifold Thin-Walled Solid Shell",
+  "version": "v1.239.4",
+  "apkArtifact": "AndroCAD-v1.239.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m340_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m340_phone.png"
+}

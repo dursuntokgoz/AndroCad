@@ -1,0 +1,10 @@
+{
+  "milestone": "M466",
+  "title": "Keyboard Shortcuts & Hardware Mouse/Trackpad Hover Event Support",
+  "version": "v1.265.0",
+  "apkArtifact": "AndroCAD-v1.265.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m466_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m466_phone.png"
+}

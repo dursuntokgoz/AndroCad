@@ -1,0 +1,10 @@
+{
+  "milestone": "M449",
+  "title": "Machine Kinematics Multi-Axis Axis Limit Check (Rotary Over-Travel)",
+  "version": "v1.261.3",
+  "apkArtifact": "AndroCAD-v1.261.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m449_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m449_phone.png"
+}

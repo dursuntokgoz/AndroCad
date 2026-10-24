@@ -1,0 +1,10 @@
+{
+  "milestone": "M396",
+  "title": "Planar Joint (2 Translational DOFs on Plane + 1 In-Plane Rotation)",
+  "version": "v1.251.0",
+  "apkArtifact": "AndroCAD-v1.251.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m396_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m396_phone.png"
+}

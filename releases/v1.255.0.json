@@ -1,0 +1,10 @@
+{
+  "milestone": "M416",
+  "title": "Manufacturing Constraint: Two-Way Milling Draw Direction Filter",
+  "version": "v1.255.0",
+  "apkArtifact": "AndroCAD-v1.255.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m416_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m416_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M363",
+  "title": "Punch Feature & Form Tool Stamping (Louvers, Lances, and Ribs)",
+  "version": "v1.244.2",
+  "apkArtifact": "AndroCAD-v1.244.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m363_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m363_phone.png"
+}

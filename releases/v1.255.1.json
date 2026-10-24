@@ -1,0 +1,10 @@
+{
+  "milestone": "M417",
+  "title": "B-Rep Smoothing & Iso-Surface Reconstruction from Density Field",
+  "version": "v1.255.1",
+  "apkArtifact": "AndroCAD-v1.255.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m417_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m417_phone.png"
+}

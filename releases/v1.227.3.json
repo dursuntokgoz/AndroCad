@@ -1,0 +1,10 @@
+{
+  "milestone": "M283",
+  "title": "Tangency Propagation for Multi-Face Selection & Offset",
+  "version": "v1.227.3",
+  "apkArtifact": "AndroCAD-v1.227.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m283_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m283_phone.png"
+}

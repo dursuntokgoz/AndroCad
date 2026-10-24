@@ -1,0 +1,10 @@
+{
+  "milestone": "M361",
+  "title": "Live 3D Unfolded Flat Pattern Solid Replacement in Viewport",
+  "version": "v1.244.0",
+  "apkArtifact": "AndroCAD-v1.244.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m361_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m361_phone.png"
+}

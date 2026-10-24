@@ -1,0 +1,10 @@
+{
+  "milestone": "M430",
+  "title": "Generative Design & Additive Slicing Verification Suite",
+  "version": "v1.257.4",
+  "apkArtifact": "AndroCAD-v1.257.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m430_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m430_phone.png"
+}

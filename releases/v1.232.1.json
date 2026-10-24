@@ -1,0 +1,10 @@
+{
+  "milestone": "M302",
+  "title": "Construction Geometry Conversion & Reference Datum Lines",
+  "version": "v1.232.1",
+  "apkArtifact": "AndroCAD-v1.232.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m302_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m302_phone.png"
+}

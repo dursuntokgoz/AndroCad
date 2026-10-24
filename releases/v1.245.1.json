@@ -1,0 +1,10 @@
+{
+  "milestone": "M367",
+  "title": "Flat Pattern Bounding Box Stock Optimization & Sheet Utilization",
+  "version": "v1.245.1",
+  "apkArtifact": "AndroCAD-v1.245.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m367_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m367_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M292",
+  "title": "Non-Uniform Rational B-Spline (NURBS) Knot Vector & Weight Editor",
+  "version": "v1.230.1",
+  "apkArtifact": "AndroCAD-v1.230.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m292_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m292_phone.png"
+}

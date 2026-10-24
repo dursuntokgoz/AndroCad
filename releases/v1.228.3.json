@@ -1,0 +1,10 @@
+{
+  "milestone": "M288",
+  "title": "B-Rep Face Align to Target Datum Plane (Point-Normal Fit)",
+  "version": "v1.228.3",
+  "apkArtifact": "AndroCAD-v1.228.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m288_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m288_phone.png"
+}

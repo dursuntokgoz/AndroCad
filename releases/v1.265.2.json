@@ -1,0 +1,10 @@
+{
+  "milestone": "M468",
+  "title": "LGPL-2.1 Dynamic Library Relinking Package & License Compliance Check",
+  "version": "v1.265.2",
+  "apkArtifact": "AndroCAD-v1.265.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m468_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m468_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M355",
+  "title": "Flange with Custom Bend Angle and Miter Corner Auto-Mitering",
+  "version": "v1.242.4",
+  "apkArtifact": "AndroCAD-v1.242.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m355_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m355_phone.png"
+}

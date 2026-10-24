@@ -1,0 +1,10 @@
+{
+  "milestone": "M460",
+  "title": "Dynamic STEP/IGES/STL/OBJ File Importer Sanity & Unit Normalization",
+  "version": "v1.263.4",
+  "apkArtifact": "AndroCAD-v1.263.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m460_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m460_phone.png"
+}

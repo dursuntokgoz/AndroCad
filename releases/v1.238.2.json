@@ -1,0 +1,10 @@
+{
+  "milestone": "M333",
+  "title": "Tangent (G1) and Curvature (G2) Continuous Surface Fillet/Blend",
+  "version": "v1.238.2",
+  "apkArtifact": "AndroCAD-v1.238.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m333_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m333_phone.png"
+}

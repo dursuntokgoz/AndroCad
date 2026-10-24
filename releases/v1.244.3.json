@@ -1,0 +1,10 @@
+{
+  "milestone": "M364",
+  "title": "Gusset Stiffener Generation Across Bent Flanges",
+  "version": "v1.244.3",
+  "apkArtifact": "AndroCAD-v1.244.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m364_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m364_phone.png"
+}

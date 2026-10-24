@@ -1,0 +1,10 @@
+{
+  "milestone": "M390",
+  "title": "Viewport Interaction & 3D Gizmo Comprehensive Verification Suite",
+  "version": "v1.249.4",
+  "apkArtifact": "AndroCAD-v1.249.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m390_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m390_phone.png"
+}

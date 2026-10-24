@@ -1,0 +1,10 @@
+{
+  "milestone": "M312",
+  "title": "Solid Body Split by Multiple Intersecting Datum Surfaces",
+  "version": "v1.234.1",
+  "apkArtifact": "AndroCAD-v1.234.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m312_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m312_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M343",
+  "title": "Minimum Radius of Curvature Diagnostic & Machinability Indicator",
+  "version": "v1.240.2",
+  "apkArtifact": "AndroCAD-v1.240.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m343_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m343_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M338",
+  "title": "Surface Stitch & Sew to Solid with Gap Closure Tolerancing",
+  "version": "v1.239.2",
+  "apkArtifact": "AndroCAD-v1.239.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m338_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m338_phone.png"
+}

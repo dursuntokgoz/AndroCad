@@ -1,0 +1,10 @@
+{
+  "milestone": "M298",
+  "title": "Dynamic Sketch Dimension Dragging & Real-Time Geometry Morphing",
+  "version": "v1.231.2",
+  "apkArtifact": "AndroCAD-v1.231.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m298_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m298_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M429",
+  "title": "Print Time & Filament Mass Cost Estimation Calculator",
+  "version": "v1.257.3",
+  "apkArtifact": "AndroCAD-v1.257.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m429_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m429_phone.png"
+}

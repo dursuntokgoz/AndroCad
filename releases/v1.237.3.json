@@ -1,0 +1,10 @@
+{
+  "milestone": "M329",
+  "title": "Multi-Body Solid Intersect & Common Volume Calculation",
+  "version": "v1.237.3",
+  "apkArtifact": "AndroCAD-v1.237.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m329_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m329_phone.png"
+}

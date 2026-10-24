@@ -1,0 +1,10 @@
+{
+  "milestone": "M413",
+  "title": "Von Mises Stress Constraint Filter for Topology Optimization",
+  "version": "v1.254.2",
+  "apkArtifact": "AndroCAD-v1.254.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m413_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m413_phone.png"
+}

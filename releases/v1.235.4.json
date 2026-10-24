@@ -1,0 +1,10 @@
+{
+  "milestone": "M320",
+  "title": "Thread Feature (Cosmetic ISO Metric Thread with Pitch Diameter Display)",
+  "version": "v1.235.4",
+  "apkArtifact": "AndroCAD-v1.235.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m320_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m320_phone.png"
+}

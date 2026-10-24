@@ -1,0 +1,10 @@
+{
+  "milestone": "M345",
+  "title": "Silhouette Curve Extractor for Mold Tooling Boundary Lines",
+  "version": "v1.240.4",
+  "apkArtifact": "AndroCAD-v1.240.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m345_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m345_phone.png"
+}

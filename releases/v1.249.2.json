@@ -1,0 +1,10 @@
+{
+  "milestone": "M388",
+  "title": "Visual Feedback: Pulsing Pulse Ring on Tapped 3D Surface HitPoint",
+  "version": "v1.249.2",
+  "apkArtifact": "AndroCAD-v1.249.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m388_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m388_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M443",
+  "title": "Stock Model In-Process Material Removal Simulation (Voxel Stock)",
+  "version": "v1.260.2",
+  "apkArtifact": "AndroCAD-v1.260.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m443_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m443_phone.png"
+}

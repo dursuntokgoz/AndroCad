@@ -1,0 +1,10 @@
+{
+  "milestone": "M403",
+  "title": "Contact Set Definition & Dynamic Hard Stop Collision Physics",
+  "version": "v1.252.2",
+  "apkArtifact": "AndroCAD-v1.252.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m403_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m403_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M412",
+  "title": "Design Space Definition (Preserve Regions, Obstacle Regions, Loads)",
+  "version": "v1.254.1",
+  "apkArtifact": "AndroCAD-v1.254.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m412_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m412_phone.png"
+}

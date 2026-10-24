@@ -1,0 +1,10 @@
+{
+  "milestone": "M354",
+  "title": "Bend Relief (Obround, Rectangular, and Tear with Relief Depth)",
+  "version": "v1.242.3",
+  "apkArtifact": "AndroCAD-v1.242.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m354_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m354_phone.png"
+}

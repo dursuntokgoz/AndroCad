@@ -1,0 +1,10 @@
+{
+  "milestone": "M304",
+  "title": "Intersection Curve Extraction Between Non-Planar Faces & Sketch Plane",
+  "version": "v1.232.3",
+  "apkArtifact": "AndroCAD-v1.232.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m304_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m304_phone.png"
+}

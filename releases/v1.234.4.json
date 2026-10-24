@@ -1,0 +1,10 @@
+{
+  "milestone": "M315",
+  "title": "Full Round Fillet (Automatic Tangent Blending Across 3 Adjacent Faces)",
+  "version": "v1.234.4",
+  "apkArtifact": "AndroCAD-v1.234.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m315_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m315_phone.png"
+}

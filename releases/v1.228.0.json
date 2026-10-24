@@ -1,0 +1,10 @@
+{
+  "milestone": "M285",
+  "title": "Localized B-Rep Volume Defeature for Faster Simulation Meshing",
+  "version": "v1.228.0",
+  "apkArtifact": "AndroCAD-v1.228.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m285_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m285_phone.png"
+}

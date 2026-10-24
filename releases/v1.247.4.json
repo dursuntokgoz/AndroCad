@@ -1,0 +1,10 @@
+{
+  "milestone": "M380",
+  "title": "Real-Time Dynamic Section Plane Clipping with Capped Hatching",
+  "version": "v1.247.4",
+  "apkArtifact": "AndroCAD-v1.247.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m380_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m380_phone.png"
+}

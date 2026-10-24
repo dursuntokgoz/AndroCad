@@ -1,0 +1,10 @@
+{
+  "milestone": "M351",
+  "title": "Sheet Metal Hem Feature (Open, Closed, Tear-Drop, and Rolled Hem)",
+  "version": "v1.242.0",
+  "apkArtifact": "AndroCAD-v1.242.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m351_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m351_phone.png"
+}

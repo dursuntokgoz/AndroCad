@@ -1,0 +1,10 @@
+{
+  "milestone": "M387",
+  "title": "Target-Aware Picking Resolution: Top Tap Never Falls Back to Bottom Edge",
+  "version": "v1.249.1",
+  "apkArtifact": "AndroCAD-v1.249.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m387_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m387_phone.png"
+}

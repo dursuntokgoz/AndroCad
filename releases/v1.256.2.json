@@ -1,0 +1,10 @@
+{
+  "milestone": "M423",
+  "title": "Slicer Variable Layer Height (Adaptive Layering for Curved Domes)",
+  "version": "v1.256.2",
+  "apkArtifact": "AndroCAD-v1.256.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m423_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m423_phone.png"
+}

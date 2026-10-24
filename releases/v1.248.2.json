@@ -1,0 +1,10 @@
+{
+  "milestone": "M383",
+  "title": "Orthographic vs Perspective Camera Smooth Focal Transition",
+  "version": "v1.248.2",
+  "apkArtifact": "AndroCAD-v1.248.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m383_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m383_phone.png"
+}

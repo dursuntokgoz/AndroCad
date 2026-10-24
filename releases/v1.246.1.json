@@ -1,0 +1,10 @@
+{
+  "milestone": "M372",
+  "title": "Smart Object Snapping: Vertex, Edge Midpoint, Arc Center, Face Centroid",
+  "version": "v1.246.1",
+  "apkArtifact": "AndroCAD-v1.246.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m372_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m372_phone.png"
+}

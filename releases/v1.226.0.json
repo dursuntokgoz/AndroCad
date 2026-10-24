@@ -1,0 +1,10 @@
+{
+  "milestone": "M275",
+  "title": "Move Face with Degrees of Freedom (Translate along X/Y/Z, Rotate about Edge)",
+  "version": "v1.226.0",
+  "apkArtifact": "AndroCAD-v1.226.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m275_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m275_phone.png"
+}

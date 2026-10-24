@@ -1,0 +1,10 @@
+{
+  "milestone": "M341",
+  "title": "Zebra Striping Real-Time Curvature Continuity Visualizer (G0/G1/G2)",
+  "version": "v1.240.0",
+  "apkArtifact": "AndroCAD-v1.240.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m341_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m341_phone.png"
+}

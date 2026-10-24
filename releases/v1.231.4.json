@@ -1,0 +1,10 @@
+{
+  "milestone": "M300",
+  "title": "Associative Linear Grid Pattern of Sketch Elements with X/Y Count",
+  "version": "v1.231.4",
+  "apkArtifact": "AndroCAD-v1.231.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m300_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m300_phone.png"
+}

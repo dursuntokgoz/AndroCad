@@ -1,0 +1,10 @@
+{
+  "milestone": "M428",
+  "title": "First Layer Squish Compensation & Elephant's Foot Mitigation",
+  "version": "v1.257.2",
+  "apkArtifact": "AndroCAD-v1.257.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m428_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m428_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M368",
+  "title": "Sheet Metal Hole Across Bend (Unfolded Cylindrical Hole Recovery)",
+  "version": "v1.245.2",
+  "apkArtifact": "AndroCAD-v1.245.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m368_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m368_phone.png"
+}

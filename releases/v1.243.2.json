@@ -1,0 +1,10 @@
+{
+  "milestone": "M358",
+  "title": "Sheet Metal Rip Feature (Edge Rip and Corner Rip for Unfolding)",
+  "version": "v1.243.2",
+  "apkArtifact": "AndroCAD-v1.243.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m358_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m358_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M294",
+  "title": "Geometric Constraint: Equal Length Along Arc & Curved Segments",
+  "version": "v1.230.3",
+  "apkArtifact": "AndroCAD-v1.230.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m294_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m294_phone.png"
+}

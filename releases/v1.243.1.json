@@ -1,0 +1,10 @@
+{
+  "milestone": "M357",
+  "title": "Lofted Bend Between Disparate Profiles (Square-to-Round Ducting)",
+  "version": "v1.243.1",
+  "apkArtifact": "AndroCAD-v1.243.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m357_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m357_phone.png"
+}

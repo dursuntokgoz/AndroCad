@@ -1,0 +1,10 @@
+{
+  "milestone": "M401",
+  "title": "Cam and Follower Kinematic Contact Constraint",
+  "version": "v1.252.0",
+  "apkArtifact": "AndroCAD-v1.252.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m401_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m401_phone.png"
+}

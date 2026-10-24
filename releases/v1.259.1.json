@@ -1,0 +1,10 @@
+{
+  "milestone": "M437",
+  "title": "Parallel Finishing with Pass Angle Customization and Boundary Box",
+  "version": "v1.259.1",
+  "apkArtifact": "AndroCAD-v1.259.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m437_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m437_phone.png"
+}

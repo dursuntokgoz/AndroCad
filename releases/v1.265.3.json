@@ -1,0 +1,10 @@
+{
+  "milestone": "M469",
+  "title": "Play Store Bundle (AAB) & Beta Release APK Generation Packaging Audit",
+  "version": "v1.265.3",
+  "apkArtifact": "AndroCAD-v1.265.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m469_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m469_phone.png"
+}

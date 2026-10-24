@@ -1,0 +1,10 @@
+{
+  "milestone": "M360",
+  "title": "Material-Specific Neutral Axis Offset Calculation (DIN 6935)",
+  "version": "v1.243.4",
+  "apkArtifact": "AndroCAD-v1.243.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m360_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m360_phone.png"
+}

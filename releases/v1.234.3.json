@@ -1,0 +1,10 @@
+{
+  "milestone": "M314",
+  "title": "Chordal Fillet (Constant Width Fillet Along Varying Surface Curvatures)",
+  "version": "v1.234.3",
+  "apkArtifact": "AndroCAD-v1.234.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m314_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m314_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M330",
+  "title": "Solid Modeling Feature DAG Replay & Deterministic TNP Resolver Certification",
+  "version": "v1.237.4",
+  "apkArtifact": "AndroCAD-v1.237.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m330_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m330_phone.png"
+}

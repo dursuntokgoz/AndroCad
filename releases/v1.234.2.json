@@ -1,0 +1,10 @@
+{
+  "milestone": "M313",
+  "title": "Variable Radius Fillet with Interactive Transition Control Points",
+  "version": "v1.234.2",
+  "apkArtifact": "AndroCAD-v1.234.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m313_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m313_phone.png"
+}

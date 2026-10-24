@@ -1,0 +1,10 @@
+{
+  "milestone": "M379",
+  "title": "3D Measuring Tape (Distance, Angle, Area, and Projected Deltas)",
+  "version": "v1.247.3",
+  "apkArtifact": "AndroCAD-v1.247.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m379_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m379_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M394",
+  "title": "Cylindrical Joint (1 Rotational + 1 Translational Coupled DOF)",
+  "version": "v1.250.3",
+  "apkArtifact": "AndroCAD-v1.250.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m394_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m394_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M405",
+  "title": "Degrees of Freedom (DOF) Diagnostic Inspector (Under/Fully Constrained)",
+  "version": "v1.252.4",
+  "apkArtifact": "AndroCAD-v1.252.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m405_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m405_phone.png"
+}

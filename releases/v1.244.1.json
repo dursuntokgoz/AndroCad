@@ -1,0 +1,10 @@
+{
+  "milestone": "M362",
+  "title": "Flat Pattern 2D DXF/DWG Export with Bend Up/Down Lines and Angles",
+  "version": "v1.244.1",
+  "apkArtifact": "AndroCAD-v1.244.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m362_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m362_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M366",
+  "title": "Corner Seam Auto-Closure (Overlap, Underlap, and Butt Joint)",
+  "version": "v1.245.0",
+  "apkArtifact": "AndroCAD-v1.245.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m366_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m366_phone.png"
+}

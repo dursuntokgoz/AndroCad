@@ -1,0 +1,10 @@
+{
+  "milestone": "M374",
+  "title": "Interactive 3D Translate Gizmo (3 Axial Arrows + 3 Planar Quads)",
+  "version": "v1.246.3",
+  "apkArtifact": "AndroCAD-v1.246.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m374_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m374_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M453",
+  "title": "Deterministic Topological Naming Pipeline (TNP) Re-identification Across Fillets",
+  "version": "v1.262.2",
+  "apkArtifact": "AndroCAD-v1.262.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m453_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m453_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M303",
+  "title": "Sketch Silhouette Curve Extraction from 3D Solid Faces",
+  "version": "v1.232.2",
+  "apkArtifact": "AndroCAD-v1.232.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m303_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m303_phone.png"
+}

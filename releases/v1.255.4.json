@@ -1,0 +1,10 @@
+{
+  "milestone": "M420",
+  "title": "Functionally Graded Lattice (Density Modulated by Local FEA Stress)",
+  "version": "v1.255.4",
+  "apkArtifact": "AndroCAD-v1.255.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m420_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m420_phone.png"
+}

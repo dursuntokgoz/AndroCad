@@ -1,0 +1,10 @@
+{
+  "milestone": "M462",
+  "title": "Viewport ViewCube Multi-Touch Orbit Stability & Gimbal Lock Prevention",
+  "version": "v1.264.1",
+  "apkArtifact": "AndroCAD-v1.264.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m462_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m462_phone.png"
+}

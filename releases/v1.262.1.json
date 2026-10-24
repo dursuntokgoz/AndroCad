@@ -1,0 +1,10 @@
+{
+  "milestone": "M452",
+  "title": "16 KB Page-Size Memory Alignment & Android Clang LLD Linker Audit",
+  "version": "v1.262.1",
+  "apkArtifact": "AndroCAD-v1.262.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m452_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m452_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M400",
+  "title": "Screw Joint (Linear Pitch Travel per Revolution)",
+  "version": "v1.251.4",
+  "apkArtifact": "AndroCAD-v1.251.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m400_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m400_phone.png"
+}

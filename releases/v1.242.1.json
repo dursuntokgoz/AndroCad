@@ -1,0 +1,10 @@
+{
+  "milestone": "M352",
+  "title": "Sheet Metal Jog Feature (Two Opposite Bends with Step Depth)",
+  "version": "v1.242.1",
+  "apkArtifact": "AndroCAD-v1.242.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m352_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m352_phone.png"
+}

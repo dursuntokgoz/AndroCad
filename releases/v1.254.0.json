@@ -1,0 +1,10 @@
+{
+  "milestone": "M411",
+  "title": "Solid Isotropic Material with Penalization (SIMP) Topology Optimizer",
+  "version": "v1.254.0",
+  "apkArtifact": "AndroCAD-v1.254.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m411_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m411_phone.png"
+}

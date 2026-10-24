@@ -1,0 +1,10 @@
+{
+  "milestone": "M459",
+  "title": "SAF (Storage Access Framework) Zero-Permission Export Pipeline Verification",
+  "version": "v1.263.3",
+  "apkArtifact": "AndroCAD-v1.263.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m459_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m459_phone.png"
+}

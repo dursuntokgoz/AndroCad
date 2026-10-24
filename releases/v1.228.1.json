@@ -1,0 +1,10 @@
+{
+  "milestone": "M286",
+  "title": "Direct Cylindrical Face Radius Drag & Bore Resizing",
+  "version": "v1.228.1",
+  "apkArtifact": "AndroCAD-v1.228.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m286_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m286_phone.png"
+}

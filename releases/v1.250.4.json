@@ -1,0 +1,10 @@
+{
+  "milestone": "M395",
+  "title": "Pin-Slot Joint (Translation Along Path + Free Rotation)",
+  "version": "v1.250.4",
+  "apkArtifact": "AndroCAD-v1.250.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m395_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m395_phone.png"
+}

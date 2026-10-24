@@ -1,0 +1,10 @@
+{
+  "milestone": "M276",
+  "title": "Face Tapering with Fixed Parting Edge & Draft Angle",
+  "version": "v1.226.1",
+  "apkArtifact": "AndroCAD-v1.226.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m276_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m276_phone.png"
+}

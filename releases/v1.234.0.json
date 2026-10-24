@@ -1,0 +1,10 @@
+{
+  "milestone": "M311",
+  "title": "Multi-Body Boolean Combine with 'Keep Tool Bodies' Option",
+  "version": "v1.234.0",
+  "apkArtifact": "AndroCAD-v1.234.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m311_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m311_phone.png"
+}

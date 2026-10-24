@@ -1,0 +1,10 @@
+{
+  "milestone": "M317",
+  "title": "Complex Rib and Web Network Generation from Open Sketch Contours",
+  "version": "v1.235.1",
+  "apkArtifact": "AndroCAD-v1.235.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m317_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m317_phone.png"
+}

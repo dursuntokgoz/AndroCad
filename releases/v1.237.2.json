@@ -1,0 +1,10 @@
+{
+  "milestone": "M328",
+  "title": "Automatic Draft Angle Visualizer with Pull Direction & Undercut Colors",
+  "version": "v1.237.2",
+  "apkArtifact": "AndroCAD-v1.237.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m328_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m328_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M323",
+  "title": "Multi-Section Loft with Guide Curves and Tangency Condition at Ends",
+  "version": "v1.236.2",
+  "apkArtifact": "AndroCAD-v1.236.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m323_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m323_phone.png"
+}

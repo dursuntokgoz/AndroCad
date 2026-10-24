@@ -1,0 +1,10 @@
+{
+  "milestone": "M310",
+  "title": "Parametric 2D Sketch Solver Comprehensive Validation Suite",
+  "version": "v1.233.4",
+  "apkArtifact": "AndroCAD-v1.233.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m310_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m310_phone.png"
+}

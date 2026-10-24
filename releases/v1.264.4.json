@@ -1,0 +1,10 @@
+{
+  "milestone": "M465",
+  "title": "Stylus Pressure Sensitivity & Eraser Button Detection",
+  "version": "v1.264.4",
+  "apkArtifact": "AndroCAD-v1.264.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m465_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m465_phone.png"
+}

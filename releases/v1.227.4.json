@@ -1,0 +1,10 @@
+{
+  "milestone": "M284",
+  "title": "Direct Variable Chamfer (Two-Distance & Distance-Angle Mode)",
+  "version": "v1.227.4",
+  "apkArtifact": "AndroCAD-v1.227.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m284_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m284_phone.png"
+}

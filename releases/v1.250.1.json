@@ -1,0 +1,10 @@
+{
+  "milestone": "M392",
+  "title": "Revolute Joint (1 Rotational DOF with Min/Max Angle Limits)",
+  "version": "v1.250.1",
+  "apkArtifact": "AndroCAD-v1.250.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m392_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m392_phone.png"
+}

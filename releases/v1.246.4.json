@@ -1,0 +1,10 @@
+{
+  "milestone": "M375",
+  "title": "Interactive 3D Rotate Gizmo (3 Ring Arcs with Angle Increments & Snap)",
+  "version": "v1.246.4",
+  "apkArtifact": "AndroCAD-v1.246.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m375_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m375_phone.png"
+}

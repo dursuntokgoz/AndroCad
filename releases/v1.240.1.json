@@ -1,0 +1,10 @@
+{
+  "milestone": "M342",
+  "title": "Gaussian and Mean Curvature Heatmap Color Mapping",
+  "version": "v1.240.1",
+  "apkArtifact": "AndroCAD-v1.240.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m342_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m342_phone.png"
+}

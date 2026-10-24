@@ -1,0 +1,10 @@
+{
+  "milestone": "M427",
+  "title": "Volumetric Flow Rate Limiter & Acceleration Control (Jerk Limiting)",
+  "version": "v1.257.1",
+  "apkArtifact": "AndroCAD-v1.257.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m427_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m427_phone.png"
+}

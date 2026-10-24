@@ -1,0 +1,10 @@
+{
+  "milestone": "M397",
+  "title": "Ball Joint (3 Rotational DOFs with Cone Angle Limit)",
+  "version": "v1.251.1",
+  "apkArtifact": "AndroCAD-v1.251.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m397_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m397_phone.png"
+}

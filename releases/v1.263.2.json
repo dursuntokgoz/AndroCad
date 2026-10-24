@@ -1,0 +1,10 @@
+{
+  "milestone": "M458",
+  "title": "Crash-Safe Auto-Save with Atomic Journaling & Recovery on Restart",
+  "version": "v1.263.2",
+  "apkArtifact": "AndroCAD-v1.263.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m458_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m458_phone.png"
+}

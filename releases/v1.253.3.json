@@ -1,0 +1,10 @@
+{
+  "milestone": "M409",
+  "title": "Joint Limits Visualizer (Color-Coded Arc and Slider Track in Viewport)",
+  "version": "v1.253.3",
+  "apkArtifact": "AndroCAD-v1.253.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m409_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m409_phone.png"
+}

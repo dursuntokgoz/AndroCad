@@ -1,0 +1,10 @@
+{
+  "milestone": "M431",
+  "title": "3D Adaptive Roughing (Constant Tool Engagement Angle & High Speed)",
+  "version": "v1.258.0",
+  "apkArtifact": "AndroCAD-v1.258.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m431_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m431_phone.png"
+}

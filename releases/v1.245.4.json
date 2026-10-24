@@ -1,0 +1,10 @@
+{
+  "milestone": "M370",
+  "title": "Sheet Metal Engine Comprehensive Precision Verification Suite",
+  "version": "v1.245.4",
+  "apkArtifact": "AndroCAD-v1.245.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m370_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m370_phone.png"
+}

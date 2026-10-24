@@ -1,0 +1,10 @@
+{
+  "milestone": "M399",
+  "title": "Rack and Pinion Joint (Rotational to Linear Displacement Coupling)",
+  "version": "v1.251.3",
+  "apkArtifact": "AndroCAD-v1.251.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m399_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m399_phone.png"
+}

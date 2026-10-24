@@ -1,0 +1,10 @@
+{
+  "milestone": "M436",
+  "title": "3D Constant Z Spiral Finishing for Steep Vertical Walls",
+  "version": "v1.259.0",
+  "apkArtifact": "AndroCAD-v1.259.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m436_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m436_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M424",
+  "title": "Infill Patterns: Gyroid, Honeycomb, Cubic, Tri-Hexagonal, Concentric",
+  "version": "v1.256.3",
+  "apkArtifact": "AndroCAD-v1.256.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m424_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m424_phone.png"
+}

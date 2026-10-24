@@ -1,0 +1,10 @@
+{
+  "milestone": "M461",
+  "title": "Touch Target Hit Area Isolation Across Compact Phone Layouts",
+  "version": "v1.264.0",
+  "apkArtifact": "AndroCAD-v1.264.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m461_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m461_phone.png"
+}

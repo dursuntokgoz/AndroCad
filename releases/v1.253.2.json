@@ -1,0 +1,10 @@
+{
+  "milestone": "M408",
+  "title": "Fastener Auto-Sizing: Bolt Diameter and Length Snapped to Hole Depth",
+  "version": "v1.253.2",
+  "apkArtifact": "AndroCAD-v1.253.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m408_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m408_phone.png"
+}

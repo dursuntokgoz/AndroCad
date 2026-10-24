@@ -1,0 +1,10 @@
+{
+  "milestone": "M433",
+  "title": "Scallop Finishing (Uniform Surface Height Stepover Across 3D Surfaces)",
+  "version": "v1.258.2",
+  "apkArtifact": "AndroCAD-v1.258.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m433_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m433_phone.png"
+}

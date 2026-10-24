@@ -1,0 +1,10 @@
+{
+  "milestone": "M382",
+  "title": "Ambient Occlusion & Ground Drop Shadow Rendering in GLES",
+  "version": "v1.248.1",
+  "apkArtifact": "AndroCAD-v1.248.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m382_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m382_phone.png"
+}

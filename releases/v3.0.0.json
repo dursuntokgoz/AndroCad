@@ -1,0 +1,10 @@
+{
+  "milestone": "M470",
+  "title": "Faz 5 Full-System 470-Milestone Certification & v3.0.0 Production Release Gate",
+  "version": "v3.0.0",
+  "apkArtifact": "AndroCAD-v3.0.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m470_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m470_phone.png"
+}

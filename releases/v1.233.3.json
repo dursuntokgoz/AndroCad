@@ -1,0 +1,10 @@
+{
+  "milestone": "M309",
+  "title": "Dynamic Sketch Drag Performance Profiler (<16ms Solver Iteration)",
+  "version": "v1.233.3",
+  "apkArtifact": "AndroCAD-v1.233.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m309_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m309_phone.png"
+}

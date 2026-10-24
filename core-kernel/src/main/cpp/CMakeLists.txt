@@ -49,6 +49,7 @@ if(ANDROID)
         src/ProjectIO.cpp
         src/Phase3Engine.cpp
         src/Phase4Engine.cpp
+        src/Phase5Engine.cpp
         src/native_kernel_jni.cpp
     )
 
@@ -713,4 +714,11 @@ else()
     )
 
     add_test(NAME Faz4SuiteTest COMMAND androcad_faz4_suite_test)
+
+    add_executable(androcad_faz5_suite_test
+        src/Phase5Engine.cpp
+        tests/test_faz5_suite.cpp
+    )
+
+    add_test(NAME Faz5SuiteTest COMMAND androcad_faz5_suite_test)
 endif()

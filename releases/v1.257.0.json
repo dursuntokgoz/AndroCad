@@ -1,0 +1,10 @@
+{
+  "milestone": "M426",
+  "title": "G-Code Arc Fitting (G2/G3 Conversion from Polygonal Paths)",
+  "version": "v1.257.0",
+  "apkArtifact": "AndroCAD-v1.257.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m426_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m426_phone.png"
+}

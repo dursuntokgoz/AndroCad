@@ -1,0 +1,10 @@
+{
+  "milestone": "M450",
+  "title": "CAM Adaptive Engine & 5-Axis Collision Verification Suite",
+  "version": "v1.261.4",
+  "apkArtifact": "AndroCAD-v1.261.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m450_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m450_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M293",
+  "title": "Geometric Constraint: Perpendicular-to-Spline-Tangent at Point",
+  "version": "v1.230.2",
+  "apkArtifact": "AndroCAD-v1.230.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m293_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m293_phone.png"
+}

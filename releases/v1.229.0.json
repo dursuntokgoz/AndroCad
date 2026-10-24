@@ -1,0 +1,10 @@
+{
+  "milestone": "M290",
+  "title": "Direct Modeling 20-Action Validation Suite & Zero-Mock Audit",
+  "version": "v1.229.0",
+  "apkArtifact": "AndroCAD-v1.229.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m290_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m290_phone.png"
+}

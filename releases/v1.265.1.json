@@ -1,0 +1,10 @@
+{
+  "milestone": "M467",
+  "title": "Zero-Mock 3D Viewport Interaction Certification: All 200 Actions Mutate Real B-Rep",
+  "version": "v1.265.1",
+  "apkArtifact": "AndroCAD-v1.265.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m467_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m467_phone.png"
+}

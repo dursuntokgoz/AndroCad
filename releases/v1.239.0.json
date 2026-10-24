@@ -1,0 +1,10 @@
+{
+  "milestone": "M336",
+  "title": "Surface Untrim (Restoring Underlying Base Analytic/Spline Surface)",
+  "version": "v1.239.0",
+  "apkArtifact": "AndroCAD-v1.239.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m336_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m336_phone.png"
+}

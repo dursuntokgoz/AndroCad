@@ -1,0 +1,10 @@
+{
+  "milestone": "M421",
+  "title": "3D Printing Auto-Orientation for Minimum Overhang & Print Time",
+  "version": "v1.256.0",
+  "apkArtifact": "AndroCAD-v1.256.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m421_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m421_phone.png"
+}

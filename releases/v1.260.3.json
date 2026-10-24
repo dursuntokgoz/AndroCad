@@ -1,0 +1,10 @@
+{
+  "milestone": "M444",
+  "title": "Toolholder Collision & Shank Clearance Clash Detection",
+  "version": "v1.260.3",
+  "apkArtifact": "AndroCAD-v1.260.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m444_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m444_phone.png"
+}

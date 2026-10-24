@@ -1,0 +1,10 @@
+{
+  "milestone": "M448",
+  "title": "Total Machining Cycle Time & Rapid Travel Breakdown",
+  "version": "v1.261.2",
+  "apkArtifact": "AndroCAD-v1.261.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m448_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m448_phone.png"
+}

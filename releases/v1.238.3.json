@@ -1,0 +1,10 @@
+{
+  "milestone": "M334",
+  "title": "Swept Surface with Binormal Vector & Surface Normal Lock",
+  "version": "v1.238.3",
+  "apkArtifact": "AndroCAD-v1.238.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m334_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m334_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M322",
+  "title": "Helix/Spiral Swept Cut with Variable Pitch for Augers and Screws",
+  "version": "v1.236.1",
+  "apkArtifact": "AndroCAD-v1.236.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m322_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m322_phone.png"
+}

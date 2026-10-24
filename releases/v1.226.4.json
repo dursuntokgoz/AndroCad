@@ -1,0 +1,10 @@
+{
+  "milestone": "M279",
+  "title": "Multi-Face Coplanar Merger & Redundant Seam Elimination",
+  "version": "v1.226.4",
+  "apkArtifact": "AndroCAD-v1.226.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m279_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m279_phone.png"
+}

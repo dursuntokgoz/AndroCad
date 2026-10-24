@@ -1,0 +1,10 @@
+{
+  "milestone": "M277",
+  "title": "Direct Edge Chamfer Angle Modification Without Re-extruding",
+  "version": "v1.226.2",
+  "apkArtifact": "AndroCAD-v1.226.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m277_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m277_phone.png"
+}

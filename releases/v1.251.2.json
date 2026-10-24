@@ -1,0 +1,10 @@
+{
+  "milestone": "M398",
+  "title": "Gear Relation Constraint (Coupled Rotational Speeds with Ratio)",
+  "version": "v1.251.2",
+  "apkArtifact": "AndroCAD-v1.251.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m398_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m398_phone.png"
+}

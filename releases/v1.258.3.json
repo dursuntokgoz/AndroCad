@@ -1,0 +1,10 @@
+{
+  "milestone": "M434",
+  "title": "Pencil Tracing Toolpath (Automatic Corner Fillet Cleaning by Tool Radius)",
+  "version": "v1.258.3",
+  "apkArtifact": "AndroCAD-v1.258.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m434_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m434_phone.png"
+}

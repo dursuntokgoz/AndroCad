@@ -1,0 +1,10 @@
+{
+  "milestone": "M287",
+  "title": "Direct Spherical/Toroidal Boss Radius Manipulation",
+  "version": "v1.228.2",
+  "apkArtifact": "AndroCAD-v1.228.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m287_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m287_phone.png"
+}

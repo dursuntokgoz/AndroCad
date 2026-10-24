@@ -1,0 +1,10 @@
+{
+  "milestone": "M384",
+  "title": "Viewport Turntable Spin & Inertial Orbit Touch Physics",
+  "version": "v1.248.3",
+  "apkArtifact": "AndroCAD-v1.248.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m384_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m384_phone.png"
+}

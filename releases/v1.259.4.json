@@ -1,0 +1,10 @@
+{
+  "milestone": "M440",
+  "title": "Swarf Machining (Cutting with the Side Flute of Tool on Ruled Surfaces)",
+  "version": "v1.259.4",
+  "apkArtifact": "AndroCAD-v1.259.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m440_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m440_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M442",
+  "title": "Lead-In and Lead-Out Ramping (Helical, Linear, and Arc Entry)",
+  "version": "v1.260.1",
+  "apkArtifact": "AndroCAD-v1.260.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m442_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m442_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M308",
+  "title": "Sketch Slot Profile (Center-to-Center, Overall, and 3-Point Arc Slot)",
+  "version": "v1.233.2",
+  "apkArtifact": "AndroCAD-v1.233.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m308_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m308_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M301",
+  "title": "Sketch Path Offset with Miter, Round, and Bevel Corner Modes",
+  "version": "v1.232.0",
+  "apkArtifact": "AndroCAD-v1.232.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m301_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m301_phone.png"
+}

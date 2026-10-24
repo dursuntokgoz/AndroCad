@@ -1,0 +1,10 @@
+{
+  "milestone": "M391",
+  "title": "Rigid Assembly Joint (6 Degrees of Freedom Constrained)",
+  "version": "v1.250.0",
+  "apkArtifact": "AndroCAD-v1.250.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m391_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m391_phone.png"
+}

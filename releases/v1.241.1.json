@@ -1,0 +1,10 @@
+{
+  "milestone": "M347",
+  "title": "Surface Infill & N-Sided Hole Capping (Energy Minimization)",
+  "version": "v1.241.1",
+  "apkArtifact": "AndroCAD-v1.241.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m347_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m347_phone.png"
+}

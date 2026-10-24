@@ -1,0 +1,10 @@
+{
+  "milestone": "M348",
+  "title": "Freeform Control Point Sculpting Grid (B-Spline Pole Manipulator)",
+  "version": "v1.241.2",
+  "apkArtifact": "AndroCAD-v1.241.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m348_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m348_phone.png"
+}

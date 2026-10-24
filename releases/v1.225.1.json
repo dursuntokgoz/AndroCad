@@ -1,0 +1,10 @@
+{
+  "milestone": "M272",
+  "title": "Face Offset with Adjacent Fillet/Chamfer Radius Preservation",
+  "version": "v1.225.1",
+  "apkArtifact": "AndroCAD-v1.225.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m272_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m272_phone.png"
+}

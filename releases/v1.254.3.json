@@ -1,0 +1,10 @@
+{
+  "milestone": "M414",
+  "title": "Minimum Member Size Filtering (Preventing Ultra-Thin Spiders)",
+  "version": "v1.254.3",
+  "apkArtifact": "AndroCAD-v1.254.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m414_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m414_phone.png"
+}

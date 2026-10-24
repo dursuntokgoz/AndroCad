@@ -1,0 +1,10 @@
+{
+  "milestone": "M389",
+  "title": "Viewport Performance Monitor: 60 FPS Frame Pacing & Dynamic LOD",
+  "version": "v1.249.3",
+  "apkArtifact": "AndroCAD-v1.249.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m389_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m389_phone.png"
+}

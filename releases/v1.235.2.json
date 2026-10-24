@@ -1,0 +1,10 @@
+{
+  "milestone": "M318",
+  "title": "Boss Feature with Draft, Fillet, and Threaded Screw Clearance Core",
+  "version": "v1.235.2",
+  "apkArtifact": "AndroCAD-v1.235.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m318_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m318_phone.png"
+}

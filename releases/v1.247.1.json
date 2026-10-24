@@ -1,0 +1,10 @@
+{
+  "milestone": "M377",
+  "title": "Edge Highlight Shader on Hover and Proximity Touch Detection",
+  "version": "v1.247.1",
+  "apkArtifact": "AndroCAD-v1.247.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m377_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m377_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M376",
+  "title": "Interactive 3D Scale Gizmo (Uniform & Non-Uniform Axial Drag Handles)",
+  "version": "v1.247.0",
+  "apkArtifact": "AndroCAD-v1.247.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m376_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m376_phone.png"
+}

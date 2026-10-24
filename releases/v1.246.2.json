@@ -1,0 +1,10 @@
+{
+  "milestone": "M373",
+  "title": "Tangent & Perpendicular Object Snapping During Interactive Dragging",
+  "version": "v1.246.2",
+  "apkArtifact": "AndroCAD-v1.246.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m373_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m373_phone.png"
+}

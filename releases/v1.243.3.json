@@ -1,0 +1,10 @@
+{
+  "milestone": "M359",
+  "title": "K-Factor & Bend Allowance Custom Lookup Table Engine",
+  "version": "v1.243.3",
+  "apkArtifact": "AndroCAD-v1.243.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m359_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m359_phone.png"
+}

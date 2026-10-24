@@ -1,0 +1,10 @@
+{
+  "milestone": "M331",
+  "title": "Boundary Surface Synthesis from 4 Bounding Space Curves",
+  "version": "v1.238.0",
+  "apkArtifact": "AndroCAD-v1.238.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m331_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m331_phone.png"
+}

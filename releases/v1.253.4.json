@@ -1,0 +1,10 @@
+{
+  "milestone": "M410",
+  "title": "Assembly Kinematics & Joint Constraint Certification Suite",
+  "version": "v1.253.4",
+  "apkArtifact": "AndroCAD-v1.253.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m410_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m410_phone.png"
+}

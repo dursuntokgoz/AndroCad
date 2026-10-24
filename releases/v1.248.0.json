@@ -1,0 +1,10 @@
+{
+  "milestone": "M381",
+  "title": "Exploded View Interactive Slider with Trail Lines for Assemblies",
+  "version": "v1.248.0",
+  "apkArtifact": "AndroCAD-v1.248.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m381_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m381_phone.png"
+}

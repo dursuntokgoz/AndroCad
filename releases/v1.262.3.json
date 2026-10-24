@@ -1,0 +1,10 @@
+{
+  "milestone": "M454",
+  "title": "Undo/Redo DAG State Rollback Memory Footprint Optimization (<50MB RAM)",
+  "version": "v1.262.3",
+  "apkArtifact": "AndroCAD-v1.262.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m454_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m454_phone.png"
+}

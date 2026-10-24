@@ -1,0 +1,10 @@
+{
+  "milestone": "M297",
+  "title": "Automated Sketch Over-Constraint & Redundant Solver Diagnostic",
+  "version": "v1.231.1",
+  "apkArtifact": "AndroCAD-v1.231.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m297_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m297_phone.png"
+}

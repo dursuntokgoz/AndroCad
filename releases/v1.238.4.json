@@ -1,0 +1,10 @@
+{
+  "milestone": "M335",
+  "title": "Multi-Section Lofted Surface with Guide Rails & End Profiles",
+  "version": "v1.238.4",
+  "apkArtifact": "AndroCAD-v1.238.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m335_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m335_phone.png"
+}

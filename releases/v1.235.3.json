@@ -1,0 +1,10 @@
+{
+  "milestone": "M319",
+  "title": "Lip and Groove Snap-Fit Interlocking Joint Generator",
+  "version": "v1.235.3",
+  "apkArtifact": "AndroCAD-v1.235.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m319_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m319_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M271",
+  "title": "Direct Modeling Push/Pull Face Along Dynamic Normal Vector",
+  "version": "v1.225.0",
+  "apkArtifact": "AndroCAD-v1.225.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m271_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m271_phone.png"
+}

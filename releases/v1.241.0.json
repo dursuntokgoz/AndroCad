@@ -1,0 +1,10 @@
+{
+  "milestone": "M346",
+  "title": "Offset Surface with Self-Intersection Clipping & Clamping",
+  "version": "v1.241.0",
+  "apkArtifact": "AndroCAD-v1.241.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m346_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m346_phone.png"
+}

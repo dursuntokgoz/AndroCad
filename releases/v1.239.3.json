@@ -1,0 +1,10 @@
+{
+  "milestone": "M339",
+  "title": "Surface Trim by Projected 3D Curve with Invert Selection",
+  "version": "v1.239.3",
+  "apkArtifact": "AndroCAD-v1.239.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m339_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m339_phone.png"
+}

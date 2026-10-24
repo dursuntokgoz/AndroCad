@@ -1,0 +1,10 @@
+{
+  "milestone": "M295",
+  "title": "Geometric Constraint: Concentric Arc Centers with Offset Radius Lock",
+  "version": "v1.230.4",
+  "apkArtifact": "AndroCAD-v1.230.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m295_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m295_phone.png"
+}

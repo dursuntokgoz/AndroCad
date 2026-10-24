@@ -1,0 +1,10 @@
+{
+  "milestone": "M425",
+  "title": "Multi-Extruder Toolpath Generation (Dual-Material Interface)",
+  "version": "v1.256.4",
+  "apkArtifact": "AndroCAD-v1.256.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m425_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m425_phone.png"
+}

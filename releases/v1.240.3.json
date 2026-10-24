@@ -1,0 +1,10 @@
+{
+  "milestone": "M344",
+  "title": "Surface Patch Deviation & Maximum Distance Measurement",
+  "version": "v1.240.3",
+  "apkArtifact": "AndroCAD-v1.240.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m344_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m344_phone.png"
+}

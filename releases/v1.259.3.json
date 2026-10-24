@@ -1,0 +1,10 @@
+{
+  "milestone": "M439",
+  "title": "5-Axis Tool Orientation Along Surface Normal with Lead/Lag Angles",
+  "version": "v1.259.3",
+  "apkArtifact": "AndroCAD-v1.259.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m439_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m439_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M419",
+  "title": "Diamond & Primitive Schwarz TPMS Infill Lattice Generation",
+  "version": "v1.255.3",
+  "apkArtifact": "AndroCAD-v1.255.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m419_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m419_phone.png"
+}

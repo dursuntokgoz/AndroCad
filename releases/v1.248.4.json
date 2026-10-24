@@ -1,0 +1,10 @@
+{
+  "milestone": "M385",
+  "title": "Multi-Touch Gesture Recognizer: Two-Finger Twist (Roll), Three-Finger Pan",
+  "version": "v1.248.4",
+  "apkArtifact": "AndroCAD-v1.248.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m385_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m385_phone.png"
+}

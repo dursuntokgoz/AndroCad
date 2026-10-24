@@ -1,0 +1,10 @@
+{
+  "milestone": "M463",
+  "title": "Multi-Language Localization Framework (EN, TR, DE, FR, JA)",
+  "version": "v1.264.2",
+  "apkArtifact": "AndroCAD-v1.264.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m463_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m463_phone.png"
+}

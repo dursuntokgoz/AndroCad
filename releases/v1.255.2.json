@@ -1,0 +1,10 @@
+{
+  "milestone": "M418",
+  "title": "TPMS (Triply Periodic Minimal Surface) Gyroid Lattice Generator",
+  "version": "v1.255.2",
+  "apkArtifact": "AndroCAD-v1.255.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m418_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m418_phone.png"
+}

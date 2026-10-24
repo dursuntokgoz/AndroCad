@@ -1,0 +1,10 @@
+{
+  "milestone": "M386",
+  "title": "Screen Space Edge Outline Post-Processing Filter (Silhouette Shading)",
+  "version": "v1.249.0",
+  "apkArtifact": "AndroCAD-v1.249.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m386_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m386_phone.png"
+}

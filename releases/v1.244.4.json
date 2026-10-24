@@ -1,0 +1,10 @@
+{
+  "milestone": "M365",
+  "title": "Sheet Metal Cross-Break Stiffening X-Pattern Indentation",
+  "version": "v1.244.4",
+  "apkArtifact": "AndroCAD-v1.244.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m365_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m365_phone.png"
+}

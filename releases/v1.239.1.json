@@ -1,0 +1,10 @@
+{
+  "milestone": "M337",
+  "title": "Surface Extend Along Tangent or Natural Curvature Continuity",
+  "version": "v1.239.1",
+  "apkArtifact": "AndroCAD-v1.239.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m337_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m337_phone.png"
+}

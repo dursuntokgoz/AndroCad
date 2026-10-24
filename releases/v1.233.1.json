@@ -1,0 +1,10 @@
+{
+  "milestone": "M307",
+  "title": "Sketch Fillet with Equal Radius Constraints Across Multi-Corners",
+  "version": "v1.233.1",
+  "apkArtifact": "AndroCAD-v1.233.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m307_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m307_phone.png"
+}

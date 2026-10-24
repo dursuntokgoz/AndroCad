@@ -1,0 +1,10 @@
+{
+  "milestone": "M455",
+  "title": "Multi-Threaded Background BRepMesh Tessellation with Non-Blocking UI",
+  "version": "v1.262.4",
+  "apkArtifact": "AndroCAD-v1.262.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m455_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m455_phone.png"
+}

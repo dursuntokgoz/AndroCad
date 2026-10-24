@@ -1,0 +1,10 @@
+{
+  "milestone": "M281",
+  "title": "Automatic Small Hole/Defect Capping & B-Rep Suppress Feature",
+  "version": "v1.227.1",
+  "apkArtifact": "AndroCAD-v1.227.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m281_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m281_phone.png"
+}

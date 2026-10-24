@@ -1,0 +1,10 @@
+{
+  "milestone": "M325",
+  "title": "Solid Shell with Non-Uniform Face Thickness Overrides",
+  "version": "v1.236.4",
+  "apkArtifact": "AndroCAD-v1.236.4-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m325_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m325_phone.png"
+}

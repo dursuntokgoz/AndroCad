@@ -1,0 +1,10 @@
+{
+  "milestone": "M349",
+  "title": "Surface Ray-Intersection Normal & UV Parameter Inversion",
+  "version": "v1.241.3",
+  "apkArtifact": "AndroCAD-v1.241.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m349_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m349_phone.png"
+}

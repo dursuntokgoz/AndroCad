@@ -1,0 +1,10 @@
+{
+  "milestone": "M407",
+  "title": "Bill of Materials (BOM) Hierarchical Rollup & Part Quantity Counter",
+  "version": "v1.253.1",
+  "apkArtifact": "AndroCAD-v1.253.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m407_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m407_phone.png"
+}

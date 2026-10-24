@@ -1,0 +1,10 @@
+{
+  "milestone": "M291",
+  "title": "Cubic & Quintic B-Spline Curve Interpolation with Tangent Handles",
+  "version": "v1.230.0",
+  "apkArtifact": "AndroCAD-v1.230.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m291_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m291_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M404",
+  "title": "Motion Study Timeline: Keyframe Animation & Position Graphing",
+  "version": "v1.252.3",
+  "apkArtifact": "AndroCAD-v1.252.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m404_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m404_phone.png"
+}

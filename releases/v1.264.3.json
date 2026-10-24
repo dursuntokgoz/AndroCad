@@ -1,0 +1,10 @@
+{
+  "milestone": "M464",
+  "title": "Dark Theme & Light Theme High-Contrast WCAG 2.1 AA Accessibility Audit",
+  "version": "v1.264.3",
+  "apkArtifact": "AndroCAD-v1.264.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m464_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m464_phone.png"
+}

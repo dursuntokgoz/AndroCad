@@ -1,0 +1,10 @@
+{
+  "milestone": "M353",
+  "title": "Automatic Corner Relief Generation (Round, Rectangular, Tear, V-Notch)",
+  "version": "v1.242.2",
+  "apkArtifact": "AndroCAD-v1.242.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m353_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m353_phone.png"
+}

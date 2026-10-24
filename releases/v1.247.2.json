@@ -1,0 +1,10 @@
+{
+  "milestone": "M378",
+  "title": "Dynamic Viewport Crosshairs & Coordinate Tooltip Readout",
+  "version": "v1.247.2",
+  "apkArtifact": "AndroCAD-v1.247.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m378_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m378_phone.png"
+}

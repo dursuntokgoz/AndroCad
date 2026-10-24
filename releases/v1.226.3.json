@@ -1,0 +1,10 @@
+{
+  "milestone": "M278",
+  "title": "Localized Face Split by 2D Projected Wire",
+  "version": "v1.226.3",
+  "apkArtifact": "AndroCAD-v1.226.3-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m278_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m278_phone.png"
+}

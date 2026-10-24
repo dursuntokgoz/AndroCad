@@ -1,0 +1,10 @@
+{
+  "milestone": "M422",
+  "title": "Automatic Support Structure Generation (Tree Supports & Pillars)",
+  "version": "v1.256.1",
+  "apkArtifact": "AndroCAD-v1.256.1-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m422_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m422_phone.png"
+}

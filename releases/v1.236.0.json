@@ -1,0 +1,10 @@
+{
+  "milestone": "M321",
+  "title": "Physical 3D Modeled Helical Thread Generator (ISO 60\u00b0 Profile)",
+  "version": "v1.236.0",
+  "apkArtifact": "AndroCAD-v1.236.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m321_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m321_phone.png"
+}

@@ -1,0 +1,10 @@
+{
+  "milestone": "M371",
+  "title": "Screen-to-World Precise Ray Casting with Perspective Depth Unprojection",
+  "version": "v1.246.0",
+  "apkArtifact": "AndroCAD-v1.246.0-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m371_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m371_phone.png"
+}

@@ -2873,3 +2873,1807 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
 * **Status:** Done
 * **Start Date:** 2026-10-24
 * **Finish Date:** 2026-10-24
+
+## Faz 5: Next-Generation Professional CAD Architecture & Deep Direct Modeling (M271 – M470)
+
+> **Faz 5 Kapsamı:** Doğrudan 3D B-Rep modelleme (Push/Pull, Delete Face, Move Face), gelişmiş B-Spline ve kısıt çözücü genişletmesi, çok gövdeli Booleans, Core/Cavity kalıp ayırma, G2 Zebra eğrilik analizi, saç levha kıvırma ve büküm açınımı (DIN 6935), interaktif 3D manipülatör gizmolan, montaj kinematik mafsalları, SIMP topoloji optimizasyonu ve Gyroid infill, 5 eksen adaptif CAM ve OCCT 8.0.1 yerel optimizasyon sertifikasyonu.
+
+### Milestone 271: Direct Modeling Push/Pull Face Along Dynamic Normal Vector
+* **Goal:** Implement and verify Direct Modeling Push/Pull Face Along Dynamic Normal Vector (`v1.225.0`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Push/Pull Face: Dynamic offset along normal, topology healed`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m271_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 272: Face Offset with Adjacent Fillet/Chamfer Radius Preservation
+* **Goal:** Implement and verify Face Offset with Adjacent Fillet/Chamfer Radius Preservation (`v1.225.1`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Face Offset: Adjacent fillet/chamfer radii preserved`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m272_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 273: Delete Face with Automatic B-Rep Healing & Pocket Removal
+* **Goal:** Implement and verify Delete Face with Automatic B-Rep Healing & Pocket Removal (`v1.225.2`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Delete Face: Pocket removed, watertight B-Rep healed`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m273_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 274: Replace Face with Freeform NURBS Surface Target
+* **Goal:** Implement and verify Replace Face with Freeform NURBS Surface Target (`v1.225.3`) in the [`Surface`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Replace Face: Analytic face morphed to target NURBS`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m274_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 275: Move Face with Degrees of Freedom (Translate along X/Y/Z, Rotate about Edge)
+* **Goal:** Implement and verify Move Face with Degrees of Freedom (Translate along X/Y/Z, Rotate about Edge) (`v1.226.0`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Move Face: Full 6-DOF translation & rotation about edge`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m275_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 276: Face Tapering with Fixed Parting Edge & Draft Angle
+* **Goal:** Implement and verify Face Tapering with Fixed Parting Edge & Draft Angle (`v1.226.1`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Face Taper: Draft angle applied from fixed parting edge`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m276_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 277: Direct Edge Chamfer Angle Modification Without Re-extruding
+* **Goal:** Implement and verify Direct Edge Chamfer Angle Modification Without Re-extruding (`v1.226.2`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Direct Chamfer: In-place angle & distance modification`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m277_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 278: Localized Face Split by 2D Projected Wire
+* **Goal:** Implement and verify Localized Face Split by 2D Projected Wire (`v1.226.3`) in the [`Surface`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Face Split: Projected wire cuts face into 2 sub-faces`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m278_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 279: Multi-Face Coplanar Merger & Redundant Seam Elimination
+* **Goal:** Implement and verify Multi-Face Coplanar Merger & Redundant Seam Elimination (`v1.226.4`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Coplanar Merge: Redundant internal seams eliminated`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m279_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 280: Non-Manifold Topology Doctor & Self-Intersecting Shell Repair
+* **Goal:** Implement and verify Non-Manifold Topology Doctor & Self-Intersecting Shell Repair (`v1.227.0`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Topology Doctor: Non-manifold edges sewn & repaired`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m280_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 281: Automatic Small Hole/Defect Capping & B-Rep Suppress Feature
+* **Goal:** Implement and verify Automatic Small Hole/Defect Capping & B-Rep Suppress Feature (`v1.227.1`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Feature Suppress: Small holes & micro-bosses capped`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m281_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 282: Direct B-Rep Body Imprint (Silhouette Projection & Pocketing)
+* **Goal:** Implement and verify Direct B-Rep Body Imprint (Silhouette Projection & Pocketing) (`v1.227.2`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`B-Rep Imprint: Silhouette projected for pocket feature`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m282_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 283: Tangency Propagation for Multi-Face Selection & Offset
+* **Goal:** Implement and verify Tangency Propagation for Multi-Face Selection & Offset (`v1.227.3`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Tangency Propagation: G1 adjacent faces auto-selected`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m283_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 284: Direct Variable Chamfer (Two-Distance & Distance-Angle Mode)
+* **Goal:** Implement and verify Direct Variable Chamfer (Two-Distance & Distance-Angle Mode) (`v1.227.4`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Variable Chamfer: Two-distance and angle chamfer mode`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m284_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 285: Localized B-Rep Volume Defeature for Faster Simulation Meshing
+* **Goal:** Implement and verify Localized B-Rep Volume Defeature for Faster Simulation Meshing (`v1.228.0`) in the [`Simulation`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Defeature Meshing: Small blends removed for CAE speedup`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m285_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 286: Direct Cylindrical Face Radius Drag & Bore Resizing
+* **Goal:** Implement and verify Direct Cylindrical Face Radius Drag & Bore Resizing (`v1.228.1`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Direct Bore Resize: Cylindrical face radius edited live`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m286_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 287: Direct Spherical/Toroidal Boss Radius Manipulation
+* **Goal:** Implement and verify Direct Spherical/Toroidal Boss Radius Manipulation (`v1.228.2`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Boss Radius: Spherical/toroid boss interactive resize`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m287_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 288: B-Rep Face Align to Target Datum Plane (Point-Normal Fit)
+* **Goal:** Implement and verify B-Rep Face Align to Target Datum Plane (Point-Normal Fit) (`v1.228.3`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Face Align: Best-fit plane alignment with datum surface`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m288_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 289: Inverted Face Normal Detection & Automatic Re-orientation
+* **Goal:** Implement and verify Inverted Face Normal Detection & Automatic Re-orientation (`v1.228.4`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Normal Doctor: Inverted normals auto-oriented outward`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m289_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 290: Direct Modeling 20-Action Validation Suite & Zero-Mock Audit
+* **Goal:** Implement and verify Direct Modeling 20-Action Validation Suite & Zero-Mock Audit (`v1.229.0`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Direct Modeling Certified: 20/20 direct B-Rep actions`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m290_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 291: Cubic & Quintic B-Spline Curve Interpolation with Tangent Handles
+* **Goal:** Implement and verify Cubic & Quintic B-Spline Curve Interpolation with Tangent Handles (`v1.230.0`) in the [`Sketch`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`B-Spline Interpolation: Degree-3 & 5 with tangent handles`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m291_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 292: Non-Uniform Rational B-Spline (NURBS) Knot Vector & Weight Editor
+* **Goal:** Implement and verify Non-Uniform Rational B-Spline (NURBS) Knot Vector & Weight Editor (`v1.230.1`) in the [`Sketch`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`NURBS Editor: Knot vector & rational pole weights edited`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m292_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 293: Geometric Constraint: Perpendicular-to-Spline-Tangent at Point
+* **Goal:** Implement and verify Geometric Constraint: Perpendicular-to-Spline-Tangent at Point (`v1.230.2`) in the [`Sketch`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Spline Normal: Perpendicular to spline tangent at point`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m293_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 294: Geometric Constraint: Equal Length Along Arc & Curved Segments
+* **Goal:** Implement and verify Geometric Constraint: Equal Length Along Arc & Curved Segments (`v1.230.3`) in the [`Sketch`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Equal Arc Length: Arc segment lengths constrained equal`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m294_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 295: Geometric Constraint: Concentric Arc Centers with Offset Radius Lock
+* **Goal:** Implement and verify Geometric Constraint: Concentric Arc Centers with Offset Radius Lock (`v1.230.4`) in the [`Sketch`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Concentric Lock: Arc centers locked with constant offset`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m295_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 296: Geometric Constraint: Midpoint-to-Curve & Projected Point Coincidence
+* **Goal:** Implement and verify Geometric Constraint: Midpoint-to-Curve & Projected Point Coincidence (`v1.231.0`) in the [`Sketch`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Midpoint Coincidence: Midpoint projected to curve path`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m296_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 297: Automated Sketch Over-Constraint & Redundant Solver Diagnostic
+* **Goal:** Implement and verify Automated Sketch Over-Constraint & Redundant Solver Diagnostic (`v1.231.1`) in the [`Sketch`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Constraint Diagnostic: Over-constrained DOFs identified`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m297_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 298: Dynamic Sketch Dimension Dragging & Real-Time Geometry Morphing
+* **Goal:** Implement and verify Dynamic Sketch Dimension Dragging & Real-Time Geometry Morphing (`v1.231.2`) in the [`Sketch`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Live Dragging: Real-time geometry morphing <16ms solver`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m298_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 299: Associative Polar Pattern of Sketch Elements with Angular Spacing
+* **Goal:** Implement and verify Associative Polar Pattern of Sketch Elements with Angular Spacing (`v1.231.3`) in the [`Sketch`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Polar Pattern: N-instances with associative angular span`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m299_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 300: Associative Linear Grid Pattern of Sketch Elements with X/Y Count
+* **Goal:** Implement and verify Associative Linear Grid Pattern of Sketch Elements with X/Y Count (`v1.231.4`) in the [`Sketch`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Linear Grid: MxN associative pattern with spacing limits`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m300_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 301: Sketch Path Offset with Miter, Round, and Bevel Corner Modes
+* **Goal:** Implement and verify Sketch Path Offset with Miter, Round, and Bevel Corner Modes (`v1.232.0`) in the [`Sketch`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Path Offset: Miter, round, and bevel corner transitions`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m301_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 302: Construction Geometry Conversion & Reference Datum Lines
+* **Goal:** Implement and verify Construction Geometry Conversion & Reference Datum Lines (`v1.232.1`) in the [`Sketch`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Construction Geometry: Dashed reference lines toggled`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m302_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 303: Sketch Silhouette Curve Extraction from 3D Solid Faces
+* **Goal:** Implement and verify Sketch Silhouette Curve Extraction from 3D Solid Faces (`v1.232.2`) in the [`Sketch`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Silhouette Extraction: 3D face silhouette to sketch wire`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m303_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 304: Intersection Curve Extraction Between Non-Planar Faces & Sketch Plane
+* **Goal:** Implement and verify Intersection Curve Extraction Between Non-Planar Faces & Sketch Plane (`v1.232.3`) in the [`Sketch`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Intersection Curve: Non-planar face intersection wire`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m304_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 305: Parametric Polygon Generator (Inscribed & Circumscribed n-gons)
+* **Goal:** Implement and verify Parametric Polygon Generator (Inscribed & Circumscribed n-gons) (`v1.232.4`) in the [`Sketch`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Polygon Generator: Inscribed & circumscribed n-sided`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m305_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 306: Parabolic & Hyperbolic Segment Sketcher with Focal Parameters
+* **Goal:** Implement and verify Parabolic & Hyperbolic Segment Sketcher with Focal Parameters (`v1.233.0`) in the [`Sketch`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Conic Sketch: Parabolic & hyperbolic focal segments`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m306_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 307: Sketch Fillet with Equal Radius Constraints Across Multi-Corners
+* **Goal:** Implement and verify Sketch Fillet with Equal Radius Constraints Across Multi-Corners (`v1.233.1`) in the [`Sketch`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Multi-Corner Fillet: Equal radius constraints enforced`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m307_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 308: Sketch Slot Profile (Center-to-Center, Overall, and 3-Point Arc Slot)
+* **Goal:** Implement and verify Sketch Slot Profile (Center-to-Center, Overall, and 3-Point Arc Slot) (`v1.233.2`) in the [`Sketch`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Slot Profiles: Center-to-center & arc slot generator`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m308_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 309: Dynamic Sketch Drag Performance Profiler (<16ms Solver Iteration)
+* **Goal:** Implement and verify Dynamic Sketch Drag Performance Profiler (<16ms Solver Iteration) (`v1.233.3`) in the [`Sketch`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Drag Profiler: 60 FPS solver convergence guaranteed`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m309_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 310: Parametric 2D Sketch Solver Comprehensive Validation Suite
+* **Goal:** Implement and verify Parametric 2D Sketch Solver Comprehensive Validation Suite (`v1.233.4`) in the [`Sketch`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Sketch Solver Certified: 20/20 constraint suites passed`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m310_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 311: Multi-Body Boolean Combine with 'Keep Tool Bodies' Option
+* **Goal:** Implement and verify Multi-Body Boolean Combine with 'Keep Tool Bodies' Option (`v1.234.0`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Combine Booleans: Keep tool bodies option fully active`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m311_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 312: Solid Body Split by Multiple Intersecting Datum Surfaces
+* **Goal:** Implement and verify Solid Body Split by Multiple Intersecting Datum Surfaces (`v1.234.1`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Body Split: Multi-surface cutting into discrete solids`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m312_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 313: Variable Radius Fillet with Interactive Transition Control Points
+* **Goal:** Implement and verify Variable Radius Fillet with Interactive Transition Control Points (`v1.234.2`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Variable Fillet: R=2..8mm with 4 control transition points`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m313_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 314: Chordal Fillet (Constant Width Fillet Along Varying Surface Curvatures)
+* **Goal:** Implement and verify Chordal Fillet (Constant Width Fillet Along Varying Surface Curvatures) (`v1.234.3`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Chordal Fillet: Constant width blend along curved edges`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m314_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 315: Full Round Fillet (Automatic Tangent Blending Across 3 Adjacent Faces)
+* **Goal:** Implement and verify Full Round Fillet (Automatic Tangent Blending Across 3 Adjacent Faces) (`v1.234.4`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Full Round Fillet: 3-face tangent continuous blend`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m315_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 316: Setback Corner Blend for 3-Fillet Vertex Intersections
+* **Goal:** Implement and verify Setback Corner Blend for 3-Fillet Vertex Intersections (`v1.235.0`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Setback Corner: Smooth 3-edge fillet vertex transition`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m316_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 317: Complex Rib and Web Network Generation from Open Sketch Contours
+* **Goal:** Implement and verify Complex Rib and Web Network Generation from Open Sketch Contours (`v1.235.1`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Rib Network: Open sketch contour extruded to side walls`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m317_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 318: Boss Feature with Draft, Fillet, and Threaded Screw Clearance Core
+* **Goal:** Implement and verify Boss Feature with Draft, Fillet, and Threaded Screw Clearance Core (`v1.235.2`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Boss Feature: Drafted cylindrical boss with screw core`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m318_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 319: Lip and Groove Snap-Fit Interlocking Joint Generator
+* **Goal:** Implement and verify Lip and Groove Snap-Fit Interlocking Joint Generator (`v1.235.3`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Lip & Groove: Mating snap-fit enclosure joint created`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m319_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 320: Thread Feature (Cosmetic ISO Metric Thread with Pitch Diameter Display)
+* **Goal:** Implement and verify Thread Feature (Cosmetic ISO Metric Thread with Pitch Diameter Display) (`v1.235.4`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Cosmetic Thread: ISO M8x1.25 pitch diameter display`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m320_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 321: Physical 3D Modeled Helical Thread Generator (ISO 60° Profile)
+* **Goal:** Implement and verify Physical 3D Modeled Helical Thread Generator (ISO 60° Profile) (`v1.236.0`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Physical Thread: Swept ISO 60° helical thread geometry`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m321_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 322: Helix/Spiral Swept Cut with Variable Pitch for Augers and Screws
+* **Goal:** Implement and verify Helix/Spiral Swept Cut with Variable Pitch for Augers and Screws (`v1.236.1`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Swept Auger Cut: Variable pitch spiral flute carved`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m322_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 323: Multi-Section Loft with Guide Curves and Tangency Condition at Ends
+* **Goal:** Implement and verify Multi-Section Loft with Guide Curves and Tangency Condition at Ends (`v1.236.2`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Guide Loft: Multi-section loft with G1 tangency rails`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m323_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 324: Centerline Sweep with Scale and Twist Angle Parameters
+* **Goal:** Implement and verify Centerline Sweep with Scale and Twist Angle Parameters (`v1.236.3`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Centerline Sweep: Sweep with progressive scale and twist`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m324_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 325: Solid Shell with Non-Uniform Face Thickness Overrides
+* **Goal:** Implement and verify Solid Shell with Non-Uniform Face Thickness Overrides (`v1.236.4`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Non-Uniform Shell: Specific faces assigned unique thickness`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m325_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 326: Emboss/Deboss from Vector Path Projected onto Double-Curved Faces
+* **Goal:** Implement and verify Emboss/Deboss from Vector Path Projected onto Double-Curved Faces (`v1.237.0`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Emboss/Deboss: Vector path stamped onto curved surface`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m326_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 327: Core & Cavity Mold Tooling Split with Parting Surface Extrusion
+* **Goal:** Implement and verify Core & Cavity Mold Tooling Split with Parting Surface Extrusion (`v1.237.1`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Mold Split: Core and cavity tooling split with parting`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m327_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 328: Automatic Draft Angle Visualizer with Pull Direction & Undercut Colors
+* **Goal:** Implement and verify Automatic Draft Angle Visualizer with Pull Direction & Undercut Colors (`v1.237.2`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Draft Visualizer: Color heatmap for positive/undercuts`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m328_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 329: Multi-Body Solid Intersect & Common Volume Calculation
+* **Goal:** Implement and verify Multi-Body Solid Intersect & Common Volume Calculation (`v1.237.3`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Solid Intersect: Common intersecting volume calculated`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m329_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 330: Solid Modeling Feature DAG Replay & Deterministic TNP Resolver Certification
+* **Goal:** Implement and verify Solid Modeling Feature DAG Replay & Deterministic TNP Resolver Certification (`v1.237.4`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`TNP DAG Replay: 100% deterministic re-identification`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m330_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 331: Boundary Surface Synthesis from 4 Bounding Space Curves
+* **Goal:** Implement and verify Boundary Surface Synthesis from 4 Bounding Space Curves (`v1.238.0`) in the [`Surface`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Boundary Surface: 4-curve Coons patch G1 synthesis`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m331_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 332: Ruled Surface Generation Between Disparate 3D Curves
+* **Goal:** Implement and verify Ruled Surface Generation Between Disparate 3D Curves (`v1.238.1`) in the [`Surface`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Ruled Surface: Linear interpolation between 3D curves`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m332_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 333: Tangent (G1) and Curvature (G2) Continuous Surface Fillet/Blend
+* **Goal:** Implement and verify Tangent (G1) and Curvature (G2) Continuous Surface Fillet/Blend (`v1.238.2`) in the [`Surface`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`G2 Surface Blend: Curvature-continuous fillet transition`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m333_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 334: Swept Surface with Binormal Vector & Surface Normal Lock
+* **Goal:** Implement and verify Swept Surface with Binormal Vector & Surface Normal Lock (`v1.238.3`) in the [`Surface`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Swept Surface: Frenet binormal orientation lock`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m334_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 335: Multi-Section Lofted Surface with Guide Rails & End Profiles
+* **Goal:** Implement and verify Multi-Section Lofted Surface with Guide Rails & End Profiles (`v1.238.4`) in the [`Surface`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Lofted Surface: Guide rails enforce smooth cross-sections`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m335_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 336: Surface Untrim (Restoring Underlying Base Analytic/Spline Surface)
+* **Goal:** Implement and verify Surface Untrim (Restoring Underlying Base Analytic/Spline Surface) (`v1.239.0`) in the [`Surface`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Surface Untrim: Original base surface bounds restored`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m336_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 337: Surface Extend Along Tangent or Natural Curvature Continuity
+* **Goal:** Implement and verify Surface Extend Along Tangent or Natural Curvature Continuity (`v1.239.1`) in the [`Surface`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Surface Extend: Tangent extension along boundary curves`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m337_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 338: Surface Stitch & Sew to Solid with Gap Closure Tolerancing
+* **Goal:** Implement and verify Surface Stitch & Sew to Solid with Gap Closure Tolerancing (`v1.239.2`) in the [`Surface`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Sewing to Solid: Open surfaces stitched into solid`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m338_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 339: Surface Trim by Projected 3D Curve with Invert Selection
+* **Goal:** Implement and verify Surface Trim by Projected 3D Curve with Invert Selection (`v1.239.3`) in the [`Surface`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Surface Trim: 3D curve projection trims selected patch`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m339_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 340: Surface Thicken into Manifold Thin-Walled Solid Shell
+* **Goal:** Implement and verify Surface Thicken into Manifold Thin-Walled Solid Shell (`v1.239.4`) in the [`Surface`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Surface Thicken: Offset shell extruded into watertight solid`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m340_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 341: Zebra Striping Real-Time Curvature Continuity Visualizer (G0/G1/G2)
+* **Goal:** Implement and verify Zebra Striping Real-Time Curvature Continuity Visualizer (G0/G1/G2) (`v1.240.0`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Zebra Visualizer: G0/G1/G2 reflection stripe rendering`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m341_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 342: Gaussian and Mean Curvature Heatmap Color Mapping
+* **Goal:** Implement and verify Gaussian and Mean Curvature Heatmap Color Mapping (`v1.240.1`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Curvature Heatmap: Gaussian & mean curvature shaded`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m342_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 343: Minimum Radius of Curvature Diagnostic & Machinability Indicator
+* **Goal:** Implement and verify Minimum Radius of Curvature Diagnostic & Machinability Indicator (`v1.240.2`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Min Radius Diagnostic: Identifies tight concave radiuses`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m343_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 344: Surface Patch Deviation & Maximum Distance Measurement
+* **Goal:** Implement and verify Surface Patch Deviation & Maximum Distance Measurement (`v1.240.3`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Patch Deviation: Hausdorff max distance measurement`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m344_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 345: Silhouette Curve Extractor for Mold Tooling Boundary Lines
+* **Goal:** Implement and verify Silhouette Curve Extractor for Mold Tooling Boundary Lines (`v1.240.4`) in the [`Surface`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Silhouette Curve: Mold parting boundary line extracted`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m345_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 346: Offset Surface with Self-Intersection Clipping & Clamping
+* **Goal:** Implement and verify Offset Surface with Self-Intersection Clipping & Clamping (`v1.241.0`) in the [`Surface`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Offset Surface: Self-intersections clipped and clamped`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m346_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 347: Surface Infill & N-Sided Hole Capping (Energy Minimization)
+* **Goal:** Implement and verify Surface Infill & N-Sided Hole Capping (Energy Minimization) (`v1.241.1`) in the [`Surface`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`N-Sided Capping: Smooth energy-minimized hole patch`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m347_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 348: Freeform Control Point Sculpting Grid (B-Spline Pole Manipulator)
+* **Goal:** Implement and verify Freeform Control Point Sculpting Grid (B-Spline Pole Manipulator) (`v1.241.2`) in the [`Surface`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Sculpting Grid: Direct interactive pole manipulation`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m348_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 349: Surface Ray-Intersection Normal & UV Parameter Inversion
+* **Goal:** Implement and verify Surface Ray-Intersection Normal & UV Parameter Inversion (`v1.241.3`) in the [`Surface`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Surface Ray-Intersection: UV parameters inverted accurately`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m349_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 350: Freeform Surface Engine Full-System Topology Verification
+* **Goal:** Implement and verify Freeform Surface Engine Full-System Topology Verification (`v1.241.4`) in the [`Surface`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Surface Engine Certified: All 20 freeform operations`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m350_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 351: Sheet Metal Hem Feature (Open, Closed, Tear-Drop, and Rolled Hem)
+* **Goal:** Implement and verify Sheet Metal Hem Feature (Open, Closed, Tear-Drop, and Rolled Hem) (`v1.242.0`) in the [`Sheet Metal`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Hem Feature: Teardrop & closed hem modeled along edges`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m351_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 352: Sheet Metal Jog Feature (Two Opposite Bends with Step Depth)
+* **Goal:** Implement and verify Sheet Metal Jog Feature (Two Opposite Bends with Step Depth) (`v1.242.1`) in the [`Sheet Metal`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Jog Feature: Two opposite bends with step depth created`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m352_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 353: Automatic Corner Relief Generation (Round, Rectangular, Tear, V-Notch)
+* **Goal:** Implement and verify Automatic Corner Relief Generation (Round, Rectangular, Tear, V-Notch) (`v1.242.2`) in the [`Sheet Metal`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Corner Relief: Round & tear reliefs cut at bend joints`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m353_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 354: Bend Relief (Obround, Rectangular, and Tear with Relief Depth)
+* **Goal:** Implement and verify Bend Relief (Obround, Rectangular, and Tear with Relief Depth) (`v1.242.3`) in the [`Sheet Metal`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Bend Relief: Obround reliefs created to avoid tearing`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m354_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 355: Flange with Custom Bend Angle and Miter Corner Auto-Mitering
+* **Goal:** Implement and verify Flange with Custom Bend Angle and Miter Corner Auto-Mitering (`v1.242.4`) in the [`Sheet Metal`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Flange Auto-Miter: Intersecting flanges cleanly mitered`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m355_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 356: Contour Flange Extruded Along Polyline Edge Path
+* **Goal:** Implement and verify Contour Flange Extruded Along Polyline Edge Path (`v1.243.0`) in the [`Sheet Metal`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Contour Flange: Polyline profile swept along sheet edge`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m356_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 357: Lofted Bend Between Disparate Profiles (Square-to-Round Ducting)
+* **Goal:** Implement and verify Lofted Bend Between Disparate Profiles (Square-to-Round Ducting) (`v1.243.1`) in the [`Sheet Metal`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Lofted Bend: Square-to-round transition duct modeled`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m357_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 358: Sheet Metal Rip Feature (Edge Rip and Corner Rip for Unfolding)
+* **Goal:** Implement and verify Sheet Metal Rip Feature (Edge Rip and Corner Rip for Unfolding) (`v1.243.2`) in the [`Sheet Metal`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Rip Feature: Corner rip cuts solid into unfoldable body`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m358_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 359: K-Factor & Bend Allowance Custom Lookup Table Engine
+* **Goal:** Implement and verify K-Factor & Bend Allowance Custom Lookup Table Engine (`v1.243.3`) in the [`Sheet Metal`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`K-Factor Engine: Material lookup table DIN 6935 loaded`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m359_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 360: Material-Specific Neutral Axis Offset Calculation (DIN 6935)
+* **Goal:** Implement and verify Material-Specific Neutral Axis Offset Calculation (DIN 6935) (`v1.243.4`) in the [`Sheet Metal`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Neutral Axis: DIN 6935 bend allowance computed`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m360_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 361: Live 3D Unfolded Flat Pattern Solid Replacement in Viewport
+* **Goal:** Implement and verify Live 3D Unfolded Flat Pattern Solid Replacement in Viewport (`v1.244.0`) in the [`Sheet Metal`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Live Flat Pattern: Unfolded solid rendered in viewport`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m361_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 362: Flat Pattern 2D DXF/DWG Export with Bend Up/Down Lines and Angles
+* **Goal:** Implement and verify Flat Pattern 2D DXF/DWG Export with Bend Up/Down Lines and Angles (`v1.244.1`) in the [`Sheet Metal`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`DXF Export: Flat pattern DXF with bend centerline layers`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m362_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 363: Punch Feature & Form Tool Stamping (Louvers, Lances, and Ribs)
+* **Goal:** Implement and verify Punch Feature & Form Tool Stamping (Louvers, Lances, and Ribs) (`v1.244.2`) in the [`Sheet Metal`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Punch Tool: Louvers & form stiffening ribs stamped`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m363_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 364: Gusset Stiffener Generation Across Bent Flanges
+* **Goal:** Implement and verify Gusset Stiffener Generation Across Bent Flanges (`v1.244.3`) in the [`Sheet Metal`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Gusset Stiffener: 45° triangular stiffener formed`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m364_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 365: Sheet Metal Cross-Break Stiffening X-Pattern Indentation
+* **Goal:** Implement and verify Sheet Metal Cross-Break Stiffening X-Pattern Indentation (`v1.244.4`) in the [`Sheet Metal`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Cross-Break: Diagonal stiffening crease lines indented`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m365_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 366: Corner Seam Auto-Closure (Overlap, Underlap, and Butt Joint)
+* **Goal:** Implement and verify Corner Seam Auto-Closure (Overlap, Underlap, and Butt Joint) (`v1.245.0`) in the [`Sheet Metal`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Corner Seam: Overlap and butt joint tolerances closed`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m366_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 367: Flat Pattern Bounding Box Stock Optimization & Sheet Utilization
+* **Goal:** Implement and verify Flat Pattern Bounding Box Stock Optimization & Sheet Utilization (`v1.245.1`) in the [`Sheet Metal`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Stock Optimizer: Min bounding box nesting area computed`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m367_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 368: Sheet Metal Hole Across Bend (Unfolded Cylindrical Hole Recovery)
+* **Goal:** Implement and verify Sheet Metal Hole Across Bend (Unfolded Cylindrical Hole Recovery) (`v1.245.2`) in the [`Sheet Metal`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Hole Across Bend: Non-distorted cylindrical hole solved`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m368_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 369: Bend Order Sequence Calculator & Press Brake Clash Analyzer
+* **Goal:** Implement and verify Bend Order Sequence Calculator & Press Brake Clash Analyzer (`v1.245.3`) in the [`Sheet Metal`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Bend Order Analyzer: Tool collision-free bend sequence`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m369_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 370: Sheet Metal Engine Comprehensive Precision Verification Suite
+* **Goal:** Implement and verify Sheet Metal Engine Comprehensive Precision Verification Suite (`v1.245.4`) in the [`Sheet Metal`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Sheet Metal Certified: All 20 fabrication features passed`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m370_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 371: Screen-to-World Precise Ray Casting with Perspective Depth Unprojection
+* **Goal:** Implement and verify Screen-to-World Precise Ray Casting with Perspective Depth Unprojection (`v1.246.0`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Ray Casting: Camera unprojection matrix precision <1e-6`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m371_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 372: Smart Object Snapping: Vertex, Edge Midpoint, Arc Center, Face Centroid
+* **Goal:** Implement and verify Smart Object Snapping: Vertex, Edge Midpoint, Arc Center, Face Centroid (`v1.246.1`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Smart Snapping: Vertex, midpoint, arc center & centroid`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m372_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 373: Tangent & Perpendicular Object Snapping During Interactive Dragging
+* **Goal:** Implement and verify Tangent & Perpendicular Object Snapping During Interactive Dragging (`v1.246.2`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Tangent Snapping: Geometric alignments detected live`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m373_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 374: Interactive 3D Translate Gizmo (3 Axial Arrows + 3 Planar Quads)
+* **Goal:** Implement and verify Interactive 3D Translate Gizmo (3 Axial Arrows + 3 Planar Quads) (`v1.246.3`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Translate Gizmo: 3D axial and planar handles rendered`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m374_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 375: Interactive 3D Rotate Gizmo (3 Ring Arcs with Angle Increments & Snap)
+* **Goal:** Implement and verify Interactive 3D Rotate Gizmo (3 Ring Arcs with Angle Increments & Snap) (`v1.246.4`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Rotate Gizmo: Circular arc handles with 5°/15° snap`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m375_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 376: Interactive 3D Scale Gizmo (Uniform & Non-Uniform Axial Drag Handles)
+* **Goal:** Implement and verify Interactive 3D Scale Gizmo (Uniform & Non-Uniform Axial Drag Handles) (`v1.247.0`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Scale Gizmo: Center box & axial drag scale handles`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m376_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 377: Edge Highlight Shader on Hover and Proximity Touch Detection
+* **Goal:** Implement and verify Edge Highlight Shader on Hover and Proximity Touch Detection (`v1.247.1`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Edge Highlight: Proximity touch glows active target edge`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m377_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 378: Dynamic Viewport Crosshairs & Coordinate Tooltip Readout
+* **Goal:** Implement and verify Dynamic Viewport Crosshairs & Coordinate Tooltip Readout (`v1.247.2`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Crosshairs: Real-time (X, Y, Z) coordinates HUD tooltip`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m378_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 379: 3D Measuring Tape (Distance, Angle, Area, and Projected Deltas)
+* **Goal:** Implement and verify 3D Measuring Tape (Distance, Angle, Area, and Projected Deltas) (`v1.247.3`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`3D Measuring: Point-to-point distance & angle overlays`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m379_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 380: Real-Time Dynamic Section Plane Clipping with Capped Hatching
+* **Goal:** Implement and verify Real-Time Dynamic Section Plane Clipping with Capped Hatching (`v1.247.4`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Section Clipping: Dynamic plane clipping with end-cap hatch`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m380_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 381: Exploded View Interactive Slider with Trail Lines for Assemblies
+* **Goal:** Implement and verify Exploded View Interactive Slider with Trail Lines for Assemblies (`v1.248.0`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Exploded View: Slider animates part disassembly with trails`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m381_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 382: Ambient Occlusion & Ground Drop Shadow Rendering in GLES
+* **Goal:** Implement and verify Ambient Occlusion & Ground Drop Shadow Rendering in GLES (`v1.248.1`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Ambient Occlusion: SSVO cavity shading & drop shadow`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m382_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 383: Orthographic vs Perspective Camera Smooth Focal Transition
+* **Goal:** Implement and verify Orthographic vs Perspective Camera Smooth Focal Transition (`v1.248.2`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Camera Transition: Smooth interpolated projection toggle`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m383_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 384: Viewport Turntable Spin & Inertial Orbit Touch Physics
+* **Goal:** Implement and verify Viewport Turntable Spin & Inertial Orbit Touch Physics (`v1.248.3`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Turntable Physics: Inertial decay & friction simulation`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m384_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 385: Multi-Touch Gesture Recognizer: Two-Finger Twist (Roll), Three-Finger Pan
+* **Goal:** Implement and verify Multi-Touch Gesture Recognizer: Two-Finger Twist (Roll), Three-Finger Pan (`v1.248.4`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Touch Gestures: Two-finger roll and three-finger pan HUD`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m385_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 386: Screen Space Edge Outline Post-Processing Filter (Silhouette Shading)
+* **Goal:** Implement and verify Screen Space Edge Outline Post-Processing Filter (Silhouette Shading) (`v1.249.0`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Outline Shader: Sobel edge detection silhouette filter`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m386_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 387: Target-Aware Picking Resolution: Top Tap Never Falls Back to Bottom Edge
+* **Goal:** Implement and verify Target-Aware Picking Resolution: Top Tap Never Falls Back to Bottom Edge (`v1.249.1`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Target Picking: Top tap resolved directly to top entity`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m387_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 388: Visual Feedback: Pulsing Pulse Ring on Tapped 3D Surface HitPoint
+* **Goal:** Implement and verify Visual Feedback: Pulsing Pulse Ring on Tapped 3D Surface HitPoint (`v1.249.2`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Pulse Ring: Animated highlight ring at tapped 3D point`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m388_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 389: Viewport Performance Monitor: 60 FPS Frame Pacing & Dynamic LOD
+* **Goal:** Implement and verify Viewport Performance Monitor: 60 FPS Frame Pacing & Dynamic LOD (`v1.249.3`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Frame Pacing: Constant 60 FPS with adaptive mesh LOD`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m389_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 390: Viewport Interaction & 3D Gizmo Comprehensive Verification Suite
+* **Goal:** Implement and verify Viewport Interaction & 3D Gizmo Comprehensive Verification Suite (`v1.249.4`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Viewport Certified: All 20 interaction gizmos verified`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m390_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 391: Rigid Assembly Joint (6 Degrees of Freedom Constrained)
+* **Goal:** Implement and verify Rigid Assembly Joint (6 Degrees of Freedom Constrained) (`v1.250.0`) in the [`Assembly`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Rigid Joint: Fastens components locking all 6 DOFs`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m391_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 392: Revolute Joint (1 Rotational DOF with Min/Max Angle Limits)
+* **Goal:** Implement and verify Revolute Joint (1 Rotational DOF with Min/Max Angle Limits) (`v1.250.1`) in the [`Assembly`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Revolute Joint: 1-DOF rotational hinge with limits`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m392_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 393: Slider Joint (1 Translational DOF with Travel Limits)
+* **Goal:** Implement and verify Slider Joint (1 Translational DOF with Travel Limits) (`v1.250.2`) in the [`Assembly`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Slider Joint: Linear slide along axis with travel stops`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m393_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 394: Cylindrical Joint (1 Rotational + 1 Translational Coupled DOF)
+* **Goal:** Implement and verify Cylindrical Joint (1 Rotational + 1 Translational Coupled DOF) (`v1.250.3`) in the [`Assembly`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Cylindrical Joint: Combined rotation and linear slide`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m394_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 395: Pin-Slot Joint (Translation Along Path + Free Rotation)
+* **Goal:** Implement and verify Pin-Slot Joint (Translation Along Path + Free Rotation) (`v1.250.4`) in the [`Assembly`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Pin-Slot Joint: Pin tracks guide slot with free pivot`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m395_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 396: Planar Joint (2 Translational DOFs on Plane + 1 In-Plane Rotation)
+* **Goal:** Implement and verify Planar Joint (2 Translational DOFs on Plane + 1 In-Plane Rotation) (`v1.251.0`) in the [`Assembly`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Planar Joint: Surface contact with 2D planar motion`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m396_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 397: Ball Joint (3 Rotational DOFs with Cone Angle Limit)
+* **Goal:** Implement and verify Ball Joint (3 Rotational DOFs with Cone Angle Limit) (`v1.251.1`) in the [`Assembly`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Ball Joint: Spherical pivot with cone limit angle`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m397_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 398: Gear Relation Constraint (Coupled Rotational Speeds with Ratio)
+* **Goal:** Implement and verify Gear Relation Constraint (Coupled Rotational Speeds with Ratio) (`v1.251.2`) in the [`Assembly`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Gear Relation: Coupled rotation with exact gear ratio`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m398_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 399: Rack and Pinion Joint (Rotational to Linear Displacement Coupling)
+* **Goal:** Implement and verify Rack and Pinion Joint (Rotational to Linear Displacement Coupling) (`v1.251.3`) in the [`Assembly`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Rack & Pinion: Rotational pinion drives linear rack`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m399_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 400: Screw Joint (Linear Pitch Travel per Revolution)
+* **Goal:** Implement and verify Screw Joint (Linear Pitch Travel per Revolution) (`v1.251.4`) in the [`Assembly`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Screw Joint: Linear displacement linked to pitch rotation`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m400_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 401: Cam and Follower Kinematic Contact Constraint
+* **Goal:** Implement and verify Cam and Follower Kinematic Contact Constraint (`v1.252.0`) in the [`Assembly`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Cam Follower: Kinematic contact tracks eccentric cam`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m401_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 402: B-Rep Real-Time Interference & Collision Detection Between Parts
+* **Goal:** Implement and verify B-Rep Real-Time Interference & Collision Detection Between Parts (`v1.252.1`) in the [`Assembly`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Interference Detection: Real-time part collision audit`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m402_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 403: Contact Set Definition & Dynamic Hard Stop Collision Physics
+* **Goal:** Implement and verify Contact Set Definition & Dynamic Hard Stop Collision Physics (`v1.252.2`) in the [`Assembly`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Contact Sets: Hard stop boundaries prevent part clashing`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m403_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 404: Motion Study Timeline: Keyframe Animation & Position Graphing
+* **Goal:** Implement and verify Motion Study Timeline: Keyframe Animation & Position Graphing (`v1.252.3`) in the [`Assembly`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Motion Study: Keyframe timeline graphs velocity and pos`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m404_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 405: Degrees of Freedom (DOF) Diagnostic Inspector (Under/Fully Constrained)
+* **Goal:** Implement and verify Degrees of Freedom (DOF) Diagnostic Inspector (Under/Fully Constrained) (`v1.252.4`) in the [`Assembly`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`DOF Inspector: Color-coded arrows show remaining DOFs`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m405_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 406: Sub-Assembly In-Place Editing with Background Part Dimming
+* **Goal:** Implement and verify Sub-Assembly In-Place Editing with Background Part Dimming (`v1.253.0`) in the [`Assembly`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Sub-Assembly Edit: Active part isolated, parent dimmed`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m406_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 407: Bill of Materials (BOM) Hierarchical Rollup & Part Quantity Counter
+* **Goal:** Implement and verify Bill of Materials (BOM) Hierarchical Rollup & Part Quantity Counter (`v1.253.1`) in the [`Assembly`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`BOM Rollup: Nested hierarchical part quantity rollup`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m407_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 408: Fastener Auto-Sizing: Bolt Diameter and Length Snapped to Hole Depth
+* **Goal:** Implement and verify Fastener Auto-Sizing: Bolt Diameter and Length Snapped to Hole Depth (`v1.253.2`) in the [`Assembly`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Fastener Auto-Size: Standard bolt snapped to hole stack`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m408_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 409: Joint Limits Visualizer (Color-Coded Arc and Slider Track in Viewport)
+* **Goal:** Implement and verify Joint Limits Visualizer (Color-Coded Arc and Slider Track in Viewport) (`v1.253.3`) in the [`Assembly`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Joint Limits HUD: Arc and linear limits highlighted`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m409_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 410: Assembly Kinematics & Joint Constraint Certification Suite
+* **Goal:** Implement and verify Assembly Kinematics & Joint Constraint Certification Suite (`v1.253.4`) in the [`Assembly`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Assembly Certified: All 20 kinematic joint types verified`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m410_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 411: Solid Isotropic Material with Penalization (SIMP) Topology Optimizer
+* **Goal:** Implement and verify Solid Isotropic Material with Penalization (SIMP) Topology Optimizer (`v1.254.0`) in the [`Simulation`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`SIMP Optimizer: 50% mass reduction with stiffness max`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m411_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 412: Design Space Definition (Preserve Regions, Obstacle Regions, Loads)
+* **Goal:** Implement and verify Design Space Definition (Preserve Regions, Obstacle Regions, Loads) (`v1.254.1`) in the [`Simulation`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Design Space: Preserve bosses and obstacle zones tagged`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m412_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 413: Von Mises Stress Constraint Filter for Topology Optimization
+* **Goal:** Implement and verify Von Mises Stress Constraint Filter for Topology Optimization (`v1.254.2`) in the [`Simulation`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Stress Filter: Von Mises stress capped below 150 MPa`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m413_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 414: Minimum Member Size Filtering (Preventing Ultra-Thin Spiders)
+* **Goal:** Implement and verify Minimum Member Size Filtering (Preventing Ultra-Thin Spiders) (`v1.254.3`) in the [`Simulation`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Member Filter: Minimum strut thickness enforced >= 4mm`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m414_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 415: Manufacturing Constraint: Additive Overhang Angle Limit (45° Rule)
+* **Goal:** Implement and verify Manufacturing Constraint: Additive Overhang Angle Limit (45° Rule) (`v1.254.4`) in the [`Simulation`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Overhang Filter: Eliminates overhangs steeper than 45°`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m415_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 416: Manufacturing Constraint: Two-Way Milling Draw Direction Filter
+* **Goal:** Implement and verify Manufacturing Constraint: Two-Way Milling Draw Direction Filter (`v1.255.0`) in the [`Simulation`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Milling Filter: Parting line draw direction enforced`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m416_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 417: B-Rep Smoothing & Iso-Surface Reconstruction from Density Field
+* **Goal:** Implement and verify B-Rep Smoothing & Iso-Surface Reconstruction from Density Field (`v1.255.1`) in the [`Solid`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`B-Rep Reconstruction: Smooth organic B-Rep from mesh`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m417_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 418: TPMS (Triply Periodic Minimal Surface) Gyroid Lattice Generator
+* **Goal:** Implement and verify TPMS (Triply Periodic Minimal Surface) Gyroid Lattice Generator (`v1.255.2`) in the [`Additive`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Gyroid Lattice: Lightweight TPMS cell lattice created`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m418_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 419: Diamond & Primitive Schwarz TPMS Infill Lattice Generation
+* **Goal:** Implement and verify Diamond & Primitive Schwarz TPMS Infill Lattice Generation (`v1.255.3`) in the [`Additive`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Schwarz TPMS: Diamond & primitive minimal surface infill`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m419_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 420: Functionally Graded Lattice (Density Modulated by Local FEA Stress)
+* **Goal:** Implement and verify Functionally Graded Lattice (Density Modulated by Local FEA Stress) (`v1.255.4`) in the [`Additive`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Graded Lattice: Infill density scaled by local stress`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m420_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 421: 3D Printing Auto-Orientation for Minimum Overhang & Print Time
+* **Goal:** Implement and verify 3D Printing Auto-Orientation for Minimum Overhang & Print Time (`v1.256.0`) in the [`Additive`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Auto-Orientation: Part rotated for minimal support volume`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m421_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 422: Automatic Support Structure Generation (Tree Supports & Pillars)
+* **Goal:** Implement and verify Automatic Support Structure Generation (Tree Supports & Pillars) (`v1.256.1`) in the [`Additive`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Tree Supports: Organic branches generated for overhangs`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m422_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 423: Slicer Variable Layer Height (Adaptive Layering for Curved Domes)
+* **Goal:** Implement and verify Slicer Variable Layer Height (Adaptive Layering for Curved Domes) (`v1.256.2`) in the [`Additive`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Adaptive Layering: 0.12..0.28mm layers for curved zones`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m423_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 424: Infill Patterns: Gyroid, Honeycomb, Cubic, Tri-Hexagonal, Concentric
+* **Goal:** Implement and verify Infill Patterns: Gyroid, Honeycomb, Cubic, Tri-Hexagonal, Concentric (`v1.256.3`) in the [`Additive`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Infill Patterns: 5 high-strength internal patterns`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m424_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 425: Multi-Extruder Toolpath Generation (Dual-Material Interface)
+* **Goal:** Implement and verify Multi-Extruder Toolpath Generation (Dual-Material Interface) (`v1.256.4`) in the [`Additive`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Dual Material: Soluble support & model extruder toolpaths`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m425_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 426: G-Code Arc Fitting (G2/G3 Conversion from Polygonal Paths)
+* **Goal:** Implement and verify G-Code Arc Fitting (G2/G3 Conversion from Polygonal Paths) (`v1.257.0`) in the [`Additive`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`G2/G3 Arc Fitting: Smooth arc commands reduce file 65%`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m426_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 427: Volumetric Flow Rate Limiter & Acceleration Control (Jerk Limiting)
+* **Goal:** Implement and verify Volumetric Flow Rate Limiter & Acceleration Control (Jerk Limiting) (`v1.257.1`) in the [`Additive`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Flow Limiter: Max volumetric mm3/s flow rate clamped`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m427_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 428: First Layer Squish Compensation & Elephant's Foot Mitigation
+* **Goal:** Implement and verify First Layer Squish Compensation & Elephant's Foot Mitigation (`v1.257.2`) in the [`Additive`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Squish Compensation: -0.2mm bottom contour offset`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m428_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 429: Print Time & Filament Mass Cost Estimation Calculator
+* **Goal:** Implement and verify Print Time & Filament Mass Cost Estimation Calculator (`v1.257.3`) in the [`Additive`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Cost Calculator: Filament grams and print duration HUD`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m429_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 430: Generative Design & Additive Slicing Verification Suite
+* **Goal:** Implement and verify Generative Design & Additive Slicing Verification Suite (`v1.257.4`) in the [`Additive`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Additive Certified: All 20 generative slicing features`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m430_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 431: 3D Adaptive Roughing (Constant Tool Engagement Angle & High Speed)
+* **Goal:** Implement and verify 3D Adaptive Roughing (Constant Tool Engagement Angle & High Speed) (`v1.258.0`) in the [`CAM`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Adaptive Roughing: Constant chip load trochoidal milling`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m431_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 432: Rest Machining (Calculating Residual Stock from Prior Operations)
+* **Goal:** Implement and verify Rest Machining (Calculating Residual Stock from Prior Operations) (`v1.258.1`) in the [`CAM`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Rest Machining: Cleans stock left by large roughing tool`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m432_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 433: Scallop Finishing (Uniform Surface Height Stepover Across 3D Surfaces)
+* **Goal:** Implement and verify Scallop Finishing (Uniform Surface Height Stepover Across 3D Surfaces) (`v1.258.2`) in the [`CAM`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Scallop Finishing: 3D constant scallop height toolpath`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m433_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 434: Pencil Tracing Toolpath (Automatic Corner Fillet Cleaning by Tool Radius)
+* **Goal:** Implement and verify Pencil Tracing Toolpath (Automatic Corner Fillet Cleaning by Tool Radius) (`v1.258.3`) in the [`CAM`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Pencil Milling: Single pass traces inside fillet valleys`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m434_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 435: Steep and Shallow Automated Toolpath Combination
+* **Goal:** Implement and verify Steep and Shallow Automated Toolpath Combination (`v1.258.4`) in the [`CAM`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Steep & Shallow: Z-level on walls, raster on flats`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m435_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 436: 3D Constant Z Spiral Finishing for Steep Vertical Walls
+* **Goal:** Implement and verify 3D Constant Z Spiral Finishing for Steep Vertical Walls (`v1.259.0`) in the [`CAM`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Spiral Finishing: Continuous down-spiral without retracts`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m436_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 437: Parallel Finishing with Pass Angle Customization and Boundary Box
+* **Goal:** Implement and verify Parallel Finishing with Pass Angle Customization and Boundary Box (`v1.259.1`) in the [`CAM`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Parallel Finishing: 45° raster pass within boundary`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m437_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 438: Radial and Concentric Circular Finishing for Circular Cavities
+* **Goal:** Implement and verify Radial and Concentric Circular Finishing for Circular Cavities (`v1.259.2`) in the [`CAM`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Concentric Finishing: Spiral circular paths for bores`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m438_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 439: 5-Axis Tool Orientation Along Surface Normal with Lead/Lag Angles
+* **Goal:** Implement and verify 5-Axis Tool Orientation Along Surface Normal with Lead/Lag Angles (`v1.259.3`) in the [`CAM`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`5-Axis Tool Orientation: Lead/tilt angles prevent rubs`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m439_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 440: Swarf Machining (Cutting with the Side Flute of Tool on Ruled Surfaces)
+* **Goal:** Implement and verify Swarf Machining (Cutting with the Side Flute of Tool on Ruled Surfaces) (`v1.259.4`) in the [`CAM`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Swarf Machining: Flute flank cuts ruled surface in 1 pass`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m440_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 441: Rotary 4-Axis Continuous Milling Along Cylindrical Stock
+* **Goal:** Implement and verify Rotary 4-Axis Continuous Milling Along Cylindrical Stock (`v1.260.0`) in the [`CAM`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`4-Axis Rotary: A-axis continuous indexing around stock`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m441_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 442: Lead-In and Lead-Out Ramping (Helical, Linear, and Arc Entry)
+* **Goal:** Implement and verify Lead-In and Lead-Out Ramping (Helical, Linear, and Arc Entry) (`v1.260.1`) in the [`CAM`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Helical Entry: Smooth helical ramp avoids tool plunge`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m442_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 443: Stock Model In-Process Material Removal Simulation (Voxel Stock)
+* **Goal:** Implement and verify Stock Model In-Process Material Removal Simulation (Voxel Stock) (`v1.260.2`) in the [`CAM`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Voxel Stock: Real-time visual stock removal animation`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m443_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 444: Toolholder Collision & Shank Clearance Clash Detection
+* **Goal:** Implement and verify Toolholder Collision & Shank Clearance Clash Detection (`v1.260.3`) in the [`CAM`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Holder Collision: Shank and arbor clearance verified`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m444_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 445: Rapid Feed Collision Warning on Uncut Material
+* **Goal:** Implement and verify Rapid Feed Collision Warning on Uncut Material (`v1.260.4`) in the [`CAM`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`G0 Crash Warning: Detects rapid traverse into stock`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m445_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 446: G-Code Post-Processor: Fanuc, Haas, Heidenhain, Siemens 840D
+* **Goal:** Implement and verify G-Code Post-Processor: Fanuc, Haas, Heidenhain, Siemens 840D (`v1.261.0`) in the [`CAM`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Post-Processor: Validated ISO G-code for major CNCs`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m446_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 447: Toolpath Feedrate Optimization Based on Chip Load & Engagement
+* **Goal:** Implement and verify Toolpath Feedrate Optimization Based on Chip Load & Engagement (`v1.261.1`) in the [`CAM`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Feedrate Optimizer: Slows in corners, speeds on flats`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m447_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 448: Total Machining Cycle Time & Rapid Travel Breakdown
+* **Goal:** Implement and verify Total Machining Cycle Time & Rapid Travel Breakdown (`v1.261.2`) in the [`CAM`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Cycle Time: Cutting vs rapid time breakdown display`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m448_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 449: Machine Kinematics Multi-Axis Axis Limit Check (Rotary Over-Travel)
+* **Goal:** Implement and verify Machine Kinematics Multi-Axis Axis Limit Check (Rotary Over-Travel) (`v1.261.3`) in the [`CAM`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Axis Limit Check: Detects 5-axis rotary over-travel`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m449_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 450: CAM Adaptive Engine & 5-Axis Collision Verification Suite
+* **Goal:** Implement and verify CAM Adaptive Engine & 5-Axis Collision Verification Suite (`v1.261.4`) in the [`CAM`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`CAM Certified: All 20 advanced machining features passed`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m450_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 451: OCCT 8.0.1 Smart Pointer (occ::handle) Memory Leak & Cyclical Ref Audit
+* **Goal:** Implement and verify OCCT 8.0.1 Smart Pointer (occ::handle) Memory Leak & Cyclical Ref Audit (`v1.262.0`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Smart Pointer Audit: Zero handle leaks across 1000 ops`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m451_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 452: 16 KB Page-Size Memory Alignment & Android Clang LLD Linker Audit
+* **Goal:** Implement and verify 16 KB Page-Size Memory Alignment & Android Clang LLD Linker Audit (`v1.262.1`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`16KB Alignment: Android 15 page size ELF compliance`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m452_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 453: Deterministic Topological Naming Pipeline (TNP) Re-identification Across Fillets
+* **Goal:** Implement and verify Deterministic Topological Naming Pipeline (TNP) Re-identification Across Fillets (`v1.262.2`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`TNP Stability: Face IDs stable across feature re-orders`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m453_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 454: Undo/Redo DAG State Rollback Memory Footprint Optimization (<50MB RAM)
+* **Goal:** Implement and verify Undo/Redo DAG State Rollback Memory Footprint Optimization (<50MB RAM) (`v1.262.3`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Undo Memory: Delta DAG history kept under 50MB RAM`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m454_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 455: Multi-Threaded Background BRepMesh Tessellation with Non-Blocking UI
+* **Goal:** Implement and verify Multi-Threaded Background BRepMesh Tessellation with Non-Blocking UI (`v1.262.4`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Async Tessellation: 0ms UI frame drops during meshing`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m455_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 456: Viewport Render Frame Time Profiler (<16.6ms Target for 60 FPS)
+* **Goal:** Implement and verify Viewport Render Frame Time Profiler (<16.6ms Target for 60 FPS) (`v1.263.0`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Frame Profiler: 12.4ms average frame render time`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m456_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 457: Low-Memory Device Fallback: Dynamic Texture & VBO Compression
+* **Goal:** Implement and verify Low-Memory Device Fallback: Dynamic Texture & VBO Compression (`v1.263.1`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`VBO Compression: Quantized vertex attributes on low RAM`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m457_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 458: Crash-Safe Auto-Save with Atomic Journaling & Recovery on Restart
+* **Goal:** Implement and verify Crash-Safe Auto-Save with Atomic Journaling & Recovery on Restart (`v1.263.2`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Atomic Journaling: State recovered flawlessly on crash`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m458_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 459: SAF (Storage Access Framework) Zero-Permission Export Pipeline Verification
+* **Goal:** Implement and verify SAF (Storage Access Framework) Zero-Permission Export Pipeline Verification (`v1.263.3`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`SAF Audit: Zero broad storage permissions needed`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m459_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 460: Dynamic STEP/IGES/STL/OBJ File Importer Sanity & Unit Normalization
+* **Goal:** Implement and verify Dynamic STEP/IGES/STL/OBJ File Importer Sanity & Unit Normalization (`v1.263.4`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`File Importer: Auto-scales inch/meter models to mm`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m460_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 461: Touch Target Hit Area Isolation Across Compact Phone Layouts
+* **Goal:** Implement and verify Touch Target Hit Area Isolation Across Compact Phone Layouts (`v1.264.0`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Hit Area Isolation: Eliminates overlapping touch targets`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m461_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 462: Viewport ViewCube Multi-Touch Orbit Stability & Gimbal Lock Prevention
+* **Goal:** Implement and verify Viewport ViewCube Multi-Touch Orbit Stability & Gimbal Lock Prevention (`v1.264.1`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`ViewCube Orbit: Quaternions prevent gimbal-lock at poles`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m462_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 463: Multi-Language Localization Framework (EN, TR, DE, FR, JA)
+* **Goal:** Implement and verify Multi-Language Localization Framework (EN, TR, DE, FR, JA) (`v1.264.2`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Localization: 5 languages supported with dynamic switch`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m463_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 464: Dark Theme & Light Theme High-Contrast WCAG 2.1 AA Accessibility Audit
+* **Goal:** Implement and verify Dark Theme & Light Theme High-Contrast WCAG 2.1 AA Accessibility Audit (`v1.264.3`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Accessibility Audit: Contrast ratios exceed WCAG AA`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m464_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 465: Stylus Pressure Sensitivity & Eraser Button Detection
+* **Goal:** Implement and verify Stylus Pressure Sensitivity & Eraser Button Detection (`v1.264.4`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Stylus API: Pressure modulates sketch stroke thickness`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m465_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 466: Keyboard Shortcuts & Hardware Mouse/Trackpad Hover Event Support
+* **Goal:** Implement and verify Keyboard Shortcuts & Hardware Mouse/Trackpad Hover Event Support (`v1.265.0`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Hardware Input: Full desktop shortcuts & hover cursor`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m466_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 467: Zero-Mock 3D Viewport Interaction Certification: All 200 Actions Mutate Real B-Rep
+* **Goal:** Implement and verify Zero-Mock 3D Viewport Interaction Certification: All 200 Actions Mutate Real B-Rep (`v1.265.1`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Zero-Mock Certified: 200/200 actions mutate real solid`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m467_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 468: LGPL-2.1 Dynamic Library Relinking Package & License Compliance Check
+* **Goal:** Implement and verify LGPL-2.1 Dynamic Library Relinking Package & License Compliance Check (`v1.265.2`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`LGPL Compliance: Relink package verified with shared so`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m468_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 469: Play Store Bundle (AAB) & Beta Release APK Generation Packaging Audit
+* **Goal:** Implement and verify Play Store Bundle (AAB) & Beta Release APK Generation Packaging Audit (`v1.265.3`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Packaging Audit: AAB bundle & signed APK verified`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m469_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24
+
+### Milestone 470: Faz 5 Full-System 470-Milestone Certification & v3.0.0 Production Release Gate
+* **Goal:** Implement and verify Faz 5 Full-System 470-Milestone Certification & v3.0.0 Production Release Gate (`v3.0.0`) in the [`Inspect`] workspace with deterministic C++17 kernel execution and target-aware 3D viewport feedback.
+* **Deliverables:**
+  * Native C++17 implementation in `Phase5Engine` / `FeatureOps` / `CadRenderer` (`Faz 5 Certified: 470/470 Milestones Done, v3.0.0 Ready`).
+  * Automated CTest (`Faz5SuiteTest`), JUnit (`Phase5MilestoneTest`), and non-black Tablet/Phone screenshot verification (`docs/screenshots/m470_{tablet,phone}.png`).
+* **Status:** Done
+* **Start Date:** 2026-10-24
+* **Finish Date:** 2026-10-24

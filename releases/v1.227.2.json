@@ -1,0 +1,10 @@
+{
+  "milestone": "M282",
+  "title": "Direct B-Rep Body Imprint (Silhouette Projection & Pocketing)",
+  "version": "v1.227.2",
+  "apkArtifact": "AndroCAD-v1.227.2-debug.apk",
+  "ctestPassed": true,
+  "manifestAuditPassed": true,
+  "tabletScreenshot": "docs/screenshots/m282_tablet.png",
+  "phoneScreenshot": "docs/screenshots/m282_phone.png"
+}
