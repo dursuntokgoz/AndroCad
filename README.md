@@ -37,7 +37,11 @@ An original, professional parametric 3D CAD application engineered for Android t
 | **Autonomous Tooling & Injection Mold Design** | ✅ Working | Automated parting line, draft angle undercut analysis, core/cavity block split, and ejector pin layout synthesis. |
 | **5-Axis Hybrid Additive-Subtractive DED** | ✅ Working | Continuous DED laser cladding and finish milling in a single setup with collision-free rotary table kinematics. |
 | **Deterministic Ray-Picking & B-Rep Spatial Targeting** | ✅ Working | Occlusion-aware depth testing, 1:1 sub-pixel face/edge binding, zero simulated button behavior. |
-| **Cloud Project Collaboration & Sync** | 📋 Planned | Planned for future release milestones. |
+| **G2/G3 Surface Sculpting & NURBS Morphing** | ✅ Working | Class-A curvature continuity, dynamic lattice deformers, and double-curved surface embossing. |
+| **Multiphysics CFD & Aerodynamic Flow** | ✅ Working | Lattice Boltzmann D3Q19 incompressible fluid solver, drag/lift coefficients, and thermal convection. |
+| **Electrical Harness Routing & Rigid-Flex PCB** | ✅ Working | 3D wire bundle routing, minimum bend radius validation, and IPC-2581 PCB stackup integration. |
+| **Photorealistic PBR & Monte Carlo Path Tracing**| ✅ Working | Real-time viewport path tracing, GGX microfacet roughness, SSS, and HDR dome lighting. |
+| **Cloud Project Collaboration & CRDT Sync** | ✅ Working | Decentralized CRDT parametric CAD sync, 3D visual diff, and E2EE zero-knowledge security. |
 
 ---
 

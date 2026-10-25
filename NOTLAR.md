@@ -750,3 +750,11 @@
   - Derinlik (occlusion) denetimi eklendi: Öndeki yüzeyden daha uzakta olan hiçbir kenar artık seçilemez.
   - `NativeKernel.kt` içindeki `resolveFilletChamferTarget` fonksiyonunda yüzey seçildiğinde doğrudan o yüzeyin çevre döngüsü (`-1000 - faceId`) hedeflenmesi garanti altına alındı; yüzey düzlemi dışındaki (ör. z=0 taban) kenarlara atlama engellendi.
   - `CadRenderer.kt` picking FBO geçişine `GL_DEPTH_TEST` ve `GL_DEPTH_MASK` açıkça entegre edildi.
+
+
+## Faz 9 Tamamlama ve Release v7.0.0 Notları (2026-10-25)
+
+- Faz 9 (M1071 - M1270, 200 Milestone) eksiksiz tamamlandı.
+- Toplam tamamlanan milestone sayısı 1,270'e ulaştı.
+- 3D model üzerindeki butonların çalışma prensipleri doğrulandı; üst yüzeye tıklamada alt tarafın radius olması sorunu tamamen engellendi.
+- Release v7.0.0 oluşturuldu.
