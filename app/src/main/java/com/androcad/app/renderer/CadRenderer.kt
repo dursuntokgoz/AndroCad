@@ -918,6 +918,9 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
 
         GLES30.glBindFramebuffer(GLES30.GL_FRAMEBUFFER, pickingFbo)
         GLES30.glViewport(0, 0, viewportWidth, viewportHeight)
+        GLES30.glEnable(GLES30.GL_DEPTH_TEST)
+        GLES30.glDepthFunc(GLES30.GL_LESS)
+        GLES30.glDepthMask(true)
         GLES30.glClearColor(0f, 0f, 0f, 0f)
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT or GLES30.GL_DEPTH_BUFFER_BIT)
 
@@ -971,12 +974,11 @@ class CadRenderer(private var meshResult: BoxMeshResult?) : GLSurfaceView.Render
 
         val result: PickResult? = when {
             rayPick != null && rayPick.hit -> {
-                val finalIsEdge = rayPick.isEdge || (gpuHit && gpuIsEdge)
-                val finalEntityId = when {
-                    rayPick.isEdge -> rayPick.entityId
-                    gpuHit && gpuIsEdge -> gpuEntityId
-                    gpuHit && !gpuIsEdge -> gpuEntityId
-                    else -> rayPick.entityId
+                val finalIsEdge = rayPick.isEdge
+                val finalEntityId = if (rayPick.isEdge) {
+                    rayPick.entityId
+                } else {
+                    if (gpuHit && !gpuIsEdge && gpuEntityId in 1..curMesh.faceCount) gpuEntityId else rayPick.entityId
                 }
                 selectedHitPoint = floatArrayOf(rayPick.hitX, rayPick.hitY, rayPick.hitZ)
                 selectedFaceNormal = floatArrayOf(rayPick.normalX, rayPick.normalY, rayPick.normalZ)

@@ -1,0 +1,8 @@
+{
+  "milestone": 878,
+  "title": "Multi-solid assembly individual part isolation and ray pick routing",
+  "domain": "Spatial Ray-Picking & B-Rep Target Determinism",
+  "version": "v1.508.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

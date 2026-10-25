@@ -397,8 +397,9 @@ PickResult AndroCadKernel::PickEntityByRay(const MeshPayload& payload, const Ray
         }
     }
 
-    // Edge has priority if it is within a small margin or closer than face
-    if (closestEdgeId != 0 && (closestEdgeDist <= closestFaceDist + edgeTolerance)) {
+    // 3. Occlusion-aware priority: An edge can only be selected if it is NOT occluded behind a front face
+    bool edgeInFrontOrAtFace = (closestEdgeDist <= closestFaceDist + 0.05f);
+    if (closestEdgeId != 0 && edgeInFrontOrAtFace) {
         result.hit = true;
         result.entityId = closestEdgeId;
         result.isEdge = true;

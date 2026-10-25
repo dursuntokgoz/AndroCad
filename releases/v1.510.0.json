@@ -1,0 +1,8 @@
+{
+  "milestone": 880,
+  "title": "Camera frustum near/far plane depth precision optimization for z-fighting avoidance",
+  "domain": "Spatial Ray-Picking & B-Rep Target Determinism",
+  "version": "v1.510.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

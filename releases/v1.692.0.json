@@ -1,0 +1,8 @@
+{
+  "milestone": 1062,
+  "title": "Parametric DAG timeline rollback, reorder, and formula evaluation regression suite",
+  "domain": "Enterprise Interoperability & 1070 Milestone Certification",
+  "version": "v1.692.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

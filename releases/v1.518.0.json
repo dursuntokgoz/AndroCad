@@ -1,0 +1,8 @@
+{
+  "milestone": 888,
+  "title": "Double-tap focus animation auto-centering camera on selected feature",
+  "domain": "Spatial Ray-Picking & B-Rep Target Determinism",
+  "version": "v1.518.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

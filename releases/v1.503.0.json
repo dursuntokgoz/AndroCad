@@ -1,0 +1,8 @@
+{
+  "milestone": 873,
+  "title": "Strict face plane normal alignment for fillet and chamfer boundary resolution",
+  "domain": "Spatial Ray-Picking & B-Rep Target Determinism",
+  "version": "v1.503.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

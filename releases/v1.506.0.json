@@ -1,0 +1,8 @@
+{
+  "milestone": 876,
+  "title": "Immediate visual pre-highlight of targeted B-Rep face boundary loops",
+  "domain": "Spatial Ray-Picking & B-Rep Target Determinism",
+  "version": "v1.506.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

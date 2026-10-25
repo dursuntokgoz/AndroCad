@@ -1,0 +1,8 @@
+{
+  "milestone": 1015,
+  "title": "Real-time ray-traced ambient occlusion (RTAO) and soft contact shadows",
+  "domain": "Real-Time Vulkan Hardware-Accelerated PBR & Studio Staging",
+  "version": "v1.645.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

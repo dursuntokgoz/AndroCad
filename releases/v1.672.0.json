@@ -1,0 +1,8 @@
+{
+  "milestone": 1042,
+  "title": "Engineering change order (ECO) cryptographic SHA-256 hash validation",
+  "domain": "Industrial IoT, OPC-UA Telemetry & Real-Time Machine Digital Twin",
+  "version": "v1.672.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

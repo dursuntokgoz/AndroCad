@@ -1,0 +1,8 @@
+{
+  "milestone": 1022,
+  "title": "Ground shadow catcher plane with transparent alpha channel composite",
+  "domain": "Real-Time Vulkan Hardware-Accelerated PBR & Studio Staging",
+  "version": "v1.652.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

@@ -1,0 +1,8 @@
+{
+  "milestone": 889,
+  "title": "Selection filter lockdown modes (Only Face, Only Edge, Only Vertex)",
+  "domain": "Spatial Ray-Picking & B-Rep Target Determinism",
+  "version": "v1.519.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

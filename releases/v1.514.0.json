@@ -1,0 +1,8 @@
+{
+  "milestone": 884,
+  "title": "Interactive radial pie menu centering precisely over picked 3D coordinate",
+  "domain": "Spatial Ray-Picking & B-Rep Target Determinism",
+  "version": "v1.514.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

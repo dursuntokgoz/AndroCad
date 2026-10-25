@@ -1,0 +1,8 @@
+{
+  "milestone": 875,
+  "title": "Deterministic button-to-geometry binding eliminating arbitrary simulation behavior",
+  "domain": "Spatial Ray-Picking & B-Rep Target Determinism",
+  "version": "v1.505.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

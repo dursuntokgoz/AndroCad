@@ -1,0 +1,8 @@
+{
+  "milestone": 883,
+  "title": "Touch coordinate normalization across varied Android display densities and notches",
+  "domain": "Spatial Ray-Picking & B-Rep Target Determinism",
+  "version": "v1.513.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

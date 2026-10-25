@@ -1,0 +1,8 @@
+{
+  "milestone": 871,
+  "title": "Depth-buffer occlusion clipping preventing back-face and bottom edge selection",
+  "domain": "Spatial Ray-Picking & B-Rep Target Determinism",
+  "version": "v1.501.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

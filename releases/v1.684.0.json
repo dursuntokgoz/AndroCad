@@ -1,0 +1,8 @@
+{
+  "milestone": 1054,
+  "title": "Neutral CAD file import/export geometry tolerance verification (<0.001mm)",
+  "domain": "Enterprise Interoperability & 1070 Milestone Certification",
+  "version": "v1.684.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

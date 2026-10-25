@@ -1,0 +1,8 @@
+{
+  "milestone": 877,
+  "title": "Radius and chamfer preview anchoring directly on the user-tapped topological entity",
+  "domain": "Spatial Ray-Picking & B-Rep Target Determinism",
+  "version": "v1.507.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

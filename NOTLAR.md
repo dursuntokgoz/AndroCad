@@ -740,3 +740,13 @@
 - **Sürüm:** v5.0.0 (versionCode 500, versionName '5.0.0').
 - **Doğrulama:** 10/10 test süiti ve tüm tablet/phone ekran görüntüleri doğrulandı.
 - **Arayüz Kararlılığı:** Butonların 3D B-Rep yüzey ve kenar hedefleme prensipleri sıfır ofset alt-piksel ray-picking ile doğrulandı.
+
+
+## Faz 8 Tamamlandı (2026-10-25)
+- **Milestone Aralığı:** M871 - M1070 (200 Yeni Milestone, Toplam 1,070 Milestone).
+- **Sürüm:** v6.0.0 (versionCode 600, versionName '6.0.0').
+- **Arayüz Kararlılığı ve Buton Çalışma Prensibi Düzeltmesi:**
+  - Üste tıklayınca alt tarafın radius olması sorununun kök nedeni tespit edildi: `AndroCadKernel::PickEntityByRay` içindeki `closestEdgeDist <= closestFaceDist + edgeTolerance` şartı, tolerans genişliği nedeniyle arkada/altta kalan kenarların öndeki yüzeyin önüne geçmesine yol açıyordu.
+  - Derinlik (occlusion) denetimi eklendi: Öndeki yüzeyden daha uzakta olan hiçbir kenar artık seçilemez.
+  - `NativeKernel.kt` içindeki `resolveFilletChamferTarget` fonksiyonunda yüzey seçildiğinde doğrudan o yüzeyin çevre döngüsü (`-1000 - faceId`) hedeflenmesi garanti altına alındı; yüzey düzlemi dışındaki (ör. z=0 taban) kenarlara atlama engellendi.
+  - `CadRenderer.kt` picking FBO geçişine `GL_DEPTH_TEST` ve `GL_DEPTH_MASK` açıkça entegre edildi.

@@ -249,8 +249,10 @@ data class BoxMeshResult(
 
     /**
      * Resolves the optimal target for Fillet / Chamfer:
-     * - If an Edge is selected or the tap point is within 12mm of an edge, returns that exact 1-based Edge ID.
-     * - If the user tapped near the center of a Face (> 12mm from any edge), returns (-1000 - faceId) to fillet/chamfer all edges of that Face.
+     * - If an Edge is selected, returns that exact 1-based Edge ID.
+     * - If the user tapped near a perimeter edge of the selected Face (within 5mm and on the same face plane),
+     *   returns that exact top/front boundary Edge ID (never an occluded or opposite-side bottom edge).
+     * - If the user tapped on the face interior (> 5mm from edges), returns (-1000 - faceId) to fillet all edges of that Face.
      */
     fun resolveFilletChamferTarget(
         selectedType: String?,
@@ -261,6 +263,7 @@ data class BoxMeshResult(
         if (selectedType == "Edge" && selectedId in 1..edgeCount.coerceAtLeast(1)) {
             return selectedId
         }
+
         val eBuf = edgeVertexBuffer
         if (hitPoint != null && eBuf != null && eBuf.capacity() >= 32) {
             val dup = eBuf.duplicate().order(ByteOrder.nativeOrder())
@@ -269,7 +272,7 @@ data class BoxMeshResult(
             val hx = hitPoint.first
             val hy = hitPoint.second
             val hz = hitPoint.third
-            var bestEdgeId = 1
+            var bestEdgeId = -1
             var bestDistSq = Float.MAX_VALUE
             var offset = 0
             while (offset + segmentStride <= cap) {
@@ -291,21 +294,41 @@ data class BoxMeshResult(
                 val px = x0 + t * vx
                 val py = y0 + t * vy
                 val pz = z0 + t * vz
-                val distSq = (hx - px) * (hx - px) + (hy - py) * (hy - py) + (hz - pz) * (hz - pz)
-                if (eId > 0 && distSq < bestDistSq) {
-                    bestDistSq = distSq
-                    bestEdgeId = eId
+
+                // Strict geometric constraint: An edge can only belong to the tapped face if its distance along
+                // the face normal (or plane) is negligible (< 1.5mm). This prevents bottom edges (z=0) from ever
+                // being chosen when tapping the top face (z=20).
+                val normalDist = if (faceNormal != null) {
+                    val nx = faceNormal.first
+                    val ny = faceNormal.second
+                    val nz = faceNormal.third
+                    kotlin.math.abs((px - hx) * nx + (py - hy) * ny + (pz - hz) * nz)
+                } else 0f
+
+                if (normalDist < 1.5f) {
+                    val distSq = (hx - px) * (hx - px) + (hy - py) * (hy - py) + (hz - pz) * (hz - pz)
+                    if (eId > 0 && distSq < bestDistSq) {
+                        bestDistSq = distSq
+                        bestEdgeId = eId
+                    }
                 }
                 offset += segmentStride
             }
-            if (selectedType == "Face" && bestDistSq > 144.0f) {
-                val fId = resolveTargetFaceId(selectedType, selectedId, hitPoint, faceNormal)
-                return -1000 - fId
+
+            // If tapped near a face edge on the same plane within 5mm (5^2 = 25mm^2):
+            if (bestEdgeId > 0 && bestDistSq <= 25.0f) {
+                return bestEdgeId
             }
-            return bestEdgeId
         }
+
         if (selectedType == "Face" && selectedId in 1..faceCount.coerceAtLeast(1)) {
             return -1000 - selectedId
+        }
+        if (hitPoint != null) {
+            val fId = resolveTargetFaceId(selectedType, selectedId, hitPoint, faceNormal)
+            if (fId in 1..faceCount.coerceAtLeast(1)) {
+                return -1000 - fId
+            }
         }
         return resolveTargetEdgeId(selectedType, selectedId, hitPoint)
     }

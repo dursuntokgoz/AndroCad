@@ -1,0 +1,8 @@
+{
+  "milestone": 882,
+  "title": "Geometric tolerance verification ensuring 0.0mm spatial offset on click events",
+  "domain": "Spatial Ray-Picking & B-Rep Target Determinism",
+  "version": "v1.512.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

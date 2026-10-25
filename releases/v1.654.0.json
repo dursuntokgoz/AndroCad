@@ -1,0 +1,8 @@
+{
+  "milestone": 1024,
+  "title": "Automatic UV texture parameterization with minimal distortion conformal mapping",
+  "domain": "Real-Time Vulkan Hardware-Accelerated PBR & Studio Staging",
+  "version": "v1.654.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

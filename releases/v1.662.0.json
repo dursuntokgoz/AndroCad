@@ -1,0 +1,8 @@
+{
+  "milestone": 1032,
+  "title": "MQTT edge sensor stream ingestion for real-time spindle vibration and temperature",
+  "domain": "Industrial IoT, OPC-UA Telemetry & Real-Time Machine Digital Twin",
+  "version": "v1.662.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

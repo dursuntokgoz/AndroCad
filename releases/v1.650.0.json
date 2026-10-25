@@ -1,0 +1,8 @@
+{
+  "milestone": 1020,
+  "title": "Spatio-temporal variance-guided filtering (SVGF) real-time denoiser",
+  "domain": "Real-Time Vulkan Hardware-Accelerated PBR & Studio Staging",
+  "version": "v1.650.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

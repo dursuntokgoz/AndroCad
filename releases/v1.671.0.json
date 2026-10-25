@@ -1,0 +1,8 @@
+{
+  "milestone": 1041,
+  "title": "Digital twin state caching supporting uninterrupted offline shop-floor operation",
+  "domain": "Industrial IoT, OPC-UA Telemetry & Real-Time Machine Digital Twin",
+  "version": "v1.671.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

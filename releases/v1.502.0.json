@@ -1,0 +1,8 @@
+{
+  "milestone": 872,
+  "title": "Elimination of edge-depth priority bias in ray intersection against solid faces",
+  "domain": "Spatial Ray-Picking & B-Rep Target Determinism",
+  "version": "v1.502.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

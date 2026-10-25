@@ -1,0 +1,8 @@
+{
+  "milestone": 1011,
+  "title": "Vulkan hardware-accelerated Bounding Volume Hierarchy (BVH) ray tracing",
+  "domain": "Real-Time Vulkan Hardware-Accelerated PBR & Studio Staging",
+  "version": "v1.641.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

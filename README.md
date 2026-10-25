@@ -34,6 +34,9 @@ An original, professional parametric 3D CAD application engineered for Android t
 | **Class-A Surfacing & Freeform NURBS** | ✅ Working | Jerk-continuous G3 surfacing, reflection lines, mean/Gaussian curvature diagnostics, and multi-rail sweeps. |
 | **Generative Design & Topology Synthesis** | ✅ Working | BESO evolutionary structural optimization, level-set boundary solver, and additive self-supporting overhang constraints. |
 | **Industry 4.0 Digital Twin & ISO STEP AP242 PMI** | ✅ Working | Real-time OPC-UA / MQTT CNC telemetry sync, semantic GD&T PMI annotation, and Siemens JT / 3MF interoperability. |
+| **Autonomous Tooling & Injection Mold Design** | ✅ Working | Automated parting line, draft angle undercut analysis, core/cavity block split, and ejector pin layout synthesis. |
+| **5-Axis Hybrid Additive-Subtractive DED** | ✅ Working | Continuous DED laser cladding and finish milling in a single setup with collision-free rotary table kinematics. |
+| **Deterministic Ray-Picking & B-Rep Spatial Targeting** | ✅ Working | Occlusion-aware depth testing, 1:1 sub-pixel face/edge binding, zero simulated button behavior. |
 | **Cloud Project Collaboration & Sync** | 📋 Planned | Planned for future release milestones. |
 
 ---

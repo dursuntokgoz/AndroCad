@@ -1,0 +1,8 @@
+{
+  "milestone": 1044,
+  "title": "Automated multi-level Bill of Materials (BOM) hierarchy generator with costs",
+  "domain": "Industrial IoT, OPC-UA Telemetry & Real-Time Machine Digital Twin",
+  "version": "v1.674.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

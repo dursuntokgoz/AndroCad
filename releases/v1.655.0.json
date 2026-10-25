@@ -1,0 +1,8 @@
+{
+  "milestone": 1025,
+  "title": "Procedural texture generation (Knurled grip, Carbon fiber weave, Sandblast)",
+  "domain": "Real-Time Vulkan Hardware-Accelerated PBR & Studio Staging",
+  "version": "v1.655.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

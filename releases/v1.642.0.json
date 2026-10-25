@@ -1,0 +1,8 @@
+{
+  "milestone": 1012,
+  "title": "Physically Based Rendering (PBR) metallic-roughness material shader model",
+  "domain": "Real-Time Vulkan Hardware-Accelerated PBR & Studio Staging",
+  "version": "v1.642.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

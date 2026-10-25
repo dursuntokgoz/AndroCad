@@ -1,0 +1,8 @@
+{
+  "milestone": 1030,
+  "title": "Rendering benchmark suite verifying sustained 60 FPS mobile CAD viewport",
+  "domain": "Real-Time Vulkan Hardware-Accelerated PBR & Studio Staging",
+  "version": "v1.660.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

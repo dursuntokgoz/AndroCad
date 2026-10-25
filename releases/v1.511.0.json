@@ -1,0 +1,8 @@
+{
+  "milestone": 881,
+  "title": "Edge silhouette picking priority over background empty workspace",
+  "domain": "Spatial Ray-Picking & B-Rep Target Determinism",
+  "version": "v1.511.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

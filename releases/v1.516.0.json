@@ -1,0 +1,8 @@
+{
+  "milestone": 886,
+  "title": "Multi-selection marquee box filter with frontal face culling",
+  "domain": "Spatial Ray-Picking & B-Rep Target Determinism",
+  "version": "v1.516.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

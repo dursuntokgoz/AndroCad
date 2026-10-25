@@ -1,0 +1,8 @@
+{
+  "milestone": 879,
+  "title": "Viewport touch gesture deadband tuning for stationary tap vs orbit discrimination",
+  "domain": "Spatial Ray-Picking & B-Rep Target Determinism",
+  "version": "v1.509.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}

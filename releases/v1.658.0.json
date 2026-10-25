@@ -1,0 +1,8 @@
+{
+  "milestone": 1028,
+  "title": "Interactive progressive rendering viewport with adaptive sampling convergence",
+  "domain": "Real-Time Vulkan Hardware-Accelerated PBR & Studio Staging",
+  "version": "v1.658.0",
+  "date": "2026-10-25",
+  "status": "Done"
+}
