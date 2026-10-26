@@ -37886,3 +37886,15 @@ Faz 27 delivers 200 specialized CAD/CAE milestones for super-heavy open-cut mini
 - **M5011 - M5030**: Yüksek verimli çok eklemli GaInP/InGaAs/Ge güneş hücresi yerleşimi, gerilme hafifletici genleşme halkası ve GEO termal döngü (-175°C ile +125°C, >= 2000 döngü) lehim yorulma analizi.
 - **M5031 - M5050**: Güneş paneli tahrik mekanizması (SADA - Solar Array Drive Assembly) harmonik redüktör tork dalgalanması (ripple <= 0.04 Nm) ve altın kontaklı kayar bilezik mikro ark koruması.
 - **M5051 - M5070**: Uzay aracı yönelim bozuntu ileri besleme (feedforward) kompanzasyonu (% >= 98.0 giderme), artık yönelim titreşimi (jitter <= 0.50 urad) ve kinematik yuvalı kenetlenme arayüzü.
+
+## Faz 29: Kuantum Bilgisayarı Kriyostat Termal Kademeleri, Seyreltme Soğutması (10 mK) & Mikrodalga Kaviteleri (M5071 - M5270) - Release v27.0.0
+- **M5071 - M5090**: Çok kademeli kriyostat termal yük bütçelemesi (50K, 4K darbe tüpü, 800mK Still, 100mK Cold Plate, 10mK MXC) ve soğutma gücü payı (margin >= 1.50).
+- **M5091 - M5110**: Kriyojenik koaksiyel RF hatları (0.086 inç CuNi/NbTi) zayıflatıcı basamakları (-20dB @ 4K, -10dB @ Still, -20dB @ MXC) ve pasif ısı sızıntısı kontrolü (<= 1.80 uW/hat).
+- **M5111 - M5130**: Seyreltme soğutucusu 3He/4He karışımı sirkülasyon debisi (>= 650 umol/s), faz ayrımı ozmotik basıncı (>= 1200 Pa) ve 10 mK soğutma gücü analizi (>= 12.0 uW).
+- **M5131 - M5150**: Yüksek saflıkta süperiletken 3D mikrodalga niobyum kavite rezonatörü (RRR > 300), iç kalite faktörü (Qi >= 1.5e7) ve tek foton ömrü (tau >= 450 us).
+- **M5151 - M5170**: Çok katmanlı Cryoperm / Mu-Metal ve süperiletken kurşun manyetik kalkanlama zayıflatması (S >= 1.0e5), kübit düzlemi artık manyetik alanı (<= 1.5 nT) ve Abrikosov girdap yoğunluğu.
+- **M5171 - M5190**: Karbon fiber (CFRP) kriyojenik kafes taşıyıcı payandalar, 50K ara termal istasyonu, eksenel rijitlik (>= 25 kN/mm) ve 4K kademesine iletimsel ısı yükü kontrolü (<= 0.45 W).
+- **M5191 - M5210**: Süperiletken transmon kübit safir alttaş kayıp tanjantı (tan delta <= 2.5e-6), Purcell filtre bant geçirme iletimi (IL <= 0.50 dB) ve kübit relaksasyon ömrü (T1 >= 120 us).
+- **M5211 - M5230**: Kriyojenik HEMT düşük gürültülü amplifikatör (4K kademesi) gürültü sıcaklığı (Tn <= 2.2 K), gürültü faktörü (NF <= 0.035 dB) ve 4K DC güç harcaması (<= 8.5 mW).
+- **M5231 - M5250**: Kuantum sınırlı Gezici Dalga Parametrik Amplifikatörü (TWPA), Josephson eklem dizisi rezonant faz eşleme dispersiyonu (Kazanç >= 18.0 dB, eklenen gürültü <= 0.8 foton).
+- **M5251 - M5270**: Kriyostat vakum odası termal radyasyon kalkanları, 30 katmanlı alüminize Mylar MLI etkin yayınırlığı (eps* <= 0.0035) ve 50K kademesine radyasyon akısı (<= 1.20 W/m^2).

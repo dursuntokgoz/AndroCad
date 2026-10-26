@@ -1,0 +1,31 @@
+{
+  "version": "27.0.0",
+  "versionCode": 2700,
+  "phase": 29,
+  "iteration": 19,
+  "name": "Quantum Computing Cryostat Thermal Intercepts, Dilution Refrigeration (10 mK) & Microwave Cavities",
+  "milestones_range": "M5071 - M5270",
+  "milestones_count": 200,
+  "total_milestones_completed": 5270,
+  "domains": [
+    "Multi-stage Cryostat Thermal Budgeting (50K, 4K, Still, Cold Plate, 10mK MXC)",
+    "Cryogenic Semi-Rigid Coaxial RF Line Attenuation & Thermal Anchoring",
+    "Dilution Refrigerator 3He/4He Circulation Flow & 10mK Cooling Power",
+    "Superconducting High-Purity 3D Niobium Microwave Cavity Resonator (Qi >= 1.5e7)",
+    "Multi-Layer Cryoperm & Superconducting Lead Magnetic Shielding (Residual B <= 1.5 nT)",
+    "CFRP Cryogenic Truss Support Struts & 50K Thermal Intercept Heat Bypass",
+    "Superconducting Qubit Sapphire Substrate Loss Tangent & Purcell Filter Bandpass",
+    "Cryogenic HEMT Low-Noise Amplifier Noise Temperature (Tn <= 2.2 K at 4K)",
+    "Traveling Wave Parametric Amplifier (TWPA) Quantum-Limited Added Noise Quanta",
+    "Cryostat Vacuum Chamber MLI Thermal Radiation Baffle Effective Emissivity"
+  ],
+  "verification": {
+    "native_tests_passed": 10,
+    "junit_tests_passed": 10,
+    "screenshots_generated": 400,
+    "gl_depth_test_active": true,
+    "saf_storage_only": true,
+    "occt_version": "8.0.1",
+    "page_alignment": "16KB"
+  }
+}

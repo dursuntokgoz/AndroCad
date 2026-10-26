@@ -904,3 +904,5 @@
 - AS 4324.1, ISO 6336, ISO 4309, AGMA 6013, AWS D1.1 standartları sağlandı.
 
 - Faz 28 (M4871 - M5070, Release v26.0.0, Iteration 18/20): Uzay Aracı Açılabilir Güneş Panelleri, Şerit Yaylı Menteşeler & Mikro Titreşim İzolasyonu 200 milestone tamamlandı, 400 screenshot üretildi, testler %100 geçti.
+
+- Faz 29 (M5071 - M5270, Release v27.0.0, Iteration 19/20): Kuantum Bilgisayarı Kriyostat Termal Kademeleri, Seyreltme Soğutması (10 mK) & Mikrodalga Kaviteleri 200 milestone tamamlandı, 400 screenshot üretildi, testler %100 geçti.

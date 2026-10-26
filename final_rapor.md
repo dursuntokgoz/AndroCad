@@ -147,3 +147,8 @@
 - Sürüm: v26.0.0 (versionCode: 2600)
 - 200 Milestone, 400 Screenshot, 10 C++ & 10 Kotlin Testi başarıyla tamamlandı.
 - Toplam Milestone İlerlemesi: 5,070 / 5,470.
+
+### Faz 29: Kuantum Bilgisayarı Kriyostat Termal Kademeleri, Seyreltme Soğutması (10 mK) & Mikrodalga Kaviteleri (M5071 - M5270)
+- Sürüm: v27.0.0 (versionCode: 2700)
+- 200 Milestone, 400 Screenshot, 10 C++ & 10 Kotlin Testi başarıyla tamamlandı.
+- Toplam Milestone İlerlemesi: 5,270 / 5,470.
