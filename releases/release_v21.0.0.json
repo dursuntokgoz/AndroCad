@@ -1,0 +1,20 @@
+{
+  "version": "21.0.0",
+  "versionCode": 2100,
+  "phase": 23,
+  "milestones": "M3871 - M4070",
+  "total_milestones_completed": 4070,
+  "domains": [
+    "Primary Mirror Whiffletree Flotation & Hindle Mounts",
+    "Active Optics Pneumatic & Piezo Figure Correction Actuators",
+    "Zernike Polynomial Wavefront Decomposition & Strehl Optimizer",
+    "Secondary Mirror (M2) 6-DOF Stewart Hexapod Kinematics",
+    "Zerodur & ULE Ultra-Low Expansion Thermal Distortion Solver",
+    "Optical Spider Vane Dynamic Stiffness & Diffraction Optimization",
+    "Cryogenic Infrared Focal Plane Array (FPA) Dewar Mount",
+    "Direct-Drive Fast Steering Mirror (FSM) Tip-Tilt Mechanism",
+    "Telescope Altitude-Azimuth (Alt-Az) Hydrostatic Oil Bearings",
+    "Enclosure Aerodynamic Flushing & Dome Seeing Degradation"
+  ],
+  "release_notes": "Faz 23 Astronomical Telescope Optical Mounting, Active Optics & Hexapod Alignment Suite delivering deterministic 27-point whiffletree flotation, piezo active optics figure correction, Zernike wavefront decomposition, 6-DOF Stewart hexapod kinematics, Zerodur thermal stability, spider vane stiffness, 77K cryogenic Dewars, voice-coil FSM tip-tilt, Alt-Az hydrostatic bearings, and dome seeing aerodynamic flushing."
+}

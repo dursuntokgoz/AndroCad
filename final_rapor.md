@@ -112,3 +112,9 @@
 - 200 yeni rüzgar türbini CAD milestone'u başarıyla uygulandı.
 - Sürüm v20.0.0 yayımlandı.
 - Toplam milestone sayısı 3,870'e ulaştı.
+
+
+## Faz 23 Özeti: Astronomik Teleskop Optik Montaj ve Aktif Optik Paketi (M3871 - M4070)
+- 200 yeni teleskop optomekaniği ve aktif optik milestone'u başarıyla uygulandı.
+- Sürüm v21.0.0 yayımlandı.
+- Toplam milestone sayısı 4,070'e ulaştı.

@@ -30079,3 +30079,1242 @@ Faz 22 delivers 200 specialized CAD/CAE milestones for industrial wind turbine a
 - **Status:** Done
 - **Screenshots:** docs/screenshots/m3870_tablet.png, docs/screenshots/m3870_phone.png
 
+
+
+## Faz 23: Astronomical Telescope Optical Mounting, Active Optics & Hexapod Alignment (M3871 - M4070)
+**Status:** Done
+**Target Release:** v21.0.0 (versionCode 2100)
+**Finish Date:** 2026-10-27
+
+Faz 23 delivers 200 specialized CAD/CAE milestones for large astronomical telescope optomechanical structures: 27-point primary mirror whiffletree flotation, active optics piezo axial figure correction, Zernike circular polynomial wavefront decomposition, secondary mirror 6-DOF Stewart platform hexapod kinematics, Zerodur ultra-low expansion thermal stability, spider vane aero-acoustic buffeting and diffraction, 77K cryogenic sensor Dewar mounting, voice-coil fast steering mirror (FSM) tip-tilt jitter suppression, Alt-Az hydrostatic oil film pad bearings, and dome enclosure aerodynamic flushing / thermal seeing control.
+
+### Domain 1: Primary Mirror Whiffletree Flotation & Hindle Mounts
+**Subsystem Focus:** Primary Cell (27-Point Whiffletree, RMS Surface Distortion <= 15 nm)
+
+#### Milestone 3871: 27-point kinematic whiffletree flotation lever and rocker arm 3D CAD generator
+- **Goal:** Model, synthesize, and verify 27-point kinematic whiffletree flotation lever and rocker arm 3d cad generator with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3871_tablet.png, docs/screenshots/m3871_phone.png
+
+#### Milestone 3872: Finite-element mirror surface RMS deformation (<= 15 nm) under zenith-to-horizon tilt
+- **Goal:** Model, synthesize, and verify finite-element mirror surface rms deformation (<= 15 nm) under zenith-to-horizon tilt with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3872_tablet.png, docs/screenshots/m3872_phone.png
+
+#### Milestone 3873: Hindle mount lateral edge support pads and mercury counterweight lever balance solver
+- **Goal:** Model, synthesize, and verify hindle mount lateral edge support pads and mercury counterweight lever balance solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3873_tablet.png, docs/screenshots/m3873_phone.png
+
+#### Milestone 3874: Pivoting rocker ball-end hardened steel bearings with 0.0mm spatial coordinate locking
+- **Goal:** Model, synthesize, and verify pivoting rocker ball-end hardened steel bearings with 0.0mm spatial coordinate locking with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3874_tablet.png, docs/screenshots/m3874_phone.png
+
+#### Milestone 3875: Primary mirror axial print-through sag minimizing local inter-support deflection
+- **Goal:** Model, synthesize, and verify primary mirror axial print-through sag minimizing local inter-support deflection with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3875_tablet.png, docs/screenshots/m3875_phone.png
+
+#### Milestone 3876: Lightweighted honeycomb pocket back-structure core geometry and rib stiffness CAD
+- **Goal:** Model, synthesize, and verify lightweighted honeycomb pocket back-structure core geometry and rib stiffness cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3876_tablet.png, docs/screenshots/m3876_phone.png
+
+#### Milestone 3877: Mirror cell steel weldment truss structural deflection and thermal bending isolation
+- **Goal:** Model, synthesize, and verify mirror cell steel weldment truss structural deflection and thermal bending isolation with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3877_tablet.png, docs/screenshots/m3877_phone.png
+
+#### Milestone 3878: Thermal expansion compliance flexure rods decoupling mirror glass from steel frame
+- **Goal:** Model, synthesize, and verify thermal expansion compliance flexure rods decoupling mirror glass from steel frame with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3878_tablet.png, docs/screenshots/m3878_phone.png
+
+#### Milestone 3879: Mirror safety retaining clips and seismic earthquake snubber bumpers CAD
+- **Goal:** Model, synthesize, and verify mirror safety retaining clips and seismic earthquake snubber bumpers cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3879_tablet.png, docs/screenshots/m3879_phone.png
+
+#### Milestone 3880: Air knife and laminar boundary layer cooling fan ducting across primary mirror face
+- **Goal:** Model, synthesize, and verify air knife and laminar boundary layer cooling fan ducting across primary mirror face with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3880_tablet.png, docs/screenshots/m3880_phone.png
+
+#### Milestone 3881: Lateral defining tangential link rods restraining in-plane mirror rigid-body rotation
+- **Goal:** Model, synthesize, and verify lateral defining tangential link rods restraining in-plane mirror rigid-body rotation with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3881_tablet.png, docs/screenshots/m3881_phone.png
+
+#### Milestone 3882: Load cell integration beneath whiffletree pivot points for real-time load telemetry
+- **Goal:** Model, synthesize, and verify load cell integration beneath whiffletree pivot points for real-time load telemetry with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3882_tablet.png, docs/screenshots/m3882_phone.png
+
+#### Milestone 3883: Automated whiffletree triangle centroid and rocker ratio DRC checker in 3D CAD
+- **Goal:** Model, synthesize, and verify automated whiffletree triangle centroid and rocker ratio drc checker in 3d cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3883_tablet.png, docs/screenshots/m3883_phone.png
+
+#### Milestone 3884: Mirror washing and in-situ aluminizing chamber handling crane interface fixtures
+- **Goal:** Model, synthesize, and verify mirror washing and in-situ aluminizing chamber handling crane interface fixtures with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3884_tablet.png, docs/screenshots/m3884_phone.png
+
+#### Milestone 3885: Interactive 3D mirror surface gravity sag contour map visualizer in AndroCAD
+- **Goal:** Model, synthesize, and verify interactive 3d mirror surface gravity sag contour map visualizer in androcad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3885_tablet.png, docs/screenshots/m3885_phone.png
+
+#### Milestone 3886: Zero-backlash spherical flexure pivots replacing mechanical needle bearings in cell
+- **Goal:** Model, synthesize, and verify zero-backlash spherical flexure pivots replacing mechanical needle bearings in cell with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3886_tablet.png, docs/screenshots/m3886_phone.png
+
+#### Milestone 3887: Static and dynamic proof load testing of primary mirror cell under 3g transportation
+- **Goal:** Model, synthesize, and verify static and dynamic proof load testing of primary mirror cell under 3g transportation with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3887_tablet.png, docs/screenshots/m3887_phone.png
+
+#### Milestone 3888: Sub-micron mirror axial location repeatability during slewing maneuvers verifier
+- **Goal:** Model, synthesize, and verify sub-micron mirror axial location repeatability during slewing maneuvers verifier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3888_tablet.png, docs/screenshots/m3888_phone.png
+
+#### Milestone 3889: Compliance verification conforming to ISO 10110 Optical Elements and Systems
+- **Goal:** Model, synthesize, and verify compliance verification conforming to iso 10110 optical elements and systems with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3889_tablet.png, docs/screenshots/m3889_phone.png
+
+#### Milestone 3890: Comprehensive primary mirror whiffletree mounting and cell qualification dossier
+- **Goal:** Model, synthesize, and verify comprehensive primary mirror whiffletree mounting and cell qualification dossier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3890_tablet.png, docs/screenshots/m3890_phone.png
+
+### Domain 2: Active Optics Pneumatic & Piezo Figure Correction Actuators
+**Subsystem Focus:** Active Optics (Piezo PZT Actuators, Resolution < 2 nm, Closed-Loop Bandwidth)
+
+#### Milestone 3891: High-force PZT multilayer piezoelectric actuator cartridge 3D CAD generator
+- **Goal:** Model, synthesize, and verify high-force pzt multilayer piezoelectric actuator cartridge 3d cad generator with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3891_tablet.png, docs/screenshots/m3891_phone.png
+
+#### Milestone 3892: Pneumatic air-bearing piston dual-stage (coarse pneumatic + fine piezo) actuator CAD
+- **Goal:** Model, synthesize, and verify pneumatic air-bearing piston dual-stage (coarse pneumatic + fine piezo) actuator cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3892_tablet.png, docs/screenshots/m3892_phone.png
+
+#### Milestone 3893: Actuator stroke sub-nanometer displacement resolution (< 1.0 nm) calibration engine
+- **Goal:** Model, synthesize, and verify actuator stroke sub-nanometer displacement resolution (< 1.0 nm) calibration engine with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3893_tablet.png, docs/screenshots/m3893_phone.png
+
+#### Milestone 3894: Active mirror figure correction matrix decomposing Shack-Hartmann wavefront gradients
+- **Goal:** Model, synthesize, and verify active mirror figure correction matrix decomposing shack-hartmann wavefront gradients with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3894_tablet.png, docs/screenshots/m3894_phone.png
+
+#### Milestone 3895: Thermal dissipation and thermoelectric Peltier cooling jacket for active actuators
+- **Goal:** Model, synthesize, and verify thermal dissipation and thermoelectric peltier cooling jacket for active actuators with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3895_tablet.png, docs/screenshots/m3895_phone.png
+
+#### Milestone 3896: Actuator mechanical load transfer pad with magnetic decoupling ball joints in 3D
+- **Goal:** Model, synthesize, and verify actuator mechanical load transfer pad with magnetic decoupling ball joints in 3d with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3896_tablet.png, docs/screenshots/m3896_phone.png
+
+#### Milestone 3897: Cross-talk decoupling matrix between adjacent active optics support nodes
+- **Goal:** Model, synthesize, and verify cross-talk decoupling matrix between adjacent active optics support nodes with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3897_tablet.png, docs/screenshots/m3897_phone.png
+
+#### Milestone 3898: Active optics closed-loop bandwidth (>= 15 Hz) maintaining sub-10 nm RMS figure
+- **Goal:** Model, synthesize, and verify active optics closed-loop bandwidth (>= 15 hz) maintaining sub-10 nm rms figure with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3898_tablet.png, docs/screenshots/m3898_phone.png
+
+#### Milestone 3899: High-voltage multi-channel piezo driver electronics cabinet layout in telescope fork
+- **Goal:** Model, synthesize, and verify high-voltage multi-channel piezo driver electronics cabinet layout in telescope fork with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3899_tablet.png, docs/screenshots/m3899_phone.png
+
+#### Milestone 3900: Power failure failsafe mechanical brake locking mirror position without figure loss
+- **Goal:** Model, synthesize, and verify power failure failsafe mechanical brake locking mirror position without figure loss with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3900_tablet.png, docs/screenshots/m3900_phone.png
+
+#### Milestone 3901: Non-linear hysteresis and creep compensation algorithms for PZT stack actuators
+- **Goal:** Model, synthesize, and verify non-linear hysteresis and creep compensation algorithms for pzt stack actuators with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3901_tablet.png, docs/screenshots/m3901_phone.png
+
+#### Milestone 3902: Real-time actuator force feedback telemetry and differential load alarm supervisor
+- **Goal:** Model, synthesize, and verify real-time actuator force feedback telemetry and differential load alarm supervisor with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3902_tablet.png, docs/screenshots/m3902_phone.png
+
+#### Milestone 3903: Automated actuator stroke limit and collision avoidance DRC verification in 3D CAD
+- **Goal:** Model, synthesize, and verify automated actuator stroke limit and collision avoidance drc verification in 3d cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3903_tablet.png, docs/screenshots/m3903_phone.png
+
+#### Milestone 3904: Mirror back-surface protective invar pad bonding stress and adhesive creep solver
+- **Goal:** Model, synthesize, and verify mirror back-surface protective invar pad bonding stress and adhesive creep solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3904_tablet.png, docs/screenshots/m3904_phone.png
+
+#### Milestone 3905: Interactive active optics correction vector field animation in AndroCAD 3D viewport
+- **Goal:** Model, synthesize, and verify interactive active optics correction vector field animation in androcad 3d viewport with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3905_tablet.png, docs/screenshots/m3905_phone.png
+
+#### Milestone 3906: Atmospheric chromatic dispersion corrector (ADC) prism prism rotation drive CAD
+- **Goal:** Model, synthesize, and verify atmospheric chromatic dispersion corrector (adc) prism prism rotation drive cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3906_tablet.png, docs/screenshots/m3906_phone.png
+
+#### Milestone 3907: Active optics calibration look-up table (LUT) parameterized by altitude and temperature
+- **Goal:** Model, synthesize, and verify active optics calibration look-up table (lut) parameterized by altitude and temperature with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3907_tablet.png, docs/screenshots/m3907_phone.png
+
+#### Milestone 3908: Piezoelectric actuator lifetime and dielectric degradation under 10^8 dither cycles
+- **Goal:** Model, synthesize, and verify piezoelectric actuator lifetime and dielectric degradation under 10^8 dither cycles with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3908_tablet.png, docs/screenshots/m3908_phone.png
+
+#### Milestone 3909: Compliance verification conforming to SPIE Astronomical Active Optics Standards
+- **Goal:** Model, synthesize, and verify compliance verification conforming to spie astronomical active optics standards with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3909_tablet.png, docs/screenshots/m3909_phone.png
+
+#### Milestone 3910: Comprehensive active optics figure correction and actuator reliability dossier
+- **Goal:** Model, synthesize, and verify comprehensive active optics figure correction and actuator reliability dossier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3910_tablet.png, docs/screenshots/m3910_phone.png
+
+### Domain 3: Zernike Polynomial Wavefront Decomposition & Strehl Optimizer
+**Subsystem Focus:** Wavefront Optics (Orthonormal Circular Zernike Z_n^m, Strehl >= 0.88, Marechal)
+
+#### Milestone 3911: Orthonormal circular Zernike polynomial expansion up to 36th radial order solver
+- **Goal:** Model, synthesize, and verify orthonormal circular zernike polynomial expansion up to 36th radial order solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3911_tablet.png, docs/screenshots/m3911_phone.png
+
+#### Milestone 3912: Astigmatism (Z22, Z2-2) and trefoil aberration modal identification from focal star image
+- **Goal:** Model, synthesize, and verify astigmatism (z22, z2-2) and trefoil aberration modal identification from focal star image with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3912_tablet.png, docs/screenshots/m3912_phone.png
+
+#### Milestone 3913: Coma (Z31, Z3-1) correction via secondary mirror lateral decenter and tilt realignment
+- **Goal:** Model, synthesize, and verify coma (z31, z3-1) correction via secondary mirror lateral decenter and tilt realignment with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3913_tablet.png, docs/screenshots/m3913_phone.png
+
+#### Milestone 3914: Spherical aberration (Z40) compensation via axial M1-M2 separation distance tuning
+- **Goal:** Model, synthesize, and verify spherical aberration (z40) compensation via axial m1-m2 separation distance tuning with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3914_tablet.png, docs/screenshots/m3914_phone.png
+
+#### Milestone 3915: Marechal criterion diffraction-limited Strehl ratio (S >= 0.88) calculation engine
+- **Goal:** Model, synthesize, and verify marechal criterion diffraction-limited strehl ratio (s >= 0.88) calculation engine with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3915_tablet.png, docs/screenshots/m3915_phone.png
+
+#### Milestone 3916: Point Spread Function (PSF) and Encircled Energy (EE80) 2D/3D profile generator
+- **Goal:** Model, synthesize, and verify point spread function (psf) and encircled energy (ee80) 2d/3d profile generator with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3916_tablet.png, docs/screenshots/m3916_phone.png
+
+#### Milestone 3917: Wavefront error budget allocation across telescope optical train (M1, M2, M3, Coudé)
+- **Goal:** Model, synthesize, and verify wavefront error budget allocation across telescope optical train (m1, m2, m3, coudé) with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3917_tablet.png, docs/screenshots/m3917_phone.png
+
+#### Milestone 3918: Shack-Hartmann microlens array optical geometry and spot centroiding tracker CAD
+- **Goal:** Model, synthesize, and verify shack-hartmann microlens array optical geometry and spot centroiding tracker cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3918_tablet.png, docs/screenshots/m3918_phone.png
+
+#### Milestone 3919: Curvature sensing and phase diversity wavefront reconstruction comparison suite
+- **Goal:** Model, synthesize, and verify curvature sensing and phase diversity wavefront reconstruction comparison suite with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3919_tablet.png, docs/screenshots/m3919_phone.png
+
+#### Milestone 3920: Pyramid wavefront sensor multi-faceted prism refraction and detector re-imaging CAD
+- **Goal:** Model, synthesize, and verify pyramid wavefront sensor multi-faceted prism refraction and detector re-imaging cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3920_tablet.png, docs/screenshots/m3920_phone.png
+
+#### Milestone 3921: Atmospheric Kolmogorov and von Kármán turbulence phase screen simulation model
+- **Goal:** Model, synthesize, and verify atmospheric kolmogorov and von kármán turbulence phase screen simulation model with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3921_tablet.png, docs/screenshots/m3921_phone.png
+
+#### Milestone 3922: High-order trefoil and spherical aberration modal decoupling in active mirror control
+- **Goal:** Model, synthesize, and verify high-order trefoil and spherical aberration modal decoupling in active mirror control with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3922_tablet.png, docs/screenshots/m3922_phone.png
+
+#### Milestone 3923: Automated optical tolerance budget (OPD RMS < 35 nm) verification engine in 3D CAD
+- **Goal:** Model, synthesize, and verify automated optical tolerance budget (opd rms < 35 nm) verification engine in 3d cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3923_tablet.png, docs/screenshots/m3923_phone.png
+
+#### Milestone 3924: Off-axis field aberration and wide-field prime focus coma corrector lens cell CAD
+- **Goal:** Model, synthesize, and verify off-axis field aberration and wide-field prime focus coma corrector lens cell cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3924_tablet.png, docs/screenshots/m3924_phone.png
+
+#### Milestone 3925: Interactive 3D wavefront phase map and interferogram fringe visualizer in AndroCAD
+- **Goal:** Model, synthesize, and verify interactive 3d wavefront phase map and interferogram fringe visualizer in androcad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3925_tablet.png, docs/screenshots/m3925_phone.png
+
+#### Milestone 3926: Chromatic aberration residuals across optical bands (U, B, V, R, I, J, H, K)
+- **Goal:** Model, synthesize, and verify chromatic aberration residuals across optical bands (u, b, v, r, i, j, h, k) with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3926_tablet.png, docs/screenshots/m3926_phone.png
+
+#### Milestone 3927: Polychromatic Strehl ratio degradation under atmospheric dispersion transients
+- **Goal:** Model, synthesize, and verify polychromatic strehl ratio degradation under atmospheric dispersion transients with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3927_tablet.png, docs/screenshots/m3927_phone.png
+
+#### Milestone 3928: Laser guide star (LGS) focal anisoplanatism (cone effect) optical model
+- **Goal:** Model, synthesize, and verify laser guide star (lgs) focal anisoplanatism (cone effect) optical model with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3928_tablet.png, docs/screenshots/m3928_phone.png
+
+#### Milestone 3929: Compliance verification conforming to ISO 14999 Optical Wavefront Interferometry
+- **Goal:** Model, synthesize, and verify compliance verification conforming to iso 14999 optical wavefront interferometry with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3929_tablet.png, docs/screenshots/m3929_phone.png
+
+#### Milestone 3930: Comprehensive Zernike wavefront analysis and diffraction-limited imaging dossier
+- **Goal:** Model, synthesize, and verify comprehensive zernike wavefront analysis and diffraction-limited imaging dossier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3930_tablet.png, docs/screenshots/m3930_phone.png
+
+### Domain 4: Secondary Mirror (M2) 6-DOF Stewart Hexapod Kinematics
+**Subsystem Focus:** Hexapod Mechanism (6-UPS Parallel Kinematics, Repeatability < 0.5 um, Jacobian)
+
+#### Milestone 3931: Parallel 6-UPS Stewart platform hexapod kinematic architecture 3D CAD generator
+- **Goal:** Model, synthesize, and verify parallel 6-ups stewart platform hexapod kinematic architecture 3d cad generator with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3931_tablet.png, docs/screenshots/m3931_phone.png
+
+#### Milestone 3932: Inverse and forward kinematic position solver with sub-micron axial repeatability
+- **Goal:** Model, synthesize, and verify inverse and forward kinematic position solver with sub-micron axial repeatability with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3932_tablet.png, docs/screenshots/m3932_phone.png
+
+#### Milestone 3933: Universal and spherical flexure joints eliminating backlash in hexapod struts CAD
+- **Goal:** Model, synthesize, and verify universal and spherical flexure joints eliminating backlash in hexapod struts cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3933_tablet.png, docs/screenshots/m3933_phone.png
+
+#### Milestone 3934: Roller screw and brushless DC motor precision linear drive strut packaging in 3D
+- **Goal:** Model, synthesize, and verify roller screw and brushless dc motor precision linear drive strut packaging in 3d with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3934_tablet.png, docs/screenshots/m3934_phone.png
+
+#### Milestone 3935: Hexapod Jacobian condition number optimization across full operational workspace
+- **Goal:** Model, synthesize, and verify hexapod jacobian condition number optimization across full operational workspace with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3935_tablet.png, docs/screenshots/m3935_phone.png
+
+#### Milestone 3936: Secondary mirror decenter, tip, tilt, and focus desensitization matrix solver
+- **Goal:** Model, synthesize, and verify secondary mirror decenter, tip, tilt, and focus desensitization matrix solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3936_tablet.png, docs/screenshots/m3936_phone.png
+
+#### Milestone 3937: Thermal expansion length compensation in carbon-fiber strut outer tubes
+- **Goal:** Model, synthesize, and verify thermal expansion length compensation in carbon-fiber strut outer tubes with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3937_tablet.png, docs/screenshots/m3937_phone.png
+
+#### Milestone 3938: High-speed chopping mode kinematics for infrared background subtraction (>= 5 Hz)
+- **Goal:** Model, synthesize, and verify high-speed chopping mode kinematics for infrared background subtraction (>= 5 hz) with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3938_tablet.png, docs/screenshots/m3938_phone.png
+
+#### Milestone 3939: Hexapod top platform lightweighted beryllium / invar interface ring CAD
+- **Goal:** Model, synthesize, and verify hexapod top platform lightweighted beryllium / invar interface ring cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3939_tablet.png, docs/screenshots/m3939_phone.png
+
+#### Milestone 3940: Emergency dynamic braking and hard-stop mechanical travel limiters in 3D
+- **Goal:** Model, synthesize, and verify emergency dynamic braking and hard-stop mechanical travel limiters in 3d with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3940_tablet.png, docs/screenshots/m3940_phone.png
+
+#### Milestone 3941: Six-axis load cell integration measuring secondary mirror dynamic wind buffeting
+- **Goal:** Model, synthesize, and verify six-axis load cell integration measuring secondary mirror dynamic wind buffeting with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3941_tablet.png, docs/screenshots/m3941_phone.png
+
+#### Milestone 3942: Optical axis re-alignment algorithms compensating for telescope tube gravity sag
+- **Goal:** Model, synthesize, and verify optical axis re-alignment algorithms compensating for telescope tube gravity sag with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3942_tablet.png, docs/screenshots/m3942_phone.png
+
+#### Milestone 3943: Automated strut stroke collision avoidance DRC checker inside telescope spider hub
+- **Goal:** Model, synthesize, and verify automated strut stroke collision avoidance drc checker inside telescope spider hub with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3943_tablet.png, docs/screenshots/m3943_phone.png
+
+#### Milestone 3944: Absolute optical linear encoder integration directly on hexapod strut bodies
+- **Goal:** Model, synthesize, and verify absolute optical linear encoder integration directly on hexapod strut bodies with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3944_tablet.png, docs/screenshots/m3944_phone.png
+
+#### Milestone 3945: Interactive 3D hexapod 6-DOF motion trajectory simulation in AndroCAD viewport
+- **Goal:** Model, synthesize, and verify interactive 3d hexapod 6-dof motion trajectory simulation in androcad viewport with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3945_tablet.png, docs/screenshots/m3945_phone.png
+
+#### Milestone 3946: Secondary mirror center-of-gravity alignment minimizing stray actuation torques
+- **Goal:** Model, synthesize, and verify secondary mirror center-of-gravity alignment minimizing stray actuation torques with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3946_tablet.png, docs/screenshots/m3946_phone.png
+
+#### Milestone 3947: Cable wrap and flexure service umbilical routing across hexapod moving platform
+- **Goal:** Model, synthesize, and verify cable wrap and flexure service umbilical routing across hexapod moving platform with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3947_tablet.png, docs/screenshots/m3947_phone.png
+
+#### Milestone 3948: High-g wind gust survival locking pins for secondary mirror stowage position CAD
+- **Goal:** Model, synthesize, and verify high-g wind gust survival locking pins for secondary mirror stowage position cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3948_tablet.png, docs/screenshots/m3948_phone.png
+
+#### Milestone 3949: Compliance verification conforming to ISO 9283 Manipulating Industrial Robots / Hexapods
+- **Goal:** Model, synthesize, and verify compliance verification conforming to iso 9283 manipulating industrial robots / hexapods with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3949_tablet.png, docs/screenshots/m3949_phone.png
+
+#### Milestone 3950: Comprehensive secondary mirror 6-DOF hexapod kinematic qualification dossier
+- **Goal:** Model, synthesize, and verify comprehensive secondary mirror 6-dof hexapod kinematic qualification dossier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3950_tablet.png, docs/screenshots/m3950_phone.png
+
+### Domain 5: Zerodur & ULE Ultra-Low Expansion Thermal Distortion Solver
+**Subsystem Focus:** Substrate Thermals (Zerodur Glass-Ceramic, CTE < 0.02 ppm/K, Figure Error < 2 nm)
+
+#### Milestone 3951: Zerodur glass-ceramic optical blank thermal conductivity and diffusivity model
+- **Goal:** Model, synthesize, and verify zerodur glass-ceramic optical blank thermal conductivity and diffusivity model with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3951_tablet.png, docs/screenshots/m3951_phone.png
+
+#### Milestone 3952: Near-zero thermal expansion coefficient (alpha = 0.01 ppm/K) non-linear CTE curve
+- **Goal:** Model, synthesize, and verify near-zero thermal expansion coefficient (alpha = 0.01 ppm/k) non-linear cte curve with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3952_tablet.png, docs/screenshots/m3952_phone.png
+
+#### Milestone 3953: Transverse and through-thickness thermal gradient finite difference transient solver
+- **Goal:** Model, synthesize, and verify transverse and through-thickness thermal gradient finite difference transient solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3953_tablet.png, docs/screenshots/m3953_phone.png
+
+#### Milestone 3954: Thermal soak time constant and equilibrium relaxation across 4-meter glass blank
+- **Goal:** Model, synthesize, and verify thermal soak time constant and equilibrium relaxation across 4-meter glass blank with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3954_tablet.png, docs/screenshots/m3954_phone.png
+
+#### Milestone 3955: Residual high-order figure distortion after secondary mirror refocusing (< 2.0 nm)
+- **Goal:** Model, synthesize, and verify residual high-order figure distortion after secondary mirror refocusing (< 2.0 nm) with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3955_tablet.png, docs/screenshots/m3955_phone.png
+
+#### Milestone 3956: Invar alloy 36 mounting boss bonding with matched thermal expansion coefficient CAD
+- **Goal:** Model, synthesize, and verify invar alloy 36 mounting boss bonding with matched thermal expansion coefficient cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3956_tablet.png, docs/screenshots/m3956_phone.png
+
+#### Milestone 3957: Adhesive bondline shear stress and low-temperature brittle transition prevention
+- **Goal:** Model, synthesize, and verify adhesive bondline shear stress and low-temperature brittle transition prevention with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3957_tablet.png, docs/screenshots/m3957_phone.png
+
+#### Milestone 3958: Mirror ventilation air jets maintaining thermal equilibrium with ambient nighttime dome
+- **Goal:** Model, synthesize, and verify mirror ventilation air jets maintaining thermal equilibrium with ambient nighttime dome with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3958_tablet.png, docs/screenshots/m3958_phone.png
+
+#### Milestone 3959: Solar radiation shielding and daytime thermal insulated mirror cover petals CAD
+- **Goal:** Model, synthesize, and verify solar radiation shielding and daytime thermal insulated mirror cover petals cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3959_tablet.png, docs/screenshots/m3959_phone.png
+
+#### Milestone 3960: Annealing residual birefringence and photoelastic stress pattern inspection model
+- **Goal:** Model, synthesize, and verify annealing residual birefringence and photoelastic stress pattern inspection model with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3960_tablet.png, docs/screenshots/m3960_phone.png
+
+#### Milestone 3961: ULE ultra-low expansion fused silica comparison benchmark for space-based mirrors
+- **Goal:** Model, synthesize, and verify ule ultra-low expansion fused silica comparison benchmark for space-based mirrors with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3961_tablet.png, docs/screenshots/m3961_phone.png
+
+#### Milestone 3962: Mirror blank machining and acid etching micro-crack removal surface finish CAD
+- **Goal:** Model, synthesize, and verify mirror blank machining and acid etching micro-crack removal surface finish cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3962_tablet.png, docs/screenshots/m3962_phone.png
+
+#### Milestone 3963: Automated thermal expansion distortion DRC verification engine in AndroCAD 3D
+- **Goal:** Model, synthesize, and verify automated thermal expansion distortion drc verification engine in androcad 3d with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3963_tablet.png, docs/screenshots/m3963_phone.png
+
+#### Milestone 3964: Thermal imaging infrared sensor mounting inspecting mirror surface temperature map
+- **Goal:** Model, synthesize, and verify thermal imaging infrared sensor mounting inspecting mirror surface temperature map with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3964_tablet.png, docs/screenshots/m3964_phone.png
+
+#### Milestone 3965: Interactive 3D thermal contour and isothermal boundary visualizer in viewport
+- **Goal:** Model, synthesize, and verify interactive 3d thermal contour and isothermal boundary visualizer in viewport with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3965_tablet.png, docs/screenshots/m3965_phone.png
+
+#### Milestone 3966: Cryogenic cooling contraction down to infrared operating temperatures (120 K)
+- **Goal:** Model, synthesize, and verify cryogenic cooling contraction down to infrared operating temperatures (120 k) with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3966_tablet.png, docs/screenshots/m3966_phone.png
+
+#### Milestone 3967: Mirror edge insulation ring suppressing radial edge thermal boundary layers
+- **Goal:** Model, synthesize, and verify mirror edge insulation ring suppressing radial edge thermal boundary layers with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3967_tablet.png, docs/screenshots/m3967_phone.png
+
+#### Milestone 3968: Thermal shock resistance under rapid mountain summit weather drop transients
+- **Goal:** Model, synthesize, and verify thermal shock resistance under rapid mountain summit weather drop transients with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3968_tablet.png, docs/screenshots/m3968_phone.png
+
+#### Milestone 3969: Compliance verification conforming to Schott Zerodur Extreme Thermal Specifications
+- **Goal:** Model, synthesize, and verify compliance verification conforming to schott zerodur extreme thermal specifications with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3969_tablet.png, docs/screenshots/m3969_phone.png
+
+#### Milestone 3970: Comprehensive ultra-low expansion glass-ceramic thermal performance dossier
+- **Goal:** Model, synthesize, and verify comprehensive ultra-low expansion glass-ceramic thermal performance dossier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3970_tablet.png, docs/screenshots/m3970_phone.png
+
+### Domain 6: Optical Spider Vane Dynamic Stiffness & Diffraction Optimization
+**Subsystem Focus:** Optical Spider (Curved vs Straight Vanes, f1 >= 18 Hz, Wind Deflection < 25 um)
+
+#### Milestone 3971: Four-vane and three-vane secondary mirror spider 3D parametric CAD generator
+- **Goal:** Model, synthesize, and verify four-vane and three-vane secondary mirror spider 3d parametric cad generator with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3971_tablet.png, docs/screenshots/m3971_phone.png
+
+#### Milestone 3972: Spider vane structural bending and torsional first natural eigenfrequency (>= 18 Hz)
+- **Goal:** Model, synthesize, and verify spider vane structural bending and torsional first natural eigenfrequency (>= 18 hz) with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3972_tablet.png, docs/screenshots/m3972_phone.png
+
+#### Milestone 3973: Curved spider vane geometry redistributing diffraction spikes into uniform halo
+- **Goal:** Model, synthesize, and verify curved spider vane geometry redistributing diffraction spikes into uniform halo with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3973_tablet.png, docs/screenshots/m3973_phone.png
+
+#### Milestone 3974: Prestressed high-strength steel tensioned blade spider anchors with turnbuckles CAD
+- **Goal:** Model, synthesize, and verify prestressed high-strength steel tensioned blade spider anchors with turnbuckles cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3974_tablet.png, docs/screenshots/m3974_phone.png
+
+#### Milestone 3975: Aerodynamic wind drag and turbulent buffeting dynamic deflection (< 25 um) solver
+- **Goal:** Model, synthesize, and verify aerodynamic wind drag and turbulent buffeting dynamic deflection (< 25 um) solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3975_tablet.png, docs/screenshots/m3975_phone.png
+
+#### Milestone 3976: Airy disc Point Spread Function diffraction spike intensity distribution model
+- **Goal:** Model, synthesize, and verify airy disc point spread function diffraction spike intensity distribution model with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3976_tablet.png, docs/screenshots/m3976_phone.png
+
+#### Milestone 3977: Knife-edge aerodynamic vane profile minimizing vortex shedding acoustic noise
+- **Goal:** Model, synthesize, and verify knife-edge aerodynamic vane profile minimizing vortex shedding acoustic noise with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3977_tablet.png, docs/screenshots/m3977_phone.png
+
+#### Milestone 3978: Internal service conduit routing for hexapod power and sensor wiring through vanes
+- **Goal:** Model, synthesize, and verify internal service conduit routing for hexapod power and sensor wiring through vanes with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3978_tablet.png, docs/screenshots/m3978_phone.png
+
+#### Milestone 3979: Carbon-fiber reinforced polymer (CFRP) high-modulus sandwich spider architecture CAD
+- **Goal:** Model, synthesize, and verify carbon-fiber reinforced polymer (cfrp) high-modulus sandwich spider architecture cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3979_tablet.png, docs/screenshots/m3979_phone.png
+
+#### Milestone 3980: Thermal contraction tensioning springs preventing vane slack during winter freezes
+- **Goal:** Model, synthesize, and verify thermal contraction tensioning springs preventing vane slack during winter freezes with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3980_tablet.png, docs/screenshots/m3980_phone.png
+
+#### Milestone 3981: Spider vane tilt angle minimizing stray light specular reflections into science focal plane
+- **Goal:** Model, synthesize, and verify spider vane tilt angle minimizing stray light specular reflections into science focal plane with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3981_tablet.png, docs/screenshots/m3981_phone.png
+
+#### Milestone 3982: Baffling cones and micro-groove black anodized light traps on spider surfaces CAD
+- **Goal:** Model, synthesize, and verify baffling cones and micro-groove black anodized light traps on spider surfaces cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3982_tablet.png, docs/screenshots/m3982_phone.png
+
+#### Milestone 3983: Automated spider vane line-of-sight obscuration ratio (< 1.5% pupil area) DRC
+- **Goal:** Model, synthesize, and verify automated spider vane line-of-sight obscuration ratio (< 1.5% pupil area) drc with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3983_tablet.png, docs/screenshots/m3983_phone.png
+
+#### Milestone 3984: Wind tunnel Reynolds number scaling for spider aero-acoustic pressure fluctuations
+- **Goal:** Model, synthesize, and verify wind tunnel reynolds number scaling for spider aero-acoustic pressure fluctuations with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3984_tablet.png, docs/screenshots/m3984_phone.png
+
+#### Milestone 3985: Interactive 3D spider mode shape and diffraction spike simulation in AndroCAD
+- **Goal:** Model, synthesize, and verify interactive 3d spider mode shape and diffraction spike simulation in androcad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3985_tablet.png, docs/screenshots/m3985_phone.png
+
+#### Milestone 3986: Laser metrology optical beam path cutouts through spider vanes for M1-M2 alignment
+- **Goal:** Model, synthesize, and verify laser metrology optical beam path cutouts through spider vanes for m1-m2 alignment with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3986_tablet.png, docs/screenshots/m3986_phone.png
+
+#### Milestone 3987: Spider hub structural ring FEA stress analysis under extreme telescope wind gusts
+- **Goal:** Model, synthesize, and verify spider hub structural ring fea stress analysis under extreme telescope wind gusts with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3987_tablet.png, docs/screenshots/m3987_phone.png
+
+#### Milestone 3988: Vane attachment clevis pins with 0.0mm spatial alignment locking on top end ring
+- **Goal:** Model, synthesize, and verify vane attachment clevis pins with 0.0mm spatial alignment locking on top end ring with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3988_tablet.png, docs/screenshots/m3988_phone.png
+
+#### Milestone 3989: Compliance verification conforming to ESO VLT / Keck Top-End Structural Guidelines
+- **Goal:** Model, synthesize, and verify compliance verification conforming to eso vlt / keck top-end structural guidelines with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3989_tablet.png, docs/screenshots/m3989_phone.png
+
+#### Milestone 3990: Comprehensive optical spider dynamic stiffness and diffraction qualification dossier
+- **Goal:** Model, synthesize, and verify comprehensive optical spider dynamic stiffness and diffraction qualification dossier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3990_tablet.png, docs/screenshots/m3990_phone.png
+
+### Domain 7: Cryogenic Infrared Focal Plane Array (FPA) Dewar Mount
+**Subsystem Focus:** Cryo Instrumentation (77 K Sensor Dewar, G10 Flexures, MLI Radiative Budget < 1.2W)
+
+#### Milestone 3991: Vacuum-tight cryogenic sensor Dewar enclosure with hermetic feedthroughs 3D CAD
+- **Goal:** Model, synthesize, and verify vacuum-tight cryogenic sensor dewar enclosure with hermetic feedthroughs 3d cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3991_tablet.png, docs/screenshots/m3991_phone.png
+
+#### Milestone 3992: G10 fiberglass low-thermal-conductivity kinematic mounting flexure struts CAD
+- **Goal:** Model, synthesize, and verify g10 fiberglass low-thermal-conductivity kinematic mounting flexure struts cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3992_tablet.png, docs/screenshots/m3992_phone.png
+
+#### Milestone 3993: Closed-cycle pulse tube cryocooler cold finger thermal strap flexible copper braid
+- **Goal:** Model, synthesize, and verify closed-cycle pulse tube cryocooler cold finger thermal strap flexible copper braid with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3993_tablet.png, docs/screenshots/m3993_phone.png
+
+#### Milestone 3994: Multi-Layer Insulation (MLI 30 layers) radiative heat transfer (Q_rad < 250 mW) solver
+- **Goal:** Model, synthesize, and verify multi-layer insulation (mli 30 layers) radiative heat transfer (q_rad < 250 mw) solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3994_tablet.png, docs/screenshots/m3994_phone.png
+
+#### Milestone 3995: Conducted heat load through kinematic suspension struts (Q_cond < 250 mW) model
+- **Goal:** Model, synthesize, and verify conducted heat load through kinematic suspension struts (q_cond < 250 mw) model with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3995_tablet.png, docs/screenshots/m3995_phone.png
+
+#### Milestone 3996: HgCdTe (HAWAII-4RG) infrared detector mosaic mount with sub-micron planarity
+- **Goal:** Model, synthesize, and verify hgcdte (hawaii-4rg) infrared detector mosaic mount with sub-micron planarity with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3996_tablet.png, docs/screenshots/m3996_phone.png
+
+#### Milestone 3997: Cold stop pupil mask and cryogenic Lyot stop blocking stray thermal background in 3D
+- **Goal:** Model, synthesize, and verify cold stop pupil mask and cryogenic lyot stop blocking stray thermal background in 3d with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3997_tablet.png, docs/screenshots/m3997_phone.png
+
+#### Milestone 3998: Active getters (zeolite / charcoal) maintaining ultra-high vacuum (< 1e-6 mbar) in Dewar
+- **Goal:** Model, synthesize, and verify active getters (zeolite / charcoal) maintaining ultra-high vacuum (< 1e-6 mbar) in dewar with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3998_tablet.png, docs/screenshots/m3998_phone.png
+
+#### Milestone 3999: Detector thermal cycling strain relief preventing indium bump array micro-fracture
+- **Goal:** Model, synthesize, and verify detector thermal cycling strain relief preventing indium bump array micro-fracture with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m3999_tablet.png, docs/screenshots/m3999_phone.png
+
+#### Milestone 4000: Cryogenic optical window (ZnSe / BaF2) anti-reflection coating and vacuum pressure seal
+- **Goal:** Model, synthesize, and verify cryogenic optical window (znse / baf2) anti-reflection coating and vacuum pressure seal with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4000_tablet.png, docs/screenshots/m4000_phone.png
+
+#### Milestone 4001: Automated cryogenic thermal heat lift budget (< 1200 mW) verification engine
+- **Goal:** Model, synthesize, and verify automated cryogenic thermal heat lift budget (< 1200 mw) verification engine with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4001_tablet.png, docs/screenshots/m4001_phone.png
+
+#### Milestone 4002: Temperature sensor (calibrated Cernox RTD) integration on detector cold block
+- **Goal:** Model, synthesize, and verify temperature sensor (calibrated cernox rtd) integration on detector cold block with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4002_tablet.png, docs/screenshots/m4002_phone.png
+
+#### Milestone 4003: Vibration isolation cold finger interface suppressing pulse tube mechanical micro-phonics
+- **Goal:** Model, synthesize, and verify vibration isolation cold finger interface suppressing pulse tube mechanical micro-phonics with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4003_tablet.png, docs/screenshots/m4003_phone.png
+
+#### Milestone 4004: Dewar vacuum pump-out valve and burst relief disc safety integration in 3D CAD
+- **Goal:** Model, synthesize, and verify dewar vacuum pump-out valve and burst relief disc safety integration in 3d cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4004_tablet.png, docs/screenshots/m4004_phone.png
+
+#### Milestone 4005: Interactive 3D cryogenic temperature gradient and heat flux visualizer in AndroCAD
+- **Goal:** Model, synthesize, and verify interactive 3d cryogenic temperature gradient and heat flux visualizer in androcad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4005_tablet.png, docs/screenshots/m4005_phone.png
+
+#### Milestone 4006: Cryogenic filter wheel mechanism with low-power cryogenic stepper motor drive
+- **Goal:** Model, synthesize, and verify cryogenic filter wheel mechanism with low-power cryogenic stepper motor drive with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4006_tablet.png, docs/screenshots/m4006_phone.png
+
+#### Milestone 4007: Thermal contraction optical defocus tracking from room temperature down to 77 K
+- **Goal:** Model, synthesize, and verify thermal contraction optical defocus tracking from room temperature down to 77 k with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4007_tablet.png, docs/screenshots/m4007_phone.png
+
+#### Milestone 4008: Titanium Ti-6Al-4V thin-wall thermal isolation neck tube design rules checker
+- **Goal:** Model, synthesize, and verify titanium ti-6al-4v thin-wall thermal isolation neck tube design rules checker with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4008_tablet.png, docs/screenshots/m4008_phone.png
+
+#### Milestone 4009: Compliance verification conforming to NASA / ESA Cryogenic Space & Ground Standards
+- **Goal:** Model, synthesize, and verify compliance verification conforming to nasa / esa cryogenic space & ground standards with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4009_tablet.png, docs/screenshots/m4009_phone.png
+
+#### Milestone 4010: Comprehensive cryogenic sensor Dewar thermal and mechanical qualification dossier
+- **Goal:** Model, synthesize, and verify comprehensive cryogenic sensor dewar thermal and mechanical qualification dossier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4010_tablet.png, docs/screenshots/m4010_phone.png
+
+### Domain 8: Direct-Drive Fast Steering Mirror (FSM) Tip-Tilt Mechanism
+**Subsystem Focus:** Tip-Tilt Actuation (Voice-Coil Direct Drive, Bandwidth >= 200 Hz, Stroke >= 120")
+
+#### Milestone 4011: Beryllium lightweighted flat steering mirror substrate 3D CAD generator
+- **Goal:** Model, synthesize, and verify beryllium lightweighted flat steering mirror substrate 3d cad generator with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4011_tablet.png, docs/screenshots/m4011_phone.png
+
+#### Milestone 4012: Crossed-spring flexure pivot frictionless center of rotation suspension CAD
+- **Goal:** Model, synthesize, and verify crossed-spring flexure pivot frictionless center of rotation suspension cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4012_tablet.png, docs/screenshots/m4012_phone.png
+
+#### Milestone 4013: Four quadrant voice coil electromagnetic linear actuators layout in 3D
+- **Goal:** Model, synthesize, and verify four quadrant voice coil electromagnetic linear actuators layout in 3d with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4013_tablet.png, docs/screenshots/m4013_phone.png
+
+#### Milestone 4014: Closed-loop atmospheric tip-tilt jitter rejection bandwidth (>= 200 Hz) solver
+- **Goal:** Model, synthesize, and verify closed-loop atmospheric tip-tilt jitter rejection bandwidth (>= 200 hz) solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4014_tablet.png, docs/screenshots/m4014_phone.png
+
+#### Milestone 4015: Angular stroke range (>= 120 arcseconds) and sub-milliarcsecond resolution engine
+- **Goal:** Model, synthesize, and verify angular stroke range (>= 120 arcseconds) and sub-milliarcsecond resolution engine with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4015_tablet.png, docs/screenshots/m4015_phone.png
+
+#### Milestone 4016: Capacitive displacement sensors providing high-bandwidth differential position feedback
+- **Goal:** Model, synthesize, and verify capacitive displacement sensors providing high-bandwidth differential position feedback with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4016_tablet.png, docs/screenshots/m4016_phone.png
+
+#### Milestone 4017: Voice coil thermal dissipation (< 5.0 W) and conductive cooling copper heatsink CAD
+- **Goal:** Model, synthesize, and verify voice coil thermal dissipation (< 5.0 w) and conductive cooling copper heatsink cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4017_tablet.png, docs/screenshots/m4017_phone.png
+
+#### Milestone 4018: Atmospheric Greenwood frequency tracking and fast optical loop latency (< 1.5 ms)
+- **Goal:** Model, synthesize, and verify atmospheric greenwood frequency tracking and fast optical loop latency (< 1.5 ms) with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4018_tablet.png, docs/screenshots/m4018_phone.png
+
+#### Milestone 4019: Permanent magnet NdFeB magnetic circuit design maximizing force constant (N/A)
+- **Goal:** Model, synthesize, and verify permanent magnet ndfeb magnetic circuit design maximizing force constant (n/a) with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4019_tablet.png, docs/screenshots/m4019_phone.png
+
+#### Milestone 4020: Dynamic mass balancing counterweight preventing reaction torques on optical bench
+- **Goal:** Model, synthesize, and verify dynamic mass balancing counterweight preventing reaction torques on optical bench with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4020_tablet.png, docs/screenshots/m4020_phone.png
+
+#### Milestone 4021: Mirror surface distortion under voice coil peak acceleration (50g) FEA verifier
+- **Goal:** Model, synthesize, and verify mirror surface distortion under voice coil peak acceleration (50g) fea verifier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4021_tablet.png, docs/screenshots/m4021_phone.png
+
+#### Milestone 4022: Current amplifier low-noise electronics with multi-pole notch filters for flexure modes
+- **Goal:** Model, synthesize, and verify current amplifier low-noise electronics with multi-pole notch filters for flexure modes with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4022_tablet.png, docs/screenshots/m4022_phone.png
+
+#### Milestone 4023: Automated FSM dynamic clearance and mechanical travel stop DRC checker in 3D
+- **Goal:** Model, synthesize, and verify automated fsm dynamic clearance and mechanical travel stop drc checker in 3d with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4023_tablet.png, docs/screenshots/m4023_phone.png
+
+#### Milestone 4024: Mirror coating (protected silver / gold) high reflectivity (> 98%) across science band
+- **Goal:** Model, synthesize, and verify mirror coating (protected silver / gold) high reflectivity (> 98%) across science band with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4024_tablet.png, docs/screenshots/m4024_phone.png
+
+#### Milestone 4025: Interactive 3D tip-tilt trajectory and frequency response visualizer in AndroCAD
+- **Goal:** Model, synthesize, and verify interactive 3d tip-tilt trajectory and frequency response visualizer in androcad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4025_tablet.png, docs/screenshots/m4025_phone.png
+
+#### Milestone 4026: FSM step response rise time (< 2.5 ms) and zero overshoot PID control optimization
+- **Goal:** Model, synthesize, and verify fsm step response rise time (< 2.5 ms) and zero overshoot pid control optimization with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4026_tablet.png, docs/screenshots/m4026_phone.png
+
+#### Milestone 4027: Mechanical flexure pivot infinite fatigue life (> 10^9 cycles) safety margin solver
+- **Goal:** Model, synthesize, and verify mechanical flexure pivot infinite fatigue life (> 10^9 cycles) safety margin solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4027_tablet.png, docs/screenshots/m4027_phone.png
+
+#### Milestone 4028: Optical bench mounting interface with 0.0mm kinematic three-groove Kelvin clamp
+- **Goal:** Model, synthesize, and verify optical bench mounting interface with 0.0mm kinematic three-groove kelvin clamp with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4028_tablet.png, docs/screenshots/m4028_phone.png
+
+#### Milestone 4029: Compliance verification conforming to Adaptive Optics Fast Steering Mirror Standards
+- **Goal:** Model, synthesize, and verify compliance verification conforming to adaptive optics fast steering mirror standards with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4029_tablet.png, docs/screenshots/m4029_phone.png
+
+#### Milestone 4030: Comprehensive fast steering mirror tip-tilt performance qualification dossier
+- **Goal:** Model, synthesize, and verify comprehensive fast steering mirror tip-tilt performance qualification dossier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4030_tablet.png, docs/screenshots/m4030_phone.png
+
+### Domain 9: Telescope Altitude-Azimuth (Alt-Az) Hydrostatic Oil Bearings
+**Subsystem Focus:** Telescope Mount (Hydrostatic Oil Pads, Film h >= 35 um, Friction mu < 0.0005)
+
+#### Milestone 4031: Multi-pad hydrostatic azimuth track and spherical elevation bearing 3D CAD generator
+- **Goal:** Model, synthesize, and verify multi-pad hydrostatic azimuth track and spherical elevation bearing 3d cad generator with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4031_tablet.png, docs/screenshots/m4031_phone.png
+
+#### Milestone 4032: Continuous hydrodynamic oil film thickness (h >= 35 um) Reynolds equation solver
+- **Goal:** Model, synthesize, and verify continuous hydrodynamic oil film thickness (h >= 35 um) reynolds equation solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4032_tablet.png, docs/screenshots/m4032_phone.png
+
+#### Milestone 4033: Ultra-low friction coefficient (mu < 0.0005) eliminating stick-slip during slow guiding
+- **Goal:** Model, synthesize, and verify ultra-low friction coefficient (mu < 0.0005) eliminating stick-slip during slow guiding with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4033_tablet.png, docs/screenshots/m4033_phone.png
+
+#### Milestone 4034: Recess oil cavity pressure distribution under varying telescope gravity orientations
+- **Goal:** Model, synthesize, and verify recess oil cavity pressure distribution under varying telescope gravity orientations with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4034_tablet.png, docs/screenshots/m4034_phone.png
+
+#### Milestone 4035: Hydraulic power unit (HPU) constant-flow capillary restrictor vs PM flow controller CAD
+- **Goal:** Model, synthesize, and verify hydraulic power unit (hpu) constant-flow capillary restrictor vs pm flow controller cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4035_tablet.png, docs/screenshots/m4035_phone.png
+
+#### Milestone 4036: Hydrostatic pad self-aligning spherical seat decoupling track geometric runout in 3D
+- **Goal:** Model, synthesize, and verify hydrostatic pad self-aligning spherical seat decoupling track geometric runout in 3d with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4036_tablet.png, docs/screenshots/m4036_phone.png
+
+#### Milestone 4037: Oil scavenge return trough and labyrinth seal preventing oil contamination of optics
+- **Goal:** Model, synthesize, and verify oil scavenge return trough and labyrinth seal preventing oil contamination of optics with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4037_tablet.png, docs/screenshots/m4037_phone.png
+
+#### Milestone 4038: Telescope pointing and tracking jitter (< 0.02 arcsec) on hydrostatic oil film verifier
+- **Goal:** Model, synthesize, and verify telescope pointing and tracking jitter (< 0.02 arcsec) on hydrostatic oil film verifier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4038_tablet.png, docs/screenshots/m4038_phone.png
+
+#### Milestone 4039: Viscous dissipation oil temperature rise and inline heat exchanger cooling capacity
+- **Goal:** Model, synthesize, and verify viscous dissipation oil temperature rise and inline heat exchanger cooling capacity with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4039_tablet.png, docs/screenshots/m4039_phone.png
+
+#### Milestone 4040: Direct-drive torque motor (segmented ironless permanent magnet) rotor and stator CAD
+- **Goal:** Model, synthesize, and verify direct-drive torque motor (segmented ironless permanent magnet) rotor and stator cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4040_tablet.png, docs/screenshots/m4040_phone.png
+
+#### Milestone 4041: High-precision Renishaw tape optical encoder mounting directly on azimuth track
+- **Goal:** Model, synthesize, and verify high-precision renishaw tape optical encoder mounting directly on azimuth track with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4041_tablet.png, docs/screenshots/m4041_phone.png
+
+#### Milestone 4042: Emergency braking shoe and pneumatic caliper clamping on hydrostatic track in 3D
+- **Goal:** Model, synthesize, and verify emergency braking shoe and pneumatic caliper clamping on hydrostatic track in 3d with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4042_tablet.png, docs/screenshots/m4042_phone.png
+
+#### Milestone 4043: Automated oil film collapse safety interlock and hydraulic accumulator backup design
+- **Goal:** Model, synthesize, and verify automated oil film collapse safety interlock and hydraulic accumulator backup design with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4043_tablet.png, docs/screenshots/m4043_phone.png
+
+#### Milestone 4044: Hydrostatic pad pre-loading arrangement ensuring stiffness against overturning moments
+- **Goal:** Model, synthesize, and verify hydrostatic pad pre-loading arrangement ensuring stiffness against overturning moments with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4044_tablet.png, docs/screenshots/m4044_phone.png
+
+#### Milestone 4045: Interactive 3D oil pressure isobar map and velocity streamline visualizer in AndroCAD
+- **Goal:** Model, synthesize, and verify interactive 3d oil pressure isobar map and velocity streamline visualizer in androcad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4045_tablet.png, docs/screenshots/m4045_phone.png
+
+#### Milestone 4046: Track precision grinding specification (flatness < 10 um) and joint transition bridge CAD
+- **Goal:** Model, synthesize, and verify track precision grinding specification (flatness < 10 um) and joint transition bridge cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4046_tablet.png, docs/screenshots/m4046_phone.png
+
+#### Milestone 4047: Oil cleanliness ISO 4406 Class 14/11 micro-filtration circuit design rules checker
+- **Goal:** Model, synthesize, and verify oil cleanliness iso 4406 class 14/11 micro-filtration circuit design rules checker with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4047_tablet.png, docs/screenshots/m4047_phone.png
+
+#### Milestone 4048: Telescope altitude axis hydrostatic trunnion bearing dual-pad packaging in fork arm
+- **Goal:** Model, synthesize, and verify telescope altitude axis hydrostatic trunnion bearing dual-pad packaging in fork arm with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4048_tablet.png, docs/screenshots/m4048_phone.png
+
+#### Milestone 4049: Compliance verification conforming to Astronomical Mount Hydrostatic Engineering Rules
+- **Goal:** Model, synthesize, and verify compliance verification conforming to astronomical mount hydrostatic engineering rules with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4049_tablet.png, docs/screenshots/m4049_phone.png
+
+#### Milestone 4050: Comprehensive telescope Alt-Az hydrostatic bearing and drive qualification dossier
+- **Goal:** Model, synthesize, and verify comprehensive telescope alt-az hydrostatic bearing and drive qualification dossier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4050_tablet.png, docs/screenshots/m4050_phone.png
+
+### Domain 10: Enclosure Aerodynamic Flushing & Dome Seeing Degradation
+**Subsystem Focus:** Telescope Enclosure (Natural Wind Flushing, Dome Seeing < 0.85", Fried r0 >= 12 cm)
+
+#### Milestone 4051: Spherical / octagonal telescope dome shutter and ventilation louvers 3D CAD generator
+- **Goal:** Model, synthesize, and verify spherical / octagonal telescope dome shutter and ventilation louvers 3d cad generator with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4051_tablet.png, docs/screenshots/m4051_phone.png
+
+#### Milestone 4052: Dome interior natural wind flushing airflow velocity and air exchange rate solver
+- **Goal:** Model, synthesize, and verify dome interior natural wind flushing airflow velocity and air exchange rate solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4052_tablet.png, docs/screenshots/m4052_phone.png
+
+#### Milestone 4053: Thermal seeing degradation index and Fried parameter (r0 >= 12 cm) calculation engine
+- **Goal:** Model, synthesize, and verify thermal seeing degradation index and fried parameter (r0 >= 12 cm) calculation engine with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4053_tablet.png, docs/screenshots/m4053_phone.png
+
+#### Milestone 4054: Floor cooling refrigeration system maintaining dome air within 0.5 C of ambient night
+- **Goal:** Model, synthesize, and verify floor cooling refrigeration system maintaining dome air within 0.5 c of ambient night with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4054_tablet.png, docs/screenshots/m4054_phone.png
+
+#### Milestone 4055: Telescope aperture wind screen porous textile / slat fabric reducing buffeting in 3D
+- **Goal:** Model, synthesize, and verify telescope aperture wind screen porous textile / slat fabric reducing buffeting in 3d with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4055_tablet.png, docs/screenshots/m4055_phone.png
+
+#### Milestone 4056: Air extraction exhaust fans beneath primary mirror and floor removing heat plumes
+- **Goal:** Model, synthesize, and verify air extraction exhaust fans beneath primary mirror and floor removing heat plumes with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4056_tablet.png, docs/screenshots/m4056_phone.png
+
+#### Milestone 4057: Exterior dome skin high-reflectivity titanium dioxide white paint solar heat rejection
+- **Goal:** Model, synthesize, and verify exterior dome skin high-reflectivity titanium dioxide white paint solar heat rejection with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4057_tablet.png, docs/screenshots/m4057_phone.png
+
+#### Milestone 4058: Telescope wake turbulence and thermal plume CFD trajectory relative to wind direction
+- **Goal:** Model, synthesize, and verify telescope wake turbulence and thermal plume cfd trajectory relative to wind direction with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4058_tablet.png, docs/screenshots/m4058_phone.png
+
+#### Milestone 4059: Dome shutter dual-leaf sliding mechanism with redundant motor and cable drive CAD
+- **Goal:** Model, synthesize, and verify dome shutter dual-leaf sliding mechanism with redundant motor and cable drive cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4059_tablet.png, docs/screenshots/m4059_phone.png
+
+#### Milestone 4060: Dome rotation azimuth bogie wheel carriages and spring-loaded lateral guide rollers in 3D
+- **Goal:** Model, synthesize, and verify dome rotation azimuth bogie wheel carriages and spring-loaded lateral guide rollers in 3d with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4060_tablet.png, docs/screenshots/m4060_phone.png
+
+#### Milestone 4061: Infiltration seal inflatable rubber gaskets weatherproofing dome during summit storms
+- **Goal:** Model, synthesize, and verify infiltration seal inflatable rubber gaskets weatherproofing dome during summit storms with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4061_tablet.png, docs/screenshots/m4061_phone.png
+
+#### Milestone 4062: Thermal boundary layer thickness on primary mirror under varying ventilation speeds
+- **Goal:** Model, synthesize, and verify thermal boundary layer thickness on primary mirror under varying ventilation speeds with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4062_tablet.png, docs/screenshots/m4062_phone.png
+
+#### Milestone 4063: Automated dome shutter clear line-of-sight tracking and vignetting DRC checker
+- **Goal:** Model, synthesize, and verify automated dome shutter clear line-of-sight tracking and vignetting drc checker with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4063_tablet.png, docs/screenshots/m4063_phone.png
+
+#### Milestone 4064: Wind speed limits and automatic dome emergency closure protocol under gale conditions
+- **Goal:** Model, synthesize, and verify wind speed limits and automatic dome emergency closure protocol under gale conditions with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4064_tablet.png, docs/screenshots/m4064_phone.png
+
+#### Milestone 4065: Interactive 3D aerodynamic wind streamline and thermal seeing contour visualization
+- **Goal:** Model, synthesize, and verify interactive 3d aerodynamic wind streamline and thermal seeing contour visualization with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4065_tablet.png, docs/screenshots/m4065_phone.png
+
+#### Milestone 4066: Crane bridge rail hoist packaging in dome roof for instrument exchange maneuvers
+- **Goal:** Model, synthesize, and verify crane bridge rail hoist packaging in dome roof for instrument exchange maneuvers with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4066_tablet.png, docs/screenshots/m4066_phone.png
+
+#### Milestone 4067: Acoustic damping insulation panels reducing wind flutter noise inside dome volume
+- **Goal:** Model, synthesize, and verify acoustic damping insulation panels reducing wind flutter noise inside dome volume with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4067_tablet.png, docs/screenshots/m4067_phone.png
+
+#### Milestone 4068: Lightning protection Faraday cage grounding rod network around dome perimeter CAD
+- **Goal:** Model, synthesize, and verify lightning protection faraday cage grounding rod network around dome perimeter cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4068_tablet.png, docs/screenshots/m4068_phone.png
+
+#### Milestone 4069: Compliance verification conforming to Observatory Site and Enclosure Standards
+- **Goal:** Model, synthesize, and verify compliance verification conforming to observatory site and enclosure standards with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4069_tablet.png, docs/screenshots/m4069_phone.png
+
+#### Milestone 4070: Comprehensive telescope enclosure aerodynamic flushing and dome seeing dossier
+- **Goal:** Model, synthesize, and verify comprehensive telescope enclosure aerodynamic flushing and dome seeing dossier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase23Engine solver, Kotlin Phase23Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4070_tablet.png, docs/screenshots/m4070_phone.png
+

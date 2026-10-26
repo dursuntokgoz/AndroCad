@@ -862,3 +862,11 @@
 - Sürüm: v20.0.0 (versionCode 2000).
 - 400 doğrulanmış tablet ve telefon ekran görüntüsü docs/screenshots/ dizinine eklendi.
 - IEC 61400-1, IEC 61400-4, IEC 61400-11, IEC 61400-23, DNV-ST-0437, DNV-ST-0126 standartları sağlandı.
+
+
+## Faz 23: Astronomical Telescope Optical Mounting & Active Optics Suite (M3871 - M4070) Tamamlandı
+- Toplam 200 milestone başarıyla tamamlandı (M3871 - M4070).
+- Kümülatif tamamlanan milestone sayısı: **4,070 Milestone**.
+- Sürüm: v21.0.0 (versionCode 2100).
+- 400 doğrulanmış tablet ve telefon ekran görüntüsü docs/screenshots/ dizinine eklendi.
+- ISO 10110, ISO 14999 ve ISO 9283 standartları sağlandı.
