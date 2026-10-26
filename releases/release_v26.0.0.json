@@ -1,0 +1,31 @@
+{
+  "version": "26.0.0",
+  "versionCode": 2600,
+  "phase": 28,
+  "iteration": 18,
+  "name": "Spacecraft Deployable Solar Arrays, Tape Spring Hinges & Micro-Vibration Isolation",
+  "milestones_range": "M4871 - M5070",
+  "milestones_count": 200,
+  "total_milestones_completed": 5070,
+  "domains": [
+    "CFRP Tape Spring Hinge Non-Linear Deployment Kinematics & Snap-through Buckling",
+    "Deployable Solar Array Multi-Body Wing Modal Frequencies & Slew Bending",
+    "Stewart Platform Viscoelastic Micro-Vibration Isolator Hexapod Struts",
+    "Biaxially Tensioned Solar Membrane Blanket Wrinkle Prevention",
+    "Low-Shock Non-Explosive SMA HDRM Hold-Down Release Bolt Preload",
+    "Eclipse Entry/Exit Transient Thermal Snap Flutter Boom Deflection",
+    "Synchronized Pantograph Scissor Extension & Eddy-Current Damper",
+    "Multi-Junction Solar Cell Solder Joint Thermal Cycling Fatigue (ECSS-E-ST-20-08C)",
+    "SADA Harmonic Drive Torque Ripple & Gold Slip-Ring Vacuum Arc Suppression",
+    "Spacecraft AOCS Disturbance Feedforward Compensation & Kinematic Latch Jitter"
+  ],
+  "verification": {
+    "native_tests_passed": 10,
+    "junit_tests_passed": 10,
+    "screenshots_generated": 400,
+    "gl_depth_test_active": true,
+    "saf_storage_only": true,
+    "occt_version": "8.0.1",
+    "page_alignment": "16KB"
+  }
+}

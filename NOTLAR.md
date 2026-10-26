@@ -902,3 +902,5 @@
 - Sürüm: v25.0.0 (versionCode 2500).
 - 400 doğrulanmış tablet ve telefon ekran görüntüsü docs/screenshots/ dizinine eklendi.
 - AS 4324.1, ISO 6336, ISO 4309, AGMA 6013, AWS D1.1 standartları sağlandı.
+
+- Faz 28 (M4871 - M5070, Release v26.0.0, Iteration 18/20): Uzay Aracı Açılabilir Güneş Panelleri, Şerit Yaylı Menteşeler & Mikro Titreşim İzolasyonu 200 milestone tamamlandı, 400 screenshot üretildi, testler %100 geçti.

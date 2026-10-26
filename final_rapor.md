@@ -142,3 +142,8 @@
 - 200 yeni ağır madencilik ekskavatör ve bom mekaniği milestone'u başarıyla uygulandı.
 - Sürüm v25.0.0 yayımlandı.
 - Toplam milestone sayısı 4,870'e ulaştı.
+
+### Faz 28: Uzay Aracı Açılabilir Güneş Panelleri, Şerit Yaylı Menteşeler & Mikro Titreşim İzolasyonu (M4871 - M5070)
+- Sürüm: v26.0.0 (versionCode: 2600)
+- 200 Milestone, 400 Screenshot, 10 C++ & 10 Kotlin Testi başarıyla tamamlandı.
+- Toplam Milestone İlerlemesi: 5,070 / 5,470.

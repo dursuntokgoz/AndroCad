@@ -36274,3 +36274,15 @@ Faz 27 delivers 200 specialized CAD/CAE milestones for super-heavy open-cut mini
 - **Status:** Done
 - **Screenshots:** docs/screenshots/m4870_tablet.png, docs/screenshots/m4870_phone.png
 
+
+## Faz 28: Uzay Aracı Açılabilir Güneş Panelleri, Şerit Yaylı Menteşeler & Mikro Titreşim İzolasyonu (M4871 - M5070) - Release v26.0.0
+- **M4871 - M4890**: Ultra ince CFRP şerit yaylı menteşe (tape spring hinge) non-lineer açılma kinematiği, snap-through burkulma ve steady-state kilit torku analizi.
+- **M4891 - M4910**: Açılabilir güneş paneli kanadı multi-body dinamik modellemesi, konsol temel eğilme frekansı (f1 >= 0.15 Hz) ve istiflenmiş mod kontrolü (>= 35 Hz).
+- **M4911 - M4930**: Stewart platformu hekzapod viskoelastik mikro titreşim izolasyon payandaları, Q sönümleme faktörü (<= 3.5) ve 200 Hz yüksek frekans bastırma (<= -35 dB).
+- **M4931 - M4950**: Ön gerilmeli güneş zarı (membrane blanket) modal gerilimi, iki eksenli gerilme dağılımı ve diyagonal çerçeve çarpılmasında kırışıksızlık (wrinkle-free) emniyeti.
+- **M4951 - M4970**: Düşük şoklu tutma ve bırakma mekanizması (HDRM - Hold-Down and Release Mechanism), SMA ayrık makara ön yükleme tutumu (>= 18 kN) ve SRS şok spektrumu (<= 450 g @ 10 kHz).
+- **M4971 - M4990**: Tutulma giriş/çıkış termal snap flutter geçici eğilme sönümlemesi, kompozit boma enine termal gradyan (Delta T) ve kalıcı yerleşim süresi (<= 45 s).
+- **M4991 - M5010**: Senkronize makaslı pantograf (scissors linkage) açılma mekanizması, girdap akımlı (eddy-current) hız regülatörü ve darbesiz son strok kilitlenmesi.
+- **M5011 - M5030**: Yüksek verimli çok eklemli GaInP/InGaAs/Ge güneş hücresi yerleşimi, gerilme hafifletici genleşme halkası ve GEO termal döngü (-175°C ile +125°C, >= 2000 döngü) lehim yorulma analizi.
+- **M5031 - M5050**: Güneş paneli tahrik mekanizması (SADA - Solar Array Drive Assembly) harmonik redüktör tork dalgalanması (ripple <= 0.04 Nm) ve altın kontaklı kayar bilezik mikro ark koruması.
+- **M5051 - M5070**: Uzay aracı yönelim bozuntu ileri besleme (feedforward) kompanzasyonu (% >= 98.0 giderme), artık yönelim titreşimi (jitter <= 0.50 urad) ve kinematik yuvalı kenetlenme arayüzü.
