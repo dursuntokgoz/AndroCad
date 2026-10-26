@@ -50,6 +50,7 @@ An original, professional parametric 3D CAD application engineered for Android t
 | **Optical Engineering & Ray Bundles** | ✅ Working | Sequential/non-sequential optical tracing, MTF contrast curves, and Seidel aberrations. |
 | **Bio-Mechanical & Medical Implant CAD** | ✅ Working | TPMS porous diamond lattice, patient-specific bone reconstruction, and ISO 13485. |
 | **Aerospace Aerothermal & Hypersonic CAD** | ✅ Working | Fay-Riddell heating, PICA-X ablation recession, rocket regen cooling, and AS9100D. |
+| **Marine Hydrodynamics & Naval CAD** | ✅ Working | Bulbous bow wave cancellation, propeller cavitation (Keller), submarine buckling, and DNV/ABS. |
 
 ---
 
