@@ -886,3 +886,11 @@
 - Sürüm: v23.0.0 (versionCode 2300).
 - 400 doğrulanmış tablet ve telefon ekran görüntüsü docs/screenshots/ dizinine eklendi.
 - EN 14363, EN 13749, EN 14535, EN 12299, UIC 518 standartları sağlandı.
+
+
+## Faz 26: Deep-Sea Submersible Titanium Spheres & Viewports CAD Suite (M4471 - M4670) Tamamlandı
+- Toplam 200 milestone başarıyla tamamlandı (M4471 - M4670).
+- Kümülatif tamamlanan milestone sayısı: **4,670 Milestone**.
+- Sürüm: v24.0.0 (versionCode 2400).
+- 400 doğrulanmış tablet ve telefon ekran görüntüsü docs/screenshots/ dizinine eklendi.
+- ASME PVHO-1, DNV-GL, ABS, NAVSEA SS521 standartları sağlandı.

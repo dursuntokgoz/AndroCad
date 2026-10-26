@@ -130,3 +130,9 @@
 - 200 yeni yüksek hızlı tren boji ve temas dinamiği milestone'u başarıyla uygulandı.
 - Sürüm v23.0.0 yayımlandı.
 - Toplam milestone sayısı 4,470'e ulaştı.
+
+
+## Faz 26 Özeti: Derin Deniz Dalgıç Titanyum Küre ve Akrilik Lumboz Paketi (M4471 - M4670)
+- 200 yeni hadal derin deniz dalgıç mekaniği milestone'u başarıyla uygulandı.
+- Sürüm v24.0.0 yayımlandı.
+- Toplam milestone sayısı 4,670'e ulaştı.
