@@ -59,6 +59,7 @@ if(ANDROID)
         src/Phase12Engine.cpp
         src/Phase13Engine.cpp
         src/Phase14Engine.cpp
+        src/Phase15Engine.cpp
         src/native_kernel_jni.cpp
     )
 
@@ -789,6 +790,7 @@ else()
 
     add_executable(androcad_faz14_suite_test
         src/Phase14Engine.cpp
+        src/Phase15Engine.cpp
         tests/test_faz14_suite.cpp
     )
 

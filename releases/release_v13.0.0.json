@@ -1,0 +1,20 @@
+{
+  "version": "13.0.0",
+  "versionCode": 1300,
+  "phase": 15,
+  "milestones": "M2271 - M2470",
+  "total_milestones_completed": 2470,
+  "domains": [
+    "Reactor Pressure Vessel (RPV) ASME Section III Class 1 Stress Analysis",
+    "High-Temperature Thermal Creep Relaxation & Larson-Miller Rupture Life",
+    "Fast Neutron Radiation Embrittlement & Charpy V-Notch Shift",
+    "Biological Concrete & Heavy Metal Gamma/Neutron Radiation Shielding",
+    "Control Rod Drive Mechanism (CRDM) Emergency Scram Dynamics",
+    "Thermal-Hydraulic Subchannel Analysis & Critical Heat Flux (DNBR)",
+    "Safe Shutdown Earthquake (SSE) Response Spectrum & Piping Stress",
+    "Reactor Internals Flow-Induced Vibration (FIV) & Acoustic Resonance",
+    "Zircaloy-4 / Accident Tolerant Fuel (ATF) Cladding High-Temp Oxidation",
+    "Prestressed Concrete Containment Vessel (PCCV) Ultimate Capacity"
+  ],
+  "release_notes": "Faz 15 Nuclear CAD / CAE Engineering Suite delivering deterministic RPV ASME stress, thermal creep relaxation, fast neutron embrittlement, biological shielding, CRDM scram kinematics, DNBR thermal margin, and containment burst capacity."
+}
