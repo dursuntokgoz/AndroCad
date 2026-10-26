@@ -51,6 +51,7 @@ An original, professional parametric 3D CAD application engineered for Android t
 | **Bio-Mechanical & Medical Implant CAD** | ✅ Working | TPMS porous diamond lattice, patient-specific bone reconstruction, and ISO 13485. |
 | **Aerospace Aerothermal & Hypersonic CAD** | ✅ Working | Fay-Riddell heating, PICA-X ablation recession, rocket regen cooling, and AS9100D. |
 | **Marine Hydrodynamics & Naval CAD** | ✅ Working | Bulbous bow wave cancellation, propeller cavitation (Keller), submarine buckling, and DNV/ABS. |
+| **Sub-Micron Semiconductor & 3D IC CAD** | ✅ Working | TSV thermo-mechanical stress, 2.5D/3D interposer warpage, HBM3e 16-high, and JEDEC/SEMI. |
 
 ---
 

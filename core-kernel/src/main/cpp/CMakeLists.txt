@@ -58,6 +58,7 @@ if(ANDROID)
         src/Phase11Engine.cpp
         src/Phase12Engine.cpp
         src/Phase13Engine.cpp
+        src/Phase14Engine.cpp
         src/native_kernel_jni.cpp
     )
 
@@ -785,4 +786,11 @@ else()
     )
 
     add_test(NAME Faz13SuiteTest COMMAND androcad_faz13_suite_test)
+
+    add_executable(androcad_faz14_suite_test
+        src/Phase14Engine.cpp
+        tests/test_faz14_suite.cpp
+    )
+
+    add_test(NAME Faz14SuiteTest COMMAND androcad_faz14_suite_test)
 endif()

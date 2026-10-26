@@ -56,3 +56,11 @@
 - **Sürüm:** v11.0.0 (versionCode 1100)
 - **Denizcilik Yetenekleri:** Parametrik tekne formu, baş bodoslama, pervane kavitasyonu, denizaltı mukavim teknesi, DNV/ABS klas.
 - **Mimari:** OCCT 8.0.1, 16 KB page-alignment, SAF-only depolama.
+
+
+## Faz 14 ve Release v12.0.0 Özeti (2026-10-27)
+
+- **Tamamlanan Milestone:** M2071 - M2270 (200 Adet, Kümülatif: 2,270 Adet)
+- **Sürüm:** v12.0.0 (versionCode 1200)
+- **Yarı İletken Yetenekleri:** TSV termo-mekanik, 2.5D/3D interposer warpage, mikro-bump elektromigrasyon, HBM3e 16-high, JEDEC/SEMI.
+- **Mimari:** OCCT 8.0.1, 16 KB page-alignment, SAF-only depolama.
