@@ -48,6 +48,7 @@ An original, professional parametric 3D CAD application engineered for Android t
 | **Robotics & Offline Programming (OLP)** | ✅ Working | 6-axis industrial kinematics, Cartesian trajectory planning, and robot controller posts. |
 | **Polymer & Composite Science** | ✅ Working | Classical Lamination Theory (CLT), Tsai-Wu failure criteria, and draping simulation. |
 | **Optical Engineering & Ray Bundles** | ✅ Working | Sequential/non-sequential optical tracing, MTF contrast curves, and Seidel aberrations. |
+| **Bio-Mechanical & Medical Implant CAD** | ✅ Working | TPMS porous diamond lattice, patient-specific bone reconstruction, and ISO 13485. |
 
 ---
 
