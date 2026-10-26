@@ -12,8 +12,8 @@ android {
         applicationId = "com.androcad.app"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1700
-        versionName = "17.0.0"
+        versionCode = 1800
+        versionName = "18.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

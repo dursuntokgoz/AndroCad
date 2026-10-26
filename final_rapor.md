@@ -94,3 +94,9 @@
 - 200 yeni otomotiv çarpışma güvenliği milestone'u başarıyla uygulandı.
 - Sürüm v17.0.0 yayımlandı.
 - Toplam milestone sayısı 3,270'e ulaştı.
+
+
+## Faz 20 Özeti: Kriyojenik Roket Turbopomp ve Yanma Odası CAD Paketi (M3271 - M3470)
+- 200 yeni kriyojenik roket turbomachinery milestone'u başarıyla uygulandı.
+- Sürüm v18.0.0 yayımlandı.
+- Toplam milestone sayısı 3,470'e ulaştı.

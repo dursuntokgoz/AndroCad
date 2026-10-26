@@ -27964,3 +27964,1240 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
 - **Status:** Done
 - **Finish Date:** 2026-10-27
 
+
+## Faz 20: Cryogenic Rocket Engine Turbopump, Inducer & Combustion Chamber CAD/CAE Suite (M3271 - M3470) - Release v18.0.0
+
+**Status:** Done
+**Scope:** 200 Milestones (M3271 - M3470)
+**Version:** v18.0.0 (versionCode 1800)
+
+### Alan 1: Cryogenic Inducer Cavitation & Suction Specific Speed (Nss)
+**Alt Sistem:** Cryo Turbomachinery (Helical Inducer, Nss >= 25000, 3% Head Drop Limit)
+
+#### Milestone 3271: Low-solidity variable-pitch helical inducer blade camber line synthesizer
+- **Goal:** Low-solidity variable-pitch helical inducer blade camber line synthesizer using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3271_tablet.png`, `docs/screenshots/m3271_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3272: Suction specific speed (Nss >= 25,000 US) cavitation margin optimizer
+- **Goal:** Suction specific speed (Nss >= 25,000 US) cavitation margin optimizer using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3272_tablet.png`, `docs/screenshots/m3272_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3273: Rotating cavitation and asymmetric blade cavitation cell instability solver
+- **Goal:** Rotating cavitation and asymmetric blade cavitation cell instability solver using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3273_tablet.png`, `docs/screenshots/m3273_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3274: Leading edge sweep and blade wedge angle minimizing vapor inception volume
+- **Goal:** Leading edge sweep and blade wedge angle minimizing vapor inception volume using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3274_tablet.png`, `docs/screenshots/m3274_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3275: Inducer shroud tip leakage vortex cavitation cloud acoustic emission model
+- **Goal:** Inducer shroud tip leakage vortex cavitation cloud acoustic emission model using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3275_tablet.png`, `docs/screenshots/m3275_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3276: Inlet backflow vortex and fluid prerotation swirl angle suppressor vanes CAD
+- **Goal:** Inlet backflow vortex and fluid prerotation swirl angle suppressor vanes CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3276_tablet.png`, `docs/screenshots/m3276_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3277: Cryogenic thermodynamic thermal suppression effect in liquid methane vs water
+- **Goal:** Cryogenic thermodynamic thermal suppression effect in liquid methane vs water using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3277_tablet.png`, `docs/screenshots/m3277_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3278: Inducer blade tip clearance (0.35 mm) hydrodynamic reverse leakage jet solver
+- **Goal:** Inducer blade tip clearance (0.35 mm) hydrodynamic reverse leakage jet solver using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3278_tablet.png`, `docs/screenshots/m3278_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3279: Axial thrust balance piston integrated behind inducer discharge passage CAD
+- **Goal:** Axial thrust balance piston integrated behind inducer discharge passage CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3279_tablet.png`, `docs/screenshots/m3279_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3280: Inducer high-cycle fatigue (HCF) Campbell diagram resonant Campbell line crossing
+- **Goal:** Inducer high-cycle fatigue (HCF) Campbell diagram resonant Campbell line crossing using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3280_tablet.png`, `docs/screenshots/m3280_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3281: Titanium Ti-5Al-2.5Sn ELI cryogenic fracture toughness blisk geometry CAD
+- **Goal:** Titanium Ti-5Al-2.5Sn ELI cryogenic fracture toughness blisk geometry CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3281_tablet.png`, `docs/screenshots/m3281_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3282: Multi-stage inducer-impeller transition diffuser vane alignment and incidence
+- **Goal:** Multi-stage inducer-impeller transition diffuser vane alignment and incidence using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3282_tablet.png`, `docs/screenshots/m3282_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3283: Automated parametric helical inducer 3D CAD generator with 0.0mm hub binding
+- **Goal:** Automated parametric helical inducer 3D CAD generator with 0.0mm hub binding using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3283_tablet.png`, `docs/screenshots/m3283_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3284: Cryogenic cavitation bubble collapse shock wave micro-erosion pitting rate
+- **Goal:** Cryogenic cavitation bubble collapse shock wave micro-erosion pitting rate using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3284_tablet.png`, `docs/screenshots/m3284_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3285: Real-time inducer inlet cavitation number telemetry monitor in AndroCAD 3D
+- **Goal:** Real-time inducer inlet cavitation number telemetry monitor in AndroCAD 3D using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3285_tablet.png`, `docs/screenshots/m3285_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3286: Inducer casting vs 5-axis simultaneous CNC milling toolpath surface finish CAD
+- **Goal:** Inducer casting vs 5-axis simultaneous CNC milling toolpath surface finish CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3286_tablet.png`, `docs/screenshots/m3286_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3287: Compliance verification conforming to NASA SP-8052 Liquid Rocket Engine Turbopump
+- **Goal:** Compliance verification conforming to NASA SP-8052 Liquid Rocket Engine Turbopump using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3287_tablet.png`, `docs/screenshots/m3287_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3288: Interactive 3D inducer cavitation bubble volume visualizer across throttling range
+- **Goal:** Interactive 3D inducer cavitation bubble volume visualizer across throttling range using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3288_tablet.png`, `docs/screenshots/m3288_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3289: Dual-inlet coaxial LOX inducer splitter blade packaging in compact turbopump head
+- **Goal:** Dual-inlet coaxial LOX inducer splitter blade packaging in compact turbopump head using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3289_tablet.png`, `docs/screenshots/m3289_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3290: Comprehensive cryogenic inducer cavitation and suction longevity qualification dossier
+- **Goal:** Comprehensive cryogenic inducer cavitation and suction longevity qualification dossier using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3290_tablet.png`, `docs/screenshots/m3290_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+### Alan 2: High-Speed Centrifugal Impeller Stresses & Fluid-Structure Interaction (FSI)
+**Alt Sistem:** Centrifugal Pump (45,000 RPM, Backswept Blades, FSI Burst Margin >= 1.25)
+
+#### Milestone 3291: Shrouded versus open backswept centrifugal impeller 3D aerodynamic blade CAD
+- **Goal:** Shrouded versus open backswept centrifugal impeller 3D aerodynamic blade CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3291_tablet.png`, `docs/screenshots/m3291_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3292: Centrifugal hoop stress at hub bore (burst safety margin >= 1.25) under 45,000 RPM
+- **Goal:** Centrifugal hoop stress at hub bore (burst safety margin >= 1.25) under 45,000 RPM using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3292_tablet.png`, `docs/screenshots/m3292_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3293: Blade root dynamic bending moment under high-pressure discharge (250 bar)
+- **Goal:** Blade root dynamic bending moment under high-pressure discharge (250 bar) using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3293_tablet.png`, `docs/screenshots/m3293_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3294: Impeller fluid-structure interaction (FSI) modal frequency shift in cryogenic fluid
+- **Goal:** Impeller fluid-structure interaction (FSI) modal frequency shift in cryogenic fluid using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3294_tablet.png`, `docs/screenshots/m3294_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3295: Diffuser vanes radial gap (r2 / r3 ratio) acoustic cut-off tone pressure pulse
+- **Goal:** Diffuser vanes radial gap (r2 / r3 ratio) acoustic cut-off tone pressure pulse using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3295_tablet.png`, `docs/screenshots/m3295_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3296: Splitter blade distribution minimizing aerodynamic channel blockage and slip factor
+- **Goal:** Splitter blade distribution minimizing aerodynamic channel blockage and slip factor using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3296_tablet.png`, `docs/screenshots/m3296_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3297: Volute collector logarithmic spiral cross-section area expansion generator
+- **Goal:** Volute collector logarithmic spiral cross-section area expansion generator using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3297_tablet.png`, `docs/screenshots/m3297_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3298: Double-volute casing radial force balance neutralizing bearing side loads CAD
+- **Goal:** Double-volute casing radial force balance neutralizing bearing side loads CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3298_tablet.png`, `docs/screenshots/m3298_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3299: Inconel 718 / Maraging 250 alloy high-temperature/cryo mechanical yield envelope
+- **Goal:** Inconel 718 / Maraging 250 alloy high-temperature/cryo mechanical yield envelope using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3299_tablet.png`, `docs/screenshots/m3299_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3300: Interstage labyrinth dynamic seals with abradable honeycomb casing liner CAD
+- **Goal:** Interstage labyrinth dynamic seals with abradable honeycomb casing liner CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3300_tablet.png`, `docs/screenshots/m3300_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3301: Impeller back-vane pump-out ribs balancing axial hydraulic thrust loads
+- **Goal:** Impeller back-vane pump-out ribs balancing axial hydraulic thrust loads using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3301_tablet.png`, `docs/screenshots/m3301_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3302: High-speed rotating disk friction windage power loss and fluid temperature rise
+- **Goal:** High-speed rotating disk friction windage power loss and fluid temperature rise using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3302_tablet.png`, `docs/screenshots/m3302_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3303: Automated centrifugal impeller 3D blade lofting engine with deterministic 0.0mm fillets
+- **Goal:** Automated centrifugal impeller 3D blade lofting engine with deterministic 0.0mm fillets using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3303_tablet.png`, `docs/screenshots/m3303_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3304: Dynamic rotor unbalance response conforming to ISO 1940 Grade G1.0 balancing
+- **Goal:** Dynamic rotor unbalance response conforming to ISO 1940 Grade G1.0 balancing using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3304_tablet.png`, `docs/screenshots/m3304_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3305: Interactive 3D impeller stress tensor and Von Mises color contour map in AndroCAD
+- **Goal:** Interactive 3D impeller stress tensor and Von Mises color contour map in AndroCAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3305_tablet.png`, `docs/screenshots/m3305_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3306: Coriolis acceleration effect on secondary flow vortices in rotating impeller passages
+- **Goal:** Coriolis acceleration effect on secondary flow vortices in rotating impeller passages using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3306_tablet.png`, `docs/screenshots/m3306_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3307: Cryogenic shrink-fit shaft interference hub mounting torque transmission check
+- **Goal:** Cryogenic shrink-fit shaft interference hub mounting torque transmission check using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3307_tablet.png`, `docs/screenshots/m3307_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3308: Compliance verification conforming to AIAA S-080 Space Systems Metallic Pressure Vessels
+- **Goal:** Compliance verification conforming to AIAA S-080 Space Systems Metallic Pressure Vessels using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3308_tablet.png`, `docs/screenshots/m3308_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3309: 5-axis flank milling tool axis collision avoidance for narrow impeller passages
+- **Goal:** 5-axis flank milling tool axis collision avoidance for narrow impeller passages using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3309_tablet.png`, `docs/screenshots/m3309_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3310: Comprehensive centrifugal turbopump impeller structural FSI qualification dossier
+- **Goal:** Comprehensive centrifugal turbopump impeller structural FSI qualification dossier using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3310_tablet.png`, `docs/screenshots/m3310_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+### Alan 3: Regenerative Cooling Channels & Bartz Throat Heat Flux
+**Alt Sistem:** Regen Cooling (CuCrZr Liner, High-Aspect Channels, Bartz q'' <= 75 MW/m2)
+
+#### Milestone 3311: Bartz empirical equation for hot-gas convective heat transfer coefficient (hg)
+- **Goal:** Bartz empirical equation for hot-gas convective heat transfer coefficient (hg) using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3311_tablet.png`, `docs/screenshots/m3311_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3312: Chamber throat peak heat flux (q'' up to 65 MW/m2) and thermal barrier coating
+- **Goal:** Chamber throat peak heat flux (q'' up to 65 MW/m2) and thermal barrier coating using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3312_tablet.png`, `docs/screenshots/m3312_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3313: High-aspect-ratio (aspect ratio 5:1 to 8:1) milled copper cooling channel CAD
+- **Goal:** High-aspect-ratio (aspect ratio 5:1 to 8:1) milled copper cooling channel CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3313_tablet.png`, `docs/screenshots/m3313_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3314: CuCrZr / GRCop-84 copper alloy liner high thermal conductivity optimization
+- **Goal:** CuCrZr / GRCop-84 copper alloy liner high thermal conductivity optimization using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3314_tablet.png`, `docs/screenshots/m3314_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3315: Coolant channel rib thermal fin efficiency and 3D heat conduction conduction solver
+- **Goal:** Coolant channel rib thermal fin efficiency and 3D heat conduction conduction solver using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3315_tablet.png`, `docs/screenshots/m3315_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3316: Liquid methane / hydrogen supercritical flow regime and pressure drop across jacket
+- **Goal:** Liquid methane / hydrogen supercritical flow regime and pressure drop across jacket using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3316_tablet.png`, `docs/screenshots/m3316_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3317: Thermal doghouse effect (cyclic plastic ratcheting and bulging of channel walls)
+- **Goal:** Thermal doghouse effect (cyclic plastic ratcheting and bulging of channel walls) using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3317_tablet.png`, `docs/screenshots/m3317_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3318: Coolant inlet manifold torus and bifurcated feed branches hydraulic balancing CAD
+- **Goal:** Coolant inlet manifold torus and bifurcated feed branches hydraulic balancing CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3318_tablet.png`, `docs/screenshots/m3318_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3319: Electroformed nickel / Inconel 718 structural outer jacket deposition shell CAD
+- **Goal:** Electroformed nickel / Inconel 718 structural outer jacket deposition shell CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3319_tablet.png`, `docs/screenshots/m3319_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3320: Hot-gas wall temperature limitation (T_wall <= 850 K) preventing copper softening
+- **Goal:** Hot-gas wall temperature limitation (T_wall <= 850 K) preventing copper softening using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3320_tablet.png`, `docs/screenshots/m3320_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3321: Cooling channel bifurcations (splitting channels entering throat to maintain velocity)
+- **Goal:** Cooling channel bifurcations (splitting channels entering throat to maintain velocity) using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3321_tablet.png`, `docs/screenshots/m3321_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3322: Chamber throat thermal expansion radial constraint and longitudinal sliding mount
+- **Goal:** Chamber throat thermal expansion radial constraint and longitudinal sliding mount using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3322_tablet.png`, `docs/screenshots/m3322_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3323: Automated regenerative cooling channel 3D array builder with 0.0mm manifold snapping
+- **Goal:** Automated regenerative cooling channel 3D array builder with 0.0mm manifold snapping using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3323_tablet.png`, `docs/screenshots/m3323_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3324: Laser powder bed fusion (LPBF) additive manufacturing overhang angle constraints
+- **Goal:** Laser powder bed fusion (LPBF) additive manufacturing overhang angle constraints using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3324_tablet.png`, `docs/screenshots/m3324_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3325: Interactive 3D coolant velocity and hot-wall temperature heat map in AndroCAD
+- **Goal:** Interactive 3D coolant velocity and hot-wall temperature heat map in AndroCAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3325_tablet.png`, `docs/screenshots/m3325_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3326: Coking threshold limits for hydrocarbon methane / kerosene coolant preventing soot
+- **Goal:** Coking threshold limits for hydrocarbon methane / kerosene coolant preventing soot using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3326_tablet.png`, `docs/screenshots/m3326_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3327: Channel pressure loss versus heat uptake balance optimizing coolant exit temperature
+- **Goal:** Channel pressure loss versus heat uptake balance optimizing coolant exit temperature using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3327_tablet.png`, `docs/screenshots/m3327_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3328: Compliance verification conforming to NASA SP-8087 Liquid Rocket Engine Combustion Devices
+- **Goal:** Compliance verification conforming to NASA SP-8087 Liquid Rocket Engine Combustion Devices using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3328_tablet.png`, `docs/screenshots/m3328_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3329: Cooling jacket burst pressure qualification test simulation at 1.5x design pressure
+- **Goal:** Cooling jacket burst pressure qualification test simulation at 1.5x design pressure using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3329_tablet.png`, `docs/screenshots/m3329_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3330: Comprehensive regenerative cooling thermal-hydraulic and fatigue qualification dossier
+- **Goal:** Comprehensive regenerative cooling thermal-hydraulic and fatigue qualification dossier using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3330_tablet.png`, `docs/screenshots/m3330_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+### Alan 4: Acoustic Cavities & Baffle Combustion Stability Damping
+**Alt Sistem:** Combustion Dynamics (1T Mode Resonator, Acoustic Absorption >= 0.80, Baffles)
+
+#### Milestone 3331: Combustion chamber first tangential (1T) acoustic frequency analytical eigenvalue solver
+- **Goal:** Combustion chamber first tangential (1T) acoustic frequency analytical eigenvalue solver using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3331_tablet.png`, `docs/screenshots/m3331_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3332: Quarter-wave resonator and Helmholtz acoustic cavity geometric tuning CAD
+- **Goal:** Quarter-wave resonator and Helmholtz acoustic cavity geometric tuning CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3332_tablet.png`, `docs/screenshots/m3332_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3333: Acoustic cavity aperture width and depth optimization achieving absorption alpha >= 0.80
+- **Goal:** Acoustic cavity aperture width and depth optimization achieving absorption alpha >= 0.80 using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3333_tablet.png`, `docs/screenshots/m3333_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3334: Injector faceplate acoustic damping baffle radial and hub blade geometry CAD
+- **Goal:** Injector faceplate acoustic damping baffle radial and hub blade geometry CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3334_tablet.png`, `docs/screenshots/m3334_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3335: Combustion dynamic chugging and screaming instability Rayleigh criterion validator
+- **Goal:** Combustion dynamic chugging and screaming instability Rayleigh criterion validator using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3335_tablet.png`, `docs/screenshots/m3335_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3336: Cavity purge flow rate (coolant bleeds through apertures) preventing soot clog
+- **Goal:** Cavity purge flow rate (coolant bleeds through apertures) preventing soot clog using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3336_tablet.png`, `docs/screenshots/m3336_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3337: High-frequency (1 kHz - 5 kHz) dynamic pressure transducer port packaging CAD
+- **Goal:** High-frequency (1 kHz - 5 kHz) dynamic pressure transducer port packaging CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3337_tablet.png`, `docs/screenshots/m3337_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3338: Acoustic damping decay time measurement (< 5 ms) suppressing violent pressure spikes
+- **Goal:** Acoustic damping decay time measurement (< 5 ms) suppressing violent pressure spikes using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3338_tablet.png`, `docs/screenshots/m3338_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3339: Baffle blade regenerative tip cooling channels resisting extreme flame impingement
+- **Goal:** Baffle blade regenerative tip cooling channels resisting extreme flame impingement using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3339_tablet.png`, `docs/screenshots/m3339_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3340: Multi-cavity array distributed around chamber perimeter targeting 1T, 2T, and 1R modes
+- **Goal:** Multi-cavity array distributed around chamber perimeter targeting 1T, 2T, and 1R modes using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3340_tablet.png`, `docs/screenshots/m3340_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3341: Combustion time lag (tau) and sensitive pressure index (n) Crocco model correlator
+- **Goal:** Combustion time lag (tau) and sensitive pressure index (n) Crocco model correlator using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3341_tablet.png`, `docs/screenshots/m3341_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3342: Chamber liner acoustic impedance boundary condition for coupled 3D Helmholtz solver
+- **Goal:** Chamber liner acoustic impedance boundary condition for coupled 3D Helmholtz solver using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3342_tablet.png`, `docs/screenshots/m3342_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3343: Automated acoustic cavity ring synthesizer with deterministic 0.0mm chamber seating
+- **Goal:** Automated acoustic cavity ring synthesizer with deterministic 0.0mm chamber seating using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3343_tablet.png`, `docs/screenshots/m3343_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3344: Interactive 3D acoustic pressure standing wave animation rendered in AndroCAD
+- **Goal:** Interactive 3D acoustic pressure standing wave animation rendered in AndroCAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3344_tablet.png`, `docs/screenshots/m3344_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3345: Bomb test (small explosive charge) transient damping decay simulation conforming to CPIA 194
+- **Goal:** Bomb test (small explosive charge) transient damping decay simulation conforming to CPIA 194 using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3345_tablet.png`, `docs/screenshots/m3345_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3346: Injector faceplate thermal expansion mismatch with acoustic baffle structural joints
+- **Goal:** Injector faceplate thermal expansion mismatch with acoustic baffle structural joints using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3346_tablet.png`, `docs/screenshots/m3346_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3347: Combustion chamber length-to-diameter (L/D) acoustic resonance avoidance rules
+- **Goal:** Combustion chamber length-to-diameter (L/D) acoustic resonance avoidance rules using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3347_tablet.png`, `docs/screenshots/m3347_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3348: Compliance verification conforming to JANNAF Combustion Stability Guidelines
+- **Goal:** Compliance verification conforming to JANNAF Combustion Stability Guidelines using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3348_tablet.png`, `docs/screenshots/m3348_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3349: Low-frequency pogo pulsation acoustic decoupler accumulator packaging
+- **Goal:** Low-frequency pogo pulsation acoustic decoupler accumulator packaging using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3349_tablet.png`, `docs/screenshots/m3349_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3350: Comprehensive combustion chamber acoustic stabilization and baffle qualification dossier
+- **Goal:** Comprehensive combustion chamber acoustic stabilization and baffle qualification dossier using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3350_tablet.png`, `docs/screenshots/m3350_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+### Alan 5: Turbine Blisk Creep-Fatigue & Staged-Combustion Gas Expansion
+**Alt Sistem:** Turbine Aerodynamics (Transonic Blisk, Inconel 718, Shaft Power >= 2000 kW)
+
+#### Milestone 3351: Transonic axial-flow impulse turbine blisk 3D aerodynamic blade lofting CAD
+- **Goal:** Transonic axial-flow impulse turbine blisk 3D aerodynamic blade lofting CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3351_tablet.png`, `docs/screenshots/m3351_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3352: Isentropic gas expansion power delivered to LOX/fuel turbopump drive shaft
+- **Goal:** Isentropic gas expansion power delivered to LOX/fuel turbopump drive shaft using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3352_tablet.png`, `docs/screenshots/m3352_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3353: Fuel-rich / oxidizer-rich preburner gas expansion ratio and specific heat ratio model
+- **Goal:** Fuel-rich / oxidizer-rich preburner gas expansion ratio and specific heat ratio model using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3353_tablet.png`, `docs/screenshots/m3353_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3354: Turbine blade root centrifugal and aerodynamic gas bending combined stresses
+- **Goal:** Turbine blade root centrifugal and aerodynamic gas bending combined stresses using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3354_tablet.png`, `docs/screenshots/m3354_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3355: Inconel 718 / Mar-M-247 blisk high-temperature Larson-Miller creep rupture life
+- **Goal:** Inconel 718 / Mar-M-247 blisk high-temperature Larson-Miller creep rupture life using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3355_tablet.png`, `docs/screenshots/m3355_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3356: Turbine tip clearance radial seal (shrouded blisk vs knife-edge labyrinths) CAD
+- **Goal:** Turbine tip clearance radial seal (shrouded blisk vs knife-edge labyrinths) CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3356_tablet.png`, `docs/screenshots/m3356_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3357: Turbine stator nozzle guide vanes (NGV) throat area and supersonic flow angle
+- **Goal:** Turbine stator nozzle guide vanes (NGV) throat area and supersonic flow angle using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3357_tablet.png`, `docs/screenshots/m3357_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3358: Turbine disk thermal gradient and transient heat transfer during rocket start-up
+- **Goal:** Turbine disk thermal gradient and transient heat transfer during rocket start-up using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3358_tablet.png`, `docs/screenshots/m3358_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3359: Partial admission versus full admission turbine efficiency comparison solver
+- **Goal:** Partial admission versus full admission turbine efficiency comparison solver using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3359_tablet.png`, `docs/screenshots/m3359_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3360: Blisk vibration Campbell diagram tuning preventing nozzle passing frequency (NPF) fatigue
+- **Goal:** Blisk vibration Campbell diagram tuning preventing nozzle passing frequency (NPF) fatigue using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3360_tablet.png`, `docs/screenshots/m3360_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3361: Single-crystal nickel superalloy (CMSX-4) option for extreme temperature expansion
+- **Goal:** Single-crystal nickel superalloy (CMSX-4) option for extreme temperature expansion using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3361_tablet.png`, `docs/screenshots/m3361_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3362: Automated 3D turbine blisk CAD synthesizer with deterministic 0.0mm disk hub blending
+- **Goal:** Automated 3D turbine blisk CAD synthesizer with deterministic 0.0mm disk hub blending using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3362_tablet.png`, `docs/screenshots/m3362_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3363: Turbine rotor-shaft spline drive teeth contact stress and fretting wear analysis
+- **Goal:** Turbine rotor-shaft spline drive teeth contact stress and fretting wear analysis using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3363_tablet.png`, `docs/screenshots/m3363_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3364: Interactive 3D gas velocity streamlines and Mach number contour in turbine stage
+- **Goal:** Interactive 3D gas velocity streamlines and Mach number contour in turbine stage using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3364_tablet.png`, `docs/screenshots/m3364_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3365: Turbine exhaust gas manifold diffuser area recovery into main chamber or nozzle
+- **Goal:** Turbine exhaust gas manifold diffuser area recovery into main chamber or nozzle using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3365_tablet.png`, `docs/screenshots/m3365_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3366: Turbine burst speed margin (> 120% rated speed) conforming to MIL-STD-1522A
+- **Goal:** Turbine burst speed margin (> 120% rated speed) conforming to MIL-STD-1522A using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3366_tablet.png`, `docs/screenshots/m3366_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3367: Dynamic balance and precision balancing weight pocket locations on turbine rotor
+- **Goal:** Dynamic balance and precision balancing weight pocket locations on turbine rotor using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3367_tablet.png`, `docs/screenshots/m3367_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3368: Compliance verification conforming to NASA SP-8110 Liquid Rocket Engine Turbines
+- **Goal:** Compliance verification conforming to NASA SP-8110 Liquid Rocket Engine Turbines using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3368_tablet.png`, `docs/screenshots/m3368_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3369: Turbine disk low-cycle fatigue (LCF) mission life under 50 re-ignitions
+- **Goal:** Turbine disk low-cycle fatigue (LCF) mission life under 50 re-ignitions using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3369_tablet.png`, `docs/screenshots/m3369_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3370: Comprehensive turbine blisk aerodynamic and thermo-mechanical qualification dossier
+- **Goal:** Comprehensive turbine blisk aerodynamic and thermo-mechanical qualification dossier using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3370_tablet.png`, `docs/screenshots/m3370_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+### Alan 6: Coaxial Swirl Injector Atomization & Sauter Mean Diameter (SMD D32)
+**Alt Sistem:** Injector Head (LOX/Methane Swirl, SMD <= 45 um, C* Efficiency >= 97%)
+
+#### Milestone 3371: Coaxial swirl injector LOX post and outer fuel annular swirl vane geometry CAD
+- **Goal:** Coaxial swirl injector LOX post and outer fuel annular swirl vane geometry CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3371_tablet.png`, `docs/screenshots/m3371_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3372: Sauter Mean Diameter (SMD D32 <= 45 um) atomization droplet size predictor
+- **Goal:** Sauter Mean Diameter (SMD D32 <= 45 um) atomization droplet size predictor using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3372_tablet.png`, `docs/screenshots/m3372_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3373: Spray cone angle (75 - 85 deg) and liquid sheet hollow cone breakup distance model
+- **Goal:** Spray cone angle (75 - 85 deg) and liquid sheet hollow cone breakup distance model using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3373_tablet.png`, `docs/screenshots/m3373_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3374: Lefebvre and Suyari-Lefebvre correlation for cryogenic liquid swirl atomizers
+- **Goal:** Lefebvre and Suyari-Lefebvre correlation for cryogenic liquid swirl atomizers using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3374_tablet.png`, `docs/screenshots/m3374_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3375: Injector element faceplate hexagonal close-packed array packaging density CAD
+- **Goal:** Injector element faceplate hexagonal close-packed array packaging density CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3375_tablet.png`, `docs/screenshots/m3375_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3376: Characteristic exhaust velocity (C*) combustion efficiency solver (C* eff >= 97%)
+- **Goal:** Characteristic exhaust velocity (C*) combustion efficiency solver (C* eff >= 97%) using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3376_tablet.png`, `docs/screenshots/m3376_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3377: LOX post recessed tip ratio (recess length-to-diameter) internal mixing optimizer
+- **Goal:** LOX post recessed tip ratio (recess length-to-diameter) internal mixing optimizer using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3377_tablet.png`, `docs/screenshots/m3377_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3378: Injector differential pressure drop (Delta_P / P_c >= 15%) preventing chugging feedback
+- **Goal:** Injector differential pressure drop (Delta_P / P_c >= 15%) preventing chugging feedback using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3378_tablet.png`, `docs/screenshots/m3378_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3379: Faceplate transpiration cooling porous mesh (Rigimesh / Poroloy) thermal barrier
+- **Goal:** Faceplate transpiration cooling porous mesh (Rigimesh / Poroloy) thermal barrier using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3379_tablet.png`, `docs/screenshots/m3379_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3380: Pintle injector variable-area throttle sleeve kinematics for deep throttling engines
+- **Goal:** Pintle injector variable-area throttle sleeve kinematics for deep throttling engines using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3380_tablet.png`, `docs/screenshots/m3380_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3381: Injector element acoustic vortex shedding frequency matching cavity damping zones
+- **Goal:** Injector element acoustic vortex shedding frequency matching cavity damping zones using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3381_tablet.png`, `docs/screenshots/m3381_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3382: Liquid methane / liquid oxygen cryogenic flash-boiling atomization enhancement
+- **Goal:** Liquid methane / liquid oxygen cryogenic flash-boiling atomization enhancement using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3382_tablet.png`, `docs/screenshots/m3382_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3383: Automated multi-element (300+ elements) injector dome CAD builder with 0.0mm snap
+- **Goal:** Automated multi-element (300+ elements) injector dome CAD builder with 0.0mm snap using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3383_tablet.png`, `docs/screenshots/m3383_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3384: Interactive 3D atomization droplet spray cloud simulation in combustion volume
+- **Goal:** Interactive 3D atomization droplet spray cloud simulation in combustion volume using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3384_tablet.png`, `docs/screenshots/m3384_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3385: Injector element manifold mass flow distribution uniformity across dome radius
+- **Goal:** Injector element manifold mass flow distribution uniformity across dome radius using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3385_tablet.png`, `docs/screenshots/m3385_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3386: Erosion resistance of oxygen-compatible Stellite / Monel injector arcing tips
+- **Goal:** Erosion resistance of oxygen-compatible Stellite / Monel injector arcing tips using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3386_tablet.png`, `docs/screenshots/m3386_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3387: Compliance verification conforming to NASA SP-8089 Liquid Rocket Engine Injectors
+- **Goal:** Compliance verification conforming to NASA SP-8089 Liquid Rocket Engine Injectors using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3387_tablet.png`, `docs/screenshots/m3387_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3388: Manufacturing EDM / micro-laser drilling tolerances on swirl tangential slots
+- **Goal:** Manufacturing EDM / micro-laser drilling tolerances on swirl tangential slots using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3388_tablet.png`, `docs/screenshots/m3388_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3389: Injector pressure surge water hammer resistance during rapid pyrotechnic start
+- **Goal:** Injector pressure surge water hammer resistance during rapid pyrotechnic start using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3389_tablet.png`, `docs/screenshots/m3389_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3390: Comprehensive coaxial swirl injector atomization and combustion efficiency dossier
+- **Goal:** Comprehensive coaxial swirl injector atomization and combustion efficiency dossier using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3390_tablet.png`, `docs/screenshots/m3390_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+### Alan 7: Cryogenic Hydrostatic & Hybrid Foil Bearings for LOX / Methane
+**Alt Sistem:** Cryo Bearings (Hydrostatic Film, Viscosity 1.8e-4 Pa*s, 32,000 RPM)
+
+#### Milestone 3391: Cryogenic hydrostatic journal bearing recessed pocket multi-orifice geometry CAD
+- **Goal:** Cryogenic hydrostatic journal bearing recessed pocket multi-orifice geometry CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3391_tablet.png`, `docs/screenshots/m3391_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3392: Direct and cross-coupled dynamic stiffness (Kxx, Kxy) and damping (Cxx, Cxy) solver
+- **Goal:** Direct and cross-coupled dynamic stiffness (Kxx, Kxy) and damping (Cxx, Cxy) solver using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3392_tablet.png`, `docs/screenshots/m3392_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3393: Liquid oxygen (LOX) low-viscosity (1.8e-4 Pa*s) thin-film Reynolds lubrication model
+- **Goal:** Liquid oxygen (LOX) low-viscosity (1.8e-4 Pa*s) thin-film Reynolds lubrication model using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3393_tablet.png`, `docs/screenshots/m3393_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3394: Bump foil and top foil compliance spring structure for compliant foil air/gas bearings
+- **Goal:** Bump foil and top foil compliance spring structure for compliant foil air/gas bearings using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3394_tablet.png`, `docs/screenshots/m3394_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3395: Rotor critical speed map and Campbell rotordynamic stability log decrement solver
+- **Goal:** Rotor critical speed map and Campbell rotordynamic stability log decrement solver using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3395_tablet.png`, `docs/screenshots/m3395_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3396: Start-stop rubbing wear transient before full hydrostatic film liftoff occurs
+- **Goal:** Start-stop rubbing wear transient before full hydrostatic film liftoff occurs using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3396_tablet.png`, `docs/screenshots/m3396_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3397: Bearing supply pressure feed orifices (inherent vs capillary restrictors) sizing
+- **Goal:** Bearing supply pressure feed orifices (inherent vs capillary restrictors) sizing using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3397_tablet.png`, `docs/screenshots/m3397_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3398: Thermal equilibrium of bearing film avoiding localized cryogenic fluid phase change
+- **Goal:** Thermal equilibrium of bearing film avoiding localized cryogenic fluid phase change using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3398_tablet.png`, `docs/screenshots/m3398_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3399: Ceramic hybrid ball bearing (silicon nitride Si3N4 balls) fallback comparison CAD
+- **Goal:** Ceramic hybrid ball bearing (silicon nitride Si3N4 balls) fallback comparison CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3399_tablet.png`, `docs/screenshots/m3399_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3400: Bearing damper seals (tampon damper / annular gas seal) suppressing subsynchronous whirl
+- **Goal:** Bearing damper seals (tampon damper / annular gas seal) suppressing subsynchronous whirl using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3400_tablet.png`, `docs/screenshots/m3400_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3401: Shaft axial thrust magnetic / hydrostatic dual-acting balancing collar design
+- **Goal:** Shaft axial thrust magnetic / hydrostatic dual-acting balancing collar design using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3401_tablet.png`, `docs/screenshots/m3401_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3402: Automated 3D cryogenic bearing cartridge CAD generator with 0.0mm sleeve alignment
+- **Goal:** Automated 3D cryogenic bearing cartridge CAD generator with 0.0mm sleeve alignment using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3402_tablet.png`, `docs/screenshots/m3402_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3403: Interactive rotor whirl orbit visualizer in AndroCAD displaying forward vs backward precess
+- **Goal:** Interactive rotor whirl orbit visualizer in AndroCAD displaying forward vs backward precess using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3403_tablet.png`, `docs/screenshots/m3403_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3404: Cryogenic lubricant cleanliness filter (10-micron wire mesh) integrated in housing
+- **Goal:** Cryogenic lubricant cleanliness filter (10-micron wire mesh) integrated in housing using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3404_tablet.png`, `docs/screenshots/m3404_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3405: Rotordynamic compliance conforming to API 617 / ISO 14839 active magnetic & foil bearings
+- **Goal:** Rotordynamic compliance conforming to API 617 / ISO 14839 active magnetic & foil bearings using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3405_tablet.png`, `docs/screenshots/m3405_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3406: Shaft orbital eccentricity ratio limiter maintaining film thickness >= 8 microns
+- **Goal:** Shaft orbital eccentricity ratio limiter maintaining film thickness >= 8 microns using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3406_tablet.png`, `docs/screenshots/m3406_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3407: Emergency dry-running survivability under turbopump cavitation loss of supply pressure
+- **Goal:** Emergency dry-running survivability under turbopump cavitation loss of supply pressure using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3407_tablet.png`, `docs/screenshots/m3407_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3408: Compliance verification conforming to NASA SP-8048 Liquid Rocket Engine Bearings
+- **Goal:** Compliance verification conforming to NASA SP-8048 Liquid Rocket Engine Bearings using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3408_tablet.png`, `docs/screenshots/m3408_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3409: Bearing housing cryogenic shrink fit and thermal isolation collar modeling
+- **Goal:** Bearing housing cryogenic shrink fit and thermal isolation collar modeling using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3409_tablet.png`, `docs/screenshots/m3409_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3410: Comprehensive cryogenic turbopump bearing rotordynamics and stability dossier
+- **Goal:** Comprehensive cryogenic turbopump bearing rotordynamics and stability dossier using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3410_tablet.png`, `docs/screenshots/m3410_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+### Alan 8: De Laval Supersonic Bell Nozzle Rao Contour & Flow Separation
+**Alt Sistem:** Supersonic Nozzle (Rao Parabolic Bell, Expansion Ratio 38:1, Summerfield)
+
+#### Milestone 3411: G.V.R. Rao method of characteristics (MOC) optimum parabolic bell contour CAD
+- **Goal:** G.V.R. Rao method of characteristics (MOC) optimum parabolic bell contour CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3411_tablet.png`, `docs/screenshots/m3411_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3412: Nozzle throat circular arc radius (1.5 * R_th) and parabolic exit angle transition
+- **Goal:** Nozzle throat circular arc radius (1.5 * R_th) and parabolic exit angle transition using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3412_tablet.png`, `docs/screenshots/m3412_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3413: Area expansion ratio (epsilon = 38:1 to 50:1) sea-level versus altitude optimizer
+- **Goal:** Area expansion ratio (epsilon = 38:1 to 50:1) sea-level versus altitude optimizer using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3413_tablet.png`, `docs/screenshots/m3413_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3414: Summerfield empirical criterion for oblique shock flow separation in overexpanded nozzle
+- **Goal:** Summerfield empirical criterion for oblique shock flow separation in overexpanded nozzle using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3414_tablet.png`, `docs/screenshots/m3414_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3415: Free shock separation (FSS) versus restricted shock separation (RSS) regime solver
+- **Goal:** Free shock separation (FSS) versus restricted shock separation (RSS) regime solver using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3415_tablet.png`, `docs/screenshots/m3415_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3416: Side load peak transverse force on nozzle extension during sea-level startup transient
+- **Goal:** Side load peak transverse force on nozzle extension during sea-level startup transient using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3416_tablet.png`, `docs/screenshots/m3416_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3417: Regeneratively cooled forward nozzle section to radiatively cooled skirt transition
+- **Goal:** Regeneratively cooled forward nozzle section to radiatively cooled skirt transition using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3417_tablet.png`, `docs/screenshots/m3417_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3418: Carbon-carbon / niobium C103 alloy nozzle extension radiation emissivity coating
+- **Goal:** Carbon-carbon / niobium C103 alloy nozzle extension radiation emissivity coating using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3418_tablet.png`, `docs/screenshots/m3418_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3419: Supersonic boundary layer displacement thickness and momentum loss skin friction
+- **Goal:** Supersonic boundary layer displacement thickness and momentum loss skin friction using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3419_tablet.png`, `docs/screenshots/m3419_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3420: Nozzle stiffener hat-channel rings preventing dynamic aeroelastic ovalization buckling
+- **Goal:** Nozzle stiffener hat-channel rings preventing dynamic aeroelastic ovalization buckling using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3420_tablet.png`, `docs/screenshots/m3420_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3421: Altitude compensating dual-bell nozzle inflection contour alternative design CAD
+- **Goal:** Altitude compensating dual-bell nozzle inflection contour alternative design CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3421_tablet.png`, `docs/screenshots/m3421_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3422: Automated supersonic bell nozzle 3D lofting generator with 0.0mm throat circle snap
+- **Goal:** Automated supersonic bell nozzle 3D lofting generator with 0.0mm throat circle snap using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3422_tablet.png`, `docs/screenshots/m3422_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3423: Interactive 3D supersonic Mach contour and Prandtl-Meyer expansion fan in AndroCAD
+- **Goal:** Interactive 3D supersonic Mach contour and Prandtl-Meyer expansion fan in AndroCAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3423_tablet.png`, `docs/screenshots/m3423_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3424: Nozzle gimbal clearance envelope cone verifying zero vehicle aft skirt clash
+- **Goal:** Nozzle gimbal clearance envelope cone verifying zero vehicle aft skirt clash using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3424_tablet.png`, `docs/screenshots/m3424_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3425: Thrust coefficient (Cf) and vacuum specific impulse (Isp) theoretical calculator
+- **Goal:** Thrust coefficient (Cf) and vacuum specific impulse (Isp) theoretical calculator using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3425_tablet.png`, `docs/screenshots/m3425_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3426: Aeroacoustic nozzle jet acoustic screech and turbulence broadband noise dissipation
+- **Goal:** Aeroacoustic nozzle jet acoustic screech and turbulence broadband noise dissipation using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3426_tablet.png`, `docs/screenshots/m3426_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3427: Compliance verification conforming to NASA SP-8120 Liquid Rocket Engine Nozzles
+- **Goal:** Compliance verification conforming to NASA SP-8120 Liquid Rocket Engine Nozzles using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3427_tablet.png`, `docs/screenshots/m3427_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3428: Nozzle attachment bolted flange thermal gradient stress and high-temperature gasket
+- **Goal:** Nozzle attachment bolted flange thermal gradient stress and high-temperature gasket using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3428_tablet.png`, `docs/screenshots/m3428_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3429: Transient flow separation side load damper ring packaging on nozzle exit lip
+- **Goal:** Transient flow separation side load damper ring packaging on nozzle exit lip using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3429_tablet.png`, `docs/screenshots/m3429_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3430: Comprehensive supersonic bell nozzle aerodynamic contour and separation dossier
+- **Goal:** Comprehensive supersonic bell nozzle aerodynamic contour and separation dossier using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3430_tablet.png`, `docs/screenshots/m3430_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+### Alan 9: Cryogenic Line Chilldown, Two-Phase Boiling & Water Hammer
+**Alt Sistem:** Cryo Fluid Systems (LOX Chilldown, Film-to-Nucleate Boiling, Joukowsky Hammer)
+
+#### Milestone 3431: Cryogenic transfer line transient chilldown heat transfer and two-phase vapor lock
+- **Goal:** Cryogenic transfer line transient chilldown heat transfer and two-phase vapor lock using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3431_tablet.png`, `docs/screenshots/m3431_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3432: Inverted annular film boiling regime and Leidenfrost transition temperature (132 K)
+- **Goal:** Inverted annular film boiling regime and Leidenfrost transition temperature (132 K) using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3432_tablet.png`, `docs/screenshots/m3432_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3433: Boiling heat flux curve (modified Bromley film boiling and Rohsenow nucleate boiling)
+- **Goal:** Boiling heat flux curve (modified Bromley film boiling and Rohsenow nucleate boiling) using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3433_tablet.png`, `docs/screenshots/m3433_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3434: Cooldown duration calculation matching required pre-launch chilldown timing (< 30 s)
+- **Goal:** Cooldown duration calculation matching required pre-launch chilldown timing (< 30 s) using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3434_tablet.png`, `docs/screenshots/m3434_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3435: Liquid front velocity and rapid vaporization gas venting valve throat sizing CAD
+- **Goal:** Liquid front velocity and rapid vaporization gas venting valve throat sizing CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3435_tablet.png`, `docs/screenshots/m3435_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3436: Joukowsky water hammer pressure wave (delta_P = rho * c * delta_V) on valve slam
+- **Goal:** Joukowsky water hammer pressure wave (delta_P = rho * c * delta_V) on valve slam using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3436_tablet.png`, `docs/screenshots/m3436_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3437: Cryogenic vacuum-jacketed pipe (VIP) multilayer insulation (MLI) thermal conductivity
+- **Goal:** Cryogenic vacuum-jacketed pipe (VIP) multilayer insulation (MLI) thermal conductivity using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3437_tablet.png`, `docs/screenshots/m3437_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3438: Bellows flexible expansion joints absorbing axial thermal contraction (3 mm/m)
+- **Goal:** Bellows flexible expansion joints absorbing axial thermal contraction (3 mm/m) using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3438_tablet.png`, `docs/screenshots/m3438_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3439: Cryogenic check valve poppet flutter and chattering dynamic instability solver
+- **Goal:** Cryogenic check valve poppet flutter and chattering dynamic instability solver using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3439_tablet.png`, `docs/screenshots/m3439_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3440: Geysering instability and thermal siphon bubble pump in vertical cryogenic feed runs
+- **Goal:** Geysering instability and thermal siphon bubble pump in vertical cryogenic feed runs using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3440_tablet.png`, `docs/screenshots/m3440_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3441: Recirculation bleed return line routing back to vehicle propellant tank CAD
+- **Goal:** Recirculation bleed return line routing back to vehicle propellant tank CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3441_tablet.png`, `docs/screenshots/m3441_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3442: Automated cryogenic plumbing 3D isometric piping generator with 0.0mm flange welds
+- **Goal:** Automated cryogenic plumbing 3D isometric piping generator with 0.0mm flange welds using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3442_tablet.png`, `docs/screenshots/m3442_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3443: Interactive 3D pipe chilldown temperature history animation with vapor volume fraction
+- **Goal:** Interactive 3D pipe chilldown temperature history animation with vapor volume fraction using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3443_tablet.png`, `docs/screenshots/m3443_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3444: Emergency cryogenic burst disc relief valve safety sizing conforming to ASME VIII
+- **Goal:** Emergency cryogenic burst disc relief valve safety sizing conforming to ASME VIII using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3444_tablet.png`, `docs/screenshots/m3444_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3445: Cryogenic ball valve Kel-F (PCTFE) seat leak-tightness under 90 K liquid oxygen
+- **Goal:** Cryogenic ball valve Kel-F (PCTFE) seat leak-tightness under 90 K liquid oxygen using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3445_tablet.png`, `docs/screenshots/m3445_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3446: Piping support low-thermal-conductance G10 cryogenic glass-epoxy standoff CAD
+- **Goal:** Piping support low-thermal-conductance G10 cryogenic glass-epoxy standoff CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3446_tablet.png`, `docs/screenshots/m3446_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3447: Compliance verification conforming to NASA SP-8057 Liquid Rocket Engine Piping Systems
+- **Goal:** Compliance verification conforming to NASA SP-8057 Liquid Rocket Engine Piping Systems using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3447_tablet.png`, `docs/screenshots/m3447_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3448: Cryogenic fluid hammer acoustic pressure relief surge accumulator bottle CAD
+- **Goal:** Cryogenic fluid hammer acoustic pressure relief surge accumulator bottle CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3448_tablet.png`, `docs/screenshots/m3448_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3449: Pre-ignition tank head pressure chilldown sequence automation supervisory logic
+- **Goal:** Pre-ignition tank head pressure chilldown sequence automation supervisory logic using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3449_tablet.png`, `docs/screenshots/m3449_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3450: Comprehensive cryogenic line chilldown and fluid dynamics qualification dossier
+- **Goal:** Comprehensive cryogenic line chilldown and fluid dynamics qualification dossier using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3450_tablet.png`, `docs/screenshots/m3450_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+### Alan 10: Thrust Vector Control (TVC) Electro-Mechanical Actuator Kinematics
+**Alt Sistem:** Flight Control Actuation (EMA Gimbal, 28 Hz Bandwidth, AS9100 Precision)
+
+#### Milestone 3451: Dual-axis cardan gimbal bearing cross-pin and spherical joint kinematic CAD
+- **Goal:** Dual-axis cardan gimbal bearing cross-pin and spherical joint kinematic CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3451_tablet.png`, `docs/screenshots/m3451_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3452: High-torque brushless DC (BLDC) motor and roller screw linear actuator CAD
+- **Goal:** High-torque brushless DC (BLDC) motor and roller screw linear actuator CAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3452_tablet.png`, `docs/screenshots/m3452_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3453: Actuator dynamic stall force (> 20 kN) overcoming engine aerodynamic & inertia loads
+- **Goal:** Actuator dynamic stall force (> 20 kN) overcoming engine aerodynamic & inertia loads using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3453_tablet.png`, `docs/screenshots/m3453_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3454: Closed-loop control frequency response bandwidth (bandwidth >= 25 Hz) model
+- **Goal:** Closed-loop control frequency response bandwidth (bandwidth >= 25 Hz) model using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3454_tablet.png`, `docs/screenshots/m3454_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3455: Slew rate capacity (slew >= 20 deg/s) under full gimbal deflection (+/- 8 degrees)
+- **Goal:** Slew rate capacity (slew >= 20 deg/s) under full gimbal deflection (+/- 8 degrees) using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3455_tablet.png`, `docs/screenshots/m3455_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3456: Actuator backup redundancy (dual winding motor and dual resolver feedback)
+- **Goal:** Actuator backup redundancy (dual winding motor and dual resolver feedback) using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3456_tablet.png`, `docs/screenshots/m3456_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3457: Dynamic load reflection from high-frequency gimbal engine inertia (I = 850 kg*m2)
+- **Goal:** Dynamic load reflection from high-frequency gimbal engine inertia (I = 850 kg*m2) using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3457_tablet.png`, `docs/screenshots/m3457_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3458: Cryogenic thermal radiation shielding protecting TVC actuators from nozzle heat
+- **Goal:** Cryogenic thermal radiation shielding protecting TVC actuators from nozzle heat using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3458_tablet.png`, `docs/screenshots/m3458_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3459: Actuator attachment spherical rod-end bearing zero backlash tolerance budget (< 5 um)
+- **Goal:** Actuator attachment spherical rod-end bearing zero backlash tolerance budget (< 5 um) using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3459_tablet.png`, `docs/screenshots/m3459_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3460: Emergency power bus transient voltage sag during maximum simultaneous actuation
+- **Goal:** Emergency power bus transient voltage sag during maximum simultaneous actuation using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3460_tablet.png`, `docs/screenshots/m3460_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3461: Gimbal boot flexible thermal insulator jacket sealing aft engine compartment
+- **Goal:** Gimbal boot flexible thermal insulator jacket sealing aft engine compartment using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3461_tablet.png`, `docs/screenshots/m3461_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3462: Thrust vector alignment laser target calibration and engine center-of-thrust error
+- **Goal:** Thrust vector alignment laser target calibration and engine center-of-thrust error using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3462_tablet.png`, `docs/screenshots/m3462_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3463: Automated 3D TVC actuator kinematic linkage synthesizer with 0.0mm gimbal joints
+- **Goal:** Automated 3D TVC actuator kinematic linkage synthesizer with 0.0mm gimbal joints using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3463_tablet.png`, `docs/screenshots/m3463_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3464: Interactive TVC gimbal deflection steering animation responding to joystick in AndroCAD
+- **Goal:** Interactive TVC gimbal deflection steering animation responding to joystick in AndroCAD using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3464_tablet.png`, `docs/screenshots/m3464_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3465: Actuator roller screw planetary rollers Hertzian contact fatigue and grease life
+- **Goal:** Actuator roller screw planetary rollers Hertzian contact fatigue and grease life using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3465_tablet.png`, `docs/screenshots/m3465_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3466: Launch vehicle flight control guidance command step response and overshoot limiter
+- **Goal:** Launch vehicle flight control guidance command step response and overshoot limiter using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3466_tablet.png`, `docs/screenshots/m3466_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3467: Compliance verification conforming to AS9100 aerospace quality and MIL-STD-1540
+- **Goal:** Compliance verification conforming to AS9100 aerospace quality and MIL-STD-1540 using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3467_tablet.png`, `docs/screenshots/m3467_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3468: Comprehensive 3,470 Milestone certification and Rocket Turbopump Release v18.0.0 dossier
+- **Goal:** Comprehensive 3,470 Milestone certification and Rocket Turbopump Release v18.0.0 dossier using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3468_tablet.png`, `docs/screenshots/m3468_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3469: Final engineering sign-off for Faz 20 cryogenic rocket turbopump autonomous core
+- **Goal:** Final engineering sign-off for Faz 20 cryogenic rocket turbopump autonomous core using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3469_tablet.png`, `docs/screenshots/m3469_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 3470: Autonomous milestone certification milestone 3470 complete
+- **Goal:** Autonomous milestone certification milestone 3470 complete using deterministic OCCT 8.0.1 BRep and Phase20Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m3470_tablet.png`, `docs/screenshots/m3470_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+

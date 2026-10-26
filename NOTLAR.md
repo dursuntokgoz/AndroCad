@@ -838,3 +838,11 @@
 - Sürüm: v17.0.0 (versionCode 1700).
 - 400 doğrulanmış tablet ve telefon ekran görüntüsü docs/screenshots/ dizinine eklendi.
 - Euro NCAP 5-Star, FMVSS 214, UNECE GTR 9, R100 ve RCAR standartları sağlandı.
+
+
+## Faz 20: Cryogenic Rocket Turbopump & Combustion Chamber CAD Suite (M3271 - M3470) Tamamlandı
+- Toplam 200 milestone başarıyla tamamlandı (M3271 - M3470).
+- Kümülatif tamamlanan milestone sayısı: **3,470 Milestone**.
+- Sürüm: v18.0.0 (versionCode 1800).
+- 400 doğrulanmış tablet ve telefon ekran görüntüsü docs/screenshots/ dizinine eklendi.
+- NASA SP-8052, SP-8087, SP-8110, AIAA S-080 ve AS9100 standartları sağlandı.
