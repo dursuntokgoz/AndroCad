@@ -1,0 +1,14 @@
+{
+  "version": "10.0.0",
+  "version_code": 1000,
+  "release_tag": "v10.0.0",
+  "date": "2026-10-27",
+  "total_milestones": 1870,
+  "new_milestones_in_phase": 200,
+  "phase": 12,
+  "button_determinism_verified": true,
+  "zero_broad_storage": true,
+  "occt_version": "8.0.1",
+  "page_size_alignment": "16KB",
+  "verification_status": "ALL_TESTS_GREEN"
+}
