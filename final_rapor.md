@@ -24,3 +24,11 @@
 - **Sürüm:** v7.0.0 (versionCode 700)
 - **Buton Determinizmi:** Ray-picking derinlik sıralaması, occlusion culling ve yüzey normali eşleştirmesi ile 0.0mm tolerans sağlandı.
 - **Mimari:** OCCT 8.0.1, 16 KB page-alignment, SAF-only depolama.
+
+
+## Faz 10 ve Release v8.0.0 Özeti (2026-10-26)
+
+- **Tamamlanan Milestone:** M1271 - M1470 (200 Adet, Kümülatif: 1,470 Adet)
+- **Sürüm:** v8.0.0 (versionCode 800)
+- **Manipülasyon Determinizmi:** Mekansal 3D gizmo, derinlik sıralı ray-picking ve normal kilitli push/pull ile 0.0mm tolerans sağlandı.
+- **Mimari:** OCCT 8.0.1, 16 KB page-alignment, SAF-only depolama.

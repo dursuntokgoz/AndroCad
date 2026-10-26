@@ -42,6 +42,12 @@ An original, professional parametric 3D CAD application engineered for Android t
 | **Electrical Harness Routing & Rigid-Flex PCB** | ✅ Working | 3D wire bundle routing, minimum bend radius validation, and IPC-2581 PCB stackup integration. |
 | **Photorealistic PBR & Monte Carlo Path Tracing**| ✅ Working | Real-time viewport path tracing, GGX microfacet roughness, SSS, and HDR dome lighting. |
 | **Cloud Project Collaboration & CRDT Sync** | ✅ Working | Decentralized CRDT parametric CAD sync, 3D visual diff, and E2EE zero-knowledge security. |
+| **Spatial 3D Gizmo & Direct Manipulation** | ✅ Working | Sub-millimeter planar/axial drag handles, live blend previews, and step snapping. |
+| **Multiphysics Acoustic & RF Simulation** | ✅ Working | Helmholtz acoustic resonance, BEM radiation, and FDTD Maxwell patch antenna solver. |
+| **AI Generative CAD Co-Pilot** | ✅ Working | Natural language to feature tree synthesis, smart DRC, and automatic topology generation. |
+| **Robotics & Offline Programming (OLP)** | ✅ Working | 6-axis industrial kinematics, Cartesian trajectory planning, and robot controller posts. |
+| **Polymer & Composite Science** | ✅ Working | Classical Lamination Theory (CLT), Tsai-Wu failure criteria, and draping simulation. |
+| **Optical Engineering & Ray Bundles** | ✅ Working | Sequential/non-sequential optical tracing, MTF contrast curves, and Seidel aberrations. |
 
 ---
 
