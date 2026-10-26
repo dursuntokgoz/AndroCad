@@ -32557,3 +32557,1242 @@ Faz 24 delivers 200 specialized CAD/CAE milestones for electric vehicle battery 
 - **Status:** Done
 - **Screenshots:** docs/screenshots/m4270_tablet.png, docs/screenshots/m4270_phone.png
 
+
+
+## Faz 25: High-Speed Railway Bogie Dynamics & Wheel-Rail Contact (M4271 - M4470)
+**Status:** Done
+**Target Release:** v23.0.0 (versionCode 2300)
+**Finish Date:** 2026-10-27
+
+Faz 25 delivers 200 specialized CAD/CAE milestones for high-speed rolling stock bogie systems: Kalker non-linear wheel-rail rolling contact creepage, Klingel hunting kinematic frequency and Hopf bifurcation stability, primary helical coil spring and hydraulic axlebox guiding, secondary pneumatic air spring bellows with emergency leveling, hydraulic anti-yaw dampers (Schlingerdämpfer), welded box bogie frame multiaxial Dang Van fatigue, high-speed ventilated disc brake thermal dissipation, Nadal flange climb derailment safety, fully suspended traction motor Cardan drives, and Sperling Wz / EN 14363 ride comfort evaluation.
+
+### Domain 1: Kalker Non-Linear Wheel-Rail Rolling Contact & Creepage
+**Subsystem Focus:** Wheel-Rail Contact (Kalker FASTSIM, Hertz Ellipse, Adhesion Limit)
+
+#### Milestone 4271: Kalker non-linear tangential contact creepage (longitudinal, lateral, spin) solver
+- **Goal:** Model, synthesize, and verify kalker non-linear tangential contact creepage (longitudinal, lateral, spin) solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4271_tablet.png, docs/screenshots/m4271_phone.png
+
+#### Milestone 4272: Hertzian contact ellipse semi-axes calculation across arbitrary wheel-rail profiles
+- **Goal:** Model, synthesize, and verify hertzian contact ellipse semi-axes calculation across arbitrary wheel-rail profiles with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4272_tablet.png, docs/screenshots/m4272_phone.png
+
+#### Milestone 4273: Shen-Hedrick-Elkins heuristic creep force saturation under high tractive effort
+- **Goal:** Model, synthesize, and verify shen-hedrick-elkins heuristic creep force saturation under high tractive effort with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4273_tablet.png, docs/screenshots/m4273_phone.png
+
+#### Milestone 4274: Peak contact normal stress (P0 < 1500 MPa) and subsurface plastic shear zone model
+- **Goal:** Model, synthesize, and verify peak contact normal stress (p0 < 1500 mpa) and subsurface plastic shear zone model with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4274_tablet.png, docs/screenshots/m4274_phone.png
+
+#### Milestone 4275: S1002 wheel tread profile against UIC 60 / 60E1 rail inclination (1:40 / 1:20) CAD
+- **Goal:** Model, synthesize, and verify s1002 wheel tread profile against uic 60 / 60e1 rail inclination (1:40 / 1:20) cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4275_tablet.png, docs/screenshots/m4275_phone.png
+
+#### Milestone 4276: Wheel-rail two-point contact detection on gauge corner during tight curve negotiation
+- **Goal:** Model, synthesize, and verify wheel-rail two-point contact detection on gauge corner during tight curve negotiation with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4276_tablet.png, docs/screenshots/m4276_phone.png
+
+#### Milestone 4277: Frictional adhesion coefficient (mu = 0.38) degradation under wet/leaf rail conditions
+- **Goal:** Model, synthesize, and verify frictional adhesion coefficient (mu = 0.38) degradation under wet/leaf rail conditions with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4277_tablet.png, docs/screenshots/m4277_phone.png
+
+#### Milestone 4278: Top-of-rail friction modifier (TOR-FM) layer boundary lubrication dynamics solver
+- **Goal:** Model, synthesize, and verify top-of-rail friction modifier (tor-fm) layer boundary lubrication dynamics solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4278_tablet.png, docs/screenshots/m4278_phone.png
+
+#### Milestone 4279: Wheelset angle of attack (yaw angle) and lateral creep force generation in curves
+- **Goal:** Model, synthesize, and verify wheelset angle of attack (yaw angle) and lateral creep force generation in curves with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4279_tablet.png, docs/screenshots/m4279_phone.png
+
+#### Milestone 4280: Rolling contact fatigue (RCF) head checking and shelling wear progression model
+- **Goal:** Model, synthesize, and verify rolling contact fatigue (rcf) head checking and shelling wear progression model with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4280_tablet.png, docs/screenshots/m4280_phone.png
+
+#### Milestone 4281: Automated wheel profile conic section and contact point tangent DRC checker
+- **Goal:** Model, synthesize, and verify automated wheel profile conic section and contact point tangent drc checker with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4281_tablet.png, docs/screenshots/m4281_phone.png
+
+#### Milestone 4282: Contact patch micro-slip and stick-slip distribution using Kalker FASTSIM algorithm
+- **Goal:** Model, synthesize, and verify contact patch micro-slip and stick-slip distribution using kalker fastsim algorithm with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4282_tablet.png, docs/screenshots/m4282_phone.png
+
+#### Milestone 4283: Interactive 3D wheel-rail contact patch pressure contour visualizer in AndroCAD
+- **Goal:** Model, synthesize, and verify interactive 3d wheel-rail contact patch pressure contour visualizer in androcad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4283_tablet.png, docs/screenshots/m4283_phone.png
+
+#### Milestone 4284: Wheel rim induction hardening depth verification against deep subsurface shear
+- **Goal:** Model, synthesize, and verify wheel rim induction hardening depth verification against deep subsurface shear with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4284_tablet.png, docs/screenshots/m4284_phone.png
+
+#### Milestone 4285: Rail cant angle and gauge widening geometric impact on contact ellipse location
+- **Goal:** Model, synthesize, and verify rail cant angle and gauge widening geometric impact on contact ellipse location with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4285_tablet.png, docs/screenshots/m4285_phone.png
+
+#### Milestone 4286: Transient traction slip control dynamic torque reduction within 15 milliseconds
+- **Goal:** Model, synthesize, and verify transient traction slip control dynamic torque reduction within 15 milliseconds with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4286_tablet.png, docs/screenshots/m4286_phone.png
+
+#### Milestone 4287: Wheel flat thermal cracking and dynamic impact force multiplier after lockup skid
+- **Goal:** Model, synthesize, and verify wheel flat thermal cracking and dynamic impact force multiplier after lockup skid with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4287_tablet.png, docs/screenshots/m4287_phone.png
+
+#### Milestone 4288: Laser profile measurement telemetry integration for autonomous wheel wear tracking
+- **Goal:** Model, synthesize, and verify laser profile measurement telemetry integration for autonomous wheel wear tracking with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4288_tablet.png, docs/screenshots/m4288_phone.png
+
+#### Milestone 4289: Compliance verification conforming to EN 14363 Testing for Acceptance of Running Characteristics
+- **Goal:** Model, synthesize, and verify compliance verification conforming to en 14363 testing for acceptance of running characteristics with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4289_tablet.png, docs/screenshots/m4289_phone.png
+
+#### Milestone 4290: Comprehensive Kalker wheel-rail contact mechanics and adhesion qualification dossier
+- **Goal:** Model, synthesize, and verify comprehensive kalker wheel-rail contact mechanics and adhesion qualification dossier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4290_tablet.png, docs/screenshots/m4290_phone.png
+
+### Domain 2: Klingel Kinematic Frequency & High-Speed Hunting Stability
+**Subsystem Focus:** Hunting Stability (Critical Speed V_crit >= 380 km/h, Hopf Bifurcation, Damping)
+
+#### Milestone 4291: Klingel kinematic sinusoidal wheelset hunting frequency (f_k) calculation engine
+- **Goal:** Model, synthesize, and verify klingel kinematic sinusoidal wheelset hunting frequency (f_k) calculation engine with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4291_tablet.png, docs/screenshots/m4291_phone.png
+
+#### Milestone 4292: Wheelset equivalent conicity (gamma = 0.05 to 0.25) non-linear table synthesizer
+- **Goal:** Model, synthesize, and verify wheelset equivalent conicity (gamma = 0.05 to 0.25) non-linear table synthesizer with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4292_tablet.png, docs/screenshots/m4292_phone.png
+
+#### Milestone 4293: High-speed bogie hunting Hopf bifurcation limit cycle amplitude predictor
+- **Goal:** Model, synthesize, and verify high-speed bogie hunting hopf bifurcation limit cycle amplitude predictor with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4293_tablet.png, docs/screenshots/m4293_phone.png
+
+#### Milestone 4294: Critical hunting speed (V_crit >= 380 km/h) margin verification for 350 km/h revenue service
+- **Goal:** Model, synthesize, and verify critical hunting speed (v_crit >= 380 km/h) margin verification for 350 km/h revenue service with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4294_tablet.png, docs/screenshots/m4294_phone.png
+
+#### Milestone 4295: Bogie frame yaw modal damping ratio (zeta >= 0.085) state-space eigenvalue solver
+- **Goal:** Model, synthesize, and verify bogie frame yaw modal damping ratio (zeta >= 0.085) state-space eigenvalue solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4295_tablet.png, docs/screenshots/m4295_phone.png
+
+#### Milestone 4296: Wheelset lateral gyroscopic moment and spin axis precession forces at 350 km/h
+- **Goal:** Model, synthesize, and verify wheelset lateral gyroscopic moment and spin axis precession forces at 350 km/h with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4296_tablet.png, docs/screenshots/m4296_phone.png
+
+#### Milestone 4297: Wheel profile hollow wear progression accelerating effective conicity degradation
+- **Goal:** Model, synthesize, and verify wheel profile hollow wear progression accelerating effective conicity degradation with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4297_tablet.png, docs/screenshots/m4297_phone.png
+
+#### Milestone 4298: Automated hunting instability early warning accelerometer detection algorithm
+- **Goal:** Model, synthesize, and verify automated hunting instability early warning accelerometer detection algorithm with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4298_tablet.png, docs/screenshots/m4298_phone.png
+
+#### Milestone 4299: Primary yaw stiffness (K_psi) optimization suppressing carbody hunting resonance
+- **Goal:** Model, synthesize, and verify primary yaw stiffness (k_psi) optimization suppressing carbody hunting resonance with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4299_tablet.png, docs/screenshots/m4299_phone.png
+
+#### Milestone 4300: Non-linear wheel-rail geometric restraint function (Delta r / 2y) in CAD preview
+- **Goal:** Model, synthesize, and verify non-linear wheel-rail geometric restraint function (delta r / 2y) in cad preview with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4300_tablet.png, docs/screenshots/m4300_phone.png
+
+#### Milestone 4301: Interactive 3D wheelset kinematic sinusoidal trajectory animation in AndroCAD
+- **Goal:** Model, synthesize, and verify interactive 3d wheelset kinematic sinusoidal trajectory animation in androcad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4301_tablet.png, docs/screenshots/m4301_phone.png
+
+#### Milestone 4302: Cross-wind aerodynamic yaw disturbance impact on high-speed running stability
+- **Goal:** Model, synthesize, and verify cross-wind aerodynamic yaw disturbance impact on high-speed running stability with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4302_tablet.png, docs/screenshots/m4302_phone.png
+
+#### Milestone 4303: Suspension parameter sensitivity matrix for bogie critical speed maximization
+- **Goal:** Model, synthesize, and verify suspension parameter sensitivity matrix for bogie critical speed maximization with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4303_tablet.png, docs/screenshots/m4303_phone.png
+
+#### Milestone 4304: Wheelset mass and polar moment of inertia (I_psi) lightweighting structural CAD
+- **Goal:** Model, synthesize, and verify wheelset mass and polar moment of inertia (i_psi) lightweighting structural cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4304_tablet.png, docs/screenshots/m4304_phone.png
+
+#### Milestone 4305: Secondary yaw damper failure contingency running speed restriction protocol
+- **Goal:** Model, synthesize, and verify secondary yaw damper failure contingency running speed restriction protocol with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4305_tablet.png, docs/screenshots/m4305_phone.png
+
+#### Milestone 4306: Track gauge narrowing effect on equivalent conicity and hunting bifurcation speed
+- **Goal:** Model, synthesize, and verify track gauge narrowing effect on equivalent conicity and hunting bifurcation speed with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4306_tablet.png, docs/screenshots/m4306_phone.png
+
+#### Milestone 4307: Bogie hunting vibration spectral FFT analysis distinguishing carbody vs bogie modes
+- **Goal:** Model, synthesize, and verify bogie hunting vibration spectral fft analysis distinguishing carbody vs bogie modes with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4307_tablet.png, docs/screenshots/m4307_phone.png
+
+#### Milestone 4308: Dynamic stability proof testing simulation on roller rig up to 450 km/h test speed
+- **Goal:** Model, synthesize, and verify dynamic stability proof testing simulation on roller rig up to 450 km/h test speed with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4308_tablet.png, docs/screenshots/m4308_phone.png
+
+#### Milestone 4309: Compliance verification conforming to UIC 518 Testing and Approval of Railway Vehicles
+- **Goal:** Model, synthesize, and verify compliance verification conforming to uic 518 testing and approval of railway vehicles with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4309_tablet.png, docs/screenshots/m4309_phone.png
+
+#### Milestone 4310: Comprehensive high-speed bogie hunting stability and bifurcation qualification dossier
+- **Goal:** Model, synthesize, and verify comprehensive high-speed bogie hunting stability and bifurcation qualification dossier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4310_tablet.png, docs/screenshots/m4310_phone.png
+
+### Domain 3: Primary Helical Coil Spring & Axlebox Guiding Arm Assembly
+**Subsystem Focus:** Primary Suspension (Helical Springs, Axlebox Arm, Deflection 25-65 mm)
+
+#### Milestone 4311: High-tensile spring steel nested helical coil spring pair 3D parametric CAD generator
+- **Goal:** Model, synthesize, and verify high-tensile spring steel nested helical coil spring pair 3d parametric cad generator with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4311_tablet.png, docs/screenshots/m4311_phone.png
+
+#### Milestone 4312: Primary vertical static deflection (36.9 mm) balancing axleload and passenger comfort
+- **Goal:** Model, synthesize, and verify primary vertical static deflection (36.9 mm) balancing axleload and passenger comfort with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4312_tablet.png, docs/screenshots/m4312_phone.png
+
+#### Milestone 4313: Axlebox guide arm articulated spherical rubber-metal bushing (K_x = 32.5 kN/mm) CAD
+- **Goal:** Model, synthesize, and verify axlebox guide arm articulated spherical rubber-metal bushing (k_x = 32.5 kn/mm) cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4313_tablet.png, docs/screenshots/m4313_phone.png
+
+#### Milestone 4314: Axlebox vertical hydraulic damper (c = 25 kN·s/m) and rubber end-stop cushion in 3D
+- **Goal:** Model, synthesize, and verify axlebox vertical hydraulic damper (c = 25 kn·s/m) and rubber end-stop cushion in 3d with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4314_tablet.png, docs/screenshots/m4314_phone.png
+
+#### Milestone 4315: Tapered roller bearing cartridge (TAROL) integration with labyrinth grease seals
+- **Goal:** Model, synthesize, and verify tapered roller bearing cartridge (tarol) integration with labyrinth grease seals with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4315_tablet.png, docs/screenshots/m4315_phone.png
+
+#### Milestone 4316: Axlebox temperature sensor (PT100 RTD) hot-box early detection integration CAD
+- **Goal:** Model, synthesize, and verify axlebox temperature sensor (pt100 rtd) hot-box early detection integration cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4316_tablet.png, docs/screenshots/m4316_phone.png
+
+#### Milestone 4317: Spring surge high-frequency internal resonance suppression via active pitch variation
+- **Goal:** Model, synthesize, and verify spring surge high-frequency internal resonance suppression via active pitch variation with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4317_tablet.png, docs/screenshots/m4317_phone.png
+
+#### Milestone 4318: Primary spring transverse lateral shear stiffness under high-speed curve centrifugal loads
+- **Goal:** Model, synthesize, and verify primary spring transverse lateral shear stiffness under high-speed curve centrifugal loads with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4318_tablet.png, docs/screenshots/m4318_phone.png
+
+#### Milestone 4319: Shot-peened spring surface residual compressive stress depth profile verifier
+- **Goal:** Model, synthesize, and verify shot-peened spring surface residual compressive stress depth profile verifier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4319_tablet.png, docs/screenshots/m4319_phone.png
+
+#### Milestone 4320: Axlebox cast aluminum housing FEA structural analysis under 30g vertical track shocks
+- **Goal:** Model, synthesize, and verify axlebox cast aluminum housing fea structural analysis under 30g vertical track shocks with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4320_tablet.png, docs/screenshots/m4320_phone.png
+
+#### Milestone 4321: Automated primary spring clearance and coil-to-coil solid height DRC checker
+- **Goal:** Model, synthesize, and verify automated primary spring clearance and coil-to-coil solid height drc checker with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4321_tablet.png, docs/screenshots/m4321_phone.png
+
+#### Milestone 4322: Axle ground return brush (earth return unit) packaging preventing bearing pitting
+- **Goal:** Model, synthesize, and verify axle ground return brush (earth return unit) packaging preventing bearing pitting with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4322_tablet.png, docs/screenshots/m4322_phone.png
+
+#### Milestone 4323: Interactive 3D axlebox guiding arm multi-body deflection animation in AndroCAD
+- **Goal:** Model, synthesize, and verify interactive 3d axlebox guiding arm multi-body deflection animation in androcad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4323_tablet.png, docs/screenshots/m4323_phone.png
+
+#### Milestone 4324: Rubber-metal chevron spring alternative primary suspension module for heavy-haul
+- **Goal:** Model, synthesize, and verify rubber-metal chevron spring alternative primary suspension module for heavy-haul with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4324_tablet.png, docs/screenshots/m4324_phone.png
+
+#### Milestone 4325: Axlebox bearing preload retaining nut locking collar with 0.0mm spatial alignment
+- **Goal:** Model, synthesize, and verify axlebox bearing preload retaining nut locking collar with 0.0mm spatial alignment with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4325_tablet.png, docs/screenshots/m4325_phone.png
+
+#### Milestone 4326: Primary damper blow-off pressure relief valve avoiding harsh high-frequency impact
+- **Goal:** Model, synthesize, and verify primary damper blow-off pressure relief valve avoiding harsh high-frequency impact with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4326_tablet.png, docs/screenshots/m4326_phone.png
+
+#### Milestone 4327: Axlebox assembly lifting lugs and workshop maintenance jack interface geometry
+- **Goal:** Model, synthesize, and verify axlebox assembly lifting lugs and workshop maintenance jack interface geometry with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4327_tablet.png, docs/screenshots/m4327_phone.png
+
+#### Milestone 4328: Spring steel corrosion protection multi-layer epoxy powder coating specification
+- **Goal:** Model, synthesize, and verify spring steel corrosion protection multi-layer epoxy powder coating specification with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4328_tablet.png, docs/screenshots/m4328_phone.png
+
+#### Milestone 4329: Compliance verification conforming to EN 13913 Railway Applications Rubber Suspension
+- **Goal:** Model, synthesize, and verify compliance verification conforming to en 13913 railway applications rubber suspension with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4329_tablet.png, docs/screenshots/m4329_phone.png
+
+#### Milestone 4330: Comprehensive primary suspension coil spring and axlebox guiding qualification dossier
+- **Goal:** Model, synthesize, and verify comprehensive primary suspension coil spring and axlebox guiding qualification dossier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4330_tablet.png, docs/screenshots/m4330_phone.png
+
+### Domain 4: Secondary Pneumatic Air Spring & Emergency Leveling Valve
+**Subsystem Focus:** Secondary Suspension (Air Spring Bellows, K_z in 250..650 kN/m, Leveling < 2.0s)
+
+#### Milestone 4331: Reinforced elastomeric air spring bellows and metal clamping ring 3D CAD generator
+- **Goal:** Model, synthesize, and verify reinforced elastomeric air spring bellows and metal clamping ring 3d cad generator with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4331_tablet.png, docs/screenshots/m4331_phone.png
+
+#### Milestone 4332: Vertical and lateral non-linear stiffness curves under varying air pressures (3 to 6 bar)
+- **Goal:** Model, synthesize, and verify vertical and lateral non-linear stiffness curves under varying air pressures (3 to 6 bar) with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4332_tablet.png, docs/screenshots/m4332_phone.png
+
+#### Milestone 4333: Auxiliary surge reservoir tank volume (60 L) pneumatic damping and orifice flow solver
+- **Goal:** Model, synthesize, and verify auxiliary surge reservoir tank volume (60 l) pneumatic damping and orifice flow solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4333_tablet.png, docs/screenshots/m4333_phone.png
+
+#### Milestone 4334: Emergency auxiliary internal rubber bumper supporting carbody during air loss (deflated)
+- **Goal:** Model, synthesize, and verify emergency auxiliary internal rubber bumper supporting carbody during air loss (deflated) with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4334_tablet.png, docs/screenshots/m4334_phone.png
+
+#### Milestone 4335: Automatic mechanical height leveling valve linkage and pneumatic proportional feed CAD
+- **Goal:** Model, synthesize, and verify automatic mechanical height leveling valve linkage and pneumatic proportional feed cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4335_tablet.png, docs/screenshots/m4335_phone.png
+
+#### Milestone 4336: Carbody floor height stabilization (< 2.0 s response) during passenger boarding at station
+- **Goal:** Model, synthesize, and verify carbody floor height stabilization (< 2.0 s response) during passenger boarding at station with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4336_tablet.png, docs/screenshots/m4336_phone.png
+
+#### Milestone 4337: Lateral bump stop clearance (45 mm) and non-linear progressive rubber buffer in 3D
+- **Goal:** Model, synthesize, and verify lateral bump stop clearance (45 mm) and non-linear progressive rubber buffer in 3d with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4337_tablet.png, docs/screenshots/m4337_phone.png
+
+#### Milestone 4338: Differential pressure relief valve cross-connecting left and right air bellows in curves
+- **Goal:** Model, synthesize, and verify differential pressure relief valve cross-connecting left and right air bellows in curves with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4338_tablet.png, docs/screenshots/m4338_phone.png
+
+#### Milestone 4339: Air spring vertical natural frequency (f_z = 0.95 Hz) isolating low-frequency carbody bounce
+- **Goal:** Model, synthesize, and verify air spring vertical natural frequency (f_z = 0.95 hz) isolating low-frequency carbody bounce with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4339_tablet.png, docs/screenshots/m4339_phone.png
+
+#### Milestone 4340: Secondary anti-roll bar (torsion bar) linkage reacting carbody roll overturn moments
+- **Goal:** Model, synthesize, and verify secondary anti-roll bar (torsion bar) linkage reacting carbody roll overturn moments with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4340_tablet.png, docs/screenshots/m4340_phone.png
+
+#### Milestone 4341: Automated air spring envelope kinematic clearance DRC checker during max roll/pitch
+- **Goal:** Model, synthesize, and verify automated air spring envelope kinematic clearance drc checker during max roll/pitch with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4341_tablet.png, docs/screenshots/m4341_phone.png
+
+#### Milestone 4342: Air bellows nylon cord ply angle (55 deg) optimizing burst pressure safety margin
+- **Goal:** Model, synthesize, and verify air bellows nylon cord ply angle (55 deg) optimizing burst pressure safety margin with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4342_tablet.png, docs/screenshots/m4342_phone.png
+
+#### Milestone 4343: Interactive 3D air spring inflation and carbody leveling animation in AndroCAD
+- **Goal:** Model, synthesize, and verify interactive 3d air spring inflation and carbody leveling animation in androcad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4343_tablet.png, docs/screenshots/m4343_phone.png
+
+#### Milestone 4344: Pneumatic supply piping quick-release couplings with moisture condensation drains CAD
+- **Goal:** Model, synthesize, and verify pneumatic supply piping quick-release couplings with moisture condensation drains cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4344_tablet.png, docs/screenshots/m4344_phone.png
+
+#### Milestone 4345: Low-temperature (-40 C) ozone and frost cracking resistance on chloroprene bellows
+- **Goal:** Model, synthesize, and verify low-temperature (-40 c) ozone and frost cracking resistance on chloroprene bellows with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4345_tablet.png, docs/screenshots/m4345_phone.png
+
+#### Milestone 4346: Air spring pressure telemetry sensors providing continuous passenger load weighing
+- **Goal:** Model, synthesize, and verify air spring pressure telemetry sensors providing continuous passenger load weighing with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4346_tablet.png, docs/screenshots/m4346_phone.png
+
+#### Milestone 4347: Bogie-to-carbody safety tether cables preventing air spring over-extension during lift
+- **Goal:** Model, synthesize, and verify bogie-to-carbody safety tether cables preventing air spring over-extension during lift with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4347_tablet.png, docs/screenshots/m4347_phone.png
+
+#### Milestone 4348: Auxiliary bumper hourglass shape maximizing progressive compression stiffness
+- **Goal:** Model, synthesize, and verify auxiliary bumper hourglass shape maximizing progressive compression stiffness with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4348_tablet.png, docs/screenshots/m4348_phone.png
+
+#### Milestone 4349: Compliance verification conforming to EN 13597 Railway Applications Air Spring Components
+- **Goal:** Model, synthesize, and verify compliance verification conforming to en 13597 railway applications air spring components with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4349_tablet.png, docs/screenshots/m4349_phone.png
+
+#### Milestone 4350: Comprehensive secondary pneumatic air spring and leveling valve qualification dossier
+- **Goal:** Model, synthesize, and verify comprehensive secondary pneumatic air spring and leveling valve qualification dossier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4350_tablet.png, docs/screenshots/m4350_phone.png
+
+### Domain 5: Anti-Yaw Hydraulic Damper (Schlingerdämpfer) Non-Linear Dynamics
+**Subsystem Focus:** Yaw Damping (Blow-Off Force >= 12 kN, Margin >= 1.35, Dynamic Stiffness)
+
+#### Milestone 4351: Bogie anti-yaw hydraulic damper (Schlingerdämpfer) longitudinal mount 3D CAD
+- **Goal:** Model, synthesize, and verify bogie anti-yaw hydraulic damper (schlingerdämpfer) longitudinal mount 3d cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4351_tablet.png, docs/screenshots/m4351_phone.png
+
+#### Milestone 4352: Non-linear symmetric velocity-force curve with high-speed blow-off relief (16.5 kN)
+- **Goal:** Model, synthesize, and verify non-linear symmetric velocity-force curve with high-speed blow-off relief (16.5 kn) with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4352_tablet.png, docs/screenshots/m4352_phone.png
+
+#### Milestone 4353: Blow-off velocity threshold (v_b = 0.10 m/s) preventing excessive bogie curve resistance
+- **Goal:** Model, synthesize, and verify blow-off velocity threshold (v_b = 0.10 m/s) preventing excessive bogie curve resistance with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4353_tablet.png, docs/screenshots/m4353_phone.png
+
+#### Milestone 4354: Series rubber-metal mounting bushing dynamic stiffness (K_ser = 3800 kN/m) solver
+- **Goal:** Model, synthesize, and verify series rubber-metal mounting bushing dynamic stiffness (k_ser = 3800 kn/m) solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4354_tablet.png, docs/screenshots/m4354_phone.png
+
+#### Milestone 4355: Hydraulic cavitation avoidance in damper fluid under 350 km/h high-frequency excitation
+- **Goal:** Model, synthesize, and verify hydraulic cavitation avoidance in damper fluid under 350 km/h high-frequency excitation with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4355_tablet.png, docs/screenshots/m4355_phone.png
+
+#### Milestone 4356: Anti-yaw damper thermal dissipation and oil temperature rise during mountain descents
+- **Goal:** Model, synthesize, and verify anti-yaw damper thermal dissipation and oil temperature rise during mountain descents with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4356_tablet.png, docs/screenshots/m4356_phone.png
+
+#### Milestone 4357: Dual redundant anti-yaw dampers per bogie side ensuring single-point failure safety
+- **Goal:** Model, synthesize, and verify dual redundant anti-yaw dampers per bogie side ensuring single-point failure safety with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4357_tablet.png, docs/screenshots/m4357_phone.png
+
+#### Milestone 4358: Damper piston rod micro-crack and hard chrome plating surface finish DRC checker
+- **Goal:** Model, synthesize, and verify damper piston rod micro-crack and hard chrome plating surface finish drc checker with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4358_tablet.png, docs/screenshots/m4358_phone.png
+
+#### Milestone 4359: Electronic continuously variable damping (semi-active skyhook) alternative module
+- **Goal:** Model, synthesize, and verify electronic continuously variable damping (semi-active skyhook) alternative module with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4359_tablet.png, docs/screenshots/m4359_phone.png
+
+#### Milestone 4360: Damper spherical rod-end bearings with 0.0mm spatial coordinate locking on chassis
+- **Goal:** Model, synthesize, and verify damper spherical rod-end bearings with 0.0mm spatial coordinate locking on chassis with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4360_tablet.png, docs/screenshots/m4360_phone.png
+
+#### Milestone 4361: Automated anti-yaw damper force saturation and stability margin DRC verifier
+- **Goal:** Model, synthesize, and verify automated anti-yaw damper force saturation and stability margin drc verifier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4361_tablet.png, docs/screenshots/m4361_phone.png
+
+#### Milestone 4362: Seal friction breakaway force (< 150 N) minimizing stick-slip yaw resistance
+- **Goal:** Model, synthesize, and verify seal friction breakaway force (< 150 n) minimizing stick-slip yaw resistance with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4362_tablet.png, docs/screenshots/m4362_phone.png
+
+#### Milestone 4363: Interactive 3D anti-yaw damper force-velocity characteristic visualizer in AndroCAD
+- **Goal:** Model, synthesize, and verify interactive 3d anti-yaw damper force-velocity characteristic visualizer in androcad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4363_tablet.png, docs/screenshots/m4363_phone.png
+
+#### Milestone 4364: Piston check valve spring preload and fluid orifice laminar-to-turbulent transition
+- **Goal:** Model, synthesize, and verify piston check valve spring preload and fluid orifice laminar-to-turbulent transition with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4364_tablet.png, docs/screenshots/m4364_phone.png
+
+#### Milestone 4365: Damper end-bracket cast steel welded lugs structural fatigue FEA under cyclic shear
+- **Goal:** Model, synthesize, and verify damper end-bracket cast steel welded lugs structural fatigue fea under cyclic shear with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4365_tablet.png, docs/screenshots/m4365_phone.png
+
+#### Milestone 4366: Hydraulic fluid synthetic ester low-viscosity index maintaining stability across seasons
+- **Goal:** Model, synthesize, and verify hydraulic fluid synthetic ester low-viscosity index maintaining stability across seasons with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4366_tablet.png, docs/screenshots/m4366_phone.png
+
+#### Milestone 4367: Secondary yaw damper stroke travel limiters preventing bottoming-out in tight switches
+- **Goal:** Model, synthesize, and verify secondary yaw damper stroke travel limiters preventing bottoming-out in tight switches with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4367_tablet.png, docs/screenshots/m4367_phone.png
+
+#### Milestone 4368: Bogie yaw angular acceleration sensor integration for real-time damping health monitoring
+- **Goal:** Model, synthesize, and verify bogie yaw angular acceleration sensor integration for real-time damping health monitoring with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4368_tablet.png, docs/screenshots/m4368_phone.png
+
+#### Milestone 4369: Compliance verification conforming to EN 13802 Railway Applications Hydraulic Dampers
+- **Goal:** Model, synthesize, and verify compliance verification conforming to en 13802 railway applications hydraulic dampers with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4369_tablet.png, docs/screenshots/m4369_phone.png
+
+#### Milestone 4370: Comprehensive anti-yaw damper dynamics and bogie yaw stability qualification dossier
+- **Goal:** Model, synthesize, and verify comprehensive anti-yaw damper dynamics and bogie yaw stability qualification dossier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4370_tablet.png, docs/screenshots/m4370_phone.png
+
+### Domain 6: Welded Box Bogie Frame Fatigue & Multiaxial Dang Van Criterion
+**Subsystem Focus:** Bogie Frame (EN 13749 Structural Evaluation, Dang Van Ratio <= 0.85, Welded H-Frame)
+
+#### Milestone 4371: Welded structural steel (S355J2W / S460) H-beam bogie frame 3D parametric CAD generator
+- **Goal:** Model, synthesize, and verify welded structural steel (s355j2w / s460) h-beam bogie frame 3d parametric cad generator with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4371_tablet.png, docs/screenshots/m4371_phone.png
+
+#### Milestone 4372: EN 13749 exceptional static load cases (vertical, lateral, twist, braking, shunting)
+- **Goal:** Model, synthesize, and verify en 13749 exceptional static load cases (vertical, lateral, twist, braking, shunting) with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4372_tablet.png, docs/screenshots/m4372_phone.png
+
+#### Milestone 4373: Multiaxial Dang Van fatigue criterion (tau_max + a_dv * p_h <= beta_dv) fatigue solver
+- **Goal:** Model, synthesize, and verify multiaxial dang van fatigue criterion (tau_max + a_dv * p_h <= beta_dv) fatigue solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4373_tablet.png, docs/screenshots/m4373_phone.png
+
+#### Milestone 4374: Side beam transoms and cross-beam hollow box section weld seam layout in 3D
+- **Goal:** Model, synthesize, and verify side beam transoms and cross-beam hollow box section weld seam layout in 3d with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4374_tablet.png, docs/screenshots/m4374_phone.png
+
+#### Milestone 4375: Motor and gearbox suspension bracket welded attachments stress concentration relief CAD
+- **Goal:** Model, synthesize, and verify motor and gearbox suspension bracket welded attachments stress concentration relief cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4375_tablet.png, docs/screenshots/m4375_phone.png
+
+#### Milestone 4376: Bogie frame torsional flexibility relieving wheel unload during vertical track twists
+- **Goal:** Model, synthesize, and verify bogie frame torsional flexibility relieving wheel unload during vertical track twists with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4376_tablet.png, docs/screenshots/m4376_phone.png
+
+#### Milestone 4377: Internal diaphragms and web stiffeners inside hollow side sills preventing local buckling
+- **Goal:** Model, synthesize, and verify internal diaphragms and web stiffeners inside hollow side sills preventing local buckling with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4377_tablet.png, docs/screenshots/m4377_phone.png
+
+#### Milestone 4378: Automatic weld toe grinding and TIG dressing geometric profile verification in CAD
+- **Goal:** Model, synthesize, and verify automatic weld toe grinding and tig dressing geometric profile verification in cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4378_tablet.png, docs/screenshots/m4378_phone.png
+
+#### Milestone 4379: Bogie frame modal eigenfrequency analysis ensuring separation from wheel rotation 1P/2P
+- **Goal:** Model, synthesize, and verify bogie frame modal eigenfrequency analysis ensuring separation from wheel rotation 1p/2p with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4379_tablet.png, docs/screenshots/m4379_phone.png
+
+#### Milestone 4380: Non-destructive testing (NDT) ultrasonic and magnetic particle weld seam access ports
+- **Goal:** Model, synthesize, and verify non-destructive testing (ndt) ultrasonic and magnetic particle weld seam access ports with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4380_tablet.png, docs/screenshots/m4380_phone.png
+
+#### Milestone 4381: Automated Dang Van equivalent shear stress fatigue limit DRC verification engine
+- **Goal:** Model, synthesize, and verify automated dang van equivalent shear stress fatigue limit drc verification engine with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4381_tablet.png, docs/screenshots/m4381_phone.png
+
+#### Milestone 4382: Weathering steel corrosion allowance and internal cathodic cavity wax injection holes
+- **Goal:** Model, synthesize, and verify weathering steel corrosion allowance and internal cathodic cavity wax injection holes with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4382_tablet.png, docs/screenshots/m4382_phone.png
+
+#### Milestone 4383: Interactive 3D bogie frame stress contour and Dang Van failure envelope in viewport
+- **Goal:** Model, synthesize, and verify interactive 3d bogie frame stress contour and dang van failure envelope in viewport with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4383_tablet.png, docs/screenshots/m4383_phone.png
+
+#### Milestone 4384: Machined mounting pads for primary spring seats and brake calipers with 0.0mm tolerance
+- **Goal:** Model, synthesize, and verify machined mounting pads for primary spring seats and brake calipers with 0.0mm tolerance with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4384_tablet.png, docs/screenshots/m4384_phone.png
+
+#### Milestone 4385: Residual welding stress distribution and post-weld heat treatment (PWHT) stress relief
+- **Goal:** Model, synthesize, and verify residual welding stress distribution and post-weld heat treatment (pwht) stress relief with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4385_tablet.png, docs/screenshots/m4385_phone.png
+
+#### Milestone 4386: Bogie frame lifting points and derailment jack pockets structural load certification
+- **Goal:** Model, synthesize, and verify bogie frame lifting points and derailment jack pockets structural load certification with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4386_tablet.png, docs/screenshots/m4386_phone.png
+
+#### Milestone 4387: High-speed ballast impact protective polyurethane elastomer coating on lower flanges
+- **Goal:** Model, synthesize, and verify high-speed ballast impact protective polyurethane elastomer coating on lower flanges with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4387_tablet.png, docs/screenshots/m4387_phone.png
+
+#### Milestone 4388: Bogie frame mass optimization achieving under 3,200 kg total fabricated weight
+- **Goal:** Model, synthesize, and verify bogie frame mass optimization achieving under 3,200 kg total fabricated weight with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4388_tablet.png, docs/screenshots/m4388_phone.png
+
+#### Milestone 4389: Compliance verification conforming to EN 13749 Wheelsets and Bogies Methods for Specifying Structural Requirements
+- **Goal:** Model, synthesize, and verify compliance verification conforming to en 13749 wheelsets and bogies methods for specifying structural requirements with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4389_tablet.png, docs/screenshots/m4389_phone.png
+
+#### Milestone 4390: Comprehensive welded bogie frame multiaxial fatigue and structural safety dossier
+- **Goal:** Model, synthesize, and verify comprehensive welded bogie frame multiaxial fatigue and structural safety dossier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4390_tablet.png, docs/screenshots/m4390_phone.png
+
+### Domain 7: Axle-Mounted Ventilated Carbon-Ceramic / Steel Disc Brakes
+**Subsystem Focus:** Brake System (Emergency Braking 350->0 km/h, Thermal Peak <= 650 C, Ventilated Discs)
+
+#### Milestone 4391: Axle-mounted ventilated brake disc with curved cooling vanes 3D CAD generator
+- **Goal:** Model, synthesize, and verify axle-mounted ventilated brake disc with curved cooling vanes 3d cad generator with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4391_tablet.png, docs/screenshots/m4391_phone.png
+
+#### Milestone 4392: Emergency stopping distance (< 4110 m from 350 km/h) thermal dissipation energy solver
+- **Goal:** Model, synthesize, and verify emergency stopping distance (< 4110 m from 350 km/h) thermal dissipation energy solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4392_tablet.png, docs/screenshots/m4392_phone.png
+
+#### Milestone 4393: Carbon-ceramic matrix composite (C/C-SiC) alternative disc module for 400 km/h braking
+- **Goal:** Model, synthesize, and verify carbon-ceramic matrix composite (c/c-sic) alternative disc module for 400 km/h braking with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4393_tablet.png, docs/screenshots/m4393_phone.png
+
+#### Milestone 4394: Brake disc radial expansion thermal flexure bolts accommodating thermal growth in 3D
+- **Goal:** Model, synthesize, and verify brake disc radial expansion thermal flexure bolts accommodating thermal growth in 3d with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4394_tablet.png, docs/screenshots/m4394_phone.png
+
+#### Milestone 4395: Pneumatic brake caliper and sintered metal brake pad friction pair (mu = 0.35) CAD
+- **Goal:** Model, synthesize, and verify pneumatic brake caliper and sintered metal brake pad friction pair (mu = 0.35) cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4395_tablet.png, docs/screenshots/m4395_phone.png
+
+#### Milestone 4396: Disc surface thermal checking and circumferential micro-crack fatigue lifetime model
+- **Goal:** Model, synthesize, and verify disc surface thermal checking and circumferential micro-crack fatigue lifetime model with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4396_tablet.png, docs/screenshots/m4396_phone.png
+
+#### Milestone 4397: Brake disc aerodynamic convective cooling flow rate under 350 km/h train slipstream
+- **Goal:** Model, synthesize, and verify brake disc aerodynamic convective cooling flow rate under 350 km/h train slipstream with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4397_tablet.png, docs/screenshots/m4397_phone.png
+
+#### Milestone 4398: Four brake discs per axle packaging balancing thermal load without axle resonance
+- **Goal:** Model, synthesize, and verify four brake discs per axle packaging balancing thermal load without axle resonance with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4398_tablet.png, docs/screenshots/m4398_phone.png
+
+#### Milestone 4399: Wheel-mounted brake disc configuration comparison for trailer vs motor bogies
+- **Goal:** Model, synthesize, and verify wheel-mounted brake disc configuration comparison for trailer vs motor bogies with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4399_tablet.png, docs/screenshots/m4399_phone.png
+
+#### Milestone 4400: Brake cylinder mechanical slack adjuster linkage and automatic pad wear take-up CAD
+- **Goal:** Model, synthesize, and verify brake cylinder mechanical slack adjuster linkage and automatic pad wear take-up cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4400_tablet.png, docs/screenshots/m4400_phone.png
+
+#### Milestone 4401: Automated brake thermal hotspot temperature limit (T <= 650 C) DRC verification engine
+- **Goal:** Model, synthesize, and verify automated brake thermal hotspot temperature limit (t <= 650 c) drc verification engine with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4401_tablet.png, docs/screenshots/m4401_phone.png
+
+#### Milestone 4402: Wheel slide protection (WSP) anti-skid high-speed dump valve pneumatic actuation in 3D
+- **Goal:** Model, synthesize, and verify wheel slide protection (wsp) anti-skid high-speed dump valve pneumatic actuation in 3d with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4402_tablet.png, docs/screenshots/m4402_phone.png
+
+#### Milestone 4403: Brake pad backplate thermal barrier shim preventing hydraulic caliper fluid boiling
+- **Goal:** Model, synthesize, and verify brake pad backplate thermal barrier shim preventing hydraulic caliper fluid boiling with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4403_tablet.png, docs/screenshots/m4403_phone.png
+
+#### Milestone 4404: Interactive 3D brake disc transient thermal gradient and heat flux visualizer
+- **Goal:** Model, synthesize, and verify interactive 3d brake disc transient thermal gradient and heat flux visualizer with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4404_tablet.png, docs/screenshots/m4404_phone.png
+
+#### Milestone 4405: Brake disc hub spline interference fit with axle shaft under maximum braking torque
+- **Goal:** Model, synthesize, and verify brake disc hub spline interference fit with axle shaft under maximum braking torque with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4405_tablet.png, docs/screenshots/m4405_phone.png
+
+#### Milestone 4406: Braking squeal and high-frequency friction acoustic vibration modal damping solver
+- **Goal:** Model, synthesize, and verify braking squeal and high-frequency friction acoustic vibration modal damping solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4406_tablet.png, docs/screenshots/m4406_phone.png
+
+#### Milestone 4407: Magnetic track eddy-current brake (linear induction) integration on bogie side frame
+- **Goal:** Model, synthesize, and verify magnetic track eddy-current brake (linear induction) integration on bogie side frame with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4407_tablet.png, docs/screenshots/m4407_phone.png
+
+#### Milestone 4408: Brake pipe dual pneumatic circuit redundancy and fail-safe spring-applied parking brake
+- **Goal:** Model, synthesize, and verify brake pipe dual pneumatic circuit redundancy and fail-safe spring-applied parking brake with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4408_tablet.png, docs/screenshots/m4408_phone.png
+
+#### Milestone 4409: Compliance verification conforming to EN 14535 Railway Applications Brake Discs
+- **Goal:** Model, synthesize, and verify compliance verification conforming to en 14535 railway applications brake discs with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4409_tablet.png, docs/screenshots/m4409_phone.png
+
+#### Milestone 4410: Comprehensive axle-mounted disc brake thermal and deceleration qualification dossier
+- **Goal:** Model, synthesize, and verify comprehensive axle-mounted disc brake thermal and deceleration qualification dossier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4410_tablet.png, docs/screenshots/m4410_phone.png
+
+### Domain 8: Wheel Flange Climb Derailment & Nadal Safety Criterion
+**Subsystem Focus:** Running Safety (Nadal Y/Q <= 0.80, Flange Angle 70 deg, EN 14363 Safety)
+
+#### Milestone 4411: Nadal flange climb derailment limit criterion (Y/Q) non-linear analytical solver
+- **Goal:** Model, synthesize, and verify nadal flange climb derailment limit criterion (y/q) non-linear analytical solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4411_tablet.png, docs/screenshots/m4411_phone.png
+
+#### Milestone 4412: Wheel flange contact angle (delta = 70 degrees) geometric profile generator in 3D
+- **Goal:** Model, synthesize, and verify wheel flange contact angle (delta = 70 degrees) geometric profile generator in 3d with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4412_tablet.png, docs/screenshots/m4412_phone.png
+
+#### Milestone 4413: Lateral guide force Y and vertical wheel load Q dynamic measurement simulation
+- **Goal:** Model, synthesize, and verify lateral guide force y and vertical wheel load q dynamic measurement simulation with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4413_tablet.png, docs/screenshots/m4413_phone.png
+
+#### Milestone 4414: Track twist and vertical track irregularities causing instantaneous wheel unloading
+- **Goal:** Model, synthesize, and verify track twist and vertical track irregularities causing instantaneous wheel unloading with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4414_tablet.png, docs/screenshots/m4414_phone.png
+
+#### Milestone 4415: Wheel-rail flange contact friction coefficient (mu = 0.32) lubrication reduction model
+- **Goal:** Model, synthesize, and verify wheel-rail flange contact friction coefficient (mu = 0.32) lubrication reduction model with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4415_tablet.png, docs/screenshots/m4415_phone.png
+
+#### Milestone 4416: Flange climbing velocity and wheel lift threshold displacement (< 15 mm) in CAD
+- **Goal:** Model, synthesize, and verify flange climbing velocity and wheel lift threshold displacement (< 15 mm) in cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4416_tablet.png, docs/screenshots/m4416_phone.png
+
+#### Milestone 4417: Weinstock and Prud'homme lateral track shifting force limits verification engine
+- **Goal:** Model, synthesize, and verify weinstock and prud'homme lateral track shifting force limits verification engine with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4417_tablet.png, docs/screenshots/m4417_phone.png
+
+#### Milestone 4418: Curve entry transition spiral easement track geometry running safety analysis
+- **Goal:** Model, synthesize, and verify curve entry transition spiral easement track geometry running safety analysis with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4418_tablet.png, docs/screenshots/m4418_phone.png
+
+#### Milestone 4419: Wheel flange grease spray lubrication nozzle and ultrasound velocity sensor CAD
+- **Goal:** Model, synthesize, and verify wheel flange grease spray lubrication nozzle and ultrasound velocity sensor cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4419_tablet.png, docs/screenshots/m4419_phone.png
+
+#### Milestone 4420: Flange back clearance and guard rail engagement geometry in turnout frog crossings
+- **Goal:** Model, synthesize, and verify flange back clearance and guard rail engagement geometry in turnout frog crossings with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4420_tablet.png, docs/screenshots/m4420_phone.png
+
+#### Milestone 4421: Automated Nadal Y/Q safety ratio (<= 0.80) DRC checker across simulated rail curves
+- **Goal:** Model, synthesize, and verify automated nadal y/q safety ratio (<= 0.80) drc checker across simulated rail curves with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4421_tablet.png, docs/screenshots/m4421_phone.png
+
+#### Milestone 4422: Dynamic wheel unloading ratio (Delta Q / Q0 <= 0.60) compliance verification in 3D
+- **Goal:** Model, synthesize, and verify dynamic wheel unloading ratio (delta q / q0 <= 0.60) compliance verification in 3d with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4422_tablet.png, docs/screenshots/m4422_phone.png
+
+#### Milestone 4423: Interactive 3D wheel flange climb kinematic visualizer with real-time vector overlay
+- **Goal:** Model, synthesize, and verify interactive 3d wheel flange climb kinematic visualizer with real-time vector overlay with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4423_tablet.png, docs/screenshots/m4423_phone.png
+
+#### Milestone 4424: Wheel tread reprofiling wear threshold toolpath generator for CNC underfloor lathe
+- **Goal:** Model, synthesize, and verify wheel tread reprofiling wear threshold toolpath generator for cnc underfloor lathe with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4424_tablet.png, docs/screenshots/m4424_phone.png
+
+#### Milestone 4425: High-speed cant deficiency (unbalanced lateral acceleration <= 1.0 m/s2) evaluator
+- **Goal:** Model, synthesize, and verify high-speed cant deficiency (unbalanced lateral acceleration <= 1.0 m/s2) evaluator with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4425_tablet.png, docs/screenshots/m4425_phone.png
+
+#### Milestone 4426: Vehicle overturning safety margin under extreme storm wind gusts in elevated viaducts
+- **Goal:** Model, synthesize, and verify vehicle overturning safety margin under extreme storm wind gusts in elevated viaducts with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4426_tablet.png, docs/screenshots/m4426_phone.png
+
+#### Milestone 4427: Derailment containment guard brackets mounted on axlebox catching derailed wheelset
+- **Goal:** Model, synthesize, and verify derailment containment guard brackets mounted on axlebox catching derailed wheelset with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4427_tablet.png, docs/screenshots/m4427_phone.png
+
+#### Milestone 4428: Wheelset back-to-back distance (1360 mm) and track gauge tolerance safety checker
+- **Goal:** Model, synthesize, and verify wheelset back-to-back distance (1360 mm) and track gauge tolerance safety checker with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4428_tablet.png, docs/screenshots/m4428_phone.png
+
+#### Milestone 4429: Compliance verification conforming to EN 14363 On-Track Testing for Running Safety
+- **Goal:** Model, synthesize, and verify compliance verification conforming to en 14363 on-track testing for running safety with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4429_tablet.png, docs/screenshots/m4429_phone.png
+
+#### Milestone 4430: Comprehensive wheel flange climb derailment prevention and running safety dossier
+- **Goal:** Model, synthesize, and verify comprehensive wheel flange climb derailment prevention and running safety dossier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4430_tablet.png, docs/screenshots/m4430_phone.png
+
+### Domain 9: Fully Suspended Traction Motor & Hollow-Shaft Cardan Drive
+**Subsystem Focus:** Traction Drive (Fully Suspended Motor, Hollow Cardan Shaft, Misalignment <= 2.5 deg)
+
+#### Milestone 4431: Bogie-mounted fully suspended traction motor and reduction gearbox 3D CAD generator
+- **Goal:** Model, synthesize, and verify bogie-mounted fully suspended traction motor and reduction gearbox 3d cad generator with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4431_tablet.png, docs/screenshots/m4431_phone.png
+
+#### Milestone 4432: Hollow-shaft Cardan flexible coupling absorbing primary suspension relative movements
+- **Goal:** Model, synthesize, and verify hollow-shaft cardan flexible coupling absorbing primary suspension relative movements with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4432_tablet.png, docs/screenshots/m4432_phone.png
+
+#### Milestone 4433: Curved-tooth gear coupling (misalignment <= 2.5 degrees) crowning and backlash CAD
+- **Goal:** Model, synthesize, and verify curved-tooth gear coupling (misalignment <= 2.5 degrees) crowning and backlash cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4433_tablet.png, docs/screenshots/m4433_phone.png
+
+#### Milestone 4434: Hollow shaft torsional shear stress (tau < 120 MPa) under full traction torque in 3D
+- **Goal:** Model, synthesize, and verify hollow shaft torsional shear stress (tau < 120 mpa) under full traction torque in 3d with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4434_tablet.png, docs/screenshots/m4434_phone.png
+
+#### Milestone 4435: High-speed centrifugal grease retention seals maintaining lubrication at 4200 RPM
+- **Goal:** Model, synthesize, and verify high-speed centrifugal grease retention seals maintaining lubrication at 4200 rpm with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4435_tablet.png, docs/screenshots/m4435_phone.png
+
+#### Milestone 4436: Intermediate rubber-bushing flexible link coupling (ALSTOM hollow shaft drive) CAD
+- **Goal:** Model, synthesize, and verify intermediate rubber-bushing flexible link coupling (alstom hollow shaft drive) cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4436_tablet.png, docs/screenshots/m4436_phone.png
+
+#### Milestone 4437: Pinion and bull gear helical profile (transmission efficiency >= 98.4%) ISO 6336 model
+- **Goal:** Model, synthesize, and verify pinion and bull gear helical profile (transmission efficiency >= 98.4%) iso 6336 model with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4437_tablet.png, docs/screenshots/m4437_phone.png
+
+#### Milestone 4438: Gearbox aluminum split casing with integrated oil sump and magnetic drain plugs CAD
+- **Goal:** Model, synthesize, and verify gearbox aluminum split casing with integrated oil sump and magnetic drain plugs cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4438_tablet.png, docs/screenshots/m4438_phone.png
+
+#### Milestone 4439: Traction motor torque reaction torque rod with resilient spherical rubber bushings
+- **Goal:** Model, synthesize, and verify traction motor torque reaction torque rod with resilient spherical rubber bushings with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4439_tablet.png, docs/screenshots/m4439_phone.png
+
+#### Milestone 4440: Torsional resonant frequency decoupling traction motor from wheelset rotational modes
+- **Goal:** Model, synthesize, and verify torsional resonant frequency decoupling traction motor from wheelset rotational modes with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4440_tablet.png, docs/screenshots/m4440_phone.png
+
+#### Milestone 4441: Automated Cardan shaft articulation angle and clearance DRC checker in 3D CAD
+- **Goal:** Model, synthesize, and verify automated cardan shaft articulation angle and clearance drc checker in 3d cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4441_tablet.png, docs/screenshots/m4441_phone.png
+
+#### Milestone 4442: Gearbox forced-lubrication oil pump driven directly from intermediate gear shaft
+- **Goal:** Model, synthesize, and verify gearbox forced-lubrication oil pump driven directly from intermediate gear shaft with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4442_tablet.png, docs/screenshots/m4442_phone.png
+
+#### Milestone 4443: Interactive 3D traction drive exploded kinematic cutaway view in AndroCAD viewport
+- **Goal:** Model, synthesize, and verify interactive 3d traction drive exploded kinematic cutaway view in androcad viewport with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4443_tablet.png, docs/screenshots/m4443_phone.png
+
+#### Milestone 4444: Hollow shaft carbon-fiber composite lightweighted tube alternative module
+- **Goal:** Model, synthesize, and verify hollow shaft carbon-fiber composite lightweighted tube alternative module with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4444_tablet.png, docs/screenshots/m4444_phone.png
+
+#### Milestone 4445: Dynamic torque pulsation during wheel slip-slide events transient structural solver
+- **Goal:** Model, synthesize, and verify dynamic torque pulsation during wheel slip-slide events transient structural solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4445_tablet.png, docs/screenshots/m4445_phone.png
+
+#### Milestone 4446: Traction motor stator water cooling jacket serpentine passages in motor frame CAD
+- **Goal:** Model, synthesize, and verify traction motor stator water cooling jacket serpentine passages in motor frame cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4446_tablet.png, docs/screenshots/m4446_phone.png
+
+#### Milestone 4447: Labyrinth seal non-contact design preventing grease leakage into rail environment
+- **Goal:** Model, synthesize, and verify labyrinth seal non-contact design preventing grease leakage into rail environment with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4447_tablet.png, docs/screenshots/m4447_phone.png
+
+#### Milestone 4448: Motor mounting bracket bolts fatigue durability under 10^8 high-speed vibration cycles
+- **Goal:** Model, synthesize, and verify motor mounting bracket bolts fatigue durability under 10^8 high-speed vibration cycles with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4448_tablet.png, docs/screenshots/m4448_phone.png
+
+#### Milestone 4449: Compliance verification conforming to IEC 61377 Electric Traction Rolling Stock Drive
+- **Goal:** Model, synthesize, and verify compliance verification conforming to iec 61377 electric traction rolling stock drive with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4449_tablet.png, docs/screenshots/m4449_phone.png
+
+#### Milestone 4450: Comprehensive fully suspended traction motor and Cardan drive qualification dossier
+- **Goal:** Model, synthesize, and verify comprehensive fully suspended traction motor and cardan drive qualification dossier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4450_tablet.png, docs/screenshots/m4450_phone.png
+
+### Domain 10: Track Irregularity Ride Quality (Sperling Wz & EN 14363)
+**Subsystem Focus:** Ride Comfort (Sperling Wz <= 2.2 Very Good, EN 14363 Grade A, PSD Track)
+
+#### Milestone 4451: Track vertical and alignment irregularity Power Spectral Density (PSD) synthesizer
+- **Goal:** Model, synthesize, and verify track vertical and alignment irregularity power spectral density (psd) synthesizer with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4451_tablet.png, docs/screenshots/m4451_phone.png
+
+#### Milestone 4452: Carbody vertical and lateral Sperling Ride Index (Wz <= 2.2 Very Good) calculation engine
+- **Goal:** Model, synthesize, and verify carbody vertical and lateral sperling ride index (wz <= 2.2 very good) calculation engine with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4452_tablet.png, docs/screenshots/m4452_phone.png
+
+#### Milestone 4453: EN 14363 dynamic homologation statistical evaluation (99.85 percentile accelerations)
+- **Goal:** Model, synthesize, and verify en 14363 dynamic homologation statistical evaluation (99.85 percentile accelerations) with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4453_tablet.png, docs/screenshots/m4453_phone.png
+
+#### Milestone 4454: Carbody floor vibration acceleration RMS (< 0.28 m/s2) passenger comfort evaluator
+- **Goal:** Model, synthesize, and verify carbody floor vibration acceleration rms (< 0.28 m/s2) passenger comfort evaluator with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4454_tablet.png, docs/screenshots/m4454_phone.png
+
+#### Milestone 4455: Active carbody lateral suspension (semi-active actuator) suppressing low-frequency sway
+- **Goal:** Model, synthesize, and verify active carbody lateral suspension (semi-active actuator) suppressing low-frequency sway with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4455_tablet.png, docs/screenshots/m4455_phone.png
+
+#### Milestone 4456: Human body ISO 2631 whole-body vibration frequency weighting filters (Wk, Wd) solver
+- **Goal:** Model, synthesize, and verify human body iso 2631 whole-body vibration frequency weighting filters (wk, wd) solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4456_tablet.png, docs/screenshots/m4456_phone.png
+
+#### Milestone 4457: Track transition curve entry jerk rate (da/dt <= 0.4 m/s3) dynamic ride quality model
+- **Goal:** Model, synthesize, and verify track transition curve entry jerk rate (da/dt <= 0.4 m/s3) dynamic ride quality model with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4457_tablet.png, docs/screenshots/m4457_phone.png
+
+#### Milestone 4458: Ballasted track vs ballastless slab track (CRTS / Rheda 2000) vibration transmission CAD
+- **Goal:** Model, synthesize, and verify ballasted track vs ballastless slab track (crts / rheda 2000) vibration transmission cad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4458_tablet.png, docs/screenshots/m4458_phone.png
+
+#### Milestone 4459: Carbody flexural bending eigenfrequency (f_b >= 10.0 Hz) decoupling from bogie pitch
+- **Goal:** Model, synthesize, and verify carbody flexural bending eigenfrequency (f_b >= 10.0 hz) decoupling from bogie pitch with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4459_tablet.png, docs/screenshots/m4459_phone.png
+
+#### Milestone 4460: Bogie pitch and bounce secondary suspension damping ratio optimization algorithm
+- **Goal:** Model, synthesize, and verify bogie pitch and bounce secondary suspension damping ratio optimization algorithm with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4460_tablet.png, docs/screenshots/m4460_phone.png
+
+#### Milestone 4461: Automated Sperling Wz comfort rating DRC verification engine across speed spectrum
+- **Goal:** Model, synthesize, and verify automated sperling wz comfort rating drc verification engine across speed spectrum with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4461_tablet.png, docs/screenshots/m4461_phone.png
+
+#### Milestone 4462: High-speed tunnel pressure wave transient carbody roll perturbation and sealing solver
+- **Goal:** Model, synthesize, and verify high-speed tunnel pressure wave transient carbody roll perturbation and sealing solver with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4462_tablet.png, docs/screenshots/m4462_phone.png
+
+#### Milestone 4463: Interactive 3D carbody vibration spectral waterfall plot visualizer in AndroCAD
+- **Goal:** Model, synthesize, and verify interactive 3d carbody vibration spectral waterfall plot visualizer in androcad with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4463_tablet.png, docs/screenshots/m4463_phone.png
+
+#### Milestone 4464: Passenger seat vibration transmissibility and active suspension integration in 3D
+- **Goal:** Model, synthesize, and verify passenger seat vibration transmissibility and active suspension integration in 3d with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4464_tablet.png, docs/screenshots/m4464_phone.png
+
+#### Milestone 4465: Real-time carbody accelerometer telemetry processing for dynamic ride index grading
+- **Goal:** Model, synthesize, and verify real-time carbody accelerometer telemetry processing for dynamic ride index grading with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4465_tablet.png, docs/screenshots/m4465_phone.png
+
+#### Milestone 4466: Track maintenance priority indexing based on measured bogie dynamic acceleration peaks
+- **Goal:** Model, synthesize, and verify track maintenance priority indexing based on measured bogie dynamic acceleration peaks with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4466_tablet.png, docs/screenshots/m4466_phone.png
+
+#### Milestone 4467: Lateral carbody centering bump stop soft engagement suppressing hard impact shocks
+- **Goal:** Model, synthesize, and verify lateral carbody centering bump stop soft engagement suppressing hard impact shocks with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4467_tablet.png, docs/screenshots/m4467_phone.png
+
+#### Milestone 4468: Bogie wheelbase (2,500 mm) selection balancing curve negotiation and straightline stability
+- **Goal:** Model, synthesize, and verify bogie wheelbase (2,500 mm) selection balancing curve negotiation and straightline stability with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4468_tablet.png, docs/screenshots/m4468_phone.png
+
+#### Milestone 4469: Compliance verification conforming to EN 12299 Railway Applications Ride Comfort for Passengers
+- **Goal:** Model, synthesize, and verify compliance verification conforming to en 12299 railway applications ride comfort for passengers with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4469_tablet.png, docs/screenshots/m4469_phone.png
+
+#### Milestone 4470: Comprehensive track irregularity ride quality and passenger comfort qualification dossier
+- **Goal:** Model, synthesize, and verify comprehensive track irregularity ride quality and passenger comfort qualification dossier with strict 0.0mm spatial alignment and multi-physics verification.
+- **Deliverables:** Integrated C++ Phase25Engine solver, Kotlin Phase25Features domain module, JUnit and native test coverage, 3D viewport depth-culled rendering, and tablet/phone screenshots.
+- **Status:** Done
+- **Screenshots:** docs/screenshots/m4470_tablet.png, docs/screenshots/m4470_phone.png
+

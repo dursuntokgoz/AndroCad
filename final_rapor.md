@@ -124,3 +124,9 @@
 - 200 yeni batarya elektrokimyasal, termal ve çarpışma milestone'u başarıyla uygulandı.
 - Sürüm v22.0.0 yayımlandı.
 - Toplam milestone sayısı 4,270'e ulaştı.
+
+
+## Faz 25 Özeti: Yüksek Hızlı Tren Boji Dinamiği ve Tekerlek-Ray Teması Paketi (M4271 - M4470)
+- 200 yeni yüksek hızlı tren boji ve temas dinamiği milestone'u başarıyla uygulandı.
+- Sürüm v23.0.0 yayımlandı.
+- Toplam milestone sayısı 4,470'e ulaştı.

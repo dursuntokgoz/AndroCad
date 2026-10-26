@@ -1,0 +1,20 @@
+{
+  "version": "23.0.0",
+  "versionCode": 2300,
+  "phase": 25,
+  "milestones": "M4271 - M4470",
+  "total_milestones_completed": 4470,
+  "domains": [
+    "Kalker Non-Linear Wheel-Rail Rolling Contact & Creepage",
+    "Klingel Kinematic Frequency & High-Speed Hunting Stability",
+    "Primary Helical Coil Spring & Axlebox Guiding Arm Assembly",
+    "Secondary Pneumatic Air Spring & Emergency Leveling Valve",
+    "Anti-Yaw Hydraulic Damper (Schlingerd\u00e4mpfer) Non-Linear Dynamics",
+    "Welded Box Bogie Frame Fatigue & Multiaxial Dang Van Criterion",
+    "Axle-Mounted Ventilated Carbon-Ceramic / Steel Disc Brakes",
+    "Wheel Flange Climb Derailment & Nadal Safety Criterion",
+    "Fully Suspended Traction Motor & Hollow-Shaft Cardan Drive",
+    "Track Irregularity Ride Quality (Sperling Wz & EN 14363)"
+  ],
+  "release_notes": "Faz 25 High-Speed Railway Bogie Dynamics, Wheel-Rail Contact Mechanics & Hunting Stability Suite delivering deterministic Kalker creep mechanics, 425 km/h critical hunting speed, primary coil spring deflection, secondary air spring leveling, anti-yaw dampers, welded box frame Dang Van fatigue, ventilated disc brakes, Nadal derailment safety, fully suspended Cardan drives, and Sperling Wz ride comfort."
+}

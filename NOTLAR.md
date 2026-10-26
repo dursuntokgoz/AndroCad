@@ -878,3 +878,11 @@
 - Sürüm: v22.0.0 (versionCode 2200).
 - 400 doğrulanmış tablet ve telefon ekran görüntüsü docs/screenshots/ dizinine eklendi.
 - UN ECE R100 Rev 3, ISO 6469-1/3, UL 9540A, GB 38031, UN 38.3 standartları sağlandı.
+
+
+## Faz 25: High-Speed Railway Bogie Dynamics & Wheel-Rail Contact Suite (M4271 - M4470) Tamamlandı
+- Toplam 200 milestone başarıyla tamamlandı (M4271 - M4470).
+- Kümülatif tamamlanan milestone sayısı: **4,470 Milestone**.
+- Sürüm: v23.0.0 (versionCode 2300).
+- 400 doğrulanmış tablet ve telefon ekran görüntüsü docs/screenshots/ dizinine eklendi.
+- EN 14363, EN 13749, EN 14535, EN 12299, UIC 518 standartları sağlandı.
