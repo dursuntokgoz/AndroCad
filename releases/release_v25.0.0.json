@@ -1,0 +1,20 @@
+{
+  "version": "25.0.0",
+  "versionCode": 2500,
+  "phase": 27,
+  "milestones": "M4671 - M4870",
+  "total_milestones_completed": 4870,
+  "domains": [
+    "Tubular Steel Space-Truss Boom Global & Local Shell Buckling",
+    "Multi-Stage Planetary Final Drive & Sun Gear Pitting (ISO 6336)",
+    "Multi-Strand Wire Rope Bending Fatigue & Sheave Dynamics",
+    "Tubular Chord Saddle Weld Node Stress Concentration (Efthymiou SCF)",
+    "Dragline Bucket Digging Kinematics & Soil Penetration Resistance",
+    "Walking Cam-and-Shoe Mechanism Kinematics (Monighan Drive)",
+    "Hoist & Drag Double-Drum Clutched Brake Friction Tribology",
+    "Swing Machinery Planetary Slew Bearing & Dynamic Pinion Backlash",
+    "Rigid Boom Guy Wire Pre-Tension & Mast Static Equilibrium",
+    "Revolving Deck Center-Pin Hydrostatic Pivot & Thrust Bearing"
+  ],
+  "release_notes": "Faz 27 Heavy Mining Dragline Excavator Boom Tubular Trusses & Drives Suite delivering deterministic 105m space-truss boom buckling, 1605 kNm planetary final drives, ISO 4309 wire rope bending fatigue, Efthymiou tubular joint SCF, 65 m3 bucket digging resistance, Monighan walking cams, hoist drum brakes, planetary slew machinery, mast guy wires, and 1200mm center-pin pivots."
+}

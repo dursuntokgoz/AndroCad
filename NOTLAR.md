@@ -894,3 +894,11 @@
 - Sürüm: v24.0.0 (versionCode 2400).
 - 400 doğrulanmış tablet ve telefon ekran görüntüsü docs/screenshots/ dizinine eklendi.
 - ASME PVHO-1, DNV-GL, ABS, NAVSEA SS521 standartları sağlandı.
+
+
+## Faz 27: Heavy Mining Dragline Excavator Boom & Drives CAD Suite (M4671 - M4870) Tamamlandı
+- Toplam 200 milestone başarıyla tamamlandı (M4671 - M4870).
+- Kümülatif tamamlanan milestone sayısı: **4,870 Milestone**.
+- Sürüm: v25.0.0 (versionCode 2500).
+- 400 doğrulanmış tablet ve telefon ekran görüntüsü docs/screenshots/ dizinine eklendi.
+- AS 4324.1, ISO 6336, ISO 4309, AGMA 6013, AWS D1.1 standartları sağlandı.

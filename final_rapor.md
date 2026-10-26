@@ -136,3 +136,9 @@
 - 200 yeni hadal derin deniz dalgıç mekaniği milestone'u başarıyla uygulandı.
 - Sürüm v24.0.0 yayımlandı.
 - Toplam milestone sayısı 4,670'e ulaştı.
+
+
+## Faz 27 Özeti: Ağır Madencilik Dragline Ekskavatör Bom ve Tahrik Paketi (M4671 - M4870)
+- 200 yeni ağır madencilik ekskavatör ve bom mekaniği milestone'u başarıyla uygulandı.
+- Sürüm v25.0.0 yayımlandı.
+- Toplam milestone sayısı 4,870'e ulaştı.
