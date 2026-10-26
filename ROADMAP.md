@@ -24253,3 +24253,1240 @@ With the foundation established (Milestones 1–7), the roadmap expands toward p
 - **Status:** Done
 - **Finish Date:** 2026-10-27
 
+
+## Faz 17: Geotechnical Tunneling & TBM Cutterhead CAD/CAE Suite (M2671 - M2870) - Release v15.0.0
+
+**Status:** Done
+**Scope:** 200 Milestones (M2671 - M2870)
+**Version:** v15.0.0 (versionCode 1500)
+
+### Alan 1: Hoek-Brown Rock Mass Failure Criterion & Generalized Strength
+**Alt Sistem:** Rock Mechanics (Hoek-Brown GSI, Intact UCS, Rock Modulus Erm)
+
+#### Milestone 2671: Generalized Hoek-Brown empirical non-linear failure envelope solver for jointed rock
+- **Goal:** Generalized Hoek-Brown empirical non-linear failure envelope solver for jointed rock using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2671_tablet.png`, `docs/screenshots/m2671_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2672: Geological Strength Index (GSI) qualitative and quantitative blockiness assessment tool
+- **Goal:** Geological Strength Index (GSI) qualitative and quantitative blockiness assessment tool using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2672_tablet.png`, `docs/screenshots/m2672_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2673: Intact rock Uniaxial Compressive Strength (UCS) and Petrographic mi constant fitter
+- **Goal:** Intact rock Uniaxial Compressive Strength (UCS) and Petrographic mi constant fitter using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2673_tablet.png`, `docs/screenshots/m2673_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2674: Blast and excavation disturbance factor (D = 0 to 1) rock mass relaxation model
+- **Goal:** Blast and excavation disturbance factor (D = 0 to 1) rock mass relaxation model using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2674_tablet.png`, `docs/screenshots/m2674_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2675: Rock mass deformation modulus (Erm) formulation conforming to Hoek & Diederichs
+- **Goal:** Rock mass deformation modulus (Erm) formulation conforming to Hoek & Diederichs using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2675_tablet.png`, `docs/screenshots/m2675_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2676: Tensile cut-off limit and uniaxial tensile strength calculation for deep rock caverns
+- **Goal:** Tensile cut-off limit and uniaxial tensile strength calculation for deep rock caverns using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2676_tablet.png`, `docs/screenshots/m2676_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2677: Mohr-Coulomb equivalent cohesion (c') and friction angle (phi') tangent matching
+- **Goal:** Mohr-Coulomb equivalent cohesion (c') and friction angle (phi') tangent matching using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2677_tablet.png`, `docs/screenshots/m2677_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2678: Anisotropic joint set weakness planes strength reduction (Barton-Bandis model)
+- **Goal:** Anisotropic joint set weakness planes strength reduction (Barton-Bandis model) using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2678_tablet.png`, `docs/screenshots/m2678_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2679: Deep overburden in-situ stress state (K0 = sigma_h / sigma_v) gravitational gradient
+- **Goal:** Deep overburden in-situ stress state (K0 = sigma_h / sigma_v) gravitational gradient using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2679_tablet.png`, `docs/screenshots/m2679_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2680: Hydraulic fracturing in-situ stress measurement data inversion and principal tensor
+- **Goal:** Hydraulic fracturing in-situ stress measurement data inversion and principal tensor using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2680_tablet.png`, `docs/screenshots/m2680_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2681: Acoustic emission Kaiser effect and micro-cracking damage threshold identifier
+- **Goal:** Acoustic emission Kaiser effect and micro-cracking damage threshold identifier using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2681_tablet.png`, `docs/screenshots/m2681_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2682: Slake durability index (SDI) and swelling clay mineralogy degradation simulator
+- **Goal:** Slake durability index (SDI) and swelling clay mineralogy degradation simulator using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2682_tablet.png`, `docs/screenshots/m2682_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2683: Triaxial compressive test Mohr circles and Hoek-Brown non-linear regression engine
+- **Goal:** Triaxial compressive test Mohr circles and Hoek-Brown non-linear regression engine using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2683_tablet.png`, `docs/screenshots/m2683_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2684: Rock mass Quality Index (Q-system) and Rock Mass Rating (RMR89) automated correlator
+- **Goal:** Rock mass Quality Index (Q-system) and Rock Mass Rating (RMR89) automated correlator using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2684_tablet.png`, `docs/screenshots/m2684_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2685: Thermal conductivity and geothermal heat flux in deep mountain tunnel rock mass
+- **Goal:** Thermal conductivity and geothermal heat flux in deep mountain tunnel rock mass using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2685_tablet.png`, `docs/screenshots/m2685_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2686: Hard brittle rock spalling and strainburst susceptibility index (sigma_max / UCS)
+- **Goal:** Hard brittle rock spalling and strainburst susceptibility index (sigma_max / UCS) using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2686_tablet.png`, `docs/screenshots/m2686_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2687: Automated Hoek-Brown rock mass material property synthesizer for 3D FEA in AndroCAD
+- **Goal:** Automated Hoek-Brown rock mass material property synthesizer for 3D FEA in AndroCAD using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2687_tablet.png`, `docs/screenshots/m2687_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2688: Interactive rock mass joint set stereonet pole plot visualizer in 3D CAD space
+- **Goal:** Interactive rock mass joint set stereonet pole plot visualizer in 3D CAD space using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2688_tablet.png`, `docs/screenshots/m2688_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2689: Compliance verification conforming to International Society for Rock Mechanics (ISRM)
+- **Goal:** Compliance verification conforming to International Society for Rock Mechanics (ISRM) using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2689_tablet.png`, `docs/screenshots/m2689_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2690: Comprehensive Hoek-Brown rock mass characterization and stability dossier
+- **Goal:** Comprehensive Hoek-Brown rock mass characterization and stability dossier using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2690_tablet.png`, `docs/screenshots/m2690_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+### Alan 2: TBM Disc Cutter Rolling Indentation & Colorado School of Mines (CSM) Model
+**Alt Sistem:** Cutterhead CAD (CSM Disc Cutter, Normal Force, Specific Energy)
+
+#### Milestone 2691: Colorado School of Mines (CSM) constant cross-section (CCS) disc cutter force model
+- **Goal:** Colorado School of Mines (CSM) constant cross-section (CCS) disc cutter force model using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2691_tablet.png`, `docs/screenshots/m2691_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2692: Disc cutter tip profile curvature, wear flat width, and edge fillet geometry CAD
+- **Goal:** Disc cutter tip profile curvature, wear flat width, and edge fillet geometry CAD using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2692_tablet.png`, `docs/screenshots/m2692_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2693: Optimum cutter spacing-to-penetration ratio (S/p) rock chipping efficiency solver
+- **Goal:** Optimum cutter spacing-to-penetration ratio (S/p) rock chipping efficiency solver using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2693_tablet.png`, `docs/screenshots/m2693_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2694: Cutter normal force (Fn) and rolling force (Fr) penetration depth predictor
+- **Goal:** Cutter normal force (Fn) and rolling force (Fr) penetration depth predictor using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2694_tablet.png`, `docs/screenshots/m2694_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2695: Specific Energy (SE, MJ/m3) minimization engine maximizing rock cutting volume
+- **Goal:** Specific Energy (SE, MJ/m3) minimization engine maximizing rock cutting volume using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2695_tablet.png`, `docs/screenshots/m2695_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2696: Tapered roller bearing dynamic load rating and L10h bearing life under 250 kN Fn
+- **Goal:** Tapered roller bearing dynamic load rating and L10h bearing life under 250 kN Fn using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2696_tablet.png`, `docs/screenshots/m2696_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2697: Heavy-duty mechanical face metal-to-metal floating seal grit exclusion profile
+- **Goal:** Heavy-duty mechanical face metal-to-metal floating seal grit exclusion profile using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2697_tablet.png`, `docs/screenshots/m2697_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2698: Center twin disc cutter cluster spatial layout preventing rock core left behind
+- **Goal:** Center twin disc cutter cluster spatial layout preventing rock core left behind using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2698_tablet.png`, `docs/screenshots/m2698_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2699: Gauge disc cutter angular inclination (cant angle) and radial trajectory solver
+- **Goal:** Gauge disc cutter angular inclination (cant angle) and radial trajectory solver using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2699_tablet.png`, `docs/screenshots/m2699_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2700: Carbide insert button disc cutter (TBM ripper) for abrasive quartzitic sandstone
+- **Goal:** Carbide insert button disc cutter (TBM ripper) for abrasive quartzitic sandstone using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2700_tablet.png`, `docs/screenshots/m2700_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2701: Disc cutter ring metallurgical tool steel (H13 / AISI 4340) induction hardening depth
+- **Goal:** Disc cutter ring metallurgical tool steel (H13 / AISI 4340) induction hardening depth using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2701_tablet.png`, `docs/screenshots/m2701_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2702: Cutter wear sensor telemetry system (eddy current / ultrasonic thickness probe) CAD
+- **Goal:** Cutter wear sensor telemetry system (eddy current / ultrasonic thickness probe) CAD using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2702_tablet.png`, `docs/screenshots/m2702_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2703: Cutter change hydraulic lock clamp and back-loading cutter housing mechanism CAD
+- **Goal:** Cutter change hydraulic lock clamp and back-loading cutter housing mechanism CAD using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2703_tablet.png`, `docs/screenshots/m2703_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2704: Cutterhead front face flushing water / foam injection nozzle trajectory alignment
+- **Goal:** Cutterhead front face flushing water / foam injection nozzle trajectory alignment using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2704_tablet.png`, `docs/screenshots/m2704_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2705: Dynamic rock chipping acoustic emission signature and rock interface friction solver
+- **Goal:** Dynamic rock chipping acoustic emission signature and rock interface friction solver using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2705_tablet.png`, `docs/screenshots/m2705_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2706: Automated 3D disc cutter placement engine with 0.0mm mounting saddle snapping
+- **Goal:** Automated 3D disc cutter placement engine with 0.0mm mounting saddle snapping using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2706_tablet.png`, `docs/screenshots/m2706_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2707: Cutterhead spiral wear pattern visualizer with chromatic tool life degradation map
+- **Goal:** Cutterhead spiral wear pattern visualizer with chromatic tool life degradation map using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2707_tablet.png`, `docs/screenshots/m2707_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2708: High-impact shock wave attenuation between cutter saddle and cutterhead structure
+- **Goal:** High-impact shock wave attenuation between cutter saddle and cutterhead structure using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2708_tablet.png`, `docs/screenshots/m2708_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2709: Compliance verification conforming to ITA-AITES mechanized tunneling guidelines
+- **Goal:** Compliance verification conforming to ITA-AITES mechanized tunneling guidelines using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2709_tablet.png`, `docs/screenshots/m2709_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2710: Comprehensive TBM disc cutter rolling mechanics and tool longevity qualification dossier
+- **Goal:** Comprehensive TBM disc cutter rolling mechanics and tool longevity qualification dossier using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2710_tablet.png`, `docs/screenshots/m2710_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+### Alan 3: Precast Segmental Lining Ring Joint Mechanics & Bolt Stress
+**Alt Sistem:** Segmental Lining (Universal Tapered Ring, Janssen Joint, Bolt Tension)
+
+#### Milestone 2711: Universal tapered segmental lining ring key segment (K-segment) orientation optimizer
+- **Goal:** Universal tapered segmental lining ring key segment (K-segment) orientation optimizer using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2711_tablet.png`, `docs/screenshots/m2711_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2712: Janssen non-linear rotational stiffness model for longitudinal concrete-to-concrete joints
+- **Goal:** Janssen non-linear rotational stiffness model for longitudinal concrete-to-concrete joints using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2712_tablet.png`, `docs/screenshots/m2712_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2713: Radial and circumferential joint elastomeric EPDM gasket water tightness profile CAD
+- **Goal:** Radial and circumferential joint elastomeric EPDM gasket water tightness profile CAD using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2713_tablet.png`, `docs/screenshots/m2713_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2714: Muir Wood - Curtis flexible ring ovalization and bending moment distribution solver
+- **Goal:** Muir Wood - Curtis flexible ring ovalization and bending moment distribution solver using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2714_tablet.png`, `docs/screenshots/m2714_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2715: Segment ring erection kinematic clearance and TBM erector vacuum suction pad grip CAD
+- **Goal:** Segment ring erection kinematic clearance and TBM erector vacuum suction pad grip CAD using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2715_tablet.png`, `docs/screenshots/m2715_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2716: High-strength connecting bolt (M30 Grade 8.8) pre-load tension and shear pin capacity
+- **Goal:** High-strength connecting bolt (M30 Grade 8.8) pre-load tension and shear pin capacity using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2716_tablet.png`, `docs/screenshots/m2716_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2717: Segment corner spalling and bursting tensile stress under high-thrust jacking pads
+- **Goal:** Segment corner spalling and bursting tensile stress under high-thrust jacking pads using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2717_tablet.png`, `docs/screenshots/m2717_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2718: Steel fiber reinforced concrete (SFRC) post-cracking residual flexural tensile strength
+- **Goal:** Steel fiber reinforced concrete (SFRC) post-cracking residual flexural tensile strength using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2718_tablet.png`, `docs/screenshots/m2718_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2719: Ring-to-ring dowel and socket shear connector interlock shear transfer model
+- **Goal:** Ring-to-ring dowel and socket shear connector interlock shear transfer model using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2719_tablet.png`, `docs/screenshots/m2719_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2720: Segment demolding, stacking, and gantry crane transport dynamic impact load analyzer
+- **Goal:** Segment demolding, stacking, and gantry crane transport dynamic impact load analyzer using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2720_tablet.png`, `docs/screenshots/m2720_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2721: Hydrophilic swelling rubber strip backup seal groove placement and expansion ratio
+- **Goal:** Hydrophilic swelling rubber strip backup seal groove placement and expansion ratio using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2721_tablet.png`, `docs/screenshots/m2721_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2722: Segmental lining ovality tolerance and cross-joint stepping displacement inspector
+- **Goal:** Segmental lining ovality tolerance and cross-joint stepping displacement inspector using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2722_tablet.png`, `docs/screenshots/m2722_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2723: Lining intrados fire protection thermal barrier layer (PP fibers / vermiculite mortar)
+- **Goal:** Lining intrados fire protection thermal barrier layer (PP fibers / vermiculite mortar) using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2723_tablet.png`, `docs/screenshots/m2723_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2724: Automated parametric 3D segmental ring synthesizer with deterministic 0.0mm joint seating
+- **Goal:** Automated parametric 3D segmental ring synthesizer with deterministic 0.0mm joint seating using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2724_tablet.png`, `docs/screenshots/m2724_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2725: Curved alignment ring taper calculation matching required 3D tunnel horizontal curve
+- **Goal:** Curved alignment ring taper calculation matching required 3D tunnel horizontal curve using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2725_tablet.png`, `docs/screenshots/m2725_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2726: Interactive segment ring 3D unroll layout and key position scheduler in AndroCAD
+- **Goal:** Interactive segment ring 3D unroll layout and key position scheduler in AndroCAD using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2726_tablet.png`, `docs/screenshots/m2726_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2727: Segment reinforcement cage robotic welding bar schedule and clear cover checker
+- **Goal:** Segment reinforcement cage robotic welding bar schedule and clear cover checker using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2727_tablet.png`, `docs/screenshots/m2727_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2728: Precast concrete segmental lining compliance conforming to ACI 544 and DAUB guidelines
+- **Goal:** Precast concrete segmental lining compliance conforming to ACI 544 and DAUB guidelines using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2728_tablet.png`, `docs/screenshots/m2728_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2729: Structural health monitoring fiber optic strain and joint displacement sensor CAD
+- **Goal:** Structural health monitoring fiber optic strain and joint displacement sensor CAD using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2729_tablet.png`, `docs/screenshots/m2729_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2730: Comprehensive precast segmental lining structural and watertightness qualification dossier
+- **Goal:** Comprehensive precast segmental lining structural and watertightness qualification dossier using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2730_tablet.png`, `docs/screenshots/m2730_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+### Alan 4: Earth Pressure Balance (EPB) Slurry Foam Conditioning & Chamber Pressure
+**Alt Sistem:** EPB Tunneling (Pressure Balance, Foam FIR/FER, Face Stability SF >= 1.05)
+
+#### Milestone 2731: EPB pressure bulkhead pressure sensor array hydrostatic + soil gradient mapper
+- **Goal:** EPB pressure bulkhead pressure sensor array hydrostatic + soil gradient mapper using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2731_tablet.png`, `docs/screenshots/m2731_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2732: Face support pressure equilibrium calculation preventing active and passive failure
+- **Goal:** Face support pressure equilibrium calculation preventing active and passive failure using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2732_tablet.png`, `docs/screenshots/m2732_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2733: Polymer and surfactant foam injection ratio (FIR) and foam expansion ratio (FER) model
+- **Goal:** Polymer and surfactant foam injection ratio (FIR) and foam expansion ratio (FER) model using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2733_tablet.png`, `docs/screenshots/m2733_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2734: Muck conditioning rheology and slump test flowability (slump 180 - 220 mm) optimizer
+- **Goal:** Muck conditioning rheology and slump test flowability (slump 180 - 220 mm) optimizer using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2734_tablet.png`, `docs/screenshots/m2734_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2735: Screw conveyor muck extraction discharge rate and pressure breakdown gradient solver
+- **Goal:** Screw conveyor muck extraction discharge rate and pressure breakdown gradient solver using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2735_tablet.png`, `docs/screenshots/m2735_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2736: High-pressure compressed air hyperbaric intervention chamber entry lock CAD
+- **Goal:** High-pressure compressed air hyperbaric intervention chamber entry lock CAD using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2736_tablet.png`, `docs/screenshots/m2736_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2737: Bentonite slurry shield filter cake formation and slurry penetration membrane solver
+- **Goal:** Bentonite slurry shield filter cake formation and slurry penetration membrane solver using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2737_tablet.png`, `docs/screenshots/m2737_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2738: Slurry circuit feed and discharge density/flow acoustic differential mass balance
+- **Goal:** Slurry circuit feed and discharge density/flow acoustic differential mass balance using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2738_tablet.png`, `docs/screenshots/m2738_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2739: Screw conveyor ribbon flight wear-resistant tungsten carbide hardfacing overlay CAD
+- **Goal:** Screw conveyor ribbon flight wear-resistant tungsten carbide hardfacing overlay CAD using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2739_tablet.png`, `docs/screenshots/m2739_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2740: Cutterhead mixing arms and scrapers hydrodynamic torque in conditioned muck soil
+- **Goal:** Cutterhead mixing arms and scrapers hydrodynamic torque in conditioned muck soil using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2740_tablet.png`, `docs/screenshots/m2740_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2741: Tail seal 3-row wire brush grease barrier injection pressure and consumption monitor
+- **Goal:** Tail seal 3-row wire brush grease barrier injection pressure and consumption monitor using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2741_tablet.png`, `docs/screenshots/m2741_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2742: Slurry treatment plant (STP) hydrocyclone and centrifuge silt-sand separation model
+- **Goal:** Slurry treatment plant (STP) hydrocyclone and centrifuge silt-sand separation model using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2742_tablet.png`, `docs/screenshots/m2742_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2743: Cobble and boulder rock crusher jaw mechanism integrated inside EPB center cutterhead
+- **Goal:** Cobble and boulder rock crusher jaw mechanism integrated inside EPB center cutterhead using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2743_tablet.png`, `docs/screenshots/m2743_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2744: Real-time face pressure deviation alarm thresholding (< 0.1 bar tolerance band)
+- **Goal:** Real-time face pressure deviation alarm thresholding (< 0.1 bar tolerance band) using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2744_tablet.png`, `docs/screenshots/m2744_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2745: Sub-surface gas (methane, H2S) detection and chamber explosion-proof venting valves
+- **Goal:** Sub-surface gas (methane, H2S) detection and chamber explosion-proof venting valves using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2745_tablet.png`, `docs/screenshots/m2745_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2746: Automated EPB pressure bulkhead CAD synthesizer with deterministic 0.0mm sensor ports
+- **Goal:** Automated EPB pressure bulkhead CAD synthesizer with deterministic 0.0mm sensor ports using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2746_tablet.png`, `docs/screenshots/m2746_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2747: Conditioned muck permeability reduction (< 1e-7 m/s) preventing water blow-out
+- **Goal:** Conditioned muck permeability reduction (< 1e-7 m/s) preventing water blow-out using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2747_tablet.png`, `docs/screenshots/m2747_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2748: Interactive 3D EPB pressure plenum visualization with dynamic pressure gradient mesh
+- **Goal:** Interactive 3D EPB pressure plenum visualization with dynamic pressure gradient mesh using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2748_tablet.png`, `docs/screenshots/m2748_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2749: Compliance verification conforming to ITA working group 14 on mechanized tunneling
+- **Goal:** Compliance verification conforming to ITA working group 14 on mechanized tunneling using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2749_tablet.png`, `docs/screenshots/m2749_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2750: Comprehensive EPB face pressure regulation and ground conditioning qualification dossier
+- **Goal:** Comprehensive EPB face pressure regulation and ground conditioning qualification dossier using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2750_tablet.png`, `docs/screenshots/m2750_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+### Alan 5: Peck Greenfield Settlement Trough & Urban Building Damage Risk
+**Alt Sistem:** Urban Geotechnics (Peck Gaussian Curve, Volume Loss, Burland Damage)
+
+#### Milestone 2751: Peck (1969) empirical Gaussian greenfield surface settlement trough profile generator
+- **Goal:** Peck (1969) empirical Gaussian greenfield surface settlement trough profile generator using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2751_tablet.png`, `docs/screenshots/m2751_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2752: Trough width parameter (i = K * z0) determination based on subsurface soil stratum
+- **Goal:** Trough width parameter (i = K * z0) determination based on subsurface soil stratum using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2752_tablet.png`, `docs/screenshots/m2752_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2753: Ground volume loss fraction (V_loss <= 0.8%) calculation from annular gap and face loss
+- **Goal:** Ground volume loss fraction (V_loss <= 0.8%) calculation from annular gap and face loss using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2753_tablet.png`, `docs/screenshots/m2753_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2754: Transverse and longitudinal settlement trough spatial 3D contour mapping in AndroCAD
+- **Goal:** Transverse and longitudinal settlement trough spatial 3D contour mapping in AndroCAD using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2754_tablet.png`, `docs/screenshots/m2754_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2755: Burland (1995) building damage category classification (Category 0 Negligible to 5 Severe)
+- **Goal:** Burland (1995) building damage category classification (Category 0 Negligible to 5 Severe) using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2755_tablet.png`, `docs/screenshots/m2755_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2756: Building structural stiffness modification factor (relative bending/axial stiffness)
+- **Goal:** Building structural stiffness modification factor (relative bending/axial stiffness) using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2756_tablet.png`, `docs/screenshots/m2756_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2757: Historic masonry building differential settlement and tensile cracking strain solver
+- **Goal:** Historic masonry building differential settlement and tensile cracking strain solver using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2757_tablet.png`, `docs/screenshots/m2757_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2758: Utility pipeline (water, high-pressure gas, electrical duct) pullout and bending stress
+- **Goal:** Utility pipeline (water, high-pressure gas, electrical duct) pullout and bending stress using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2758_tablet.png`, `docs/screenshots/m2758_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2759: Compensatory compensation grouting array drilling fan and sodium silicate injection
+- **Goal:** Compensatory compensation grouting array drilling fan and sodium silicate injection using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2759_tablet.png`, `docs/screenshots/m2759_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2760: Micro-tunneling and jet grouting umbrella canopy arch protection beneath railway tracks
+- **Goal:** Micro-tunneling and jet grouting umbrella canopy arch protection beneath railway tracks using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2760_tablet.png`, `docs/screenshots/m2760_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2761: Building foundation pile-tunnel cross-interaction and skin friction reduction model
+- **Goal:** Building foundation pile-tunnel cross-interaction and skin friction reduction model using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2761_tablet.png`, `docs/screenshots/m2761_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2762: Automated 3D urban building envelope and underground tunnel clearance checker
+- **Goal:** Automated 3D urban building envelope and underground tunnel clearance checker using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2762_tablet.png`, `docs/screenshots/m2762_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2763: Surface leveling real-time automated robotic total station monitoring prism grid
+- **Goal:** Surface leveling real-time automated robotic total station monitoring prism grid using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2763_tablet.png`, `docs/screenshots/m2763_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2764: Subsurface magnetic settlement probe and extensometer profile depth integrator
+- **Goal:** Subsurface magnetic settlement probe and extensometer profile depth integrator using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2764_tablet.png`, `docs/screenshots/m2764_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2765: InSAR satellite ground displacement time-history correlation with TBM advance chainage
+- **Goal:** InSAR satellite ground displacement time-history correlation with TBM advance chainage using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2765_tablet.png`, `docs/screenshots/m2765_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2766: Interactive 3D building damage assessment heat map rendered over city CAD topography
+- **Goal:** Interactive 3D building damage assessment heat map rendered over city CAD topography using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2766_tablet.png`, `docs/screenshots/m2766_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2767: Ground settlement limit warning thresholds conforming to Eurocode 7 and DIN 4099
+- **Goal:** Ground settlement limit warning thresholds conforming to Eurocode 7 and DIN 4099 using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2767_tablet.png`, `docs/screenshots/m2767_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2768: Automated utility crossing collision avoidance detector with 0.0mm spatial clearance
+- **Goal:** Automated utility crossing collision avoidance detector with 0.0mm spatial clearance using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2768_tablet.png`, `docs/screenshots/m2768_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2769: Comprehensive urban greenfield settlement and historic building protection dossier
+- **Goal:** Comprehensive urban greenfield settlement and historic building protection dossier using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2769_tablet.png`, `docs/screenshots/m2769_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2770: Autonomous sign-off for urban tunneling environmental impact and ground loss safety
+- **Goal:** Autonomous sign-off for urban tunneling environmental impact and ground loss safety using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2770_tablet.png`, `docs/screenshots/m2770_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+### Alan 6: Convergence-Confinement Method (CCM) & Ground Reaction Curve (GRC)
+**Alt Sistem:** Rock Support Design (CCM Ground Reaction, Support Characteristic, Shotcrete SF)
+
+#### Milestone 2771: Salençon / Hoek-Brown analytical Ground Reaction Curve (GRC) elastoplastic formulation
+- **Goal:** Salençon / Hoek-Brown analytical Ground Reaction Curve (GRC) elastoplastic formulation using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2771_tablet.png`, `docs/screenshots/m2771_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2772: Longitudinal Deformation Profile (LDP) predicting unsupported face extrusion distance
+- **Goal:** Longitudinal Deformation Profile (LDP) predicting unsupported face extrusion distance using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2772_tablet.png`, `docs/screenshots/m2772_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2773: Support Characteristic Curve (SCC) for primary rockbolts and fiber-reinforced shotcrete
+- **Goal:** Support Characteristic Curve (SCC) for primary rockbolts and fiber-reinforced shotcrete using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2773_tablet.png`, `docs/screenshots/m2773_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2774: Support installation timing (d0 distance behind face) equilibrium operating point solver
+- **Goal:** Support installation timing (d0 distance behind face) equilibrium operating point solver using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2774_tablet.png`, `docs/screenshots/m2774_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2775: Plastic yield zone radius (Rp) growth under deep mountain hydrostatic stress fields
+- **Goal:** Plastic yield zone radius (Rp) growth under deep mountain hydrostatic stress fields using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2775_tablet.png`, `docs/screenshots/m2775_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2776: Swellex and friction rockbolt yield elongation and mechanical anchoring pullout test
+- **Goal:** Swellex and friction rockbolt yield elongation and mechanical anchoring pullout test using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2776_tablet.png`, `docs/screenshots/m2776_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2777: Steel lattice girder / heavy wide-flange arch ribs (HEB 180) structural capacity
+- **Goal:** Steel lattice girder / heavy wide-flange arch ribs (HEB 180) structural capacity using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2777_tablet.png`, `docs/screenshots/m2777_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2778: Yielding rock support elements (HiDCon / sliding joint Liners) for high-deformation rock
+- **Goal:** Yielding rock support elements (HiDCon / sliding joint Liners) for high-deformation rock using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2778_tablet.png`, `docs/screenshots/m2778_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2779: Shotcrete young age (12h, 24h, 28d) strength gain curve and compressive strain capacity
+- **Goal:** Shotcrete young age (12h, 24h, 28d) strength gain curve and compressive strain capacity using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2779_tablet.png`, `docs/screenshots/m2779_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2780: Radial wall convergence percentage verification (ensuring u_r / R < 1.5% clearance)
+- **Goal:** Radial wall convergence percentage verification (ensuring u_r / R < 1.5% clearance) using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2780_tablet.png`, `docs/screenshots/m2780_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2781: Radial convergence displacement monitoring pin convergence tape station synthesizer
+- **Goal:** Radial convergence displacement monitoring pin convergence tape station synthesizer using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2781_tablet.png`, `docs/screenshots/m2781_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2782: Multi-stage excavation (top heading, bench, invert) 3D sequential GRC interaction
+- **Goal:** Multi-stage excavation (top heading, bench, invert) 3D sequential GRC interaction using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2782_tablet.png`, `docs/screenshots/m2782_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2783: Underground cavern pillar stress concentration and rib support reinforcement CAD
+- **Goal:** Underground cavern pillar stress concentration and rib support reinforcement CAD using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2783_tablet.png`, `docs/screenshots/m2783_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2784: Drainage drillhole weeping pipe network depressurizing hydrostatic lining loads
+- **Goal:** Drainage drillhole weeping pipe network depressurizing hydrostatic lining loads using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2784_tablet.png`, `docs/screenshots/m2784_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2785: Automated tunnel cross-section support layout generator with deterministic 0.0mm anchoring
+- **Goal:** Automated tunnel cross-section support layout generator with deterministic 0.0mm anchoring using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2785_tablet.png`, `docs/screenshots/m2785_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2786: Interactive Convergence-Confinement operating chart plotted dynamically in AndroCAD
+- **Goal:** Interactive Convergence-Confinement operating chart plotted dynamically in AndroCAD using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2786_tablet.png`, `docs/screenshots/m2786_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2787: Rockbolt pattern spacing (staggered vs square) tensile confinement density solver
+- **Goal:** Rockbolt pattern spacing (staggered vs square) tensile confinement density solver using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2787_tablet.png`, `docs/screenshots/m2787_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2788: Compliance verification conforming to Austrian Guideline for Geotechnical Design (NATM)
+- **Goal:** Compliance verification conforming to Austrian Guideline for Geotechnical Design (NATM) using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2788_tablet.png`, `docs/screenshots/m2788_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2789: Automated rock mass classification update based on real-time LDP extrusion sensors
+- **Goal:** Automated rock mass classification update based on real-time LDP extrusion sensors using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2789_tablet.png`, `docs/screenshots/m2789_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2790: Comprehensive Convergence-Confinement method and deep tunnel support design dossier
+- **Goal:** Comprehensive Convergence-Confinement method and deep tunnel support design dossier using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2790_tablet.png`, `docs/screenshots/m2790_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+### Alan 7: TBM Cutterhead Power, Torque, Thrust & Kinematic Advance Rate
+**Alt Sistem:** TBM Mechatronics (Cutterhead Torque KnM, Total Thrust, Main Drive Power)
+
+#### Milestone 2791: Cutterhead main drive variable frequency drive (VFD) electric motor cluster sizing
+- **Goal:** Cutterhead main drive variable frequency drive (VFD) electric motor cluster sizing using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2791_tablet.png`, `docs/screenshots/m2791_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2792: Main slewing roller bearing (triple row cylindrical roller) internal load distribution
+- **Goal:** Main slewing roller bearing (triple row cylindrical roller) internal load distribution using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2792_tablet.png`, `docs/screenshots/m2792_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2793: Planetary gearbox reduction ratio and pinion-bull gear contact fatigue tooth stress
+- **Goal:** Planetary gearbox reduction ratio and pinion-bull gear contact fatigue tooth stress using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2793_tablet.png`, `docs/screenshots/m2793_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2794: Total machine thrust hydraulic cylinder groups (A, B, C, D zones) steering force
+- **Goal:** Total machine thrust hydraulic cylinder groups (A, B, C, D zones) steering force using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2794_tablet.png`, `docs/screenshots/m2794_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2795: Cutterhead breakout torque under rock collapse restart and bi-directional rotation
+- **Goal:** Cutterhead breakout torque under rock collapse restart and bi-directional rotation using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2795_tablet.png`, `docs/screenshots/m2795_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2796: Specific power consumption (kWh/m3) and electrical grid sub-station supply budget
+- **Goal:** Specific power consumption (kWh/m3) and electrical grid sub-station supply budget using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2796_tablet.png`, `docs/screenshots/m2796_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2797: TBM advance speed (m/hr) optimization balancing cutter life against motor thermal rating
+- **Goal:** TBM advance speed (m/hr) optimization balancing cutter life against motor thermal rating using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2797_tablet.png`, `docs/screenshots/m2797_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2798: Main drive seal pressurized oil-grease multi-lip barrier with sacrificial wear sleeve
+- **Goal:** Main drive seal pressurized oil-grease multi-lip barrier with sacrificial wear sleeve using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2798_tablet.png`, `docs/screenshots/m2798_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2799: Center cutterhead water injection swivel joint high-pressure rotary manifold CAD
+- **Goal:** Center cutterhead water injection swivel joint high-pressure rotary manifold CAD using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2799_tablet.png`, `docs/screenshots/m2799_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2800: Muck bucket scoop geometry and muck chute gravity discharge trajectory kinematics
+- **Goal:** Muck bucket scoop geometry and muck chute gravity discharge trajectory kinematics using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2800_tablet.png`, `docs/screenshots/m2800_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2801: Hydraulic propel cylinder thrust reaction shoe pad contact stress on segmental lining
+- **Goal:** Hydraulic propel cylinder thrust reaction shoe pad contact stress on segmental lining using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2801_tablet.png`, `docs/screenshots/m2801_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2802: Cutterhead structure finite element weld joint fatigue under alternating torsional shock
+- **Goal:** Cutterhead structure finite element weld joint fatigue under alternating torsional shock using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2802_tablet.png`, `docs/screenshots/m2802_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2803: TBM articulated shield articulation angle and steering cylinder differential stroke
+- **Goal:** TBM articulated shield articulation angle and steering cylinder differential stroke using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2803_tablet.png`, `docs/screenshots/m2803_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2804: Automated TBM main drive mechanical powertrain assembly with 0.0mm gear meshing
+- **Goal:** Automated TBM main drive mechanical powertrain assembly with 0.0mm gear meshing using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2804_tablet.png`, `docs/screenshots/m2804_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2805: Real-time TBM parameter telemetry dashboard (Thrust, Torque, RPM, Penetration Rate)
+- **Goal:** Real-time TBM parameter telemetry dashboard (Thrust, Torque, RPM, Penetration Rate) using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2805_tablet.png`, `docs/screenshots/m2805_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2806: Main bearing lubrication oil circulation temperature and particle wear debris detector
+- **Goal:** Main bearing lubrication oil circulation temperature and particle wear debris detector using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2806_tablet.png`, `docs/screenshots/m2806_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2807: Emergency rapid mechanical torque limiter clutch preventing bull gear tooth shear
+- **Goal:** Emergency rapid mechanical torque limiter clutch preventing bull gear tooth shear using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2807_tablet.png`, `docs/screenshots/m2807_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2808: Interactive 3D cutterhead rotational dynamics animation with real-time vector forces
+- **Goal:** Interactive 3D cutterhead rotational dynamics animation with real-time vector forces using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2808_tablet.png`, `docs/screenshots/m2808_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2809: Compliance verification conforming to EN 16191 Safety Requirements for Tunnel Boring
+- **Goal:** Compliance verification conforming to EN 16191 Safety Requirements for Tunnel Boring using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2809_tablet.png`, `docs/screenshots/m2809_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2810: Comprehensive TBM cutterhead powertrain and structural mechanical qualification dossier
+- **Goal:** Comprehensive TBM cutterhead powertrain and structural mechanical qualification dossier using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2810_tablet.png`, `docs/screenshots/m2810_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+### Alan 8: Annular Gap Tail Grout Solidification & Tunnel Buoyancy Balance
+**Alt Sistem:** Grout Mechanics (Two-Component A+B Grout, Buoyancy Uplift, Gel Time)
+
+#### Milestone 2811: Two-component (Component A: Cement-Bentonite, Component B: Sodium Silicate) mix model
+- **Goal:** Two-component (Component A: Cement-Bentonite, Component B: Sodium Silicate) mix model using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2811_tablet.png`, `docs/screenshots/m2811_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2812: Gel setting time (10 - 15 seconds) chemical kinetics preventing grout back-migration
+- **Goal:** Gel setting time (10 - 15 seconds) chemical kinetics preventing grout back-migration using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2812_tablet.png`, `docs/screenshots/m2812_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2813: Annular gap theoretical volume and over-injection factor (115% - 130%) calculator
+- **Goal:** Annular gap theoretical volume and over-injection factor (115% - 130%) calculator using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2813_tablet.png`, `docs/screenshots/m2813_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2814: Submerged tunnel segment ring hydrostatic buoyancy uplift force per linear meter
+- **Goal:** Submerged tunnel segment ring hydrostatic buoyancy uplift force per linear meter using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2814_tablet.png`, `docs/screenshots/m2814_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2815: Invert track slab concrete and backup equipment deadweight buoyancy counter-balance
+- **Goal:** Invert track slab concrete and backup equipment deadweight buoyancy counter-balance using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2815_tablet.png`, `docs/screenshots/m2815_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2816: Tail skin grout injection port pipes (4 to 8 lines) pressure balancing manifold CAD
+- **Goal:** Tail skin grout injection port pipes (4 to 8 lines) pressure balancing manifold CAD using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2816_tablet.png`, `docs/screenshots/m2816_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2817: Early-age grout compressive strength (0.3 MPa at 1h, 2.5 MPa at 28d) shear modulus
+- **Goal:** Early-age grout compressive strength (0.3 MPa at 1h, 2.5 MPa at 28d) shear modulus using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2817_tablet.png`, `docs/screenshots/m2817_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2818: Grout pressure dissipation curve along longitudinal tunnel chainage behind shield tail
+- **Goal:** Grout pressure dissipation curve along longitudinal tunnel chainage behind shield tail using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2818_tablet.png`, `docs/screenshots/m2818_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2819: Tail seal grease consumption and wire brush spring pressure preventing grout intrusion
+- **Goal:** Tail seal grease consumption and wire brush spring pressure preventing grout intrusion using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2819_tablet.png`, `docs/screenshots/m2819_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2820: Hydrostatic pore water displacement and consolidation settlement above grouted ring
+- **Goal:** Hydrostatic pore water displacement and consolidation settlement above grouted ring using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2820_tablet.png`, `docs/screenshots/m2820_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2821: Thermal hydration temperature spike in thick annular grout mantle and cracking check
+- **Goal:** Thermal hydration temperature spike in thick annular grout mantle and cracking check using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2821_tablet.png`, `docs/screenshots/m2821_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2822: Automated tail void grouting manifold routing with deterministic 0.0mm nozzle alignment
+- **Goal:** Automated tail void grouting manifold routing with deterministic 0.0mm nozzle alignment using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2822_tablet.png`, `docs/screenshots/m2822_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2823: Radial grout penetration into surrounding fractured rock and gravel bedding layers
+- **Goal:** Radial grout penetration into surrounding fractured rock and gravel bedding layers using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2823_tablet.png`, `docs/screenshots/m2823_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2824: Post-grouting secondary injection socket drilling through precast segment grout plugs
+- **Goal:** Post-grouting secondary injection socket drilling through precast segment grout plugs using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2824_tablet.png`, `docs/screenshots/m2824_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2825: Real-time grout flow and pressure automated supervisory logging conforming to EN 12715
+- **Goal:** Real-time grout flow and pressure automated supervisory logging conforming to EN 12715 using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2825_tablet.png`, `docs/screenshots/m2825_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2826: Interactive 3D annular grout envelope visualization showing gel hardening gradient
+- **Goal:** Interactive 3D annular grout envelope visualization showing gel hardening gradient using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2826_tablet.png`, `docs/screenshots/m2826_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2827: Grout backfill completeness verification via ground-penetrating radar (GPR) scanner CAD
+- **Goal:** Grout backfill completeness verification via ground-penetrating radar (GPR) scanner CAD using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2827_tablet.png`, `docs/screenshots/m2827_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2828: Tunnel vertical floatation and lateral misalignment prevention limit rule checker
+- **Goal:** Tunnel vertical floatation and lateral misalignment prevention limit rule checker using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2828_tablet.png`, `docs/screenshots/m2828_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2829: Comprehensive annular gap tail grouting and buoyancy stabilization qualification dossier
+- **Goal:** Comprehensive annular gap tail grouting and buoyancy stabilization qualification dossier using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2829_tablet.png`, `docs/screenshots/m2829_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2830: Autonomous sign-off for mechanized tunnel tail void stabilization operations
+- **Goal:** Autonomous sign-off for mechanized tunnel tail void stabilization operations using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2830_tablet.png`, `docs/screenshots/m2830_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+### Alan 9: Fault Zone Squeezing Rock & TBM Shield Jamming Risk Evaluation
+**Alt Sistem:** Extreme Tunneling (Fault Crossing, Shield Conicity, Bentonite Lubrication)
+
+#### Milestone 2831: Jethwa rock competence factor (Nc) squeezing severity classification along alignment
+- **Goal:** Jethwa rock competence factor (Nc) squeezing severity classification along alignment using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2831_tablet.png`, `docs/screenshots/m2831_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2832: Time-dependent viscoplastic rock deformation and radial convergence rate solver
+- **Goal:** Time-dependent viscoplastic rock deformation and radial convergence rate solver using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2832_tablet.png`, `docs/screenshots/m2832_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2833: TBM shield conical taper (conicity clearance 30 - 50 mm) anti-jamming geometry CAD
+- **Goal:** TBM shield conical taper (conicity clearance 30 - 50 mm) anti-jamming geometry CAD using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2833_tablet.png`, `docs/screenshots/m2833_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2834: Bentonite slurry injection through shield skin ports reducing rock-steel friction (mu <= 0.12)
+- **Goal:** Bentonite slurry injection through shield skin ports reducing rock-steel friction (mu <= 0.12) using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2834_tablet.png`, `docs/screenshots/m2834_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2835: Emergency shield breakaway thrust force capacity and jacking cylinder overload margin
+- **Goal:** Emergency shield breakaway thrust force capacity and jacking cylinder overload margin using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2835_tablet.png`, `docs/screenshots/m2835_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2836: Over-excavation gauge cutter extension (over-cut up to 100 mm) dynamic radius solver
+- **Goal:** Over-excavation gauge cutter extension (over-cut up to 100 mm) dynamic radius solver using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2836_tablet.png`, `docs/screenshots/m2836_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2837: Fault gouge clay mineralogy swell pressure and water inflow catastrophic flooding guard
+- **Goal:** Fault gouge clay mineralogy swell pressure and water inflow catastrophic flooding guard using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2837_tablet.png`, `docs/screenshots/m2837_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2838: Horizontal advance probe drilling and multi-packer high-pressure pre-grouting umbrella
+- **Goal:** Horizontal advance probe drilling and multi-packer high-pressure pre-grouting umbrella using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2838_tablet.png`, `docs/screenshots/m2838_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2839: TBM gripper shoe contact bearing pressure in open hard rock gripper TBMs
+- **Goal:** TBM gripper shoe contact bearing pressure in open hard rock gripper TBMs using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2839_tablet.png`, `docs/screenshots/m2839_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2840: Compressible foam / expanding polystyrene annular backfill absorbing squeezing closure
+- **Goal:** Compressible foam / expanding polystyrene annular backfill absorbing squeezing closure using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2840_tablet.png`, `docs/screenshots/m2840_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2841: TBM shield skin de-jamming hydraulic auxiliary push cylinders mounting bracket CAD
+- **Goal:** TBM shield skin de-jamming hydraulic auxiliary push cylinders mounting bracket CAD using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2841_tablet.png`, `docs/screenshots/m2841_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2842: Real-time shield skin pressure sensor ring detecting asymmetric squeezing pinch loads
+- **Goal:** Real-time shield skin pressure sensor ring detecting asymmetric squeezing pinch loads using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2842_tablet.png`, `docs/screenshots/m2842_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2843: Fault zone seismic active displacement step accommodation in flexible lining joints
+- **Goal:** Fault zone seismic active displacement step accommodation in flexible lining joints using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2843_tablet.png`, `docs/screenshots/m2843_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2844: Emergency chemical polyurethane resin fast-reacting water-stopping injection system
+- **Goal:** Emergency chemical polyurethane resin fast-reacting water-stopping injection system using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2844_tablet.png`, `docs/screenshots/m2844_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2845: Automated fault zone crossing risk assessment engine with alignment chainage mapper
+- **Goal:** Automated fault zone crossing risk assessment engine with alignment chainage mapper using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2845_tablet.png`, `docs/screenshots/m2845_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2846: Interactive 3D geological fault intersection visualizer with rock closure animations
+- **Goal:** Interactive 3D geological fault intersection visualizer with rock closure animations using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2846_tablet.png`, `docs/screenshots/m2846_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2847: TBM bypass rescue drift excavation procedure and structural collar tie-in CAD
+- **Goal:** TBM bypass rescue drift excavation procedure and structural collar tie-in CAD using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2847_tablet.png`, `docs/screenshots/m2847_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2848: Shield jamming early warning supervisory algorithm integrated into AndroCAD core
+- **Goal:** Shield jamming early warning supervisory algorithm integrated into AndroCAD core using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2848_tablet.png`, `docs/screenshots/m2848_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2849: Compliance verification conforming to ISRM Suggested Methods for Squeezing Rocks
+- **Goal:** Compliance verification conforming to ISRM Suggested Methods for Squeezing Rocks using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2849_tablet.png`, `docs/screenshots/m2849_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2850: Comprehensive fault zone crossing and TBM anti-jamming survivability qualification dossier
+- **Goal:** Comprehensive fault zone crossing and TBM anti-jamming survivability qualification dossier using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2850_tablet.png`, `docs/screenshots/m2850_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+### Alan 10: Dynamic Seismic Wave Scattering & Tunnel Lining Resilience
+**Alt Sistem:** Tunnel Dynamics (Hashash 2001, Seismic Racking Strain, C50/60 Limits)
+
+#### Milestone 2851: Seismic shear wave (S-wave) and compression wave (P-wave) propagation in rock medium
+- **Goal:** Seismic shear wave (S-wave) and compression wave (P-wave) propagation in rock medium using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2851_tablet.png`, `docs/screenshots/m2851_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2852: Free-field peak ground velocity (PGV) and maximum shear strain (gamma_max) solver
+- **Goal:** Free-field peak ground velocity (PGV) and maximum shear strain (gamma_max) solver using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2852_tablet.png`, `docs/screenshots/m2852_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2853: Lining racking deformation and racking coefficient (R) for circular concrete linings
+- **Goal:** Lining racking deformation and racking coefficient (R) for circular concrete linings using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2853_tablet.png`, `docs/screenshots/m2853_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2854: Dynamic normal thrust and bending moment increment induced by transverse seismic wave
+- **Goal:** Dynamic normal thrust and bending moment increment induced by transverse seismic wave using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2854_tablet.png`, `docs/screenshots/m2854_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2855: Longitudinal axial strain and curvature bending induced by oblique wave incidence
+- **Goal:** Longitudinal axial strain and curvature bending induced by oblique wave incidence using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2855_tablet.png`, `docs/screenshots/m2855_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2856: Segmental lining flexible circumferential joint seismic tensile pullout capacity
+- **Goal:** Segmental lining flexible circumferential joint seismic tensile pullout capacity using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2856_tablet.png`, `docs/screenshots/m2856_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2857: Tunnel portal slope stability and portal canopy reinforced concrete rockfall shelter
+- **Goal:** Tunnel portal slope stability and portal canopy reinforced concrete rockfall shelter using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2857_tablet.png`, `docs/screenshots/m2857_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2858: Subsurface fault rupture shear offset displacement across articulated lining segments
+- **Goal:** Subsurface fault rupture shear offset displacement across articulated lining segments using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2858_tablet.png`, `docs/screenshots/m2858_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2859: Deep underground blast vibration particle velocity (PPV) attenuation (USBM formula)
+- **Goal:** Deep underground blast vibration particle velocity (PPV) attenuation (USBM formula) using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2859_tablet.png`, `docs/screenshots/m2859_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2860: Dynamic pore water pressure generation and liquefaction susceptibility of invert soils
+- **Goal:** Dynamic pore water pressure generation and liquefaction susceptibility of invert soils using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2860_tablet.png`, `docs/screenshots/m2860_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2861: C50/60 concrete dynamic tensile strain capacity (< 150 microstrain cracking threshold)
+- **Goal:** C50/60 concrete dynamic tensile strain capacity (< 150 microstrain cracking threshold) using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2861_tablet.png`, `docs/screenshots/m2861_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2862: Fiber optic distributed acoustic sensing (DAS) cable embedded inside tunnel crown
+- **Goal:** Fiber optic distributed acoustic sensing (DAS) cable embedded inside tunnel crown using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2862_tablet.png`, `docs/screenshots/m2862_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2863: Cross-passage opening portal collar reinforcement frame resisting seismic torsion
+- **Goal:** Cross-passage opening portal collar reinforcement frame resisting seismic torsion using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2863_tablet.png`, `docs/screenshots/m2863_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2864: Tunnel emergency evacuation walkway and smoke extraction damper seismic survivability
+- **Goal:** Tunnel emergency evacuation walkway and smoke extraction damper seismic survivability using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2864_tablet.png`, `docs/screenshots/m2864_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2865: Automated tunnel seismic resilience calculator conforming to FHWA-NHI-10-034 standards
+- **Goal:** Automated tunnel seismic resilience calculator conforming to FHWA-NHI-10-034 standards using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2865_tablet.png`, `docs/screenshots/m2865_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2866: Interactive 3D seismic wave deformation animation demonstrating lining flexibility
+- **Goal:** Interactive 3D seismic wave deformation animation demonstrating lining flexibility using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2866_tablet.png`, `docs/screenshots/m2866_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2867: Post-earthquake structural inspection checklist and crack mapping sensor integration
+- **Goal:** Post-earthquake structural inspection checklist and crack mapping sensor integration using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2867_tablet.png`, `docs/screenshots/m2867_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2868: Comprehensive 2,870 Milestone certification and Geotechnical CAD Suite Release v15.0.0 dossier
+- **Goal:** Comprehensive 2,870 Milestone certification and Geotechnical CAD Suite Release v15.0.0 dossier using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2868_tablet.png`, `docs/screenshots/m2868_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2869: Final engineering sign-off for Faz 17 geotechnical tunneling and TBM autonomous core
+- **Goal:** Final engineering sign-off for Faz 17 geotechnical tunneling and TBM autonomous core using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2869_tablet.png`, `docs/screenshots/m2869_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+
+#### Milestone 2870: Autonomous milestone certification milestone 2870 complete
+- **Goal:** Autonomous milestone certification milestone 2870 complete using deterministic OCCT 8.0.1 BRep and Phase17Engine physics.
+- **Deliverables:** Native C++ kernel solver, Kotlin binding, unit tests, verified non-black screenshots (`docs/screenshots/m2870_tablet.png`, `docs/screenshots/m2870_phone.png`).
+- **Status:** Done
+- **Finish Date:** 2026-10-27
+

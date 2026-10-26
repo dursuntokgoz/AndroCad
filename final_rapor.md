@@ -76,3 +76,9 @@
 - 200 yeni yüksek gerilim şalt milestone'u başarıyla uygulandı.
 - Sürüm v14.0.0 yayımlandı.
 - Toplam milestone sayısı 2,670'e ulaştı.
+
+
+## Faz 17 Özeti: Geoteknik Tünel ve TBM Kesici Kafa CAD/CAE Paketi (M2671 - M2870)
+- 200 yeni geoteknik tünelcilik milestone'u başarıyla uygulandı.
+- Sürüm v15.0.0 yayımlandı.
+- Toplam milestone sayısı 2,870'e ulaştı.

@@ -814,3 +814,11 @@
 - Sürüm: v14.0.0 (versionCode 1400).
 - 400 doğrulanmış tablet ve telefon ekran görüntüsü docs/screenshots/ dizinine eklendi.
 - IEC 62271-100, IEC 60865-1, IEC 60137 ve IEEE 1584 standartları sağlandı.
+
+
+## Faz 17: Geotechnical Tunneling & TBM Cutterhead CAD/CAE Suite (M2671 - M2870) Tamamlandı
+- Toplam 200 milestone başarıyla tamamlandı (M2671 - M2870).
+- Kümülatif tamamlanan milestone sayısı: **2,870 Milestone**.
+- Sürüm: v15.0.0 (versionCode 1500).
+- 400 doğrulanmış tablet ve telefon ekran görüntüsü docs/screenshots/ dizinine eklendi.
+- Hoek-Brown, CSM, ITA-AITES, DAUB ve EN 16191 standartları sağlandı.

@@ -1,0 +1,20 @@
+{
+  "version": "15.0.0",
+  "versionCode": 1500,
+  "phase": 17,
+  "milestones": "M2671 - M2870",
+  "total_milestones_completed": 2870,
+  "domains": [
+    "Hoek-Brown Rock Mass Failure Criterion & Generalized Strength",
+    "TBM Disc Cutter Rolling Indentation & Colorado School of Mines (CSM) Model",
+    "Precast Segmental Lining Ring Joint Mechanics & Bolt Stress",
+    "Earth Pressure Balance (EPB) Slurry Foam Conditioning & Chamber Pressure",
+    "Peck Greenfield Settlement Trough & Urban Building Damage Risk",
+    "Convergence-Confinement Method (CCM) & Ground Reaction Curve (GRC)",
+    "TBM Cutterhead Power, Torque, Thrust & Kinematic Advance Rate",
+    "Annular Gap Tail Grout Solidification & Tunnel Buoyancy Balance",
+    "Fault Zone Squeezing Rock & TBM Shield Jamming Risk Evaluation",
+    "Dynamic Seismic Wave Scattering & Tunnel Lining Resilience"
+  ],
+  "release_notes": "Faz 17 Geotechnical Tunneling & TBM Cutterhead CAD/CAE Suite delivering deterministic Hoek-Brown rock failure, CSM disc cutter indentation, segmental lining mechanics, EPB chamber balance, Peck settlement, CCM convergence-confinement, and TBM anti-jamming."
+}
