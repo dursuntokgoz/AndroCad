@@ -70,3 +70,9 @@
 - 200 yeni endüstriyel nükleer milestone başarıyla uygulandı.
 - Sürüm v13.0.0 yayımlandı.
 - Toplam milestone sayısı 2,470'e ulaştı.
+
+
+## Faz 16 Özeti: Yüksek Gerilim Şalt Cihazları ve Ark Fiziği CAD Paketi (M2471 - M2670)
+- 200 yeni yüksek gerilim şalt milestone'u başarıyla uygulandı.
+- Sürüm v14.0.0 yayımlandı.
+- Toplam milestone sayısı 2,670'e ulaştı.

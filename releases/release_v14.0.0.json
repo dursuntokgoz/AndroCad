@@ -1,0 +1,20 @@
+{
+  "version": "14.0.0",
+  "versionCode": 1400,
+  "phase": 16,
+  "milestones": "M2471 - M2670",
+  "total_milestones_completed": 2670,
+  "domains": [
+    "Gas-Insulated Switchgear (GIS) Electric Field Stress & Dielectric Breakdown",
+    "Arc Plasma Magnetohydrodynamics & Energy Balance Quenching",
+    "Transient Recovery Voltage (TRV) Interruption & IEC 62271-100",
+    "SF6 Alternative Eco-Gas Mixtures (C4-FN / CO2 / O2) & EU F-Gas Compliance",
+    "Very Fast Transient Overvoltage (VFTO) & Disconnector Switching",
+    "Vacuum Interrupter AMF / RMF Contact Design & Arc Diffuse Mode",
+    "Busbar Electrodynamic Short-Circuit Forces & Mechanical Withstand",
+    "Capacitive Graded Bushing & Partial Discharge Insulation (IEC 60137)",
+    "Operating Mechanism Kinematics, Solenoids & Latch Dynamics",
+    "Arc Flash Hazard, Blast Pressure & Internal Arc Classification (IAC)"
+  ],
+  "release_notes": "Faz 16 High-Voltage Switchgear & Arc Physics CAD/CAE Suite delivering deterministic GIS electric field optimization, arc plasma quenching, TRV interruption, SF6 eco-gas alternatives, VFTO fast transients, vacuum interrupters, busbar electrodynamic forces, and arc flash safety."
+}
