@@ -1,0 +1,20 @@
+{
+  "version": "20.0.0",
+  "versionCode": 2000,
+  "phase": 22,
+  "milestones": "M3671 - M3870",
+  "total_milestones_completed": 3870,
+  "domains": [
+    "Blade Element Momentum (BEM) Aerodynamics & Prandtl Tip Losses",
+    "Pitch Slewing Bearing Hertzian Contact Mechanics & Raceway Shear",
+    "Multi-Stage Planetary Gearbox Multi-Body Dynamics & ISO 6336",
+    "Composite Blade Aero-Elastic Flutter & Classical Torsional Stability",
+    "Direct-Drive PM Synchronous Generator & Cogging Torque Mitigation",
+    "Tubular Steel Tower Vortex-Induced Vibration (VIV) & Tuned Mass Damper",
+    "Trailing-Edge Serrations & Aero-Acoustic Noise Attenuation",
+    "Independent Pitch Control (IPC) & Electro-Mechanical Actuation",
+    "Offshore Monopile Non-Linear Soil-Structure Interaction (p-y Curves)",
+    "Full-Span Composite Blade Biaxial Fatigue Testing (IEC 61400-23)"
+  ],
+  "release_notes": "Faz 22 Industrial Wind Turbine Aero-Elasticity, Pitch Bearings & Gearbox Dynamics Suite delivering deterministic BEM aerodynamics with Prandtl tip loss, 4-point pitch bearing raceway Hertzian stress, ISO 6336 planetary gearbox ratings, composite blade aeroelastic flutter margins, direct-drive PM generators, tubular tower VIV TMD suppression, serrated trailing-edge noise attenuation, IPC pitch actuators, offshore monopile non-linear soil-structure interaction, and IEC 61400-23 blade fatigue qualification."
+}
