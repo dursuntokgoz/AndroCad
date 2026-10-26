@@ -118,3 +118,9 @@
 - 200 yeni teleskop optomekaniği ve aktif optik milestone'u başarıyla uygulandı.
 - Sürüm v21.0.0 yayımlandı.
 - Toplam milestone sayısı 4,070'e ulaştı.
+
+
+## Faz 24 Özeti: EV Batarya Çok Ölçekli Fizik ve Paket Çarpışma Paketi (M4071 - M4270)
+- 200 yeni batarya elektrokimyasal, termal ve çarpışma milestone'u başarıyla uygulandı.
+- Sürüm v22.0.0 yayımlandı.
+- Toplam milestone sayısı 4,270'e ulaştı.
