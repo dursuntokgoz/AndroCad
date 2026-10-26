@@ -37,7 +37,7 @@ struct AirbagDeploymentResult {
 
 // Domain 4: B-Pillar Side Impact Intrusion
 struct SideImpactIntrusionResult {
-    double maxB PillarIntrusionVelocityMs;
+    double maxBPillarIntrusionVelocityMs;
     double residualCabinSurvivalSpaceMm;
     double doorBeamBendingMomentKnM;
     double sideSillCrushDistanceMm;
@@ -103,7 +103,7 @@ public:
     static CrashBoxCrushResult evaluateCrashBoxCrushing(double outerWidthMm, double wallThicknessMm, double crushStrokeMm, double yieldStrengthMpa, double impactMassKg, double impactVelocityMs);
     static JohnsonCookStressResult evaluateJohnsonCookStress(double plasticStrain, double plasticStrainRate, double temperatureKelvin, double A_mpa, double B_mpa, double n_exp, double C_rate, double m_thermal);
     static AirbagDeploymentResult simulateAirbagInflation(double bagVolumeLiters, double inflatorGasMassGrams, double dischargeBurnTimeMs, double ventHoleDiameterMm);
-    static SideImpactIntrusionResult evaluateB PillarIntrusion(double barrierMassKg, double barrierVelocityKmh, double bPillarBoronSteelThicknessMm, double doorBeamModulusZcm3, double survivalSpaceBaselineMm);
+    static SideImpactIntrusionResult evaluateBPillarIntrusion(double barrierMassKg, double barrierVelocityKmh, double bPillarBoronSteelThicknessMm, double doorBeamModulusZcm3, double survivalSpaceBaselineMm);
     static BiomechanicalInjuryResult calculateInjuryCriteria(double t1_ms, double t2_ms, double meanAccelG, double peakAccelG, double chestCompressiveDisplacementMm, double chestCompressiveVelocityMs);
     static SpotWeldFailureResult evaluateSpotWeldIntegrity(double appliedTensionKn, double appliedShearKn, double sheetThicknessMm, double weldNuggetDiameterMm, double baseSteelTensileMpa);
     static BatteryPoleImpactResult evaluateBatteryPoleCrash(double impactEnergyKj, double rockerExtrusionThicknessMm, double internalHoneycombWidthMm, double cellClearanceMm);

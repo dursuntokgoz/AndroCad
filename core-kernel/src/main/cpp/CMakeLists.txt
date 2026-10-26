@@ -63,6 +63,7 @@ if(ANDROID)
         src/Phase16Engine.cpp
         src/Phase17Engine.cpp
         src/Phase18Engine.cpp
+        src/Phase19Engine.cpp
         src/native_kernel_jni.cpp
     )
 
@@ -797,6 +798,7 @@ else()
         src/Phase16Engine.cpp
         src/Phase17Engine.cpp
         src/Phase18Engine.cpp
+        src/Phase19Engine.cpp
         tests/test_faz14_suite.cpp
     )
 
