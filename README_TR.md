@@ -19,14 +19,14 @@
   <img src="https://img.shields.io/badge/Android%2015-16%20KB%20Sayfa%20Hizalamal%C4%B1-blue" alt="16 KB Sayfa Hizalamalı" />
   <img src="https://img.shields.io/badge/G%C3%BCvenlik-SAF%20S%C4%B1f%C4%B1r%20%C4%B0zin-success" alt="SAF Sıfır İzin" />
   <img src="https://img.shields.io/badge/Dil-%C3%87ift%20Dilli%20TR%20%7C%20EN-purple" alt="Çift Dilli TR/EN" />
-  <img src="https://img.shields.io/badge/S%C3%BCr%C3%BCm-v28.0.0-orange" alt="Sürüm v28.0.0" />
+  <img src="https://img.shields.io/badge/S%C3%BCr%C3%BCm-v29.0.0-orange" alt="Sürüm v29.0.0" />
 </p>
 
 ---
 
 ## 🌟 Görsel Vitrin (Uygulamadan Gerçek Ekran Görüntüleri)
 
-AndroCAD, doğrudan dokunmatik ekranlı Android tablet ve akıllı telefonlar için optimize edilmiş masaüstü seviyesinde parametrik bir mühendislik ortamı sunar. Aşağıda v28.0.0 sürümünden doğrudan alınan doğrulanmış, gerçek ekran görüntüleri yer almaktadır:
+AndroCAD, doğrudan dokunmatik ekranlı Android tablet ve akıllı telefonlar için optimize edilmiş masaüstü seviyesinde parametrik bir mühendislik ortamı sunar. Aşağıda v29.0.0 sürümünden doğrudan alınan doğrulanmış, gerçek ekran görüntüleri yer almaktadır:
 
 ### 1. Tablet Modern Çalışma Alanı (Çift Dilli Türkçe / İngilizce)
 

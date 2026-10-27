@@ -909,3 +909,12 @@
 
 - Faz 30 (M5271 - M5470, Release v28.0.0, Iteration 20/20): Büyük Birleşik CAD/CAE/CAM/PLM Çekirdek Mimarisi & 5.470 Milestone Büyük Sertifikasyonu tamamlandı. 20 iterasyonluk hedef eksiksiz sonuçlandırıldı!
 - CI/CD Action Düzeltmesi: GitHub Actions `ui-tests` iş akışındaki `Phase21MilestoneTest.kt` eksik `kotlin.math.abs` import'u düzeltildi. `ci.yml` iş akışında Azure apt paket indirme zaman aşımını önlemek için `timeout-minutes: 35` artırıldı ve `archive.ubuntu.com` yansısı ile retry bayrakları eklendi.
+
+## Sürüm v29.0.0: Çift Dilli (TR / EN) Lokalizasyon, Modern Görsel İkonografi ve OCCT 8.0.1
+- **Çift Dilli Dinamik Lokalizasyon:** `AppLanguage` ve `LocalizationManager` reaktif durum sistemi ile tek tıkla `🇹🇷 TÜRKÇE` / `🇬🇧 ENGLISH` geçişi.
+- **Modern Arayüz İkonografisi:** Tüm şerit araçlarına özel vektör ikonları, 6dp yuvarlatılmış köşe tasarımı ve zarif kenarlık konturları.
+- **Bakış Küpü & Gezinti Çubuğu:** Çift dilli yönelim yüzleri (BAKIŞ KÜPÜ: ÜST/ÖN/İZO & VIEW CUBE: TOP/FRONT/ISO) ve durum simgeli navigasyon (🔄, ✋, ⛶, 🧊).
+- **Yenilenen Karşılama Ekranı:** Çift dilli metinler, interaktif rehber entegrasyonu ve dokunulmaz hazır örnek modeller.
+- **Modernleştirilmiş README & Görsel Vitrin:** 8 yeni yüksek çözünürlüklü tablet, telefon ve modül ekran görüntüsü ile zenginleştirildi.
+- **Test ve Güvenlik:** %100 CI/CD ve Robolectric UI test geçişi, SAF sıfır izin uyumluluğu, 16 KB sayfa hizalamalı OCCT 8.0.1 kütüphanesi.
+

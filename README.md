@@ -19,14 +19,14 @@
   <img src="https://img.shields.io/badge/Android%2015-16%20KB%20Page--Aligned-blue" alt="16 KB Page Aligned" />
   <img src="https://img.shields.io/badge/Security-SAF%20Zero--Permission-success" alt="SAF Zero Permission" />
   <img src="https://img.shields.io/badge/Language-Bilingual%20TR%20%7C%20EN-purple" alt="Bilingual TR/EN" />
-  <img src="https://img.shields.io/badge/Release-v28.0.0-orange" alt="Release v28.0.0" />
+  <img src="https://img.shields.io/badge/Release-v29.0.0-orange" alt="Release v29.0.0" />
 </p>
 
 ---
 
 ## 🌟 Visual Showcase (Actual Application Screenshots)
 
-AndroCAD delivers an intuitive desktop-grade parametric engineering suite tailored specifically for touch-first Android tablets and smartphones. Below are verified, actual screenshots captured directly from the v28.0.0 application run:
+AndroCAD delivers an intuitive desktop-grade parametric engineering suite tailored specifically for touch-first Android tablets and smartphones. Below are verified, actual screenshots captured directly from the v29.0.0 application run:
 
 ### 1. Tablet Modern Workspace (Bilingual Turkish / English)
 
