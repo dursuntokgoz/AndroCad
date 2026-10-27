@@ -28,6 +28,7 @@ fun EmptyStateView(
     onNewPart: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val isTr = LocalizationManager.currentLanguage.value == AppLanguage.TR
     val darkPanelColor = if (isDarkTheme) Color(0xFF1E2124) else Color(0xFFF0F2F5)
     val textColor = if (isDarkTheme) Color.White else Color(0xFF1F2937)
     val textMuted = if (isDarkTheme) Color(0xFFB0B3B8) else Color(0xFF5A626A)
@@ -57,7 +58,7 @@ fun EmptyStateView(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Welcome to AndroCAD",
+                    text = if (isTr) "AndroCAD'e Hoş Geldiniz" else "Welcome to AndroCAD",
                     color = textColor,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
@@ -65,7 +66,7 @@ fun EmptyStateView(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Mobile-native 3D Parametric CAD with Open CASCADE 8.0.1 & PlaneGCS solver.",
+                    text = if (isTr) "Open CASCADE 8.0.1 ve PlaneGCS çözücülü mobil parametrik 3B CAD platformu." else "Mobile-native 3D Parametric CAD with Open CASCADE 8.0.1 & PlaneGCS solver.",
                     color = textMuted,
                     fontSize = 12.sp,
                     textAlign = TextAlign.Center
@@ -75,8 +76,8 @@ fun EmptyStateView(
 
                 // Action 1: Onboarding Tutorial
                 EmptyStateActionButton(
-                    title = "🎓 Start Interactive Tutorial",
-                    description = "Learn viewport navigation, sketching, and 3D extrusion in 6 simple steps.",
+                    title = if (isTr) "🎓 İnteraktif Rehberi Başlat" else "🎓 Start Interactive Tutorial",
+                    description = if (isTr) "Görünüm kontrolü, eskiz çizimi ve 3B ekstrüzyonu 6 basit adımda öğrenin." else "Learn viewport navigation, sketching, and 3D extrusion in 6 simple steps.",
                     color = accentBlue,
                     testTag = "empty_state_btn_tutorial",
                     onClick = onStartTutorial
@@ -86,8 +87,8 @@ fun EmptyStateView(
 
                 // Action 2: Sample Designs Gallery
                 EmptyStateActionButton(
-                    title = "📦 Explore Sample Designs",
-                    description = "Open and edit genuine parametric models (L-Bracket, Bushing, Phone Stand).",
+                    title = if (isTr) "📦 Örnek Tasarımları Keşfet" else "📦 Explore Sample Designs",
+                    description = if (isTr) "Hazır parametrik modelleri açın ve düzenleyin (L-Braket, Burç, Telefon Standı)." else "Open and edit genuine parametric models (L-Bracket, Bushing, Phone Stand).",
                     color = Color(0xFF2E7D32),
                     testTag = "empty_state_btn_samples",
                     onClick = onOpenSamples
@@ -97,8 +98,8 @@ fun EmptyStateView(
 
                 // Action 3: Import Model via SAF
                 EmptyStateActionButton(
-                    title = "📂 Import File (STEP / STL)",
-                    description = "Select a CAD model from device storage using Android Storage Access Framework.",
+                    title = if (isTr) "📂 Dosya İçe Aktar (STEP / STL)" else "📂 Import File (STEP / STL)",
+                    description = if (isTr) "SAF üzerinden cihazınızdan veya buluttan CAD parçalarını doğrudan yükleyin." else "Select a CAD model from device storage using Android Storage Access Framework.",
                     color = Color(0xFFE65100),
                     testTag = "empty_state_btn_import",
                     onClick = onImportModel
@@ -118,7 +119,7 @@ fun EmptyStateView(
                         .padding(vertical = 4.dp)
                 ) {
                     Text(
-                        text = "Start with Default Solid Block (100x50x20 mm) →",
+                        text = if (isTr) "Varsayılan Katı Blokla Başla (100x50x20 mm) →" else "Start with Default Solid Block (100x50x20 mm) →",
                         color = textColor,
                         fontSize = 11.sp,
                         textAlign = TextAlign.Center,

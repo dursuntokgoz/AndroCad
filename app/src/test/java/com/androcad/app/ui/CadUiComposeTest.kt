@@ -117,4 +117,13 @@ class CadUiComposeTest {
         composeTestRule.onNodeWithTag("btn_restart_tutorial").performScrollTo().assertIsDisplayed()
         composeTestRule.onNodeWithTag("btn_open_samples").performScrollTo().assertIsDisplayed()
     }
+
+    @Test
+    fun testLanguageToggle() {
+        setContentForTest()
+        val langBtn = composeTestRule.onNodeWithTag("btn_language_toggle").performScrollTo()
+        langBtn.assertIsDisplayed()
+        langBtn.performClick()
+        langBtn.assertIsDisplayed()
+    }
 }

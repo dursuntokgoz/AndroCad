@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AndroCAD</string>
+    <string name="language_toggle">🌐 EN</string>
+    <string name="language_name">English</string>
+    
+    <!-- Top Bar Controls -->
+    <string name="btn_tutorial">🎓 TUTORIAL</string>
+    <string name="btn_samples">📁 SAMPLES</string>
+    <string name="btn_theme_dark">🌙 DARK</string>
+    <string name="btn_theme_light">☀️ LIGHT</string>
+    <string name="btn_undo">↶ UNDO</string>
+    <string name="btn_redo">↷ REDO</string>
+    <string name="btn_new_design">✨ NEW DESIGN</string>
+    
+    <!-- Tabs -->
+    <string name="tab_solid">Solid</string>
+    <string name="tab_sketch">Sketch</string>
+    <string name="tab_surface">Surface</string>
+    <string name="tab_sheet_metal">Sheet Metal</string>
+    <string name="tab_mesh">Mesh</string>
+    <string name="tab_simulation">Simulation</string>
+    <string name="tab_manufacture_cam">Manufacture (CAM)</string>
+    <string name="tab_additive_3d_print">Additive (3D Print)</string>
+    <string name="tab_drawing">Drawing</string>
+    <string name="tab_assemble">Assemble</string>
+    <string name="tab_inspect">Inspect</string>
+    <string name="tab_file_io">File / IO</string>
+    
+    <!-- Navigation Tools -->
+    <string name="nav_orbit">🔄 Orbit</string>
+    <string name="nav_pan">✋ Pan</string>
+    <string name="nav_fit">⛶ Fit</string>
+    <string name="mode_shaded_with_edges">🧊 Shaded+Edges</string>
+    <string name="mode_shaded">🧊 Shaded</string>
+    <string name="mode_wireframe">📐 Wireframe</string>
+    
+    <!-- View Cube -->
+    <string name="view_cube_title">VIEW CUBE</string>
+    <string name="view_top">TOP</string>
+    <string name="view_front">FRONT</string>
+    <string name="view_bottom">BOTTOM</string>
+    <string name="view_iso">ISO</string>
+    <string name="view_left">L</string>
+    <string name="view_right">R</string>
+    
+    <!-- Common Dialog Actions -->
+    <string name="btn_ok">✓ OK</string>
+    <string name="btn_cancel">✕ Cancel</string>
+    <string name="btn_apply">Apply</string>
+    <string name="btn_close">✕ CLOSE</string>
+    
+    <!-- Empty State -->
+    <string name="empty_state_welcome">Welcome to AndroCAD</string>
+    <string name="empty_state_subtitle">Mobile-native 3D Parametric CAD with Open CASCADE 8.0.1 &amp; PlaneGCS solver.</string>
+    <string name="empty_state_tutorial_title">🎓 Start Interactive Tutorial</string>
+    <string name="empty_state_tutorial_desc">Learn viewport navigation, sketching, and 3D extrusion in 6 simple steps.</string>
+    <string name="empty_state_samples_title">📦 Explore Sample Designs</string>
+    <string name="empty_state_samples_desc">Open and edit genuine parametric models (L-Bracket, Bushing, Phone Stand).</string>
+    <string name="empty_state_import_title">📂 Import File (STEP / STL)</string>
+    <string name="empty_state_import_desc">Load CAD parts directly from device storage or cloud providers via SAF.</string>
+    <string name="empty_state_new_title">✨ Create Blank Part</string>
+    <string name="empty_state_new_desc">Start with an empty workspace and draw your first 2D sketch profile.</string>
+</resources>

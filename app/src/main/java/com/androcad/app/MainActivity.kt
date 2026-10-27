@@ -31,6 +31,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import com.androcad.app.io.CadStorageManager
 import com.androcad.app.ui.EmptyStateView
+import com.androcad.app.ui.LocalizationManager
+import com.androcad.app.ui.AppLanguage
 import com.androcad.app.renderer.CadRenderer
 import androidx.compose.ui.platform.testTag
 import com.androcad.app.model.BrowserState
@@ -554,23 +556,44 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             ),
                             modifier = Modifier.testTag(tabTag)
                         ) {
-                            Text(text = tab, fontSize = 13.sp)
+                            Text(text = LocalizationManager.getTabLabel(tab), fontSize = 13.sp)
                         }
                     }
 
                     Spacer(modifier = Modifier.width(16.dp))
 
+                    // Language Switcher Button (Dynamic TR / EN)
+                    Surface(
+                        color = chipBgColor,
+                        shape = RoundedCornerShape(6.dp),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, borderColor.copy(alpha = 0.6f)),
+                        modifier = Modifier.testTag("btn_language_toggle").clickable {
+                            LocalizationManager.toggleLanguage()
+                        }
+                    ) {
+                        Text(
+                            text = "${LocalizationManager.currentLanguage.value.flag} ${LocalizationManager.currentLanguage.value.displayName.uppercase()}",
+                            color = textColor,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 11.sp,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(6.dp))
+
                     // Restart Tutorial Button
                     Surface(
                         color = chipBgColor,
-                        shape = RoundedCornerShape(4.dp),
+                        shape = RoundedCornerShape(6.dp),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, borderColor.copy(alpha = 0.4f)),
                         modifier = Modifier.testTag("btn_restart_tutorial").clickable {
                             tutorialStepIndex = 0
                             showTutorial = true
                         }
                     ) {
                         Text(
-                            text = "🎓 TUTORIAL",
+                            text = LocalizationManager.getTopButtonLabel("tutorial"),
                             color = textColor,
                             fontSize = 11.sp,
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
@@ -582,13 +605,14 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     // Open Samples Gallery Button
                     Surface(
                         color = chipBgColor,
-                        shape = RoundedCornerShape(4.dp),
+                        shape = RoundedCornerShape(6.dp),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, borderColor.copy(alpha = 0.4f)),
                         modifier = Modifier.testTag("btn_open_samples").clickable {
                             showSamplesGallery = true
                         }
                     ) {
                         Text(
-                            text = "📁 SAMPLES",
+                            text = LocalizationManager.getTopButtonLabel("samples"),
                             color = textColor,
                             fontSize = 11.sp,
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
@@ -600,11 +624,12 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     // Dark / Light Theme Toggle Button
                     Surface(
                         color = chipBgColor,
-                        shape = RoundedCornerShape(4.dp),
+                        shape = RoundedCornerShape(6.dp),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, borderColor.copy(alpha = 0.4f)),
                         modifier = Modifier.testTag("btn_theme_toggle").clickable { isDarkTheme = !isDarkTheme }
                     ) {
                         Text(
-                            text = if (isDarkTheme) "🌙 DARK" else "☀️ LIGHT",
+                            text = LocalizationManager.getThemeLabel(isDarkTheme),
                             color = textColor,
                             fontSize = 11.sp,
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
@@ -616,11 +641,12 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     // Undo & Redo Toolbar Buttons
                     Surface(
                         color = chipBgColor,
-                        shape = RoundedCornerShape(4.dp),
+                        shape = RoundedCornerShape(6.dp),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, borderColor.copy(alpha = 0.4f)),
                         modifier = Modifier.testTag("btn_undo").clickable { handleUndo() }
                     ) {
                         Text(
-                            text = "↶ UNDO",
+                            text = LocalizationManager.getTopButtonLabel("undo"),
                             color = textColor,
                             fontSize = 11.sp,
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
@@ -631,11 +657,12 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 
                     Surface(
                         color = chipBgColor,
-                        shape = RoundedCornerShape(4.dp),
+                        shape = RoundedCornerShape(6.dp),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, borderColor.copy(alpha = 0.4f)),
                         modifier = Modifier.testTag("btn_redo").clickable { handleRedo() }
                     ) {
                         Text(
-                            text = "↷ REDO",
+                            text = LocalizationManager.getTopButtonLabel("redo"),
                             color = textColor,
                             fontSize = 11.sp,
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
@@ -647,7 +674,8 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                     // New Design Clean Slate Button
                     Surface(
                         color = Color(0xFF1E3A5F),
-                        shape = RoundedCornerShape(4.dp),
+                        shape = RoundedCornerShape(6.dp),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF90CAF9).copy(alpha = 0.5f)),
                         modifier = Modifier.testTag("btn_new_design").clickable {
                             activeSolid?.close()
                             activeSolid = null
@@ -665,7 +693,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                         }
                     ) {
                         Text(
-                            text = "✨ NEW DESIGN",
+                            text = LocalizationManager.getTopButtonLabel("new_design"),
                             color = Color(0xFF90CAF9),
                             fontWeight = FontWeight.Bold,
                             fontSize = 11.sp,
@@ -820,7 +848,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 
                                     Text(
 
-                                        text = tool,
+                                        text = LocalizationManager.getToolLabel(tool),
 
                                         color = if (activeSketchTool == tool) Color.White else textColor,
 
@@ -843,7 +871,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             }
                         ) {
                             Text(
-                                text = "Finish Sketch ✓",
+                                text = LocalizationManager.getToolLabel("Finish Sketch ✓"),
                                 color = Color.White,
                                 fontSize = 11.sp,
                                 modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
@@ -998,7 +1026,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 
                                     Text(
 
-                                        text = action,
+                                        text = LocalizationManager.getToolLabel(action),
 
                                         color = textColor,
 
@@ -1226,7 +1254,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 
                                     Text(
 
-                                        text = tool,
+                                        text = LocalizationManager.getToolLabel(tool),
 
                                         color = textColor,
 
@@ -1329,7 +1357,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 
                                     Text(
 
-                                        text = tool,
+                                        text = LocalizationManager.getToolLabel(tool),
 
                                         color = textColor,
 
@@ -1419,7 +1447,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 
                                     Text(
 
-                                        text = tool,
+                                        text = LocalizationManager.getToolLabel(tool),
 
                                         color = textColor,
 
@@ -1530,7 +1558,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 
                                     Text(
 
-                                        text = tool,
+                                        text = LocalizationManager.getToolLabel(tool),
 
                                         color = textColor,
 
@@ -1604,7 +1632,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 
                                     Text(
 
-                                        text = tool,
+                                        text = LocalizationManager.getToolLabel(tool),
 
                                         color = textColor,
 
@@ -1692,7 +1720,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 
                                     Text(
 
-                                        text = tool,
+                                        text = LocalizationManager.getToolLabel(tool),
 
                                         color = textColor,
 
@@ -1905,7 +1933,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 
                                     Text(
 
-                                        text = tool,
+                                        text = LocalizationManager.getToolLabel(tool),
 
                                         color = textColor,
 
@@ -2043,7 +2071,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 
                                     Text(
 
-                                        text = tool,
+                                        text = LocalizationManager.getToolLabel(tool),
 
                                         color = textColor,
 
@@ -2132,7 +2160,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 
                                     Text(
 
-                                        text = tool,
+                                        text = LocalizationManager.getToolLabel(tool),
 
                                         color = textColor,
 
@@ -2166,7 +2194,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
-                                    text = "+ Sketch",
+                                    text = if (LocalizationManager.currentLanguage.value == AppLanguage.TR) "+ Eskiz" else "+ Sketch",
                                     color = Color.White,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 11.sp
@@ -2608,7 +2636,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 
                                     Text(
 
-                                        text = tool,
+                                        text = LocalizationManager.getToolLabel(tool),
 
                                         color = textColor,
 
@@ -3499,7 +3527,11 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                             modifier = Modifier.padding(4.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text(text = "VIEW CUBE", color = textMuted, fontSize = 9.sp)
+                            Text(
+                                text = if (LocalizationManager.currentLanguage.value == AppLanguage.TR) "BAKIŞ KÜPÜ" else "VIEW CUBE",
+                                color = textMuted,
+                                fontSize = 9.sp
+                            )
                             Spacer(modifier = Modifier.height(3.dp))
 
                             // Top Face
@@ -3542,7 +3574,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                         ) {
                             // Orbit Mode Toggle
                             Text(
-                                text = "Orbit",
+                                text = "🔄 ${LocalizationManager.getNavLabel("Orbit")}",
                                 color = if (navTool == "Orbit") accentBlue else textMuted,
                                 fontSize = 12.sp,
                                 modifier = Modifier.testTag("nav_orbit").clickable { navTool = "Orbit" }
@@ -3550,7 +3582,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 
                             // Pan Mode Toggle
                             Text(
-                                text = "Pan",
+                                text = "✋ ${LocalizationManager.getNavLabel("Pan")}",
                                 color = if (navTool == "Pan") accentBlue else textMuted,
                                 fontSize = 12.sp,
                                 modifier = Modifier.testTag("nav_pan").clickable { navTool = "Pan" }
@@ -3558,7 +3590,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
 
                             // Fit to View (Home Zoom)
                             Text(
-                                text = "Fit",
+                                text = "⛶ ${LocalizationManager.getNavLabel("Fit")}",
                                 color = textMuted,
                                 fontSize = 12.sp,
                                 modifier = Modifier.testTag("nav_fit").clickable { renderer?.zoomToFit() }
@@ -3584,7 +3616,7 @@ fun AndroCadApp(meshResult: BoxMeshResult?, renderer: CadRenderer?) {
                                 }
                             ) {
                                 Text(
-                                    text = modeLabel,
+                                    text = LocalizationManager.getNavLabel(modeLabel),
                                     color = textColor,
                                     fontSize = 11.sp,
                                     modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)
@@ -4019,7 +4051,7 @@ fun ViewCubeButton(label: String, isDarkTheme: Boolean, width: Int = 50, testTag
     ) {
         Box(contentAlignment = Alignment.Center) {
             Text(
-                text = label,
+                text = LocalizationManager.getViewCubeLabel(label),
                 color = if (isDarkTheme) Color.White else Color(0xFF1F2937),
                 fontSize = 9.sp
             )
