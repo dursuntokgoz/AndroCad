@@ -908,3 +908,4 @@
 - Faz 29 (M5071 - M5270, Release v27.0.0, Iteration 19/20): Kuantum Bilgisayarı Kriyostat Termal Kademeleri, Seyreltme Soğutması (10 mK) & Mikrodalga Kaviteleri 200 milestone tamamlandı, 400 screenshot üretildi, testler %100 geçti.
 
 - Faz 30 (M5271 - M5470, Release v28.0.0, Iteration 20/20): Büyük Birleşik CAD/CAE/CAM/PLM Çekirdek Mimarisi & 5.470 Milestone Büyük Sertifikasyonu tamamlandı. 20 iterasyonluk hedef eksiksiz sonuçlandırıldı!
+- CI/CD Action Düzeltmesi: GitHub Actions `ui-tests` iş akışındaki `Phase21MilestoneTest.kt` eksik `kotlin.math.abs` import'u düzeltildi. `ci.yml` iş akışında Azure apt paket indirme zaman aşımını önlemek için `timeout-minutes: 35` artırıldı ve `archive.ubuntu.com` yansısı ile retry bayrakları eklendi.
