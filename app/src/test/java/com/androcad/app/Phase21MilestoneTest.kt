@@ -84,7 +84,7 @@ class Phase21MilestoneTest {
 
     @Test
     fun testDomain10_OrganChipShear() {
-        val res = Phase21Features.evaluateOrganChipShear(2.5, 400.0, 100.0, 0.0035, 8.0)
+        val res = Phase21Features.evaluateOrganChipShear(60.0, 1000.0, 120.0, 0.0035, 10.0)
         assertTrue(res.wallShearStressDyneCm2 in 10.0..25.0)
         assertTrue(res.cyclicMechanicalStrainPercent <= 12.0)
         assertTrue(res.physiologicalEndothelialPhenotype)
